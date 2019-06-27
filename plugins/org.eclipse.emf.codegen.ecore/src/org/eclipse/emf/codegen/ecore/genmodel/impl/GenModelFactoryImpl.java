@@ -118,8 +118,8 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
         return createGenDecorationFromString(eDataType, initialValue);
       case GenModelPackage.GEN_ECLIPSE_PLATFORM_VERSION:
         return createGenEclipsePlatformVersionFromString(eDataType, initialValue);
-      case GenModelPackage.CODE_STYLE:
-        return createCodeStyleFromString(eDataType, initialValue);
+      case GenModelPackage.GEN_CODE_STYLE:
+        return createGenCodeStyleFromString(eDataType, initialValue);
       case GenModelPackage.PATH:
         return createPathFromString(eDataType, initialValue);
       case GenModelPackage.PROPERTY_EDITOR_FACTORY:
@@ -157,8 +157,8 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
         return convertGenDecorationToString(eDataType, instanceValue);
       case GenModelPackage.GEN_ECLIPSE_PLATFORM_VERSION:
         return convertGenEclipsePlatformVersionToString(eDataType, instanceValue);
-      case GenModelPackage.CODE_STYLE:
-        return convertCodeStyleToString(eDataType, instanceValue);
+      case GenModelPackage.GEN_CODE_STYLE:
+        return convertGenCodeStyleToString(eDataType, instanceValue);
       case GenModelPackage.PATH:
         return convertPathToString(eDataType, instanceValue);
       case GenModelPackage.PROPERTY_EDITOR_FACTORY:
@@ -495,9 +495,9 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * @since 2.19
    * @generated
    */
-  public CodeStyle createCodeStyleFromString(EDataType eDataType, String initialValue)
+  public GenCodeStyle createGenCodeStyleFromString(EDataType eDataType, String initialValue)
   {
-    CodeStyle result = CodeStyle.get(initialValue);
+    GenCodeStyle result = GenCodeStyle.get(initialValue);
     if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
     return result;
   }
@@ -508,7 +508,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * @since 2.19
    * @generated
    */
-  public String convertCodeStyleToString(EDataType eDataType, Object instanceValue)
+  public String convertGenCodeStyleToString(EDataType eDataType, Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
   }

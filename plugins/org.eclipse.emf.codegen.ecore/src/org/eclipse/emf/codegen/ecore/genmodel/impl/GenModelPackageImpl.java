@@ -11,7 +11,7 @@
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
 
-import org.eclipse.emf.codegen.ecore.genmodel.CodeStyle;
+import org.eclipse.emf.codegen.ecore.genmodel.GenCodeStyle;
 import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
@@ -227,7 +227,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.19
    * @generated
    */
-  private EEnum codeStyleEEnum = null;
+  private EEnum genCodeStyleEEnum = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -2396,9 +2396,9 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.19
    * @generated
    */
-  public EEnum getCodeStyle()
+  public EEnum getGenCodeStyle()
   {
-    return codeStyleEEnum;
+    return genCodeStyleEEnum;
   }
 
   /**
@@ -2672,7 +2672,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     genRuntimePlatformEEnum = createEEnum(GEN_RUNTIME_PLATFORM);
     genDecorationEEnum = createEEnum(GEN_DECORATION);
     genEclipsePlatformVersionEEnum = createEEnum(GEN_ECLIPSE_PLATFORM_VERSION);
-    codeStyleEEnum = createEEnum(CODE_STYLE);
+    genCodeStyleEEnum = createEEnum(GEN_CODE_STYLE);
 
     // Create data types
     pathEDataType = createEDataType(PATH);
@@ -2821,7 +2821,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenModel_ExpandAllAction(), ecorePackage.getEBoolean(), "expandAllAction", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_CollapseAllAction(), ecorePackage.getEBoolean(), "collapseAllAction", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_RevertAction(), ecorePackage.getEBoolean(), "revertAction", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getGenModel_CodeStyle(), this.getCodeStyle(), "codeStyle", null, 0, -1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_CodeStyle(), this.getGenCodeStyle(), "codeStyle", null, 0, -1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(genPackageEClass, GenPackage.class, "GenPackage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getGenPackage_Prefix(), ecorePackage.getEString(), "prefix", null, 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3018,11 +3018,11 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2019_06);
     addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2019_09);
 
-    initEEnum(codeStyleEEnum, CodeStyle.class, "CodeStyle");
-    addEEnumLiteral(codeStyleEEnum, CodeStyle.UNNECESSARY_ELSE);
-    addEEnumLiteral(codeStyleEEnum, CodeStyle.SWITCH_MISSING_DEFAULT_CASE);
-    addEEnumLiteral(codeStyleEEnum, CodeStyle.UNNECESSARY_ASSIGNMENT_BEFORE_RETURN);
-    addEEnumLiteral(codeStyleEEnum, CodeStyle.UNNECESSARY_DEPRECATED_METHOD);
+    initEEnum(genCodeStyleEEnum, GenCodeStyle.class, "GenCodeStyle");
+    addEEnumLiteral(genCodeStyleEEnum, GenCodeStyle.UNNECESSARY_ELSE);
+    addEEnumLiteral(genCodeStyleEEnum, GenCodeStyle.SWITCH_MISSING_DEFAULT_CASE);
+    addEEnumLiteral(genCodeStyleEEnum, GenCodeStyle.UNNECESSARY_ASSIGNMENT_BEFORE_RETURN);
+    addEEnumLiteral(genCodeStyleEEnum, GenCodeStyle.UNNECESSARY_DEPRECATED_METHOD);
 
     // Initialize data types
     initEDataType(pathEDataType, String.class, "Path", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

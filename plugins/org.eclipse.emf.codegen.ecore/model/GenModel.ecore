@@ -178,7 +178,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="codeStyle" upperBound="-1"
-        eType="#//CodeStyle">
+        eType="#//GenCodeStyle">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="@since 2.19"/>
       </eAnnotations>
@@ -647,7 +647,7 @@
       <details key="documentation" value="@since 2.14"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="CodeStyle">
+  <eClassifiers xsi:type="ecore:EEnum" name="GenCodeStyle">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="@since 2.19"/>
     </eAnnotations>

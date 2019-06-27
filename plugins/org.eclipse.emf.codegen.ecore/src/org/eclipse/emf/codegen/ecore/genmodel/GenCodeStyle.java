@@ -21,11 +21,11 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-model-doc -->
  * @since 2.19
  * <!-- end-model-doc -->
- * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getCodeStyle()
+ * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenCodeStyle()
  * @model
  * @generated
  */
-public enum CodeStyle implements Enumerator
+public enum GenCodeStyle implements Enumerator
 {
   /**
    * The '<em><b>Unnecessary Else</b></em>' literal object.
@@ -112,13 +112,13 @@ public enum CodeStyle implements Enumerator
   public static final int UNNECESSARY_DEPRECATED_METHOD_VALUE = 3;
 
   /**
-   * An array of all the '<em><b>Code Style</b></em>' enumerators.
+   * An array of all the '<em><b>Gen Code Style</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  private static final CodeStyle[] VALUES_ARRAY =
-    new CodeStyle[]
+  private static final GenCodeStyle[] VALUES_ARRAY =
+    new GenCodeStyle[]
     {
       UNNECESSARY_ELSE,
       SWITCH_MISSING_DEFAULT_CASE,
@@ -127,26 +127,26 @@ public enum CodeStyle implements Enumerator
     };
 
   /**
-   * A public read-only list of all the '<em><b>Code Style</b></em>' enumerators.
+   * A public read-only list of all the '<em><b>Gen Code Style</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final List<CodeStyle> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<GenCodeStyle> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
-   * Returns the '<em><b>Code Style</b></em>' literal with the specified literal value.
+   * Returns the '<em><b>Gen Code Style</b></em>' literal with the specified literal value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param literal the literal.
    * @return the matching enumerator or <code>null</code>.
    * @generated
    */
-  public static CodeStyle get(String literal)
+  public static GenCodeStyle get(String literal)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
-      CodeStyle result = VALUES_ARRAY[i];
+      GenCodeStyle result = VALUES_ARRAY[i];
       if (result.toString().equals(literal))
       {
         return result;
@@ -156,18 +156,18 @@ public enum CodeStyle implements Enumerator
   }
 
   /**
-   * Returns the '<em><b>Code Style</b></em>' literal with the specified name.
+   * Returns the '<em><b>Gen Code Style</b></em>' literal with the specified name.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param name the name.
    * @return the matching enumerator or <code>null</code>.
    * @generated
    */
-  public static CodeStyle getByName(String name)
+  public static GenCodeStyle getByName(String name)
   {
     for (int i = 0; i < VALUES_ARRAY.length; ++i)
     {
-      CodeStyle result = VALUES_ARRAY[i];
+      GenCodeStyle result = VALUES_ARRAY[i];
       if (result.getName().equals(name))
       {
         return result;
@@ -177,14 +177,14 @@ public enum CodeStyle implements Enumerator
   }
 
   /**
-   * Returns the '<em><b>Code Style</b></em>' literal with the specified integer value.
+   * Returns the '<em><b>Gen Code Style</b></em>' literal with the specified integer value.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the integer value.
    * @return the matching enumerator or <code>null</code>.
    * @generated
    */
-  public static CodeStyle get(int value)
+  public static GenCodeStyle get(int value)
   {
     switch (value)
     {
@@ -223,7 +223,7 @@ public enum CodeStyle implements Enumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  private CodeStyle(int value, String name, String literal)
+  private GenCodeStyle(int value, String name, String literal)
   {
     this.value = value;
     this.name = name;
@@ -272,4 +272,4 @@ public enum CodeStyle implements Enumerator
     return literal;
   }
   
-} //CodeStyle
+} //GenCodeStyle

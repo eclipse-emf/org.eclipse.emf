@@ -2373,15 +2373,15 @@ public interface GenModelPackage extends EPackage
 
 
   /**
-   * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.CodeStyle <em>Code Style</em>}' enum.
+   * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenCodeStyle <em>Gen Code Style</em>}' enum.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.eclipse.emf.codegen.ecore.genmodel.CodeStyle
-   * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getCodeStyle()
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenCodeStyle
+   * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenCodeStyle()
    * @since 2.19
    * @generated
    */
-  int CODE_STYLE = 23;
+  int GEN_CODE_STYLE = 23;
 
   /**
    * The meta object id for the '<em>Path</em>' data type.
@@ -4657,15 +4657,15 @@ public interface GenModelPackage extends EPackage
   EEnum getGenEclipsePlatformVersion();
 
   /**
-   * Returns the meta object for enum '{@link org.eclipse.emf.codegen.ecore.genmodel.CodeStyle <em>Code Style</em>}'.
+   * Returns the meta object for enum '{@link org.eclipse.emf.codegen.ecore.genmodel.GenCodeStyle <em>Gen Code Style</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for enum '<em>Code Style</em>'.
-   * @see org.eclipse.emf.codegen.ecore.genmodel.CodeStyle
+   * @return the meta object for enum '<em>Gen Code Style</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenCodeStyle
    * @since 2.19
    * @generated
    */
-  EEnum getCodeStyle();
+  EEnum getGenCodeStyle();
 
   /**
    * Returns the meta object for data type '{@link java.lang.String <em>Path</em>}'.
@@ -6426,15 +6426,15 @@ public interface GenModelPackage extends EPackage
     EEnum GEN_ECLIPSE_PLATFORM_VERSION = eINSTANCE.getGenEclipsePlatformVersion();
 
     /**
-     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.CodeStyle <em>Code Style</em>}' enum.
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenCodeStyle <em>Gen Code Style</em>}' enum.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.eclipse.emf.codegen.ecore.genmodel.CodeStyle
-     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getCodeStyle()
+     * @see org.eclipse.emf.codegen.ecore.genmodel.GenCodeStyle
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenCodeStyle()
      * @since 2.19
      * @generated
      */
-    EEnum CODE_STYLE = eINSTANCE.getCodeStyle();
+    EEnum GEN_CODE_STYLE = eINSTANCE.getGenCodeStyle();
 
     /**
      * The meta object literal for the '<em>Path</em>' data type.

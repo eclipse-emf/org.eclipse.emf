@@ -92,11 +92,11 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2019_06"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2019_09"/>
     </genEnums>
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="GenModel.ecore#//CodeStyle">
-      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//CodeStyle/UnnecessaryElse"/>
-      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//CodeStyle/SwitchMissingDefaultCase"/>
-      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//CodeStyle/UnnecessaryAssignmentBeforeReturn"/>
-      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//CodeStyle/UnnecessaryDeprecatedMethod"/>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="GenModel.ecore#//GenCodeStyle">
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenCodeStyle/UnnecessaryElse"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenCodeStyle/SwitchMissingDefaultCase"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenCodeStyle/UnnecessaryAssignmentBeforeReturn"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenCodeStyle/UnnecessaryDeprecatedMethod"/>
     </genEnums>
     <genDataTypes ecoreDataType="GenModel.ecore#//Path"/>
     <genDataTypes ecoreDataType="GenModel.ecore#//PropertyEditorFactory"/>

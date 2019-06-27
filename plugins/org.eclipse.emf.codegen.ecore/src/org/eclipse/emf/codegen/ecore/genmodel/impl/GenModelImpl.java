@@ -42,7 +42,7 @@ import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter;
-import org.eclipse.emf.codegen.ecore.genmodel.CodeStyle;
+import org.eclipse.emf.codegen.ecore.genmodel.GenCodeStyle;
 import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
@@ -2106,7 +2106,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @generated
    * @ordered
    */
-  protected EList<CodeStyle> codeStyle;
+  protected EList<GenCodeStyle> codeStyle;
 
   protected boolean validateModel = false;
 
@@ -7142,11 +7142,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @since 2.19
    * @generated
    */
-  public EList<CodeStyle> getCodeStyle()
+  public EList<GenCodeStyle> getCodeStyle()
   {
     if (codeStyle == null)
     {
-      codeStyle = new EDataTypeUniqueEList<CodeStyle>(CodeStyle.class, this, GenModelPackage.GEN_MODEL__CODE_STYLE);
+      codeStyle = new EDataTypeUniqueEList<GenCodeStyle>(GenCodeStyle.class, this, GenModelPackage.GEN_MODEL__CODE_STYLE);
     }
     return codeStyle;
   }
@@ -7692,7 +7692,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__CODE_STYLE:
         getCodeStyle().clear();
-        getCodeStyle().addAll((Collection<? extends CodeStyle>)newValue);
+        getCodeStyle().addAll((Collection<? extends GenCodeStyle>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -10893,12 +10893,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     //JavaCore.COMPILER_PB_SWITCH_MISSING_DEFAULT_CASE is available from JDT 3.8 only
     String option = "org.eclipse.jdt.core.compiler.problem.missingDefaultCase";
-    return EclipseHelper.isJavaOptionActive(this, option) || getCodeStyle().contains(CodeStyle.SWITCH_MISSING_DEFAULT_CASE);
+    return EclipseHelper.isJavaOptionActive(this, option) || getCodeStyle().contains(GenCodeStyle.SWITCH_MISSING_DEFAULT_CASE);
   }
 
   public boolean isUnnecessaryElse()
   {
-    return EclipseHelper.isJavaOptionActive(this, JavaCore.COMPILER_PB_UNNECESSARY_ELSE) || getCodeStyle().contains(CodeStyle.UNNECESSARY_ELSE);
+    return EclipseHelper.isJavaOptionActive(this, JavaCore.COMPILER_PB_UNNECESSARY_ELSE) || getCodeStyle().contains(GenCodeStyle.UNNECESSARY_ELSE);
   }
 
   private static class EclipseHelper

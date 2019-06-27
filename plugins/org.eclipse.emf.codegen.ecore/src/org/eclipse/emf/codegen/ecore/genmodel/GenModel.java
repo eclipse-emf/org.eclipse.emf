@@ -2513,20 +2513,20 @@ public interface GenModel extends GenBase
 
   /**
    * Returns the value of the '<em><b>Code Style</b></em>' attribute list.
-   * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.CodeStyle}.
-   * The literals are from the enumeration {@link org.eclipse.emf.codegen.ecore.genmodel.CodeStyle}.
+   * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenCodeStyle}.
+   * The literals are from the enumeration {@link org.eclipse.emf.codegen.ecore.genmodel.GenCodeStyle}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * <!-- begin-model-doc -->
    * @since 2.19
    * <!-- end-model-doc -->
    * @return the value of the '<em>Code Style</em>' attribute list.
-   * @see org.eclipse.emf.codegen.ecore.genmodel.CodeStyle
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenCodeStyle
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_CodeStyle()
    * @model
    * @generated
    */
-  EList<CodeStyle> getCodeStyle();
+  EList<GenCodeStyle> getCodeStyle();
 
   EList<GenPackage> getStaticGenPackages();
 

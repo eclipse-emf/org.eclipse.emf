@@ -213,7 +213,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 
 <%}%>
 <%for (GenClass genClass : genPackage.getGenClasses()) {%>
-  <%if (!genClass.isAbstract()) { boolean isUnnecessaryAssignmentBeforeReturn = genModel.getCodeStyle().contains(CodeStyle.UNNECESSARY_ASSIGNMENT_BEFORE_RETURN);%>
+  <%if (!genClass.isAbstract()) { boolean isUnnecessaryAssignmentBeforeReturn = genModel.getCodeStyle().contains(GenCodeStyle.UNNECESSARY_ASSIGNMENT_BEFORE_RETURN);%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -775,7 +775,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 		return (<%=genPackage.getImportedPackageInterfaceName()%>)getEPackage();
 	}
 
-  <%if (!genModel.getCodeStyle().contains(CodeStyle.UNNECESSARY_DEPRECATED_METHOD)) {%>
+  <%if (!genModel.getCodeStyle().contains(GenCodeStyle.UNNECESSARY_DEPRECATED_METHOD)) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

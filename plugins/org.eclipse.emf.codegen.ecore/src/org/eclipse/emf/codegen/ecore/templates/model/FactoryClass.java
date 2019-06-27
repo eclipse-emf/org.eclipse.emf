@@ -450,7 +450,7 @@ public class FactoryClass
     stringBuffer.append(TEXT_48);
     }
     for (GenClass genClass : genPackage.getGenClasses()) {
-    if (!genClass.isAbstract()) { boolean isUnnecessaryAssignmentBeforeReturn = genModel.getCodeStyle().contains(CodeStyle.UNNECESSARY_ASSIGNMENT_BEFORE_RETURN);
+    if (!genClass.isAbstract()) { boolean isUnnecessaryAssignmentBeforeReturn = genModel.getCodeStyle().contains(GenCodeStyle.UNNECESSARY_ASSIGNMENT_BEFORE_RETURN);
     stringBuffer.append(TEXT_60);
     if (genClass.hasAPITags()) {
     stringBuffer.append(TEXT_61);
@@ -1422,7 +1422,7 @@ public class FactoryClass
     stringBuffer.append(TEXT_215);
     stringBuffer.append(genPackage.getImportedPackageInterfaceName());
     stringBuffer.append(TEXT_216);
-    if (!genModel.getCodeStyle().contains(CodeStyle.UNNECESSARY_DEPRECATED_METHOD)) {
+    if (!genModel.getCodeStyle().contains(GenCodeStyle.UNNECESSARY_DEPRECATED_METHOD)) {
     stringBuffer.append(TEXT_217);
     if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_63);
