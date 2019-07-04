@@ -752,7 +752,7 @@ public class ItemProvider
     stringBuffer.append(TEXT_24);
     }
     stringBuffer.append(TEXT_139);
-    if (!genClass.getLabelNotifyFeatures().isEmpty() || !genClass.getContentNotifyFeatures().isEmpty() || !genClass.getLabelAndContentNotifyFeatures().isEmpty()) {
+    boolean hasSwitch = !genClass.getLabelNotifyFeatures().isEmpty() || !genClass.getContentNotifyFeatures().isEmpty() || !genClass.getLabelAndContentNotifyFeatures().isEmpty(); if (hasSwitch) {
     stringBuffer.append(TEXT_140);
     stringBuffer.append(genClass.getRawImportedInterfaceName());
     stringBuffer.append(TEXT_141);
@@ -790,15 +790,15 @@ public class ItemProvider
     stringBuffer.append(TEXT_148);
     } else { // {
     stringBuffer.append(TEXT_149);
+    } // }
     }
     stringBuffer.append(TEXT_21);
-    stringBuffer.append(indentDefaultCase);
+    stringBuffer.append(hasSwitch ? indentDefaultCase : "");
     stringBuffer.append(TEXT_150);
-    if (forceDefaultCase) { // {
+    if (hasSwitch && forceDefaultCase) { // {
     stringBuffer.append(TEXT_21);
     stringBuffer.append(indentDefaultCase);
     stringBuffer.append(TEXT_151);
-    } // }
     }
     stringBuffer.append(TEXT_61);
     if (genModel.isCreationCommands()) {

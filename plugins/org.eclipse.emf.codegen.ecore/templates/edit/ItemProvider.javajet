@@ -424,7 +424,7 @@ public class <%=genClass.getProviderClassName()%> <%if (genClass.getProviderImpl
 	public void notifyChanged(Notification notification)
 	{
 		updateChildren(notification);
-<%if (!genClass.getLabelNotifyFeatures().isEmpty() || !genClass.getContentNotifyFeatures().isEmpty() || !genClass.getLabelAndContentNotifyFeatures().isEmpty()) {%>
+<%boolean hasSwitch = !genClass.getLabelNotifyFeatures().isEmpty() || !genClass.getContentNotifyFeatures().isEmpty() || !genClass.getLabelAndContentNotifyFeatures().isEmpty(); if (hasSwitch) {%>
 
 		switch (notification.getFeatureID(<%=genClass.getRawImportedInterfaceName()%>.class))
 		{
@@ -449,16 +449,16 @@ public class <%=genClass.getProviderClassName()%> <%if (genClass.getProviderImpl
 				fireNotifyChanged(new <%=genModel.getImportedName("org.eclipse.emf.edit.provider.ViewerNotification")%>(notification, notification.getNotifier(), true, true));
 				return;
   <%}%>
-<%if (forceDefaultCase) {%>
+  <%if (forceDefaultCase) {%>
 			default:
-<%} else { // {%>
+  <%} else { // {%>
 		}
+  <%} // }%>
 <%}%>
-<%=indentDefaultCase%>		super.notifyChanged(notification);
-<%if (forceDefaultCase) { // {%>
+<%=hasSwitch ? indentDefaultCase : ""%>		super.notifyChanged(notification);
+<%if (hasSwitch && forceDefaultCase) { // {%>
 <%=indentDefaultCase%>		return;
 			}
-<%} // }%>
 <%}%>
 	}
 
