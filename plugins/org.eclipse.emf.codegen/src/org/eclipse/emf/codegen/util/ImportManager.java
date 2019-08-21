@@ -632,7 +632,7 @@ public class ImportManager
   {
     String NL = getLineDelimiter();
     String previousPackageName = null;
-    StringBuffer result = new StringBuffer();
+    StringBuilder  result = new StringBuilder();
 
     for (String importName : getImports())
     {

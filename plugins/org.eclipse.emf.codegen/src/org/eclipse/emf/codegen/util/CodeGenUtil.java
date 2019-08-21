@@ -30,19 +30,23 @@ import org.osgi.framework.BundleException;
 import org.osgi.framework.Constants;
 
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IClasspathAttribute;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
@@ -57,8 +61,11 @@ import org.eclipse.emf.codegen.CodeGenPlugin;
 import org.eclipse.emf.codegen.jet.JETException;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.common.EMFPlugin;
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
+import org.eclipse.emf.common.util.URI;
 
 /**
  * This class contains convenient static methods for EMF code generation.
@@ -375,6 +382,22 @@ public class CodeGenUtil
     return c.charAt(0);
   }
 
+  /**
+   * @since 2.19
+   */
+  public static Diagnostic validateClassName(String name, Object context)
+  {
+    return JDTHelper.IS_AVAILABLE ? JDTHelper.validateClassName(name, context) : Diagnostic.OK_INSTANCE;
+  }
+
+  /**
+   * @since 2.19
+   */
+  public static Diagnostic validatePackageName(String name, Object context)
+  {
+    return JDTHelper.IS_AVAILABLE ? JDTHelper.validatePackageName(name, context) : Diagnostic.OK_INSTANCE;
+  }
+
   public static String validJavaIdentifier(String name)
   {
     if (name == null || name.length() == 0)
@@ -409,7 +432,7 @@ public class CodeGenUtil
 
     return result.length() == 0 ? "_" : result.toString();
   }
-  
+
   /**
    * @since 2.4
    */
@@ -456,18 +479,18 @@ public class CodeGenUtil
     {
       return name;
     }
-    else 
+    else
     {
       String lowerName = name.toLowerCase(locale);
       int i;
-      for (i = 0; i < name.length(); i++) 
+      for (i = 0; i < name.length(); i++)
       {
-        if (name.charAt(i) == lowerName.charAt(i)) 
+        if (name.charAt(i) == lowerName.charAt(i))
         {
           break;
         }
       }
-      if (i > 1 && i < name.length() && !isDigit(name.charAt(i))) 
+      if (i > 1 && i < name.length() && !isDigit(name.charAt(i)))
       {
         --i;
       }
@@ -533,8 +556,8 @@ public class CodeGenUtil
     }
 
     List<String> parsedName = new ArrayList<String>();
-    if (prefix != null && 
-          name.startsWith(prefix) && 
+    if (prefix != null &&
+          name.startsWith(prefix) &&
           name.length() > prefix.length() && isUpperCase(name.charAt(prefix.length())))
     {
       name = name.substring(prefix.length());
@@ -547,7 +570,7 @@ public class CodeGenUtil
     if (name.length() != 0) parsedName.addAll(parseName(name, '_'));
 
     StringBuilder result = new StringBuilder();
-    
+
     for (Iterator<String> nameIter = parsedName.iterator(); nameIter.hasNext(); )
     {
       String nameComponent = nameIter.next();
@@ -571,7 +594,7 @@ public class CodeGenUtil
     int i = 0;
     for (int len = name.length(); i < len && name.charAt(i) == separator; i++)
     {
-      // the for loop's condition finds the separator 
+      // the for loop's condition finds the separator
     }
     return i != 0 ? name.substring(0, i) : null;
   }
@@ -620,11 +643,11 @@ public class CodeGenUtil
           currentWord.append(curChar);
         }
       }
-  
+
       result.add(currentWord.toString());
     }
     return result;
-  }  
+  }
 
   /**
    * This method breaks sourceName into words delimited by mixed-case naming, the separators '_' and '$', and non-Java identifier characters.
@@ -666,7 +689,7 @@ public class CodeGenUtil
           currentWord.appendCodePoint(codePoint);
         }
       }
- 
+
       result.append(capName(currentWord.toString(), locale));
     }
     return
@@ -676,13 +699,13 @@ public class CodeGenUtil
   }
 
   /**
-   * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#isInJavaOutput} instead. 
+   * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#isInJavaOutput} instead.
    */
   @Deprecated
   public static boolean isInJavaOutput(IResource resource)
   {
     return EclipseUtil.isInJavaOutput(resource);
-  }  
+  }
 
   /**
    * This is a progress monitor that prints the progress information to a stream.
@@ -698,7 +721,7 @@ public class CodeGenUtil
   }
 
   /**
-   * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#findOrCreateContainer(IPath, boolean, IPath, IProgressMonitor)} instead. 
+   * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#findOrCreateContainer(IPath, boolean, IPath, IProgressMonitor)} instead.
    */
   @Deprecated
   public static IContainer findOrCreateContainer
@@ -708,7 +731,7 @@ public class CodeGenUtil
   }
 
   /**
-   * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#findOrCreateContainer(IPath, boolean, IProjectDescription, IProgressMonitor)} instead. 
+   * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#findOrCreateContainer(IPath, boolean, IProjectDescription, IProgressMonitor)} instead.
    */
   @Deprecated
   public static IContainer findOrCreateContainer
@@ -718,7 +741,7 @@ public class CodeGenUtil
   }
 
   /**
-   * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#getClasspathPaths} instead. 
+   * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#getClasspathPaths} instead.
    */
   @Deprecated
   public static List<String> getClasspathPaths(String pluginID) throws JETException
@@ -727,7 +750,7 @@ public class CodeGenUtil
   }
 
   /**
-   * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#addClasspathEntries(Collection, String, String)} instead. 
+   * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#addClasspathEntries(Collection, String, String)} instead.
    */
   @SuppressWarnings("unchecked")
   @Deprecated
@@ -737,7 +760,7 @@ public class CodeGenUtil
   }
 
   /**
-   * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#addClasspathEntries(Collection, String)} instead. 
+   * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#addClasspathEntries(Collection, String)} instead.
    */
   @SuppressWarnings("unchecked")
   @Deprecated
@@ -748,8 +771,8 @@ public class CodeGenUtil
 
   /**
    * Returns the package name for a qualified class name, i.e., a substring
-   * from the first char until the last &quot;.&quot;.  If the argument is 
-   * <tt>null</tt> or a non-qualified name, this method returns <tt>null</tt>. 
+   * from the first char until the last &quot;.&quot;.  If the argument is
+   * <tt>null</tt> or a non-qualified name, this method returns <tt>null</tt>.
    * @param qualifiedClassName
    * @return String
    */
@@ -768,8 +791,8 @@ public class CodeGenUtil
 
   /**
    * Returns the simple class name for a qualified class name, i.e., a substring
-   * from starting after the last &quot;.&quot;.  If the argument is 
-   * a non-qualified name, this method returns the argument. 
+   * from starting after the last &quot;.&quot;.  If the argument is
+   * a non-qualified name, this method returns the argument.
    * @param qualifiedClassName
    * @return String
    */
@@ -814,7 +837,7 @@ public class CodeGenUtil
           if (blankLine)
           {
             ++tabCount;
-          }          
+          }
         }
         else
         {
@@ -1185,7 +1208,7 @@ public class CodeGenUtil
   {
     /**
      * A constant that will always represent the latest language level supported by the version of JDT in the installed runtime.
-     * It will determine the 
+     * It will determine the
      */
     private static final int JLS;
     private static final int JLS4;
@@ -1308,9 +1331,9 @@ public class CodeGenUtil
       {
         CodeGenPlugin.INSTANCE.log(exception);
       }
-  
+
       return false;
-    }  
+    }
 
     public static List<String> getClasspathPaths(String pluginID) throws JETException
     {
@@ -1372,9 +1395,9 @@ public class CodeGenUtil
     }
 
     /**
-     * An {@link IClasspathAttribute#getName() class path attribute name} 
-     * that records the originating plugin ID 
-     * for each classpath entry created by 
+     * An {@link IClasspathAttribute#getName() class path attribute name}
+     * that records the originating plugin ID
+     * for each classpath entry created by
      * {@link #addClasspathEntries(Collection, String)}
      * and {@link #addClasspathEntries(Collection, String, String)}.
      * @since 2.3
@@ -1402,7 +1425,7 @@ public class CodeGenUtil
           catch (JavaModelException exception)
           {
             throw new JETException(exception);
-          } 
+          }
           classpathEntries.add
             (JavaCore.newVariableEntry
                (new Path(mangledName), null, null, null, new IClasspathAttribute [] { JavaCore.newClasspathAttribute(PLUGIN_ID_CLASSPATH_ATTRIBUTE_NAME, pluginID) }, true));
@@ -1439,7 +1462,7 @@ public class CodeGenUtil
         progressMonitor.subTask(CodeGenPlugin.getPlugin().getString("_UI_ExaminingProject_message", new Object [] { projectName }));
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         IProject project = workspace.getRoot().getProject(path.segment(0));
-  
+
         if (forceRefresh)
         {
           project.refreshLocal(IResource.DEPTH_INFINITE, BasicMonitor.subProgress(progressMonitor, 1));
@@ -1448,7 +1471,7 @@ public class CodeGenUtil
         {
           progressMonitor.worked(1);
         }
-  
+
         if (!project.exists())
         {
           project.create(projectDescription, BasicMonitor.subProgress(progressMonitor, 1));
@@ -1458,7 +1481,7 @@ public class CodeGenUtil
         {
           project.open(BasicMonitor.subProgress(progressMonitor, 2));
         }
-  
+
         IContainer container = project;
         for (int i = 1, length = path.segmentCount(); i < length; ++ i)
         {
@@ -1471,10 +1494,10 @@ public class CodeGenUtil
           {
             progressMonitor.worked(1);
           }
-  
+
           container = folder;
         }
-  
+
         return container;
       }
       finally
@@ -1482,12 +1505,12 @@ public class CodeGenUtil
         progressMonitor.done();
       }
     }
-    
+
     public static String getJavaComplianceLevel(IProject project)
     {
       IJavaProject javaProject = JavaCore.create(project);
       return javaProject.getOption(JavaCore.COMPILER_COMPLIANCE, true);
-    }    
+    }
   }
 
   private static class EclipseHelper
@@ -1505,7 +1528,7 @@ public class CodeGenUtil
     }
 
     public static boolean isValidJavaIdentifier(String name)
-    {      
+    {
       return JavaConventions.validateIdentifier(name, JavaCore.VERSION_1_5, JavaCore.VERSION_1_5).isOK();
     }
 
@@ -1532,6 +1555,85 @@ public class CodeGenUtil
         }
       }
       return null;
-    }    
+    }
+
+    public static String[] getJavaCompliance(Object context)
+    {
+      if (context instanceof IResource)
+      {
+        IResource resource = (IResource)context;
+        IProject project = resource.getProject();
+        IJavaProject javaProject = JavaCore.create(project);
+        String source = javaProject.getOption(JavaCore.COMPILER_SOURCE, true);
+        if (source == null)
+        {
+          source = JavaCore.VERSION_1_5;
+        }
+        String compliance = javaProject.getOption(JavaCore.COMPILER_COMPLIANCE, true);
+        if (compliance == null)
+        {
+          compliance = JavaCore.VERSION_1_5;
+        }
+
+        return new String[] { source, compliance };
+      }
+
+      if (context instanceof URI && EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
+      {
+        URI uri = (URI)context;
+        if (uri.isPlatformResource())
+        {
+          IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+          IFile file = root.getFile(new Path(uri.toPlatformString(true)));
+          return getJavaCompliance(file);
+        }
+      }
+
+      if (context instanceof String)
+      {
+        return getJavaCompliance(URI.createURI(context.toString()));
+      }
+
+      return new String[] { JavaCore.VERSION_1_5, JavaCore.VERSION_1_5 };
+    }
+  }
+
+  private static class JDTHelper
+  {
+    public static boolean IS_AVAILABLE;
+
+    static
+    {
+      boolean isAvailable = false;
+      try
+      {
+        Status.OK_STATUS.toString();
+        isAvailable = true;
+      }
+      catch (Throwable throwable)
+      {
+
+      }
+      IS_AVAILABLE = isAvailable;
+    }
+
+    public static String[] getJavaCompliance(Object context)
+    {
+      return EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE ? EclipseHelper.getJavaCompliance(context) : new String[] { JavaCore.VERSION_1_5, JavaCore.VERSION_1_5 };
+    }
+
+    public static Diagnostic validateClassName(String name, Object context)
+    {
+      String[] javaCompliance = getJavaCompliance(context);
+      IStatus status = JavaConventions.validateJavaTypeName(name, javaCompliance[0], javaCompliance[1]);
+      return BasicDiagnostic.toDiagnostic(status);
+    }
+
+    public static Diagnostic validatePackageName(String name, Object context)
+    {
+      String[] javaCompliance = getJavaCompliance(context);
+      IStatus status = JavaConventions.validatePackageName(name, javaCompliance[0], javaCompliance[1]);
+      return BasicDiagnostic.toDiagnostic(status);
+    }
   }
 }

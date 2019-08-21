@@ -4,8 +4,8 @@
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.codegen.jet;
@@ -24,7 +24,7 @@ import org.eclipse.emf.codegen.CodeGenPlugin;
 /**
  * A mark represents a point in the JET input.
  */
-public final class JETMark 
+public final class JETMark
 {
   /**
    * This is the character offset.
@@ -39,56 +39,58 @@ public final class JETMark
   /**
    * This is the column index.
    */
-  protected int col;      
+  protected int col;
 
   /**
    * This is the id of the file.
    */
-  protected int fileid;                 
+  protected int fileid;
 
   /**
    * This is the base URI for relative paths.
    */
-  protected String baseDir;             
+  protected String baseDir;
 
   /**
    * This is the stream of characters.
    */
-  protected char[] stream = null;
+  protected char[] stream;
 
   /**
    * This is the stack of inclusions.
    */
-  protected Stack<IncludeState> includeStack = null;  
+  protected Stack<IncludeState> includeStack;
 
   /**
    * This is the encoding of the stream.
    */
-  protected String encoding = null;
+  protected String encoding;
 
   /**
    * This is the reader that owns this mark.
    */
-  protected JETReader reader;   
-                             
+  protected JETReader reader;
+
   /**
    * Keep track of parser before parsing an included file.
    * This class keeps track of the parser before we switch to parsing an
    * included file. In other words, it's the parser's continuation to be
    * reinstalled after the included file parsing is done.
    */
-  class IncludeState 
+  class IncludeState
   {
+    JETMark current;
     int cursor;
     int line;
     int col;
     int fileid;
     String baseDir;
     String encoding;
-    char[] stream = null;
+    char[] stream;
 
-    IncludeState(int inCursor, int inLine, int inCol, int inFileid, String inBaseDir, String inEncoding, char[] inStream)
+    IncludeState(JETMark inCurrent, int inCursor, int inLine, int inCol, int inFileid, String inBaseDir, String inEncoding, char[] inStream)
     {
+      current = new JETMark(inCurrent);
       cursor = inCursor;
       line = inLine;
       col = inCol;
@@ -118,7 +120,7 @@ public final class JETMark
     this.includeStack = new Stack<IncludeState>();
   }
 
-  JETMark(JETMark other) 
+  JETMark(JETMark other)
   {
     this.reader = other.reader;
     this.stream = other.stream;
@@ -132,13 +134,13 @@ public final class JETMark
     // clone includeStack without cloning contents
     //
     includeStack = new Stack<IncludeState>();
-    for (int i = 0; i < other.includeStack.size(); ++i) 
+    for (int i = 0; i < other.includeStack.size(); ++i)
     {
       includeStack.addElement(other.includeStack.elementAt(i));
     }
   }
 
-  /** 
+  /**
    * Sets this mark's state to a new stream.
    * It will store the current stream in it's includeStack.
    * @param inStream new stream for mark
@@ -150,7 +152,7 @@ public final class JETMark
   {
     // Store the current state in stack.
     //
-    includeStack.push(new IncludeState(cursor, line, col, fileid, baseDir, encoding, stream) );
+    includeStack.push(new IncludeState(this, cursor, line, col, fileid, baseDir, encoding, stream) );
 
     // Set the new variables.
     //
@@ -163,14 +165,14 @@ public final class JETMark
     stream = inStream;
   }
 
-  /** 
+  /**
    * Restores this mark's state to a previously stored stream.
    */
-  public boolean popStream() 
+  public boolean popStream()
   {
     // Make sure we have something to pop.
     //
-    if (includeStack.size() <= 0) 
+    if (includeStack.size() <= 0)
     {
       return false;
     }
@@ -190,17 +192,25 @@ public final class JETMark
     return true;
   }
 
-  public String getFile() 
+  public String getFile()
   {
     return reader.getFile(fileid);
   }
-  
-  public String getBaseURI() 
+
+  public String getBaseURI()
   {
     return reader.getBaseURI(fileid);
   }
 
-  public String getLocalFile() 
+  /**
+   * @since 2.19
+   */
+  public String getResolvedURI()
+  {
+    return reader.getResolvedURI(fileid);
+  }
+
+  public String getLocalFile()
   {
     String file = reader.getFile(fileid);
     if (file.startsWith("file:/"))
@@ -213,34 +223,48 @@ public final class JETMark
     return file;
   }
 
-  public int getFileId() 
-  { 
-    return fileid; 
+  public int getFileId()
+  {
+    return fileid;
   }
 
-  public int getCursor() 
+  /**
+   * @since 2.19
+   */
+  public JETMark getParentMark()
+  {
+    if (includeStack.isEmpty())
+    {
+      return null;
+    }
+
+    IncludeState includeState = includeStack.peek();
+    return includeState.current;
+  }
+
+  public int getCursor()
   {
     return cursor;
   }
 
-  public String toShortString() 
+  public String toShortString()
   {
     return "(" + line + "," + col + ")";
   }
 
   @Override
-  public String toString() 
+  public String toString()
   {
-    return getLocalFile() + "(" + line + "," + col + ")";
+    return getLocalFile() + "(" + line + "," + col + ") : " + fileid + " : " +cursor;
   }
 
   public String format(String key)
   {
-    return 
+    return
       CodeGenPlugin.getPlugin().getString
-        (key, 
-         new Object [] 
-         { 
+        (key,
+         new Object []
+         {
            getLocalFile(),
            line + 1,
            col + 1,
@@ -249,16 +273,16 @@ public final class JETMark
   }
 
   @Override
-  public boolean equals(Object other) 
+  public boolean equals(Object other)
   {
-    if (other instanceof JETMark) 
+    if (other instanceof JETMark)
     {
       JETMark m = (JETMark) other;
-      return 
-        this.reader == m.reader && 
-          this.fileid == m.fileid && 
-          this.cursor == m.cursor && 
-          this.line == m.line && 
+      return
+        this.reader == m.reader &&
+          this.fileid == m.fileid &&
+          this.cursor == m.cursor &&
+          this.line == m.line &&
           this.col == m.col;
     }
     return false;

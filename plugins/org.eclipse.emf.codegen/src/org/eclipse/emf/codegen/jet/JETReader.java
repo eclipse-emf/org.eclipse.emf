@@ -4,8 +4,8 @@
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.codegen.jet;
@@ -18,9 +18,10 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.emf.codegen.CodeGenPlugin;
+import org.eclipse.emf.common.util.Diagnostic;
 
 
 /**
@@ -28,43 +29,96 @@ import org.eclipse.emf.codegen.CodeGenPlugin;
  * unlimited lookahead and push-back. It also has a bunch of parsing
  * utility methods for understanding html-style things.
  */
-public class JETReader 
+public class JETReader
 {
   protected char startTagInitialChar = '<';
+
   protected char endTagInitialChar = '%';
+
   protected char endTagFinalChar = '>';
-  protected JETMark current  = null;
-  protected String master = null;
+
+  protected JETMark current;
+
+  /**
+   * @since 2.19
+   */
+  protected JETMark start;
+
+  /**
+   * @deprecated since 2.19 because this is not used and was never used.
+   */
+  @Deprecated
+  protected String master;
+
   protected List<String> sourceFiles = new ArrayList<String>();
+
   protected List<String> baseURIs = new ArrayList<String>();
-  protected int size = 0;
+
+  protected int size;
+
   protected boolean trimExtraNewLine = true;
 
-  public JETReader(String baseURI, String locationURI, InputStream inputStream, String encoding) throws JETException
+  /**
+   * @since 2.19
+   */
+  protected List<String> resolvedURIs = new ArrayList<String>();
+
+  /**
+   * @since 2.19
+   */
+  protected final LinkedList<JETItem> jetItems = new LinkedList<JETItem>();
+
+  /**
+   * @since 2.19
+   */
+  protected JETProblemListener problemListener;
+
+  /**
+   * @since 2.19
+   */
+  public JETReader(String baseURI, String locationURI, InputStream inputStream, String encoding, JETProblemListener problemListener) throws JETException
   {
     stackStream(baseURI, locationURI, inputStream, encoding);
+    this.problemListener = problemListener;
   }
-  
+
+  /**
+   * @deprecated Use {@link #JETReader(String, String, InputStream, String, JETProblemListener)}.
+   */
+  @Deprecated
+  public JETReader(String baseURI, String locationURI, InputStream inputStream, String encoding) throws JETException
+  {
+    this(baseURI, locationURI, inputStream, encoding, new JETProblemListener());
+  }
+
   public JETReader(String locationURI, InputStream inputStream, String encoding) throws JETException
   {
     this(null, locationURI, inputStream, encoding);
   }
 
-  public String getFile(int fileid) 
+  public String getFile(int fileid)
   {
     return sourceFiles.get(fileid);
   }
-  
-  public String getBaseURI(int fileid) 
+
+  public String getBaseURI(int fileid)
   {
     return baseURIs.get(fileid);
+  }
+
+  /**
+   * @since 2.19
+   */
+  public String getResolvedURI(int fileid)
+  {
+    return resolvedURIs.get(fileid);
   }
 
   public void stackStream(String locationURI, InputStream iStream, String encoding) throws JETException
   {
     stackStream(null, locationURI, iStream, encoding);
   }
-  
+
   /**
    * Stack a stream for parsing
    * @param iStream Stream ready to parse
@@ -72,26 +126,28 @@ public class JETReader
    */
   public void stackStream(String baseURI, String locationURI, InputStream iStream, String encoding) throws JETException
   {
+    // Until the encoding can be specified within the template
+    // we need to assume an encoding capable of working with any character set.
+    if (encoding == null)
+    {
+      encoding = "UTF8";
+    }
+
+    // Register the file, and read its content:
+    //
+    int fileid = registerSourceFile(locationURI);
+    registerBaseURI(baseURI);
+    registerResolvedURI(baseURI, locationURI);
+
     InputStreamReader reader = null;
     try
     {
-      // Until the encoding can be specified within the template 
-      // we need to assume an encoding capable of working with any character set.
-      if (encoding == null) 
-      {
-        encoding = "UTF8";
-      }
-
-      // Register the file, and read its content:
-      //
-      int fileid    = registerSourceFile(locationURI);
-      registerBaseURI(baseURI);
       reader = new InputStreamReader(iStream, encoding);
-      CharArrayWriter writer   = new CharArrayWriter();
-      char            buf[] = new char[1024];
-      for (int i = 0; (i = reader.read(buf)) != -1; )
+      CharArrayWriter writer = new CharArrayWriter();
+      char buf[] = new char [1024];
+      for (int i = 0; (i = reader.read(buf)) != -1;)
       {
-        // Remove zero width non-breaking space, which may be used as a byte order marker, 
+        // Remove zero width non-breaking space, which may be used as a byte order marker,
         // and may be ignored according to the Unicode FAQ: http://www.unicode.org/unicode/faq/utf_bom.html#38
         //
         if (buf[0] == '\uFEFF')
@@ -104,32 +160,34 @@ public class JETReader
         }
       }
       writer.close();
-      if (current == null) 
+      if (current == null)
       {
-        current = new JETMark(this, writer.toCharArray(), fileid, locationURI, encoding);
-      } 
-      else 
+        start = current = new JETMark(this, writer.toCharArray(), fileid, locationURI, encoding);
+      }
+      else
       {
         current.pushStream(writer.toCharArray(), fileid, locationURI, encoding);
       }
     }
     catch (UnsupportedEncodingException exception)
     {
+      start = new JETMark(this, new char [0], fileid, locationURI, encoding);
       throw new JETException(exception);
     }
     catch (IOException exception)
     {
+      start = new JETMark(this, new char [0], fileid, locationURI, encoding);
       throw new JETException(exception);
     }
-    finally 
+    finally
     {
-      if (reader != null) 
+      if (reader != null)
       {
-        try 
-        { 
-          reader.close(); 
-        } 
-        catch (Exception exception) 
+        try
+        {
+          reader.close();
+        }
+        catch (Exception exception)
         {
           throw new JETException(exception);
         }
@@ -137,7 +195,7 @@ public class JETReader
     }
   }
 
-  public boolean popFile() 
+  public boolean popFile()
   {
     // Is stack created ? (will happen if the JET file we're looking at is missing.
     //
@@ -159,21 +217,33 @@ public class JETReader
    * gets a unique identifier (which is the index in the array of source files).
    * @return The index of the now registered file.
    */
-  protected int registerSourceFile(String file) 
+  protected int registerSourceFile(String file)
   {
     sourceFiles.add(file);
     ++this.size;
     return sourceFiles.size() - 1;
   }
-  
+
   /**
    * Register a new baseURI.
    * This method is used to implement file inclusion. Each included file
    * gets a unique identifier (which is the index in the array of base URIs).
    */
-  protected void registerBaseURI(String baseURI) 
+  protected void registerBaseURI(String baseURI)
   {
     baseURIs.add(baseURI);
+  }
+
+  /**
+   * Register a new resolvedURI.
+   * This method is used to implement file inclusion. Each included file
+   * gets a unique identifier (which is the index in the array of base URIs).
+   *
+   * @since 2.19
+   */
+  protected void registerResolvedURI(String baseURI, String file)
+  {
+    resolvedURIs.add(baseURI + "/" + file);
   }
 
   /**
@@ -183,15 +253,15 @@ public class JETReader
    * newline in the buffer we are returning to be unwanted if the ending buffer already has at least one trailing
    * newline.
   */
-  public boolean hasMoreInput() 
+  public boolean hasMoreInput()
   {
     if (current.cursor < current.stream.length)
     {
       return true;
     }
-    
+
     boolean nl = hasTrailingNewLine();
-    while (popFile()) 
+    while (popFile())
     {
       if (current.cursor < current.stream.length)
       {
@@ -240,7 +310,7 @@ public class JETReader
       current.line++;
       current.col = stream[0] == '\n' ? 1 : 0;
     }
-    else if (stream.length >  c && (stream[c] == '\n' || stream[c] == '\r'))
+    else if (stream.length > c && (stream[c] == '\n' || stream[c] == '\r'))
     {
       current.cursor++;
       current.line++;
@@ -248,7 +318,7 @@ public class JETReader
     }
   }
 
-  public int nextChar() 
+  public int nextChar()
   {
     if (!hasMoreInput())
     {
@@ -259,12 +329,12 @@ public class JETReader
 
     ++current.cursor;
 
-    if (ch == '\n') 
+    if (ch == '\n')
     {
       ++current.line;
       current.col = 0;
-    } 
-    else 
+    }
+    else
     {
       ++current.col;
     }
@@ -272,108 +342,138 @@ public class JETReader
   }
 
   /**
+   * @since 2.19
+   */
+  public JETItem popItem()
+  {
+    return jetItems.isEmpty() ? null : jetItems.removeFirst();
+  }
+
+  /**
+   * @since 2.19
+   */
+  public void pushItem(JETItem jetItem)
+  {
+    jetItems.addFirst(jetItem);
+  }
+
+  /**
    * Gets Content until the next potential JSP element.  Because all elements
    * begin with a '&lt;' we can just move until we see the next one.
    */
-  public String nextContent() 
+  public String nextContent()
   {
     int cur_cursor = current.cursor;
     int len = current.stream.length;
-    if (cur_cursor == len) return "";
-    char ch;
+    if (cur_cursor == len)
+      return "";
+    char ch = current.stream[current.cursor];
 
     // pure obfuscated genius!
-    while (++current.cursor < len && (ch = current.stream[current.cursor]) != startTagInitialChar) 
+    // But not really because this skips the "\n" character, but only with Linux line endings, screwing up the line count of the cursor.
+    // while (++current.cursor < len && (ch = current.stream[current.cursor]) != startTagInitialChar)
+    // We must look at the first character and we must consume it even if it is the '<' because we only get here is none of the other result have consumed this character.
+    do
     {
-      if (ch == '\n') 
+      if (ch == '\n')
       {
         ++current.line;
         current.col = 0;
-      } 
-      else 
+      }
+      else
       {
         ++current.col;
       }
+      ++current.cursor;
     }
+    while (current.cursor < len && (ch = current.stream[current.cursor]) != startTagInitialChar);
 
-    return new String(current.stream, cur_cursor, current.cursor-cur_cursor);
+    return new String(current.stream, cur_cursor, current.cursor - cur_cursor);
   }
 
-  public char[] getChars(JETMark start, JETMark stop) 
+  public char[] getChars(JETMark start, JETMark stop)
   {
     JETMark oldstart = mark();
     reset(start);
     CharArrayWriter writer = new CharArrayWriter();
     while (!stop.equals(mark()))
     {
-          writer.write(nextChar());
+      writer.write(nextChar());
     }
     writer.close();
     reset(oldstart);
     return writer.toCharArray();
   }
 
-  public int peekChar() 
+  public int peekChar()
   {
-    return current.stream[current.cursor];
+    return current.cursor < current.stream.length ? current.stream[current.cursor] : -1;
   }
 
-  public JETMark mark() 
+  public JETMark mark()
   {
     return new JETMark(current);
   }
 
-  public void reset(JETMark mark) 
+  public void reset(JETMark mark)
   {
     current = new JETMark(mark);
   }
 
-  public boolean matchesIgnoreCase(String string) 
+  public boolean matchesIgnoreCase(String string)
   {
     JETMark mark = mark();
     int ch = 0;
     int i = 0;
-    do 
+    do
     {
       ch = nextChar();
-      if (Character.toLowerCase((char) ch) != string.charAt(i++)) 
+      if (Character.toLowerCase((char)ch) != string.charAt(i++))
       {
         reset(mark);
         return false;
       }
-    } while (i < string.length());
+    }
+    while (i < string.length());
     reset(mark);
     return true;
   }
 
-  public boolean matches(String string) 
+  public boolean matches(String string)
+  {
+    return matches(string, false);
+  }
+
+  public boolean matches(String string, boolean word)
   {
     JETMark mark = mark();
     int ch = 0;
     int i = 0;
-    do 
+    do
     {
       ch = nextChar();
-      if (((char) ch) != string.charAt(i++)) 
+      if (((char)ch) != string.charAt(i++))
       {
         reset(mark);
         return false;
       }
-    } while (i < string.length());
+    }
+    while (i < string.length());
+    boolean result = !word || !Character.isLetterOrDigit(peekChar());
     reset(mark);
-    return true;
+    return result;
   }
 
-  public void advance(int n) 
+  public void advance(int n)
   {
     while (--n >= 0)
-    nextChar();
+      nextChar();
   }
 
-  public int skipSpaces() 
+  public int skipSpaces()
   {
     int i = 0;
-    while (isSpace()) 
+    while (isSpace())
     {
       ++i;
       nextChar();
@@ -394,15 +494,16 @@ public class JETReader
     int limlen = limit.length();
     int ch;
 
-    skip:
-    for (ret = mark(), ch = nextChar(); ch != -1; ret = mark(), ch = nextChar()) 
+    skip: for (ret = mark(), ch = nextChar(); ch != -1; ret = mark(), ch = nextChar())
     {
-      if (ch == limit.charAt(0)) 
+      if (ch == limit.charAt(0))
       {
-        for (int i = 1; i < limlen; i++) 
+        for (int i = 1; i < limlen; i++)
         {
-          if (Character.toLowerCase((char) nextChar()) != limit.charAt(i))
+          if (nextChar() != limit.charAt(i))
           {
+            reset(ret);
+            nextChar();
             continue skip;
           }
         }
@@ -412,9 +513,10 @@ public class JETReader
     return null;
   }
 
-  protected boolean isSpace() 
+  protected boolean isSpace()
   {
-    return peekChar() <= ' ';
+    int peekChar = peekChar();
+    return peekChar <= ' ' && peekChar != -1;
   }
 
   /**
@@ -425,64 +527,140 @@ public class JETReader
    */
   public String parseToken(boolean quoted) throws JETException
   {
-    StringBuffer stringBuffer = new StringBuffer();
+    StringBuilder stringBuilder = new StringBuilder();
     skipSpaces();
-    stringBuffer.setLength(0);
 
     int ch = peekChar();
-
-    if (quoted) 
+    char quote = 0;
+    JETMark start = mark();
+    JETMark quoteStart = null;
+    JETMark quoteStop = null;
+    List<JETValueElementItem> values = null;
+    if (quoted)
     {
-      if (ch == '"' || ch == '\'') 
+      if (ch == '"' || ch == '\'')
       {
-        char endQuote = ch == '"' ? '"' : '\'';
+        quote = (char)ch;
 
         // Consume the open quote:
         //
         ch = nextChar();
-        for (ch = nextChar(); ch != -1 && ch != endQuote; ch = nextChar()) 
+        quoteStart = quoteStop = mark();
+        StringBuilder valueBuilder = new StringBuilder();
+        JETMark valueStart = quoteStart;
+        values = new ArrayList<JETValueElementItem>();
+        for (ch = nextChar(); ch != -1 && ch != quote; ch = nextChar())
         {
           if (ch == '\\')
           {
             ch = nextChar();
+            if (ch == -1)
+            {
+              break;
+            }
           }
-          stringBuffer.append((char) ch);
+
+          if (ch > ' ')
+          {
+            valueBuilder.append((char)ch);
+            if (peekChar() <= ' ' || peekChar() == quote)
+            {
+              if (valueBuilder.length() > 0)
+              {
+                JETValueElementItem valueElementItem = new JETValueElementItem(valueStart, mark(), valueBuilder.toString());
+                values.add(valueElementItem);
+                valueBuilder.setLength(0);
+              }
+            }
+          }
+          else
+          {
+            valueStart = mark();
+          }
+
+          stringBuilder.append((char)ch);
+          quoteStop = mark();
         }
 
         // Check end of quote, skip closing quote:
         //
         if (ch == -1)
         {
-          throw new JETException(CodeGenPlugin.getPlugin().getString("jet.error.quotes.unterminated", new Object [] { mark().toString()}));
+          reset(quoteStart);
+          stringBuilder.setLength(0);
+          quoteStop = quoteStart;
+          for (ch = nextChar(); ch != -1; ch = nextChar())
+          {
+            if (ch == endTagInitialChar && peekChar() == endTagFinalChar)
+            {
+              break;
+            }
+            stringBuilder.append(ch);
+            quoteStop = mark();
+          }
+
+          problemListener.handleProblem(quoteStart, quoteStop, Diagnostic.ERROR, null, JETProblemListener.QUOTE_UNTERMINATED, quoteStart.format("jet.mark.file.line.column"));
+          values.clear();
+          JETValueElementItem valueElementItem = new JETValueElementItem(quoteStart, quoteStop, stringBuilder.toString());
+          values.add(valueElementItem);
         }
       }
-      else 
+      else
       {
-        throw new JETException(CodeGenPlugin.getPlugin().getString("jet.error.attr.quoted", new Object [] { mark().toString() }));
+        quoteStart = quoteStop = mark();
+
+        for (ch = nextChar(); ch != -1; ch = nextChar())
+        {
+          if (ch == endTagInitialChar && peekChar() == endTagFinalChar)
+          {
+            reset(quoteStop);
+            break;
+          }
+          stringBuilder.append(ch);
+          quoteStop = mark();
+        }
+
+        values = new ArrayList<JETValueElementItem>();
+        problemListener.handleProblem(quoteStart, quoteStop, Diagnostic.ERROR, null, JETProblemListener.BAD_ATTRIBUTE_UNQUOTED, quoteStart.format("jet.mark.file.line.column"));
+        JETValueElementItem valueElementItem = new JETValueElementItem(quoteStart, quoteStop, stringBuilder.toString());
+        values.add(valueElementItem);
       }
-    } 
-    else 
+    }
+    else
     {
       if (!isDelimiter())
       {
         // Read value until delimiter is found:
-        do 
+        do
         {
           ch = nextChar();
           // Take care of the quoting here.
-          if (ch == '\\') 
+          if (ch == '\\')
           {
-            if (peekChar() == '"' || peekChar() == '\'' || peekChar() == endTagFinalChar || peekChar() == endTagInitialChar)
+            int peekChar = peekChar();
+            if (peekChar == '"' || peekChar == '\'' || peekChar == endTagFinalChar || peekChar == endTagInitialChar)
             {
               ch = nextChar();
             }
           }
-          stringBuffer.append((char) ch);
-        } 
+          stringBuilder.append((char)ch);
+        }
         while (!isDelimiter());
       }
     }
-    return stringBuffer.toString();
+
+    String result = stringBuilder.toString();
+    JETMark stop = mark();
+    if (quoteStart != null)
+    {
+      pushItem(new JETTokenItem(start, stop, quote + result + quote, new JETValueItem(quoteStart, quoteStop, result, values)));
+    }
+    else
+    {
+      pushItem(new JETTokenItem(start, stop, result));
+    }
+
+    return stringBuilder.toString();
   }
 
   /**
@@ -502,22 +680,31 @@ public class JETReader
     // Get the attribute name:
     //
     skipSpaces();
+    JETMark start = mark();
     String name = parseToken(false);
+    JETTokenItem nameToken = (JETTokenItem)popItem();
 
     // Check for an equal sign:
     //
     skipSpaces();
     if (peekChar() != '=')
     {
-      throw new JETException(CodeGenPlugin.getPlugin().getString("jet.error.attr.novalue", new Object[] { name, mark().toString() }));
+      JETMark stop = mark();
+      problemListener.handleProblem(start, stop, Diagnostic.ERROR, null, JETProblemListener.BAD_ATTRIBUTE_NO_VALUE, name, stop.format("jet.mark.file.line.column"));
     }
-    nextChar();
+    else
+    {
+      nextChar();
+    }
 
     // Get the attribute value:
     //
     skipSpaces();
     String value = parseToken(true);
-    skipSpaces();
+
+    JETTokenItem valueToken = (JETTokenItem)popItem();
+    JETMark stop = mark();
+    pushItem(new JETAttributeItem(start, stop, nameToken, valueToken));
 
     // Add the binding to the provided hash table:
     //
@@ -536,35 +723,38 @@ public class JETReader
    * Where <em>av</em> is defined by <code>parseAttributeValue</code>.
    * @return A HashMap mapping String instances (variable names) into
    * String instances (variable values).
+   * @deprecated this is not used at all and since 2.19, it also doesn't build JETItems nor use the problem listener.
    */
+  @Deprecated
   public HashMap<String, String> parseTagAttributesBean() throws JETException
   {
     HashMap<String, String> values = new HashMap<String, String>(11);
-    while (true) 
+    JETMark start = mark();
+    while (true)
     {
       skipSpaces();
       int ch = peekChar();
-      if (ch == endTagFinalChar) 
+      if (ch == endTagFinalChar)
       {
         // End of the useBean tag.
         //
         return values;
-      } 
-      else if (ch == '/') 
+      }
+      else if (ch == '/')
       {
         JETMark mark = mark();
         nextChar();
 
         // XMLesque Close tags
         //
-        try 
+        try
         {
           if (nextChar() == endTagFinalChar)
           {
             return values;
           }
-        } 
-        finally 
+        }
+        finally
         {
           reset(mark);
         }
@@ -581,7 +771,8 @@ public class JETReader
 
     // Reached EOF:
     //
-    throw new JETException(CodeGenPlugin.getPlugin().getString("jet.error.tag.attr.unterminated", new Object [] { mark().toString() }));
+    problemListener.handleProblem(start, mark(), Diagnostic.ERROR, null, JETProblemListener.BAD_ATTRIBUTE_UNTERMINATED, mark().format("jet.mark.file.line.column"));
+    return new HashMap<String, String>();
   }
 
   /**
@@ -597,79 +788,92 @@ public class JETReader
    * @return A HashMap mapping String instances (variable names) into
    * String instances (variable values).
    */
-  public HashMap<String, String> parseTagAttributes()
-      throws JETException
+  public HashMap<String, String> parseTagAttributes() throws JETException
   {
+    skipSpaces();
+    JETMark start = mark();
+    JETMark stop = start;
     HashMap<String, String> values = new HashMap<String, String>(11);
-    while (true) 
+    List<JETAttributeItem> attributes = new ArrayList<JETAttributeItem>();
+    try
     {
-      skipSpaces();
-      int ch = peekChar();
-      if (ch == endTagFinalChar) 
+      while (true)
       {
-        return values;
-      }
+        int ch = peekChar();
+        if (ch == endTagFinalChar)
+        {
+          return values;
+        }
 
-      if (ch == '-') 
-      {
-        JETMark mark = mark();
-        nextChar();
-        // Close NCSA like attributes "->"
-        try 
+        if (ch == '-')
         {
-          if (nextChar() == '-' && nextChar() == endTagFinalChar)
+          JETMark mark = mark();
+          nextChar();
+          // Close NCSA like attributes "->"
+          try
           {
-            return values;
+            if (nextChar() == '-' && nextChar() == endTagFinalChar)
+            {
+              return values;
+            }
           }
-        } 
-        finally 
-        {
-          reset(mark);
-        }
-      } 
-      else if (ch == endTagInitialChar) 
-      {
-        JETMark mark = mark();
-        nextChar();
-        // Close variable like attributes "%>"
-        try 
-        {
-          if (nextChar() == endTagFinalChar)
+          finally
           {
-            return values;
+            reset(mark);
           }
-        } 
-        finally 
-        {
-          reset(mark);
         }
-      } 
-      else if (ch == '/') 
-      {
-        JETMark mark = mark();
-        nextChar();
-        // XMLesque Close tags
-        try 
+        else if (ch == endTagInitialChar)
         {
-          if (nextChar() == endTagFinalChar)
+          JETMark mark = mark();
+          nextChar();
+          // Close variable like attributes "%>"
+          try
           {
-            return values;
+            if (nextChar() == endTagFinalChar)
+            {
+              return values;
+            }
           }
-        } 
-        finally 
-        {
-          reset(mark);
+          finally
+          {
+            reset(mark);
+          }
         }
+        else if (ch == '/')
+        {
+          JETMark mark = mark();
+          nextChar();
+          // XMLesque Close tags
+          try
+          {
+            if (nextChar() == endTagFinalChar)
+            {
+              return values;
+            }
+          }
+          finally
+          {
+            reset(mark);
+          }
+        }
+        if (ch == -1)
+        {
+          break;
+        }
+        // Parse as an attribute=value:
+        parseAttributeValue(values);
+        attributes.add((JETAttributeItem)popItem());
+        stop = mark();
+        skipSpaces();
       }
-      if (ch == -1)
-      {
-        break;
-      }
-      // Parse as an attribute=value:
-      parseAttributeValue(values);
     }
-    // Reached EOF:
-    throw new JETException(CodeGenPlugin.getPlugin().getString("jet.error.tag.attr.unterminated", new Object [] { mark().toString() }));
+    finally
+    {
+      pushItem(new JETAttributeListItem(start, stop, attributes));
+    }
+
+    problemListener.handleProblem(start, mark(), Diagnostic.ERROR, null, JETProblemListener.BAD_ATTRIBUTE_UNTERMINATED, start.format("jet.mark.file.line.column"));
+    return values;
   }
 
   /**
@@ -678,49 +882,54 @@ public class JETReader
    * any space character as defined by <code>isSpace</code>.
    * @return A boolean.
    */
-  protected boolean isDelimiter() 
+  protected boolean isDelimiter()
   {
-    if (! isSpace()) 
+    if (!isSpace())
     {
       int ch = peekChar();
 
+      if (ch == -1)
+      {
+        return true;
+      }
+
       // Look for a single-char work delimiter:
       //
-      if (ch == '=' || ch == endTagFinalChar || ch == '"' || ch == '\'' || ch == '/')
+      if (ch == '=' || ch == endTagFinalChar || ch == '"' || ch == '\'' || ch == '/' || ch == endTagInitialChar)
       {
         return true;
       }
 
       // Look for an end-of-comment or end-of-tag:
       //
-      if (ch == '-') 
+      if (ch == '-')
       {
         JETMark mark = mark();
-        if (((ch = nextChar()) == endTagFinalChar) || ((ch == '-') && (nextChar() == endTagFinalChar))) 
+        if (((ch = nextChar()) == endTagFinalChar) || ((ch == '-') && (nextChar() == endTagFinalChar)))
         {
           reset(mark);
           return true;
-        } 
-        else 
+        }
+        else
         {
           reset(mark);
           return false;
         }
       }
       return false;
-    } 
-    else 
+    }
+    else
     {
       return true;
     }
   }
 
-  public void setStartTag(String startTag) 
+  public void setStartTag(String startTag)
   {
     startTagInitialChar = startTag.charAt(0);
   }
-  
-  public void setEndTag(String endTag) 
+
+  public void setEndTag(String endTag)
   {
     endTagFinalChar = endTag.charAt(endTag.length() - 1);
     endTagInitialChar = endTag.charAt(0);

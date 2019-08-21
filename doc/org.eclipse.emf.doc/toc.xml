@@ -11,6 +11,7 @@
 		<topic label="Generating an EMF Model" href="tutorials/clibmod/clibmod.html" />
 		<topic label="Generating an Extended EMF Model" href="tutorials/slibmod/slibmod.html" />
 		<topic label="Generating an EMF Model using XML Schema" href="tutorials/xlibmod/xlibmod.html" />
+		<topic label="JET Comprehensive Overview" href="tutorials/jet/jet.html" />
 		<topic label="JET Tutorial Part 1 (Introduction to JET)" href="tutorials/jet1/jet_tutorial1.html" />
 		<topic label="JET Tutorial Part 2 (Write Code that Writes Code)" href="tutorials/jet2/jet_tutorial2.html" />
 		<topic label="Specifying Package Information in Rose" href="tutorials/rosepkg/rosepkg.html" />

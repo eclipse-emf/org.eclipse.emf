@@ -26,4 +26,305 @@
       </enabledWhen>
     </page>
   </extension>
+
+  <extension point="org.eclipse.ui.editors">
+    <editor
+          class="org.eclipse.emf.codegen.presentation.JETEditor"
+          contributorClass="org.eclipse.emf.codegen.presentation.JETActionBarContributor"
+          default="true"
+          icon="icons/full/obj16/JETFile.gif"
+          id="org.eclipse.emf.codegen.presentation.JETEditorID"
+          name="%_UI_JETEditor_label">
+       <contentTypeBinding
+             contentTypeId="org.eclipse.emf.codegen.jet">
+       </contentTypeBinding>
+    </editor>
+  </extension>
+
+  <extension
+        point="org.eclipse.ui.themes">
+     <themeElementCategory
+           id="org.eclipse.emf.codegen.ui.jet"
+           label="%_UI_JETTheme_label">
+     </themeElementCategory>
+
+     <colorDefinition
+           categoryId="org.eclipse.emf.codegen.ui.jet"
+           id="org.eclipse.emf.codegen.ui.jet.directiveForeground"
+           label="%_UI_JETDirectiveForeground_label"
+           value="139, 0, 0">
+        <description>
+           %_UI_JETDirectiveForeground_description
+        </description>
+     </colorDefinition>
+     <colorDefinition
+           categoryId="org.eclipse.emf.codegen.ui.jet"
+           id="org.eclipse.emf.codegen.ui.jet.directiveBackground"
+           label="%_UI_JETDirectiveBackground_label"
+           value="255, 251, 245">
+        <description>
+           %_UI_JETDirectiveBackground_description
+        </description>
+     </colorDefinition>
+
+     <colorDefinition
+           categoryId="org.eclipse.emf.codegen.ui.jet"
+           id="org.eclipse.emf.codegen.ui.jet.commentForeground"
+           label="%_UI_JETCommentForeground_label"
+           value="75, 0, 130">
+        <description>
+           %_UI_JETCommentForeground_description
+        </description>
+     </colorDefinition>
+     <colorDefinition
+           categoryId="org.eclipse.emf.codegen.ui.jet"
+           id="org.eclipse.emf.codegen.ui.jet.commentBackground"
+           label="%_UI_JETCommentBackground_label"
+           value="248, 245, 255">
+        <description>
+           %_UI_JETCommentBackground_description
+        </description>
+     </colorDefinition>
+     
+     <colorDefinition
+           categoryId="org.eclipse.emf.codegen.ui.jet"
+           id="org.eclipse.emf.codegen.ui.jet.scriptletForeground"
+           label="%_UI_JETScriptletForeground_label"
+           value="0, 50, 0">
+        <description>
+           %_UI_JETScriptletForeground_description
+        </description>
+     </colorDefinition>
+     <colorDefinition
+           categoryId="org.eclipse.emf.codegen.ui.jet"
+           id="org.eclipse.emf.codegen.ui.jet.scriptletBackground"
+           label="%_UI_JETScriptletBackground_label"
+           value="248, 255, 248">
+        <description>
+           %_UI_JETScriptletBackground_description
+        </description>
+     </colorDefinition>
+
+     <colorDefinition
+           categoryId="org.eclipse.emf.codegen.ui.jet"
+           id="org.eclipse.emf.codegen.ui.jet.expressionForeground"
+           label="%_UI_JETExpressionForeground_label"
+           value="0, 0, 205">
+        <description>
+           %_UI_JETExpressionForeground_description
+        </description>
+     </colorDefinition>
+     
+     <colorDefinition
+           categoryId="org.eclipse.emf.codegen.ui.jet"
+           id="org.eclipse.emf.codegen.ui.jet.expressionBackground"
+           label="%_UI_JETExpressionBackground_label"
+           value="240, 255, 255">
+        <description>
+           %_UI_JETExpressionBackground_description
+        </description>
+     </colorDefinition>
+
+     <colorDefinition
+           categoryId="org.eclipse.emf.codegen.ui.jet"
+           id="org.eclipse.emf.codegen.ui.jet.contentForeground"
+           label="%_UI_JETContentForeground_label"
+           value="0, 0, 0">
+        <description>
+           %_UI_JETContentForeground_description
+        </description>
+     </colorDefinition>
+
+     <colorDefinition
+           categoryId="org.eclipse.emf.codegen.ui.jet"
+           id="org.eclipse.emf.codegen.ui.jet.contentBackground"
+           label="%_UI_JETContentBackground_label"
+           value="245, 245, 245">
+        <description>
+           %_UI_JETContentBackground_description
+        </description>
+     </colorDefinition>
+  </extension>
+  
+  <extension
+        point="org.eclipse.ui.contexts">
+     <context
+           description="Editing JET Source Context"
+           id="org.eclipse.emf.codegen.ui.jetEditorScope"
+           name="Editing JET Source"
+           parentId="org.eclipse.ui.textEditorScope">
+     </context>
+  </extension>
+
+  <extension
+        point="org.eclipse.ui.commands">
+     <command
+           categoryId="org.eclipse.ui.category.navigate"
+           description="Goto Matching Bracket"
+           id="org.eclipse.emf.codegen.ui.jet.goto.matching.bracket"
+           name="Goto Matching Bracket">
+     </command>
+
+     <command
+           categoryId="org.eclipse.ui.category.edit"
+           description="Select Enclosing JET Element"
+           id="org.eclipse.emf.codegen.ui.jet.select.enclosing"
+           name="Select Enclosing JET Element">
+     </command>
+
+     <category
+           id="org.eclipse.codegen.ui.jet.refactor"
+           name="JET Refactor Actions">
+     </category>
+
+     <command
+          name="Show Refactor Quick Menu"
+          description="Shows the refactor quick menu"
+          categoryId="org.eclipse.codegen.ui.jet.refactor"
+          id="org.eclipse.codegen.ui.jet.refactor.quickmenu">
+     </command>
+     
+     <command
+          name="Rename"
+          description="Rename"
+          categoryId="org.eclipse.codegen.ui.jet.refactor"
+          id="org.eclipse.codegen.ui.jet.rename">
+     </command>
+
+     <category
+           id="org.eclipse.codegen.ui.jet.source"
+           name="JET Source Actions">
+     </category>
+
+     <command
+          name="Show Source Quick Menu"
+          description="Shows the source quick menu"
+          categoryId="org.eclipse.codegen.ui.jet.source"
+          id="org.eclipse.codegen.ui.jet.source.quickmenu">
+     </command>
+
+     <command
+          name="Format"
+          description="Format"
+          categoryId="org.eclipse.codegen.ui.jet.source"
+          id="org.eclipse.codegen.ui.jet.format">
+     </command>
+     
+  </extension>
+
+  <extension
+        point="org.eclipse.ui.bindings">
+     <key
+           commandId="org.eclipse.emf.codegen.ui.jet.goto.matching.bracket"
+           contextId="org.eclipse.emf.codegen.ui.jetEditorScope"
+           schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+           sequence="M1+M2+P">
+     </key>
+     <key
+           sequence="M2+M3+PAGE_UP"
+           contextId="org.eclipse.emf.codegen.ui.jetEditorScope"
+           commandId="org.eclipse.emf.codegen.ui.jet.select.enclosing"
+           schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+     </key>
+     <key
+           sequence="M2+M3+ARROW_UP"
+           contextId="org.eclipse.emf.codegen.ui.jetEditorScope"
+           commandId="org.eclipse.jdt.ui.edit.text.java.select.enclosing"
+           schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+     </key>
+     <key
+           sequence="M2+M3+ARROW_RIGHT"
+           contextId="org.eclipse.emf.codegen.ui.jetEditorScope"
+           commandId="org.eclipse.jdt.ui.edit.text.java.select.next"
+           schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+     </key>
+     <key
+           sequence="M2+M3+ARROW_LEFT"
+           contextId="org.eclipse.emf.codegen.ui.jetEditorScope"
+           commandId="org.eclipse.jdt.ui.edit.text.java.select.previous"
+           schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+     </key>
+     <key
+           sequence="M2+M3+ARROW_DOWN"
+           contextId="org.eclipse.emf.codegen.ui.jetEditorScope"
+           commandId="org.eclipse.jdt.ui.edit.text.java.select.last"
+           schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+     </key>
+     <key
+           sequence="M2+M3+T"
+           contextId="org.eclipse.emf.codegen.ui.jetEditorScope"
+           commandId="org.eclipse.codegen.ui.jet.refactor.quickmenu"
+           schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+     </key>
+     <key
+           sequence="M2+M3+L"
+           contextId="org.eclipse.emf.codegen.ui.jetEditorScope"
+           commandId="org.eclipse.jdt.ui.edit.text.java.extract.local.variable"
+           schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+     </key>
+     <key
+           sequence="M2+M3+R"
+           contextId="org.eclipse.emf.codegen.ui.jetEditorScope"
+           commandId="org.eclipse.codegen.ui.jet.rename"
+           schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+     </key>
+     <key
+           sequence="M2+M3+S"
+           contextId="org.eclipse.emf.codegen.ui.jetEditorScope"
+           commandId="org.eclipse.codegen.ui.jet.source.quickmenu"
+           schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+     </key>
+     <key
+           sequence="M1+M2+F"
+           contextId="org.eclipse.emf.codegen.ui.jetEditorScope"
+           commandId="org.eclipse.codegen.ui.jet.format"
+           schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+     </key>
+  </extension>
+
+  <extension
+        point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectorTargets">
+     <target
+           id="org.eclipse.emf.codegen.ui.jetTemplate"
+           name="JET Editor">
+        <context
+              type="org.eclipse.ui.texteditor.ITextEditor">
+        </context>
+     </target>
+  </extension>
+
+  <extension
+        point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
+     <hyperlinkDetector
+           class="org.eclipse.emf.codegen.presentation.JETHyperlinkDetector"
+           id="org.eclipse.emf.codegen.ui.jetHyperlinkDetector"
+           name="Open"
+           targetId="org.eclipse.emf.codegen.ui.jetTemplate">
+     </hyperlinkDetector>
+  </extension>
+  
+  <extension
+        point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
+     <hyperlinkDetector
+           class="org.eclipse.emf.codegen.presentation.JETJavaHyperlinkDetector"
+           id="org.eclipse.emf.codegen.ui.jetJavaHyperlinkDetector"
+           name="Open Template"
+           targetId="org.eclipse.jdt.ui.javaCode">
+     </hyperlinkDetector>
+  </extension>
+
+  <extension
+        point="org.eclipse.ui.actionSets">
+     <actionSet
+           description="JET-specific Actions"
+           id="org.eclipse.emf.codegen.ui.jet.actionSet"
+           label="JET Actions"
+           visible="false">
+        <menu
+              id="org.eclipse.emf.codegen.ui.jet.refactor"
+              label="Refact&amp;or"
+              path="edit">
+        </menu>
+     </actionSet>
+  </extension>
 </plugin>

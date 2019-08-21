@@ -32,10 +32,20 @@
     </builder>
   </extension>
 
-  <extension point="org.eclipse.team.core.fileTypes">
-    <fileTypes extension="javajet" type="text" />
-    <fileTypes extension="jetinc" type="text" />
-    <fileTypes extension="propertiesjet" type="text" />
-    <fileTypes extension="xmljet" type="text" />
+  <extension id="jetProblem" name="%jetProblem" point="org.eclipse.core.resources.markers">
+    <super type="org.eclipse.core.resources.problemmarker" /> 
+    <persistent value="true" /> 
   </extension>
+
+  <extension
+        point="org.eclipse.core.contenttype.contentTypes">
+     <content-type
+           base-type="org.eclipse.core.runtime.text"
+           file-patterns="*.jet,*.?jet,*.??jet,*.???jet,*.????jet,*.?????jet,*.??????jet,*.???????jet,*.????????jet,*.?????????jet,*.??????????jet,*.jetinc,*.?jetinc,*.??jetinc,*.???jetinc,,*.????jetinc,*.?????jetinc,,*.??????jetinc,*.???????jetinc,*.????????jetinc,*.?????????jetinc,*.??????????jetinc"
+           id="org.eclipse.emf.codegen.jet"
+           name="%_UI_JET_TEMPLATE"
+           priority="normal">
+     </content-type>
+  </extension>
+
 </plugin>

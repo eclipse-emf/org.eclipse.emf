@@ -15,8 +15,16 @@ import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.codegen.jet.IJETNature;
+import org.eclipse.emf.codegen.jet.JETNature;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -28,9 +36,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.PropertyPage;
-
-import org.eclipse.emf.codegen.jet.IJETNature;
-import org.eclipse.emf.codegen.jet.JETNature;
 
 
 public class JETPropertyPage extends PropertyPage implements Listener 
@@ -168,17 +173,26 @@ public class JETPropertyPage extends PropertyPage implements Listener
       IJETNature jetNature = JETNature.getRuntime(project);
       if (jetNature != null) 
       {
-        newJavaSourceContainer = JETNature.getContainer(getJETProject(), javaSourceField.getText());
-        if (newJavaSourceContainer.exists()) 
-        {
-          // jetNature.setJavaSourceContainer(newJavaSourceContainer);
-          setErrorMessage(null);
-        }
-        else 
+        String sourceContainer = javaSourceField.getText();
+        if (new Path(sourceContainer).isAbsolute())
         {
           setErrorMessage
             (CodeGenUIPlugin.getPlugin().getString
-               ("_UI_ContainerDoesNotExist_message", new String [] { newJavaSourceContainer.toString() }));
+               ("_UI_ContainerNotRelative_message", new String [] { sourceContainer }));
+        }
+        else
+        {
+          newJavaSourceContainer = JETNature.getContainer(getJETProject(), sourceContainer);
+          if (newJavaSourceContainer.exists()) 
+          {
+            setErrorMessage(null);
+          }
+          else 
+          {
+            setErrorMessage
+              (CodeGenUIPlugin.getPlugin().getString
+                 ("_UI_ContainerDoesNotExist_message", new String [] { newJavaSourceContainer.getFullPath().toString() }));
+          }
         }
       }
     }
@@ -188,7 +202,32 @@ public class JETPropertyPage extends PropertyPage implements Listener
   public boolean performOk() 
   {
     performApply();
-    return super.performOk();
+    if (super.performOk())
+    {
+      new Job("Build JET Project")
+        {
+          @Override
+          protected IStatus run(IProgressMonitor monitor)
+          {
+            try
+            {
+              project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+            }
+            catch (CoreException exception)
+            {
+              CodeGenUIPlugin.getPlugin().log(exception);
+            }
+
+            return Status.OK_STATUS;
+          }
+        }.schedule();
+        
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 
   @Override

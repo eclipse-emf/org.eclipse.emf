@@ -11,140 +11,416 @@
 package org.eclipse.emf.codegen.jet;
 
 
+import java.util.List;
+
 
 /**
  * The JETCharDataGenerator generates strings for the character data present in the template file.
  */
-public class JETCharDataGenerator
-  implements JETGenerator
+public class JETCharDataGenerator implements JETGenerator, JETGenerator.BuilderSensitive, JETJavaGenerator
 {
+  /**
+   * @since 2.19
+   */
+  protected static final String FUNCTION_CALL_BEGIN_APPEND = ".append(";
+
   protected static final String FUNCTION_CALL_BEGIN = "stringBuffer.append(";
+
   protected static final String FUNCTION_CALL_END = ");";
+
   protected static final String NEW_LINE_BEGIN = "NL + ";
+
   protected static final String NEW_LINE_MIDDLE = "\" + NL + \"";
+
   protected static final String NEW_LINE_END = " + NL";
 
   protected char[] characters;
 
-  public JETCharDataGenerator(char[] characters) 
+  /**
+   * @since 2.19
+   */
+  protected String builderName;
+
+  /**
+   * @since 2.19
+   */
+  protected JETLiteralItem literalItem;
+
+  public JETCharDataGenerator(char[] characters)
   {
     this.characters = characters;
   }
 
-  public String generate() 
+  public String generate()
   {
-    StringBuffer stringBuffer = new StringBuffer(characters.length + 16);
-    stringBuffer.append(FUNCTION_CALL_BEGIN);
-    stringBuffer.append(generateCharData());
-    stringBuffer.append(FUNCTION_CALL_END);
-    return stringBuffer.toString();
+    StringBuilder builder = new StringBuilder(characters.length + 16);
+    if (builderName == null)
+    {
+      builder.append(FUNCTION_CALL_BEGIN);
+    }
+    else
+    {
+      builder.append(builderName);
+      builder.append(FUNCTION_CALL_BEGIN_APPEND);
+    }
+
+    builder.append(generateValue());
+
+    builder.append(FUNCTION_CALL_END);
+    return builder.toString();
   }
 
-  protected String generateCharData() 
+  /**
+   * @since 2.19
+   */
+  protected String generateValue()
   {
-    StringBuffer stringBuffer = new StringBuffer();
-    StringBuffer stringBufferTail = new StringBuffer();
-    int limit = characters.length - 1;
+    return generateCharData();
+  }
 
-     buildEnd:
-     while (limit >= 0)
-     {
-       char ch = characters[limit];
-       switch (ch)
-       {
-         case '\r':
-         {
-           break;
-         }
-         case '\n':
-         {
-           stringBufferTail.append(NEW_LINE_END);
-           break;
-         }
-         default:
-         {
-           limit++;
-           break buildEnd;
-         }
-       }
-       limit--;
-     }
+  /**
+   * @since 2.19
+   */
+  public void setBuilderName(String builderName)
+  {
+    this.builderName = builderName;
+  }
 
-     if (limit < 0)
-     {
-       if (stringBufferTail.length() == 0)
-       {
-         stringBuffer.append("\"\"");
-       }
-       else
-       {
-         stringBuffer.append(stringBufferTail.toString().substring(3));
-       }
-     }
-     else
-     {
-       int i = 0;
-       buildFront:
-       for (; i <= limit; i ++ )
-       {
-         char ch = characters[i];
-         switch (ch)
-         {
-           case '\r':
-           {
-             break;
-           }
-           case '\n':
-           {
-             stringBuffer.append(NEW_LINE_BEGIN);
-             break;
-           }
-           default:
-           {
-             break buildFront;
-           }
-         }
-       }
- 
-       stringBuffer.append('"');
-       for (; i < limit; i++) 
-       {
-         char ch = characters[i];
-         switch (ch) 
-         {
-           case '"':
-           {
-             stringBuffer.append("\\\"");
-             break;
-           }
-           case '\\':
-           {
-             stringBuffer.append("\\\\");
-             break;
-           }
+  /**
+   * @since 2.19
+   */
+  public JETLiteralItem getLiteralItem()
+  {
+    return literalItem;
+  }
+
+  /**
+   * @since 2.19
+   */
+  public void setLiteralItem(JETLiteralItem literalItem)
+  {
+    this.literalItem = literalItem;
+  }
+
+  /**
+   * @since 2.19
+   */
+  public JETJavaItem getJavaItem()
+  {
+    return literalItem;
+  }
+
+  /**
+   * @since 2.19
+   */
+  public int getRelativeJavaOffset()
+  {
+    return builderName == null ? FUNCTION_CALL_BEGIN.length() : builderName.length() + FUNCTION_CALL_BEGIN_APPEND.length();
+  }
+
+  /**
+   * @since 2.19
+   */
+  private JETLiteralItem getLastItem()
+  {
+    if (literalItem == null)
+    {
+      return null;
+    }
+    else
+    {
+      List<JETLiteralItem> explode = literalItem.explode();
+      return explode.get(explode.size() - 1);
+    }
+  }
+
+  /**
+   * @since 2.19
+   */
+  public JETMark getStart()
+  {
+    JETLiteralItem lastItem = getLastItem();
+    return lastItem == null ? null : lastItem.getStart();
+  }
+
+  /**
+   * @since 2.19
+   */
+  public JETMark getStop()
+  {
+    JETLiteralItem lastItem = getLastItem();
+    return lastItem == null ? null : lastItem.getStop();
+  }
+
+  /**
+   * @since 2.19
+   */
+  public int getJavaLength()
+  {
+    return generateValue().length();
+  }
+
+  /**
+   * @since 2.19
+   */
+  protected boolean isConsumeWhitespace()
+  {
+    return false;
+  }
+
+  /**
+   * @since 2.19
+   */
+  protected int generateNewLineFeedBegin(StringBuilder builder, int offset)
+  {
+    int i = 0;
+    int lineEndLength = 0;
+    int lineOffset = -1;
+    for (; i <= offset; i++)
+    {
+      char ch = characters[i];
+      switch (ch)
+      {
+        case '\r':
+        {
+          break;
+        }
+        case '\n':
+        {
+          if (lineOffset != -1)
+          {
+            builder.append(generateNewLine(lineOffset, lineEndLength));
+            builder.append(" + ");
+            lineEndLength = 0;
+          }
+
+          ++lineEndLength;
+          lineOffset = i;
+          break;
+        }
+        case ' ':
+        case '\t':
+        {
+          if (lineOffset != -1 && isConsumeWhitespace())
+          {
+            ++lineEndLength;
+            break;
+          }
+        }
+        default:
+        {
+          if (lineEndLength > 0)
+          {
+            builder.append(generateNewLine(lineOffset, lineEndLength));
+            builder.append(" + ");
+          }
+
+          return i;
+        }
+      }
+    }
+
+    return i;
+  }
+
+  /**
+   * @since 2.19
+   */
+  protected int generateNewLineMiddle(StringBuilder builder, int offset, int limit)
+  {
+    int lineOffset = offset;
+    int lineLength = 1;
+    if (isConsumeWhitespace())
+    {
+      LOOP: for (int i = offset + 1; i < limit; ++i)
+      {
+        char ch = characters[i];
+        switch (ch)
+        {
           case '\r':
           {
-            continue;
+            break;
           }
           case '\n':
           {
-            stringBuffer.append(NEW_LINE_MIDDLE);
+            builder.append(generateNewLine(lineOffset, lineLength));
+            builder.append(" + ");
+            lineOffset = i;
+            lineLength = 1;
+            break;
+          }
+          case ' ':
+          case '\t':
+          {
+            if (isConsumeWhitespace())
+            {
+              ++lineLength;
+              break;
+            }
+          }
+          default:
+          {
+            break LOOP;
+          }
+        }
+      }
+    }
+
+    builder.append(generateNewLine(lineOffset, lineLength));
+
+    return lineOffset + lineLength - 1;
+  }
+
+  /**
+   * @since 2.19
+   */
+  protected int generateNewLineEnd(StringBuilder builder)
+  {
+    int offset = characters.length - 1;
+    int lineEndLength = 0;
+    BUILDER_END: while (offset >= 0)
+    {
+      char ch = characters[offset];
+      switch (ch)
+      {
+        case '\r':
+        {
+          break;
+        }
+        case '\n':
+        {
+          if (builder.length() != 0)
+          {
+            builder.insert(0, " + ");
+          }
+          builder.insert(0, generateNewLine(offset, ++lineEndLength));
+          lineEndLength = 0;
+          break;
+        }
+        case ' ':
+        case '\t':
+        {
+          if (isConsumeWhitespace() && offset > 0)
+          {
+            ++lineEndLength;
+            break;
+          }
+        }
+        default:
+        {
+          offset += lineEndLength + 1;
+          break BUILDER_END;
+        }
+      }
+
+      offset--;
+    }
+
+    if (offset < 0)
+    {
+      if (builder.length() == 0)
+      {
+        builder.append("\"\"");
+      }
+    }
+    else if (builder.length() != 0)
+    {
+      builder.insert(0, " + ");
+    }
+
+    return offset;
+  }
+
+  /**
+   * @since 2.19
+   */
+  protected String generateNewLine(int offset, int length)
+  {
+    if (length != 1)
+    {
+      System.err.println("###");
+    }
+
+    return "NL";
+  }
+
+  /**
+   * @since 2.19
+   */
+  protected String generateLiteral(StringBuilder literalBody)
+  {
+    return '"' + literalBody.toString() + '"';
+  }
+
+  protected String generateCharData()
+  {
+    StringBuilder builderTail = new StringBuilder();
+    int limit = generateNewLineEnd(builderTail);
+    if (limit < 0)
+    {
+      return builderTail.toString();
+    }
+    else
+    {
+      StringBuilder builder = new StringBuilder();
+
+      StringBuilder builderHead = new StringBuilder();
+      int i = generateNewLineFeedBegin(builderHead, limit);
+      builder.append(builderHead);
+
+      StringBuilder literalBuilder = new StringBuilder();
+
+      for (; i < limit; i++)
+      {
+        char ch = characters[i];
+        switch (ch)
+        {
+          case '"':
+          {
+            literalBuilder.append("\\\"");
+            break;
+          }
+          case '\\':
+          {
+            literalBuilder.append("\\\\");
+            break;
+          }
+          case '\r':
+          {
+            break;
+          }
+          case '\n':
+          {
+            String literal = generateLiteral(literalBuilder);
+
+            builder.append(literal);
+            builder.append(" + ");
+            i = generateNewLineMiddle(builder, i, limit);
+            builder.append(" + ");
+            literalBuilder.setLength(0);
             break;
           }
           case '\t':
           {
-            stringBuffer.append("\\t");
+            literalBuilder.append("\\t");
             break;
           }
           default:
           {
-            stringBuffer.append(ch);
+            literalBuilder.append(ch);
+            break;
           }
         }
       }
-      stringBuffer.append('"');
-      stringBuffer.append(stringBufferTail.toString());
+
+      builder.append(generateLiteral(literalBuilder));
+      builder.append(builderTail);
+      return builder.toString();
     }
-    return stringBuffer.toString();
+  }
+
+  protected JETCharDataGenerator copy()
+  {
+    return new JETCharDataGenerator(characters);
   }
 }

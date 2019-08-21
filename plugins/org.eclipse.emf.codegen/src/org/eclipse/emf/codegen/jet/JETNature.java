@@ -21,8 +21,10 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.WeakHashMap;
 
@@ -35,13 +37,6 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.Text;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
@@ -60,37 +55,50 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-
 import org.eclipse.emf.codegen.CodeGenPlugin;
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaCore;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.Text;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 
-public class JETNature implements IJETNature 
+public class JETNature implements IJETNature
 {
   /**
    * Get a JETNature that corresponds to the supplied project.
    * @return JETNature
    * @param project IProject
    */
-  public static JETNature getRuntime(IProject project) 
+  public static JETNature getRuntime(IProject project)
   {
-    try 
+    try
     {
-      JETNature a = (JETNature) project.getNature(IJETNature.NATURE_ID);
+      JETNature a = (JETNature)project.getNature(IJETNature.NATURE_ID);
       return a;
-    } 
-    catch (CoreException e) 
+    }
+    catch (CoreException e)
     {
       return null;
     }
   }
 
   protected static final String BUILDER = "JETBuilder";
+
   protected static final String DEFAULT_TEMPLATE_CONTAINER_NAME = "templates";
+
   protected static final String JET_NATURE_PROPERTIES_FILE = ".jetproperties";
+
   protected static final String TEMPLATE_CONTAINER_NODE = "template-container";
+
   protected static final String SOURCE_CONTAINER_NODE = "source-container";
+
   protected static final String JET_SETTINGS_NODE = "jet-settings";
 
   private static final Map<JETNature, Void> JET_NATURES = new WeakHashMap<JETNature, Void>();
@@ -103,21 +111,19 @@ public class JETNature implements IJETNature
     try
     {
       workspace = ResourcesPlugin.getWorkspace();
-      workspace.addResourceChangeListener
-        (new IResourceChangeListener()
-         {
-           public void resourceChanged(IResourceChangeEvent event)
-           {
-             targetPlatformBundleRedirections = null;
-             for (JETNature jetNature : JET_NATURES.keySet())
-             {
-               jetNature.jetJavaSourceContainer = null;
-               jetNature.jetTemplateContainers = null;
-               jetNature.jetTemplateSourceContainers = null;
-             }
-           }
-         },
-         IResourceChangeEvent.PRE_BUILD);
+      workspace.addResourceChangeListener(new IResourceChangeListener()
+        {
+          public void resourceChanged(IResourceChangeEvent event)
+          {
+            targetPlatformBundleRedirections = null;
+            for (JETNature jetNature : JET_NATURES.keySet())
+            {
+              jetNature.jetJavaSourceContainer = null;
+              jetNature.jetTemplateContainers = null;
+              jetNature.jetTemplateSourceContainers = null;
+            }
+          }
+        }, IResourceChangeEvent.PRE_BUILD);
     }
     catch (IllegalStateException exception)
     {
@@ -130,84 +136,87 @@ public class JETNature implements IJETNature
   private static Map<String, URI> targetPlatformBundleRedirections;
 
   protected IProject jetProject;
+
   protected List<Object> jetTemplateContainers;
+
   protected List<Object> jetTemplateSourceContainers;
+
   protected IContainer jetJavaSourceContainer;
 
   /**
    * Constructor for JETNature.
    */
-  public JETNature() 
+  public JETNature()
   {
     super();
     JET_NATURES.put(this, null);
   }
 
-  public List<Object> getTemplateContainers() 
+  public List<Object> getTemplateContainers()
   {
-    if (jetTemplateContainers == null) 
+    if (jetTemplateContainers == null)
     {
       jetTemplateContainers = getTemplateContainersFromFile();
     }
     return jetTemplateContainers;
   }
-  
-  public List<Object> getTemplateSourceContainers() 
+
+  public List<Object> getTemplateSourceContainers()
   {
-    if (jetTemplateSourceContainers == null) 
+    if (jetTemplateSourceContainers == null)
     {
       jetTemplateSourceContainers = getTemplateSourceContainersFromFile();
     }
     return jetTemplateSourceContainers;
   }
 
-  public IContainer getJavaSourceContainer() 
+  public IContainer getJavaSourceContainer()
   {
-    if (jetJavaSourceContainer == null) 
+    if (jetJavaSourceContainer == null)
     {
       jetJavaSourceContainer = getJavaSourceContainerFromFile();
     }
     return jetJavaSourceContainer;
   }
 
-  public void setTemplateContainers(List<Object> templateContainers) 
+  public void setTemplateContainers(List<Object> templateContainers)
   {
     setTemplateContainers(templateContainers, templateContainers);
   }
-  
-  public void setTemplateContainers(List<Object> templateContainers, List<Object> templateSourceContainers) 
+
+  public void setTemplateContainers(List<Object> templateContainers, List<Object> templateSourceContainers)
   {
     jetTemplateContainers = templateContainers;
     jetTemplateSourceContainers = templateSourceContainers;
-    try 
+    try
     {
       setTemplateContainersToFile(templateContainers, templateSourceContainers);
-    } 
-    catch (CoreException e) 
+    }
+    catch (CoreException e)
     {
       CodeGenPlugin.write(e);
     }
   }
 
-  public void setJavaSourceContainer(IContainer javaSourceContainer) 
+  public void setJavaSourceContainer(IContainer javaSourceContainer)
   {
     jetJavaSourceContainer = javaSourceContainer;
-    try 
+    try
     {
       setJavaSourceContainerToFile(javaSourceContainer);
-    } 
-    catch (CoreException e) 
+    }
+    catch (CoreException e)
     {
       CodeGenPlugin.write(e);
     }
   }
 
-  public void configure() throws CoreException 
+  public void configure() throws CoreException
   {
     configure(new NullProgressMonitor());
   }
 
-  public void configure(IProgressMonitor monitor) throws CoreException 
+  public void configure(IProgressMonitor monitor) throws CoreException
   {
     setDefaults(monitor);
 
@@ -215,7 +224,7 @@ public class JETNature implements IJETNature
     //
     addToFrontOfBuildSpec(CodeGenPlugin.INSTANCE.getSymbolicName() + "." + BUILDER);
   }
-  
+
   /**
    * Sets the containers to their defaults.
    */
@@ -226,27 +235,27 @@ public class JETNature implements IJETNature
 
     // Create .jetproperties file
     //
-    try 
+    try
     {
       createDefaultJETSettingsFile(getTemplateContainers(), getJavaSourceContainer());
-    } 
-    catch (IOException e) 
+    }
+    catch (IOException e)
     {
       CodeGenPlugin.write(e);
-    }  
+    }
   }
 
-  public void deconfigure() throws CoreException 
+  public void deconfigure() throws CoreException
   {
     // Do nothing
   }
 
-  public IProject getProject() 
+  public IProject getProject()
   {
     return jetProject;
   }
 
-  public void setProject(IProject project) 
+  public void setProject(IProject project)
   {
     jetProject = project;
   }
@@ -254,13 +263,13 @@ public class JETNature implements IJETNature
   /**
    * Initializes the template container.
    */
-  protected void initTemplateContainer(IProgressMonitor monitor) throws CoreException 
+  protected void initTemplateContainer(IProgressMonitor monitor) throws CoreException
   {
     IContainer templateFolder = getContainer(getProject(), DEFAULT_TEMPLATE_CONTAINER_NAME);
 
-    if (templateFolder instanceof IFolder && !templateFolder.exists()) 
+    if (templateFolder instanceof IFolder && !templateFolder.exists())
     {
-      ((IFolder) templateFolder).create(true, true, monitor);
+      ((IFolder)templateFolder).create(true, true, monitor);
     }
 
     jetTemplateContainers = new ArrayList<Object>();
@@ -272,10 +281,11 @@ public class JETNature implements IJETNature
   /**
    * Initializes the Java Source Container
    */
-  protected void initJavaSourceContainer(IProgressMonitor monitor) throws CoreException 
+  protected void initJavaSourceContainer(IProgressMonitor monitor) throws CoreException
   {
-    IContainer sourceFolder = getContainer(getProject(), getDefaultSourcePath());
-    if (sourceFolder instanceof IFolder && !sourceFolder.exists()) 
+    IProject project = getProject();
+    IContainer sourceFolder = getContainer(project, getDefaultSourcePath(project));
+    if (sourceFolder instanceof IFolder && !sourceFolder.exists())
     {
       ((IFolder)sourceFolder).create(true, true, monitor);
     }
@@ -286,33 +296,62 @@ public class JETNature implements IJETNature
   /**
    * Returns the project's root directory
    */
-  protected IPath getDefaultSourcePath() 
+  protected IPath getDefaultSourcePath()
   {
     IPath path = new Path("");
     return path;
   }
 
   /**
+   * Returns the project's root directory
+   *
+   * @since 2.19
+   */
+  protected IPath getDefaultSourcePath(IProject project)
+  {
+    IJavaProject javaProject = JavaCore.create(project);
+    if (javaProject != null)
+    {
+      try
+      {
+        for (IPackageFragmentRoot packageFragmentRoot : javaProject.getPackageFragmentRoots())
+        {
+          if (packageFragmentRoot.getKind() == IPackageFragmentRoot.K_SOURCE)
+          {
+            IResource resource = packageFragmentRoot.getResource();
+            return resource.getProjectRelativePath();
+          }
+        }
+      }
+      catch (Exception ex)
+      {
+        // Ignore and use the default.
+      }
+    }
+    return getDefaultSourcePath();
+  }
+
+  /**
    * Adds a builder to the build specification for the given project.
    */
-  protected void addToFrontOfBuildSpec(String builderID) throws CoreException 
+  protected void addToFrontOfBuildSpec(String builderID) throws CoreException
   {
     IProjectDescription description = getProject().getDescription();
     ICommand[] commands = description.getBuildSpec();
     boolean found = false;
-    for (int i = 0; i < commands.length; ++i) 
+    for (int i = 0; i < commands.length; ++i)
     {
-      if (commands[i].getBuilderName().equals(builderID)) 
+      if (commands[i].getBuilderName().equals(builderID))
       {
         found = true;
         break;
       }
     }
-    if (!found) 
+    if (!found)
     {
       ICommand command = description.newCommand();
       command.setBuilderName(builderID);
-      ICommand [] newCommands = new ICommand [commands.length + 1];
+      ICommand[] newCommands = new ICommand [commands.length + 1];
       System.arraycopy(commands, 0, newCommands, 1, commands.length);
       newCommands[0] = command;
       description.setBuildSpec(newCommands);
@@ -323,31 +362,31 @@ public class JETNature implements IJETNature
   /**
    * Returns the template path from the .jetproperties file.
    */
-  public List<Object> getTemplateContainersFromFile() 
+  public List<Object> getTemplateContainersFromFile()
   {
     List<Object> result = Collections.emptyList();
 
-    try 
+    try
     {
       Document document = parseJETSettings();
-      if (document != null) 
+      if (document != null)
       {
         result = getContainerValues(document.getDocumentElement(), TEMPLATE_CONTAINER_NODE, false);
-      } 
-      else 
+      }
+      else
       {
         setDefaults(new NullProgressMonitor());
         result = getTemplateContainers();
       }
-    } 
-    catch (Exception e) 
+    }
+    catch (Exception e)
     {
-      try 
+      try
       {
         setDefaults(new NullProgressMonitor());
         result = getTemplateContainers();
-      } 
-      catch (Exception ex) 
+      }
+      catch (Exception ex)
       {
         CodeGenPlugin.write(ex);
       }
@@ -355,35 +394,35 @@ public class JETNature implements IJETNature
 
     return result;
   }
-  
+
   /**
    * Returns the template source path from the .jetproperties file.
    */
-  protected List<Object> getTemplateSourceContainersFromFile() 
+  protected List<Object> getTemplateSourceContainersFromFile()
   {
     List<Object> result = Collections.emptyList();
 
-    try 
+    try
     {
       Document document = parseJETSettings();
-      if (document != null) 
+      if (document != null)
       {
         result = getContainerValues(document.getDocumentElement(), TEMPLATE_CONTAINER_NODE, true);
-      } 
-      else 
+      }
+      else
       {
         setDefaults(new NullProgressMonitor());
         result = getTemplateContainers();
       }
-    } 
-    catch (Exception e) 
+    }
+    catch (Exception e)
     {
-      try 
+      try
       {
         setDefaults(new NullProgressMonitor());
         result = getTemplateContainers();
-      } 
-      catch (Exception ex) 
+      }
+      catch (Exception ex)
       {
         CodeGenPlugin.write(ex);
       }
@@ -395,32 +434,32 @@ public class JETNature implements IJETNature
   /**
    * Returns the template file from the .jetproperties file
    */
-  public IContainer getJavaSourceContainerFromFile() 
+  public IContainer getJavaSourceContainerFromFile()
   {
     IContainer result = null;
 
-    try 
+    try
     {
       Document document = parseJETSettings();
-      if (document != null) 
+      if (document != null)
       {
         result = getContainerValue(document.getDocumentElement(), SOURCE_CONTAINER_NODE);
 
-      } 
-      else 
+      }
+      else
       {
         setDefaults(new NullProgressMonitor());
         result = getJavaSourceContainer();
       }
-    } 
-    catch (Exception e) 
+    }
+    catch (Exception e)
     {
-      try 
+      try
       {
         setDefaults(new NullProgressMonitor());
         result = getJavaSourceContainer();
-      } 
-      catch (Exception ex) 
+      }
+      catch (Exception ex)
       {
         CodeGenPlugin.write(ex);
       }
@@ -432,18 +471,14 @@ public class JETNature implements IJETNature
   /**
    * Parse the JET settings file for the  root element.
    */
-  protected Document parseJETSettings() throws ParserConfigurationException, SAXException, IOException, CoreException 
+  protected Document parseJETSettings() throws ParserConfigurationException, SAXException, IOException, CoreException
   {
     Document document = null;
     StringReader reader = readJETSettingFile();
-    if (reader != null) 
+    if (reader != null)
     {
-      DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-      documentBuilderFactory.setNamespaceAware(true);
-      documentBuilderFactory.setValidating(false);
-      DocumentBuilder parser = documentBuilderFactory.newDocumentBuilder();
-      document = parser.parse(new InputSource(reader));
-      if (!document.getDocumentElement().getNodeName().equalsIgnoreCase(JET_SETTINGS_NODE)) 
+      document = fromInputSource(new InputSource(reader));
+      if (!document.getDocumentElement().getNodeName().equalsIgnoreCase(JET_SETTINGS_NODE))
       {
         CodeGenPlugin.write(new IOException(CodeGenPlugin.getPlugin().getString("_UI_MalformedJETPropertiesFile_exception")));
       }
@@ -455,12 +490,12 @@ public class JETNature implements IJETNature
   /**
    * Open the JET Settings file and return a StringReader on the contents
    */
-  protected StringReader readJETSettingFile() throws CoreException, IOException 
+  protected StringReader readJETSettingFile() throws CoreException, IOException
   {
     StringReader reader = null;
 
     IFile jetSettingsFile = getProject().getFile(JET_NATURE_PROPERTIES_FILE);
-    if (jetSettingsFile.exists()) 
+    if (jetSettingsFile.exists())
     {
       InputStream input = jetSettingsFile.getContents(true);
 
@@ -473,15 +508,15 @@ public class JETNature implements IJETNature
   /**
    * Returns the containers defined from the base Element passed in.
    */
-  protected List<Object> getContainerValues(Element element, String localName) 
+  protected List<Object> getContainerValues(Element element, String localName)
   {
     return getContainerValues(element, localName, false);
   }
-  
+
   /**
    * Returns the containers defined from the base Element passed in with entries starting with @ filtered out.
    */
-  protected List<Object> getContainerValues(Element element, String localName, boolean filter) 
+  protected List<Object> getContainerValues(Element element, String localName, boolean filter)
   {
     List<Object> result = new ArrayList<Object>();
     Element childElement = getChildWithLocalName(element, localName);
@@ -505,7 +540,7 @@ public class JETNature implements IJETNature
   /**
    * Returns the container defined from the base Element passed in.
    */
-  protected IContainer getContainerValue(Element element, String localName) 
+  protected IContainer getContainerValue(Element element, String localName)
   {
     IContainer result = null;
     Element childElement = getChildWithLocalName(element, localName);
@@ -526,15 +561,15 @@ public class JETNature implements IJETNature
     return result;
   }
 
-  protected void setContainerValues(List<Object> containers, Element element, String localName) 
+  protected void setContainerValues(List<Object> containers, Element element, String localName)
   {
     setContainerValues(containers, containers, element, localName);
   }
-  
+
   /**
    * Sets the template container locations in the settings file
    */
-  protected void setContainerValues(List<Object> containers, List<Object> sourceContainers, Element element, String localName) 
+  protected void setContainerValues(List<Object> containers, List<Object> sourceContainers, Element element, String localName)
   {
     Element childElement = getChildWithLocalName(element, localName);
     Text text = null;
@@ -561,7 +596,7 @@ public class JETNature implements IJETNature
   /**
    * Sets the template container location in the settings file
    */
-  protected void setContainerValue(IContainer container, Element element, String localName) 
+  protected void setContainerValue(IContainer container, Element element, String localName)
   {
     Element childElement = getChildWithLocalName(element, localName);
     Text text = null;
@@ -588,7 +623,7 @@ public class JETNature implements IJETNature
   /**
    * Returns the child with the given local name.
    */
-  protected Element getChildWithLocalName(Element element, String localName) 
+  protected Element getChildWithLocalName(Element element, String localName)
   {
     for (Node child = element.getFirstChild(); child != null; child = child.getNextSibling())
     {
@@ -608,84 +643,84 @@ public class JETNature implements IJETNature
   /**
    * Reads an input stream and converts it to bytes
    */
-  public static byte[] readContentsAsBytes(InputStream input) throws IOException 
+  public static byte[] readContentsAsBytes(InputStream input) throws IOException
   {
     BufferedInputStream bufferedInputStream = null;
-    try 
+    try
     {
       final int BUF_SIZE = 8192;
-      byte[] buf = new byte[BUF_SIZE];
+      byte[] buf = new byte [BUF_SIZE];
       int read;
       int totalRead = 0;
       bufferedInputStream = new BufferedInputStream(input);
-      while (totalRead < BUF_SIZE && (read = bufferedInputStream.read(buf, totalRead, BUF_SIZE - totalRead)) != -1) 
+      while (totalRead < BUF_SIZE && (read = bufferedInputStream.read(buf, totalRead, BUF_SIZE - totalRead)) != -1)
       {
         totalRead += read;
       }
-      if (totalRead < BUF_SIZE) 
+      if (totalRead < BUF_SIZE)
       {
-        byte[] result = new byte[totalRead];
+        byte[] result = new byte [totalRead];
         System.arraycopy(buf, 0, result, 0, totalRead);
         return result;
       }
       ByteArrayOutputStream out = new ByteArrayOutputStream(BUF_SIZE * 2);
       out.write(buf);
-      while ((read = bufferedInputStream.read(buf, 0, BUF_SIZE)) != -1) 
+      while ((read = bufferedInputStream.read(buf, 0, BUF_SIZE)) != -1)
       {
         out.write(buf, 0, read);
       }
       return out.toByteArray();
-    } 
-    finally 
+    }
+    finally
     {
-      try 
+      try
       {
-        if (bufferedInputStream != null) 
+        if (bufferedInputStream != null)
         {
           bufferedInputStream.close();
         }
-      } 
-      catch (IOException e) 
+      }
+      catch (IOException e)
       {
         CodeGenPlugin.write(e);
       }
     }
   }
 
-  public void setTemplateContainersToFile(List<Object> templateContainers) throws CoreException 
+  public void setTemplateContainersToFile(List<Object> templateContainers) throws CoreException
   {
     setTemplateContainersToFile(templateContainers, templateContainers);
   }
-  
+
   /**
    * Writes the Template Container Location to a file
    */
-  public void setTemplateContainersToFile(List<Object> templateContainers, List<Object> templateSourceContainers) throws CoreException 
+  public void setTemplateContainersToFile(List<Object> templateContainers, List<Object> templateSourceContainers) throws CoreException
   {
     Document document;
-    try 
+    try
     {
-      try 
+      try
       {
         document = parseJETSettings();
-        if (document != null) 
+        if (document != null)
         {
           setContainerValues(templateContainers, templateSourceContainers, document.getDocumentElement(), TEMPLATE_CONTAINER_NODE);
           commitXML(document);
-        } 
-        else 
+        }
+        else
         {
           initJavaSourceContainer(new NullProgressMonitor());
           createDefaultJETSettingsFile(templateContainers, getJavaSourceContainer());
         }
-      } 
-      catch (Exception e) 
+      }
+      catch (Exception e)
       {
         initJavaSourceContainer(new NullProgressMonitor());
         createDefaultJETSettingsFile(templateContainers, templateSourceContainers, getJavaSourceContainer());
       }
-    } 
-    catch (Exception e) 
+    }
+    catch (Exception e)
     {
       CodeGenPlugin.write(e);
     }
@@ -694,48 +729,46 @@ public class JETNature implements IJETNature
   /**
    * Writes the Java Source Container Location to a file
    */
-  public void setJavaSourceContainerToFile(IContainer sourceContainer) throws CoreException 
+  public void setJavaSourceContainerToFile(IContainer sourceContainer) throws CoreException
   {
     Document document;
-    try 
+    try
     {
-      try 
+      try
       {
         document = parseJETSettings();
-        if (document != null) 
+        if (document != null)
         {
           setContainerValue(sourceContainer, document.getDocumentElement(), SOURCE_CONTAINER_NODE);
           commitXML(document);
-        } 
-        else 
+        }
+        else
         {
           initTemplateContainer(new NullProgressMonitor());
           createDefaultJETSettingsFile(getTemplateContainers(), sourceContainer);
         }
-      } 
-      catch (Exception e) 
+      }
+      catch (Exception e)
       {
         initTemplateContainer(new NullProgressMonitor());
         createDefaultJETSettingsFile(getTemplateContainers(), sourceContainer);
       }
-    } 
-    catch (Exception e) 
+    }
+    catch (Exception e)
     {
       CodeGenPlugin.write(e);
     }
   }
 
-  protected void createDefaultJETSettingsFile(List<Object> templateContainers, IContainer sourceContainer) 
-    throws CoreException, IOException 
+  protected void createDefaultJETSettingsFile(List<Object> templateContainers, IContainer sourceContainer) throws CoreException, IOException
   {
     createDefaultJETSettingsFile(templateContainers, templateContainers, sourceContainer);
   }
-  
+
   /**
    * Writes the default file 
    */
-  protected void createDefaultJETSettingsFile(List<Object> templateContainers, List<Object> templateSourceContainers, IContainer sourceContainer) 
-    throws CoreException, IOException 
+  protected void createDefaultJETSettingsFile(List<Object> templateContainers, List<Object> templateSourceContainers, IContainer sourceContainer) throws CoreException, IOException
   {
     StringWriter writer = new StringWriter();
     // Create a default .jetsettings file file
@@ -744,28 +777,14 @@ public class JETNature implements IJETNature
     writer.write("\n");
     writer.write("<" + JET_SETTINGS_NODE + ">");
     writer.write("\n");
-    writer.write(
-      "\t<"
-        + TEMPLATE_CONTAINER_NODE
-        + ">"
-        + getContainers(jetProject, templateContainers, templateSourceContainers)
-        + "</"
-        + TEMPLATE_CONTAINER_NODE
-        + ">");
-    writer.write(
-      "\t<"
-        + SOURCE_CONTAINER_NODE
-        + ">"
-        + sourceContainer.getProjectRelativePath().toString()
-        + "</"
-        + SOURCE_CONTAINER_NODE
-        + ">");
+    writer.write("\t<" + TEMPLATE_CONTAINER_NODE + ">" + getContainers(jetProject, templateContainers, templateSourceContainers) + "</" + TEMPLATE_CONTAINER_NODE + ">");
+    writer.write("\t<" + SOURCE_CONTAINER_NODE + ">" + sourceContainer.getProjectRelativePath().toString() + "</" + SOURCE_CONTAINER_NODE + ">");
     writer.write("\n");
     writer.write("</" + JET_SETTINGS_NODE + ">");
     writer.write("\n");
 
     IFile jetSettingsFile = getProject().getFile(JET_NATURE_PROPERTIES_FILE);
-    InputStream sourceStream = new ByteArrayInputStream(writer.toString().getBytes());
+    InputStream sourceStream = new ByteArrayInputStream(writer.toString().getBytes("UTF-8"));
     if (jetSettingsFile.exists())
     {
       jetSettingsFile.setContents(sourceStream, true, true, null);
@@ -778,28 +797,11 @@ public class JETNature implements IJETNature
     sourceStream.close();
   }
 
-
-  protected void commitXML(Document document) throws CoreException, ClassNotFoundException, IOException 
+  protected void commitXML(Document document) throws CoreException, ClassNotFoundException, IOException
   {
+    String documentXML = toString(document);
     IFile jetSettingsFile = getProject().getFile(JET_NATURE_PROPERTIES_FILE);
-
-    StringWriter writer = new StringWriter();
-    TransformerFactory transformerFactory = TransformerFactory.newInstance();
-    try
-    {
-      Transformer transformer = transformerFactory.newTransformer();
-
-      transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-      transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-
-      transformer.transform(new DOMSource(document), new StreamResult(writer));
-    }
-    catch (TransformerException exception)
-    {
-      CodeGenPlugin.write(exception);
-    }
-
-    InputStream sourceStream = new ByteArrayInputStream(writer.toString().getBytes());
+    InputStream sourceStream = new ByteArrayInputStream(documentXML.getBytes("UTF-8"));
     if (jetSettingsFile.exists())
     {
       jetSettingsFile.setContents(sourceStream, true, true, null);
@@ -812,7 +814,7 @@ public class JETNature implements IJETNature
     sourceStream.close();
   }
 
-  public static IContainer getContainer(IProject project, IPath path) 
+  public static IContainer getContainer(IProject project, IPath path)
   {
     IContainer result = project;
     if (!path.isEmpty())
@@ -841,25 +843,28 @@ public class JETNature implements IJETNature
     return result;
   }
 
-  public static IContainer getContainer(IProject project, String path) 
+  public static IContainer getContainer(IProject project, String path)
   {
     return getContainer(project, new Path(path));
   }
 
-  public static List<Object> getContainers(IProject project, String paths) 
+  public static List<Object> getContainers(IProject project, String paths)
   {
-    return getContainers(project, paths, false); 
+    return getContainers(project, paths, false);
   }
-  
-  public static List<Object> getContainers(IProject project, String paths, boolean filter) 
+
+  public static List<Object> getContainers(IProject project, String paths, boolean filter)
   {
     List<Object> result = new ArrayList<Object>();
-    for (StringTokenizer stringTokenizer = new StringTokenizer(paths, " ;"); stringTokenizer.hasMoreTokens(); )
+    for (StringTokenizer stringTokenizer = new StringTokenizer(paths, " ;"); stringTokenizer.hasMoreTokens();)
     {
       String path = stringTokenizer.nextToken();
       if (path.startsWith("@"))
       {
-        if (filter) continue;
+        if (filter)
+        {
+          continue;
+        }
         path = path.substring(1);
       }
       IContainer container = getContainer(project, new Path(path));
@@ -881,12 +886,12 @@ public class JETNature implements IJETNature
 
   public static String getContainers(IProject project, List<Object> containers)
   {
-    return getContainers(project, containers, containers); 
+    return getContainers(project, containers, containers);
   }
-  
+
   public static String getContainers(IProject project, List<Object> containers, List<Object> sourceContainers)
   {
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
     for (Object container : containers)
     {
       if (result.length() != 0)
@@ -911,10 +916,7 @@ public class JETNature implements IJETNature
 
   public static String getContainer(IProject project, IContainer container)
   {
-    return 
-      (project == container.getProject() ?
-        container.getProjectRelativePath() :
-        container.getFullPath()).toString();
+    return (project == container.getProject() ? container.getProjectRelativePath() : container.getFullPath()).toString();
   }
 
   /**
@@ -968,12 +970,82 @@ public class JETNature implements IJETNature
           // and return that result, which does not need to be further resolved because it will be a file: or jar: URI already.
           //
           List<String> segments = uri.segmentsList().subList(2, uri.segmentCount());
-          URI result = targetPlatformBundleLocation.appendSegments(segments.toArray(new String[segments.size()]));
+          URI result = targetPlatformBundleLocation.appendSegments(segments.toArray(new String [segments.size()]));
           return result;
         }
       }
     }
 
     return CommonPlugin.resolve(uri);
+  }
+
+  /**
+   * @since 2.19
+   */
+  public static Set<URI> getIncludingTemplates(URI templateURI)
+  {
+    Set<URI> result = new LinkedHashSet<URI>();
+    for (IProject project : WORKSPACE.getRoot().getProjects())
+    {
+      JETNature jetNature = getRuntime(project);
+      if (jetNature != null)
+      {
+        JETCompileTemplateOperation.State buildState = JETBuilder.getBuildState(project);
+        for (List<URI> list : buildState.getJavaFileToTemplateURIs().values())
+        {
+          int size = list.size();
+          for (int i = 1; i < size; ++i)
+          {
+            if (list.get(i).equals(templateURI))
+            {
+              result.add(list.get(0));
+              break;
+            }
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  static String toString(Document document) throws IOException
+  {
+    StringWriter writer = new StringWriter();
+    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+    try
+    {
+      Transformer transformer = transformerFactory.newTransformer();
+
+      transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+      transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+      transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+
+      transformer.transform(new DOMSource(document), new StreamResult(writer));
+    }
+    catch (TransformerException exception)
+    {
+      IOException ioException = new IOException(exception.getLocalizedMessage());
+      ioException.initCause(exception);
+      throw ioException;
+    }
+    return writer.toString();
+  }
+
+  static Document fromInputSource(InputSource inputSource) throws IOException
+  {
+    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+    documentBuilderFactory.setNamespaceAware(true);
+    documentBuilderFactory.setValidating(false);
+    try
+    {
+      DocumentBuilder parser = documentBuilderFactory.newDocumentBuilder();
+      return parser.parse(inputSource);
+    }
+    catch (Exception exception)
+    {
+      IOException ioException = new IOException(exception.getLocalizedMessage());
+      ioException.initCause(exception);
+      throw ioException;
+    }
   }
 }

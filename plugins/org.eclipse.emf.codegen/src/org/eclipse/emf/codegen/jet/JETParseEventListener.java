@@ -30,4 +30,12 @@ public interface JETParseEventListener
   void endPageProcessing() throws JETException;
 
   void handleScriptlet(JETMark start, JETMark stop, Map<String, String> attributes) throws JETException;
+
+  /**
+   * @since 2.19
+   */
+  interface CommentListener
+  {
+    void handleComment(JETMark start, JETMark stop) throws JETException;
+  }
 }

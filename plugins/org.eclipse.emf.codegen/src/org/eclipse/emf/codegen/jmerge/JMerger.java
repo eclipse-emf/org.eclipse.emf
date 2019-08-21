@@ -631,7 +631,7 @@ public class JMerger
                 Matcher targetMatcher = sourceTransfer.matcher(oldStringValue);
                 if (sourceMatcher.groupCount() >= 1 && targetMatcher.groupCount() >= 1)
                 {
-                  StringBuffer result = new StringBuffer();
+                  StringBuilder result = new StringBuilder();
                   int index = 0;
                   while (sourceMatcher.find() && targetMatcher.find())
                   {

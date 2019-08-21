@@ -11,12 +11,20 @@
 package org.eclipse.emf.codegen.jet;
 
 
-
 /**
  * The interface that all generators implement.
  *
  */
-public interface JETGenerator 
+public interface JETGenerator
 {
+  /**
+   * An interface implemented by generators that depend on the name of the builder.
+   * @since 2.19
+   */
+  interface BuilderSensitive
+  {
+    void setBuilderName(String builderName);
+  }
+
   String generate();
 }

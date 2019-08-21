@@ -4,8 +4,8 @@
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.codegen.presentation;
@@ -20,6 +20,7 @@ import java.util.List;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -30,6 +31,7 @@ import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
@@ -45,11 +47,13 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.eclipse.ui.ide.IDE;
 
 import org.eclipse.emf.codegen.jet.JETAddNatureOperation;
@@ -59,10 +63,12 @@ import org.eclipse.emf.codegen.jet.JETNature;
 public class ConvertToJETProjectWizard extends Wizard implements INewWizard
 {
   protected IWorkbench workbench;
+
   protected List<IProject> projectsToConvert = new ArrayList<IProject>();
+
   protected ConversionPage conversionPage;
 
-  public ConvertToJETProjectWizard() 
+  public ConvertToJETProjectWizard()
   {
     setWindowTitle(CodeGenUIPlugin.getPlugin().getString("_UI_JETConvertProject_label"));
     setNeedsProgressMonitor(true);
@@ -73,19 +79,16 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
     this.workbench = workbench;
     for (Object object : selection.toList())
     {
-      if (object instanceof IProject)
+      IProject project = object instanceof IAdaptable ? (IProject)((IAdaptable)object).getAdapter(IProject.class) : null;
+      if (project != null && project.isOpen() && JETNature.getRuntime(project) == null)
       {
-        IProject project = (IProject)object;
-        if (project.isOpen() && JETNature.getRuntime(project) == null)
-        {
-          projectsToConvert.add(project);
-        }
+        projectsToConvert.add(project);
       }
     }
   }
 
   @Override
-  public void addPages() 
+  public void addPages()
   {
     super.addPages();
     conversionPage = new ConversionPage();
@@ -93,30 +96,29 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
   }
 
   @Override
-  public boolean performFinish() 
+  public boolean performFinish()
   {
-    IRunnableWithProgress operation = 
-      new WorkspaceModifyOperation() 
+    IRunnableWithProgress operation = new WorkspaceModifyOperation()
       {
         @Override
-        public void execute(IProgressMonitor monitor) 
+        public void execute(IProgressMonitor monitor)
         {
-          try 
+          try
           {
             JETAddNatureOperation addNature = new JETAddNatureOperation(projectsToConvert);
             addNature.run(monitor);
-          } 
-          catch (CoreException e) 
+          }
+          catch (CoreException e)
           {
             CodeGenUIPlugin.write(e);
-          } 
+          }
         }
       };
 
-    try 
+    try
     {
       getContainer().run(false, true, operation);
-    } 
+    }
     catch (InterruptedException exception)
     {
       CodeGenUIPlugin.write(exception);
@@ -125,6 +127,16 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
     {
       CodeGenUIPlugin.write(exception);
     }
+
+    final Shell shell = getContainer().getShell();
+    shell.getDisplay().asyncExec(new Runnable()
+      {
+        public void run()
+        {
+          PreferencesUtil.createPropertyDialogOn(shell, projectsToConvert.get(0), "JETSettingsPropertiesPage", null, null).open();
+        }
+      });
+
     return true;
   }
 
@@ -169,7 +181,7 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
         FormData data = new FormData();
         data.left = new FormAttachment(0);
         projectsLabel.setLayoutData(data);
-      }    
+      }
 
       Table projectsTable = new Table(composite, SWT.CHECK | SWT.BORDER);
       {
@@ -181,13 +193,13 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
         data.height = 90;
         projectsTable.setLayoutData(data);
       }
-      
+
       Composite selectionComposite = new Composite(composite, SWT.NONE);
       {
         FormData data = new FormData();
         data.top = new FormAttachment(projectsLabel, 0, SWT.CENTER);
         data.right = new FormAttachment(100);
-        selectionComposite.setLayoutData(data);      
+        selectionComposite.setLayoutData(data);
 
         RowLayout layout = new RowLayout();
         layout.justify = true;
@@ -213,39 +225,37 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
         projectsTable.setLayout(layout);
       }
 
-      projectsCheckboxTableViewer.setColumnProperties(new String [] {"a"});
+      projectsCheckboxTableViewer.setColumnProperties(new String []{ "a" });
       projectsCheckboxTableViewer.setContentProvider(new ArrayContentProvider());
-      projectsCheckboxTableViewer.setLabelProvider
-        (new LabelProvider()
-         {
-           @Override
+      projectsCheckboxTableViewer.setLabelProvider(new LabelProvider()
+        {
+          @Override
           public Image getImage(Object o)
-           {
-             return workbench.getSharedImages().getImage(IDE.SharedImages.IMG_OBJ_PROJECT);
-           }
-           
-           @Override
-          public String getText(Object o)
-           {
-             return ((IProject)o).getName();
-           }
-         });
+          {
+            return workbench.getSharedImages().getImage(IDE.SharedImages.IMG_OBJ_PROJECT);
+          }
 
-      projectsCheckboxTableViewer.addCheckStateListener
-        (new ICheckStateListener()
-         {
-           public void checkStateChanged(CheckStateChangedEvent event)
-           {
-             projectsToConvert.clear();
-             @SuppressWarnings("unchecked")
-             List<IProject> list = (List<IProject>)(List<?>)Arrays.asList(projectsCheckboxTableViewer.getCheckedElements());
+          @Override
+          public String getText(Object o)
+          {
+            return ((IProject)o).getName();
+          }
+        });
+
+      projectsCheckboxTableViewer.addCheckStateListener(new ICheckStateListener()
+        {
+          public void checkStateChanged(CheckStateChangedEvent event)
+          {
+            projectsToConvert.clear();
+            @SuppressWarnings("unchecked")
+            List<IProject> list = (List<IProject>)(List<?>)Arrays.asList(projectsCheckboxTableViewer.getCheckedElements());
             projectsToConvert.addAll(list);
-             setPageComplete(isPageComplete());
-           }
-         });
+            setPageComplete(isPageComplete());
+          }
+        });
 
       final List<IProject> projects = new ArrayList<IProject>(Arrays.asList(ResourcesPlugin.getWorkspace().getRoot().getProjects()));
-      for (Iterator<IProject> i = projects.iterator(); i.hasNext(); )
+      for (Iterator<IProject> i = projects.iterator(); i.hasNext();)
       {
         IProject project = i.next();
         boolean isJavaProject = false;
@@ -257,7 +267,7 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
         {
           // Ignore
         }
-        
+
         if (!project.isOpen() || JETNature.getRuntime(project) != null || !isJavaProject)
         {
           i.remove();
@@ -266,30 +276,30 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
       projectsCheckboxTableViewer.setInput(projects.toArray());
       projectsCheckboxTableViewer.setCheckedElements(projectsToConvert.toArray());
 
-      selectAllButton.addSelectionListener
-        (new SelectionAdapter()
-         {
-           @Override
+      selectAllButton.addSelectionListener(new SelectionAdapter()
+        {
+          @Override
           public void widgetSelected(SelectionEvent event)
-           {
-             projectsToConvert.addAll(projects);
-             projectsCheckboxTableViewer.setCheckedElements(projects.toArray());
-             setPageComplete(isPageComplete());
-           }
-         });
-      deselectAllButton.addSelectionListener
-        (new SelectionAdapter()
-         {
-           @Override
+          {
+            projectsToConvert.addAll(projects);
+            projectsCheckboxTableViewer.setCheckedElements(projects.toArray());
+            setPageComplete(isPageComplete());
+          }
+        });
+      deselectAllButton.addSelectionListener(new SelectionAdapter()
+        {
+          @Override
           public void widgetSelected(SelectionEvent event)
-           {
-             projectsCheckboxTableViewer.setCheckedElements(new Object [0]);
-             projectsToConvert.clear();
-             setPageComplete(isPageComplete());
-           }
-         });
+          {
+            projectsCheckboxTableViewer.setCheckedElements(new Object [0]);
+            projectsToConvert.clear();
+            setPageComplete(isPageComplete());
+          }
+        });
 
       setControl(composite);
+
+      projectsCheckboxTableViewer.setSelection(new StructuredSelection(projectsToConvert), true);
 
       setPageComplete(isPageComplete());
     }

@@ -1,0 +1,747 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>JET Overview</title>
+<link rel="stylesheet" href="images/../../../css/book.css" type="text/css" />
+<link rel="stylesheet" href="images/../../../css/emf-book.css" type="text/css" />
+</head>
+
+<body lang="EN-US" xml:lang="EN-US">
+
+<div align="left"> 
+  <h1><img src="http://www.eclipse.org/images/Idea.jpg" align="middle" width="120" height="86" alt=""/></h1>
+</div>
+
+<h1 align="center">JET Comprehensive Overview</h1>
+
+<blockquote>
+<strong><big>Summary</big></strong>
+<br/>
+<p>
+<b>J</b>ava <b>E</b>mitter <b>T</b>emplates, JET, provides an expressive and powerful mechanism for generating arbitrary text files.
+It's effectively Java turned inside out.
+To generate a text file with Java, one would express the textual results using string literals, and string-producing logic, embedded in a Java class.
+To generate a text file with JET, the template itself is the literal while Java logic to control what's generated is embedded in, or invoked from, this template.
+In the end, a JET template is simply compiled into a Java class, inverting the literals and the Java logic.
+</p>
+<p>
+JET is provided by the <a href="http://www.eclipse.org/emf/" target="_blank">Eclipse Modeling Framework</a> (EMF) and is used extensively in EMF's code generation framework to implement Java code generation.
+As of EMF 2.19, a specialized JET editor is provided for editing templates much like how one edits Java files in Eclipse.
+In fact, the JET editor contains an embedded Java editor to help provide support for content assist, quick assist, refactoring, and formatting.
+The JET compiler and JET builder have also been significantly enhanced for improved fault tolerance and diagnostic support.
+</p>
+</blockquote>
+
+<hr width="100%" />
+
+<h2>Contents</h2>
+<p style="margin-left: 1em;">
+<a href="getting-started">Getting Started</a><br/>
+<a href="#template-project">Configuring a JET Project</a><br/>
+<a href="#creating-root-template">Creating a Root JET Template</a><br/>
+<a href="#creating-jet-directive-template">Creating an <tt>@jet</tt> Directive</a><br/>
+<a href="#color-preferences">JET Color Preferences</a><br/>
+<a href="#literal-content">JET Literal Content</a><br/>
+<a href="#driver">Creating a Driver</a><br/>
+<a href="#model">Creating a Model</a><br/>
+<a href="#create-scriptlet">Creating a Scriptlet</a><br/>
+<a href="#create-expression">Creating an Expression</a><br/>
+<a href="#tag-comment">Exploiting the Outline with Tag Comments</a><br/>
+<a href="#header-comment">Creating a Header Comment</a><br/>
+<a href="#generate-result">Generating Interesting Results</a><br/>
+<a href="#complex-scriptlet">Creating More Complex Scriptlet Logic</a><br/>
+<a href="#multi-line-jet-directive">Formatting a Multi-line <tt>@jet</tt> Directive</a><br/>
+<a href="#more-complex-scriptlets">Creating More Complex Scriptlet and Expression Logic</a><br/>
+<a href="#generate-interesting-result">More Interesting Results</a><br/>
+<a href="#generate-well-formatted-result">Dealing with Multi-line Content</a><br/>
+<a href="#inclusion">Exploiting Inclusion for Reuse</a><br/>
+<a href="#multi-document">Editing Multiple Documents in a Single Editor</a><br/>
+<a href="#included-results">Generating Included Results</a><br/>
+<a href="#skeleton">Specialization Using a Skeleton Class</a><br/>
+<a href="#jet-attributes">Using Additional <tt>@jet</tt> Attributes</a><br/>
+<a href="#jet-editor-features">Fully Exploiting all the Features of the JET Editor</a><br/>
+<a href="#support">Support and Problem Reporting</a><br/>
+</p>
+
+<h2><a name="getting-started">Getting Started</a></h2>
+<p>
+Before creating your first JET template, the appropriate EMF JET plug-ins need to be installed. 
+They are available from <a href="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest" target="_blank">EMF's Update Site</a>.
+You can use <em>Help</em> &rarr; <em>Install New Software</em>&hellip;, copy and paste the preceding update site link, and search for "EMF Code Generation UI" as follows:<br/>
+<img src="images/Install.png"/>
+</p>
+
+<h2><a name="template-project">Configuring a JET Project</a></h2>
+
+<p>
+In general, a file is recognized as a JET template if its file extension ends with <tt>jet</tt>.
+It must be a UTF-8 encoding text file.
+By convention, the file extension of the type of text file being generated can be specified either in the file extension or separately,
+e.g., <tt>*.html.jet</tt> or <tt>*.htmljet</tt> can be specified to indicate that the template generates HTML results.
+</p>
+
+<p>
+To compile your JET templates, you will need to convert a normal Java project to a JET project, to add the JET Nature and associated JET Builder.
+From the context menu of a Java project in the Package explorer, use  <em>New</em> &rarr; <em>Other...</em>&hellip; as follows:
+<img class="sample" src="images/Convert.png"/>
+</p>
+
+<p>
+This brings up <em>New</em> wizard, where you can type <tt>JET</tt> in the search field to find the JET conversion wizard as follows:<br/>
+<img src="images/ConvertWizardPage1.png"/>
+</p>
+
+<p>
+When you hit <em>Next</em>, a list of Java projects that don't yet have a JET nature will be presented and the project of the context menu will already be check marked:<br/>
+<img src="images/ConvertWizardPage2.png"/>
+</p>
+
+<p>
+When you hit <em>Finish</em>, the <em>Properties</em> dialog for the <em>JET Settings</em> will be displayed as follows:<br/>
+<img class="sample" src="images/Properties.png"/>
+</p>
+
+<p>
+A <tt>templates</tt> folder will have been created and the <em>Template Containers</em> will refer to that.
+The <em>Source Container</em> will automatically be the first Java source folder of the Java project.
+You may wish to create a separate Java source folder for the compiled templates if you wish.
+All root JET templates in the <tt>templates</tt> folder will automatically be compiled as they are changed.
+You can bring up this dialog again any time from the context menu of the project via <em>Properties&hellip;</em>
+</p>
+
+<h2><a name="creating-root-template">Creating a Root JET Template</a></h2>
+<p>
+Now you are ready to create a JET template using <em>New</em> &rarr; <em>File</em> from the context menu of the <tt>templates</tt> folder:
+<img class="sample" src="images/CreateTemplate.png"/>
+</p>
+
+<p>
+Create the file <tt>index.html.jet</tt> as follows:<br/>
+<img src="images/CreateIndexHTML.png"/>
+</p>
+
+<p>
+Creating this file will automatically open the JET editor.
+Because the template is empty, it will be marked as an error, both in the editor and the workspace.
+Hovering over the annotation will indicate what's wrong:
+<img class="sample" src="images/EmptyTemplate.png"/>
+</p>
+
+<p>
+Note that despite the error, the template has nevertheless been compiled to produce <tt>Indexhtml.java</tt> in the project's source folder.
+</p>
+
+<h2><a name="creating-jet-directive-template">Creating an <tt>@jet</tt> Directive</a></h2>
+
+<p>
+The JET editor supports content assist, so hit <span class="caps">Ctrl-Space</span> for completion suggestions:
+<img class="sample" src="images/ContentAssistForEmptyTemplate.png"/>
+</p>
+
+<p>
+In the content assist dialog, you can now see the complete syntax of the language!
+It really is very simple.
+You can use this to create the necessary <tt>@jet</tt> directive:
+<img class ="sample" src="images/JETDirectiveContentAssist.png"/>
+</p>
+
+<p>
+You can give it the package name <tt>org.eclipse.emf.jet</tt>, the class name <tt>Index</tt>, and clear the imports for now until you need them.
+Then you can save the result to make the workspace free of errors.
+To inspect the compiled result, you can click on the arrow on the divider at the bottom on the editor (see the mouse cursor below) to inspect the following result:
+<img class="sample" src="images/TemplateWithOnlyJETDirective.png"/>
+</p>
+
+<p>
+The selection and the cursor are synchronized between the template part of the editor and the Java part of the editor.
+E.g., in the above image, you can see the cursor in the template is after the <tt>Index</tt> as is the cursor indicator in the Java part.
+You generally won't need to concern yourself with this, 
+but it's interesting and can be useful when you have errors in the compiled Java class,
+though even in that case, the markers will be displayed in the template itself.
+If you look closely, you'll see that the Java part is styled with background colors based on where from the template that part of the Java is derived,
+i.e., at this point just the package name and the class name.
+</p>
+
+<h2><a name="color-preferences">JET Color Preferences</a></h2>
+
+<p>
+Speaking of colors, 
+a complex JET template can be quite difficult to read without help syntax highlighting.
+Of course you can choose your own color scheme via <em>JET Color Preferences&hellip;</em> on the context menu:<br/>
+<img src="images/ColorPreferences.png"/>
+</p>
+
+<h2><a name="literal-content">JET Literal Content</a></h2>
+
+<p>
+You can now define the content that the template should generate, i.e., a very simple HTML page that you can copy and paste into the editor from the following:
+</p>
+<pre class="indent">
+&lt;!DOCTYPE html>
+&lt;html>
+	&lt;head>
+		&lt;title>Title&lt;/title>
+	&lt;/head>
+	
+	&lt;body
+		&lt;h1>Heading&lt;/h1>
+		&lt;p>Paragraph.&lt;/p>
+	&lt;/body>
+&lt;/html>
+</pre>
+
+<p>
+The editor will now look like this:
+<img class="sample" src="images/TemplateWithTrailingWhitespace.png"/>
+</p>
+
+<p>
+Note in particular that the editor styles any trailing whitespace in literal content with a bounding box.
+You will generally not want your template to generate results with trailing whitespace.
+You can remove such things manually, but the formatter will do that automatically, so try hitting <span class="caps">Ctrl-Shift-F</span> now.
+</p>
+
+<h2><a name="driver">Creating a Driver</a></h2>
+<p>
+You can now create a simple driver to generate this template's result and print it to the <em>Console</em>.
+Copy and paste the following class to the <tt>src</tt> folder in the <em>Package Explorer</em>,
+and from the context menu of this new class, use <em>Run As</em> &rarr; <em>Java Application</em>.
+</p>
+<pre class="indent">
+package org.eclipse.emf.jet.util;
+
+import org.eclipse.emf.jet.Index;
+
+public class IndexTest {
+	public static void main(String[] args) {
+		System.out.print(Index.create("\n").generate(null));
+	}
+}
+</pre>
+
+<h2><a name="model">Creating a Model</a></h2>
+<p>
+Of course at this point, it's completely uninteresting, except maybe for the fact that we can opt to generate the results using the line delimiter of our choice.
+In general a template will generate results based on the argument that's passed to the <tt>generate</tt> method.
+To improve the readability of the template, it's a best practice to externalize as much of the Java logic as possible.
+You can create a simple model to drive what's generated for this template.
+Copy and past the following simple model to the <tt>src</tt> folder.
+</p>
+<pre class="indent">
+package org.eclipse.emf.jet.util;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class IndexModel {
+	public static final IndexModel SAMPLE_INSTANCE = new IndexModel("Sample Title");
+
+	static {
+		List&lt;Section> sections = SAMPLE_INSTANCE.getSections();
+		Section sectionOne = new Section("Sample Section One");
+		sections.add(sectionOne);
+		sectionOne.getContent().add(new Section.Paragraph("This is sample section one.\nIt has multi-line content."));
+
+		Section sectionTwo = new Section("Sample Section Two");
+		sections.add(sectionTwo);
+		sectionTwo.getContent().add(new Section.Paragraph("This is sample section two."));
+		sectionTwo.getContent().add(new Section.Paragraph("This is sample section has two paragraphs."));
+	}
+
+	private String title;
+
+	private List&lt;Section> sections = new ArrayList&lt;Section>();
+
+	public IndexModel(String title) {
+		this.title = title;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public List&lt;Section> getSections() {
+		return sections;
+	}
+
+	public static class Section {
+		private String heading;
+
+		private List&lt;Content> content = new ArrayList&lt;Content>();
+
+		public Section(String heading) {
+			this.heading = heading;
+		}
+
+		public String getHeading() {
+			return heading;
+		}
+
+		public List&lt;Content> getContent() {
+			return content;
+		}
+
+		public static class Content {
+		}
+
+		public static class Paragraph extends Content {
+			private String text;
+
+			public Paragraph(String text) {
+				this.text = text;
+			}
+
+			public String getText() {
+				return text;
+			}
+		}
+	}
+}
+</pre>
+
+<h2><a name="create-scriptlet">Creating a Scriptlet</a></h2>
+
+<p>
+Now you can create your first scriptlet.
+Start a new line before the <tt>&lt;!DOCTYPE html></tt> and hit <span class="caps">Ctrl-Space</span>.
+<img class="sample" src="images/ContentAssistForScriptlet.png"/>
+</p>
+
+<p>
+Alternatively, you can just type <tt>&lt;%</tt> and the closing <tt>%></tt> will automatically be inserted.
+The JET editor generally supports smart completion to properly close off a starting tag.
+Note that scriptlets are styled in green, by default.
+</p>
+
+<p>
+To use the model class in the template, start typing its name and hit <span class="caps">Ctrl-Space</span> again:
+<img class="sample" src="images/ContentAssistImportIndexModel.png"/>
+</p>
+
+<p>
+In general, Java content assist and quick assist will work in the templates when working within the scriplets.
+So you can quickly complete a suggested name for the new variable, lookup the <tt>arguments</tt> parameter of the <tt>generate</tt> method that's in scope, and use quick assist to add the cast
+to produce the following result:
+<img class="sample" src="images/ScriptletWithWarning.png"/>
+</p>
+
+<p>
+Note that an import of <tt>IndexModel</tt> class was automatically added to the imports of the <tt>@jet</tt> directive,
+and that problem markers in the compiled Java are mapped back to the template.
+Here we have a warning about the as-yet unused variable.
+</p>
+
+<h2><a name="create-expression">Creating an Expression</a></h2>
+
+<p>
+Now you can use this new variable to replace the <tt>Title</tt> with your first JET expression.
+Delete the <tt>Title</tt> and type <tt>&lt;%=</tt> and the <tt>%></tt> is of course inserted automatically.
+Then type <tt>m</tt> and hit <span class="caps">Ctrl-Space</span>.
+<img class="sample" src="images/ContentAssistForExpression.png"/>
+</p>
+
+<p>
+When you make this completion, as soon as you enter <tt>.</tt>, the content assist will give you to option to choose <tt>getTitle()</tt> so that you end up with <tt>&lt;%=model.getTitle()%></tt>.
+Note that expressions are styled blue by default.
+Here's how the editor with its <em>Outline</em> appears:
+<img class="sample" src="images/EditorWithOutline.png"/>
+</p>
+
+<h2><a name="tag-comment">Exploiting the Outline with Tag Comments</a></h2>
+
+<p>
+The outline is mostly useful for more complex templates with <tt>@include</tt> directives.
+But even in a very large template without <tt>@include</tt> directives, the outline can be made more useful by including specialized JET comments in your template to create so-called tags.
+You can add a tag comment on a  new line before the <tt>&lt;head></tt> HTML tag:
+<img class="sample" src="images/ContentAssistForTagComment.png"/>
+</p>
+
+<p>
+Change the <tt>Tag</tt> to <tt>Head</tt> and it will appear in the outline as follows:
+<img class="sample" src="images/EditorWithOutlineWithTag.png"/>
+</p>
+
+<p>
+With this approach you can exploit the outline to make it easy to locate sections in large templates.
+Selections in the outline will of course select the corresponding element in the editor.
+</p>
+
+<p>
+JET comments can of course be used to "comment out" sections of your template just as you would use <tt>/* */</tt> to comment out sections of Java code.
+You can even use a special form of such a comment as the first line of your template.
+Type <span class="caps">Ctrl-Space</span> at the start of the first line in the template:
+<img class="sample" src="images/ContentAssistForCopyright.png"/>
+</p>
+
+<h2><a name="header-comment">Creating a Header Comment</a></h2>
+
+<p>
+If the first line of a template has a comment of the form <tt>&lt;%--&#x23CE;Content&#x23CE;--%></tt>, 
+i.e., the content starts and ends with a line delimiter,
+this content will be used to generate a Java comment at the start of the compiled template:
+<img class="sample" src="images/EditorWithCopyright.png"/>
+</p>
+
+<h2><a name="generate-result">Generating Interesting Results</a></h2>
+
+<p>
+Now your can test drive your model-driven template by calling the generator with the sample instance from the model.
+I.e., change the <tt>IndexText.java</tt> too look like this:
+</p>
+<pre class="indent">
+package org.eclipse.emf.jet.util;
+
+import org.eclipse.emf.jet.Index;
+
+public class IndexTest {
+	public static void main(String[] args) {
+		System.out.print(Index.create("\n").generate(<b>IndexModel.SAMPLE_INSTANCE)</b>);
+	}
+}
+</pre>
+
+<p>
+Running it will produce the following with <tt>SampleTitle</tt> from the sample  model:
+</p>
+<pre class="indent">
+&lt;!DOCTYPE html>
+&lt;html>
+	&lt;head>
+		&lt;title><b>Sample Title</b>&lt;/title>
+	&lt;/head>
+
+	&lt;body
+		&lt;h1>Heading&lt;/h1>
+		&lt;p>Paragraph.&lt;/p>
+	&lt;/body>
+&lt;/html>
+</pre>
+
+<h2><a name="complex-scriptlet">Creating More Complex Scriptlet Logic</a></h2>
+
+<p>
+You can now enhance the template to generate the body from the model.
+Enter <tt>&lt;%model.getSections();%></tt> on a line before the <tt>&lt;h1></tt> HTML tag and use <span class="caps">Ctrl-Shift-1</span> to create a for-each loop:
+<img class="sample" src="images/QuickAssistForEachLoop.png"/>
+</p>
+
+<p>
+The following is the result, including the import of the <tt>Section</tt> class in the <tt>@jet</tt> directive:
+<img class="sample" src="images/EditorWithNewForEachLoop.png"/>
+</p>
+
+<h2><a name="multi-line-jet-directive">Formatting a Multi-line <tt>@jet</tt> Directive</a></h2>
+
+<p>
+With many imports the <tt>@jet</tt> directive can get very long.
+But if you add a line break into the imports section, the imports will be formatted on separate files, and they will be sorted.
+So add a line break between the imports&mdash;quoted strings can span multiple lines in JET templates&mdash;and enter <span class="caps">Ctrl-Shift-F</span> to produce the following.
+<img class="sample" src="images/EditorWithReformattedTemplate.png"/>
+</p>
+
+<h2><a name="more-complex-scriptlets">Creating Yet More Complex Scriptlet and Expression Logic</a></h2>
+
+<p>
+When you enter <tt>%></tt> after the <tt>{</tt>, the smart insert will insert a <tt>&lt;%</tt> before the closing corresponding <tt>}</tt>.
+Now move the closing <tt>&lt;%}%></tt> to appear after the <tt>&lt;p></tt> HTML tag's line.
+<img class="sample" src="images/EditorWithBrackMatching.png"/>
+</p>
+
+<p>
+Note that the JET editor, like the Java editor, highlights matching brackets and supports <span class="caps">Ctrl-Shift-P</span> to jump between matching brackets.
+</p>
+
+<p>
+You can now edit the template to use the <tt>section</tt>'s title and to iterate over the section contents to find the ones that are paragraphs, and use the paragraph's text in the template.
+<img class="sample" src="images/EditorWithParagraphSupport.png"/>
+</p>
+
+<p>
+It's kind of messy formatting, but hit <span class="caps">Ctrl-Shift-F</span> to make it pretty again.
+<img class="sample" src="images/EditorWithReformattedParagraphSupport.png"/>
+</p>
+
+<p>
+The scriptlets have been indented to match the indentation they would have in Java.
+Note that generally your Java formatting preferences will be used.
+However spaces will always be used instead of tabs, and braces will always be at the end of each line to make the template more compact.
+</p>
+
+<h2><a name="generate-interesting-result">More Interesting Results</a></h2>
+
+<p>
+Your can run our <tt>IndexTest</tt> again to see the result:
+</p>
+<pre class="indent">
+&lt;!DOCTYPE html>
+&lt;html>
+	&lt;head>
+		&lt;title>Sample Title&lt;/title>
+	&lt;/head>
+	&lt;body
+		<b>&lt;h1>Sample Section One&lt;/h1>
+		&lt;p>This is sample section one.
+It has multi-line content.&lt;/p>
+		&lt;h1>Sample Section Two&lt;/h1>
+		&lt;p>This is sample section two.&lt;/p>
+		&lt;p>This is sample section has two paragraphs.&lt;/p></b>
+	&lt;/body>
+&lt;/html>
+</pre>
+
+<h2><a name="generate-well-formatted-result">Dealing with Multi-line Content</a></h2>
+
+<p>
+So that's all working well, except it's not so pretty how a multi-line paragraph's text is formatted.
+Also, if you think about it, the line delimiters of the inserted paragraph may not match the line delimiters used in the template.
+We can create a little utility to deal with all that.
+But before we do, let's change the compiled Java to use a <tt>StringBuilder</tt> instead of a <tt>StringBuffer</tt>.
+Enter a new line in the <tt>@jet</tt> directive and hit <span class="caps">Ctrl-Space</span>
+<img class="sample" src="images/ContentAssistForJETDirective.png"/>
+</p>
+
+<p>
+With the <tt>builder</tt> attribute, you can control the type and the name of the builder.
+It can be any type that supports <tt>append</tt> for any arbitrarily typed argument.
+The compiled template now looks like this:
+<img class="sample" src="images/EditorWithStringBuilder.png"/>
+</p>
+
+
+<p>
+The following utility class can be used to format multi-line comment so that it adjust the content to the current indentation in the builder.
+Copy and paste it into the <tt>src</tt> folder.
+</p>
+<pre class="indent">
+package org.eclipse.emf.jet.util;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public final class TemplateUtil {
+	private static final Pattern INDENTATION_PATTERN = Pattern.compile("\r?\n.*$");
+
+	private static final Pattern LINE_PATTERN = Pattern.compile("(\r?\n)");
+
+	public static String format(StringBuilder builder, String text) {
+		Matcher matcher = INDENTATION_PATTERN.matcher(builder.toString());
+		if (!matcher.find()) {
+			throw new RuntimeException("This cannot be used on the first line of a template's content");
+		}
+
+		String lineDelimiterIndentation = matcher.group();
+		return LINE_PATTERN.matcher(text).replaceAll(lineDelimiterIndentation);
+	}
+}
+</pre>
+
+<p>
+You can modify the template to use it, using content completion to import the name and formatting the result so that the template looks like this:
+<img class="sample" src="images/EditorUsingTemplateUtil.png"/>
+</p>
+
+<p>
+Now we can see that it produces a prettier result:
+</p>
+<pre class="indent">
+&lt;!DOCTYPE html>
+&lt;html>
+	&lt;head>
+		&lt;title>Sample Title&lt;/title>
+	&lt;/head>
+	&lt;body
+		&lt;h1>Sample Section One&lt;/h1>
+		&lt;p>
+			This is sample section one.
+			It has multi-line content.
+		&lt;/p>
+		&lt;h1>Sample Section Two&lt;/h1>
+		&lt;p>
+			This is sample section two.
+		&lt;/p>
+		&lt;p>
+			This is sample section has two paragraphs.
+		&lt;/p>
+	&lt;/body>
+&lt;/html>
+</pre>
+
+<h2><a name="inclusion">Exploiting Inclusion for Reuse</a></h2>
+
+<p>
+Consider if you have multiple templates for generating different types of HTML pages and you wanted to include common content in the <tt>&lt;head></tt> HTML tag of each of them.
+You could use an <tt>@include</tt> directive for that.
+First create a new file in the template folder named <tt>head.html.jetinc</tt>.
+This is recognized as a JET template, though not a top-level template but rather one that is included by another template.
+The editor will open like this:
+</p>
+<p>
+<img class="sample" src="images/EditorWithJETInclude.png"/>
+</p>
+
+<p>
+There will always be a warning in such a non-root template to let you know that this will not be compiled to a Java class.
+Furthermore, the information control will be displayed with details.
+This control is always available (even in root templates) via the tiny yellow star next to the down arrow on the divider.
+Despite not being compiled by the JET Builder, the editor nevertheless does compile it in-memory to an artificial Java class so that basic Java syntax errors will be detected and diagnosed.
+You can see that here reflected even in the <em>Package Explorer</em>:
+<img class="sample" src="images/WorkbenchWithArtificialClass.png"/>
+</p>
+
+<p>
+You can now include this template in the original template, inserting a line after the <tt>&lt;title></tt> HTML tag and using <span class="caps">Ctrl-Space</span> to choose a simple <tt>@include</tt> directive.
+The include directive will be displayed in the outline as follows:
+<img class="sample" src="images/EditorWithIncludeDirective.png"/>
+</p>
+
+<h2><a name="multi-document">Editing Multiple Documents in a Single Editor</a></h2>
+
+<p>
+You can edit the included template in the editor of the including template.
+This is very useful because the including template, in the general case, provides the context needed to make the included template semantically complete,
+i.e., in the general case that the included template contains scriptlets and expressions, that only resolve from the context of the including template.
+<img class="sample" src="images/EditorEditingIncludedTemplate.png"/>
+</p>
+
+<p>
+Note that the JET Builder keeps track of which templates include which other templates.
+This information is available in the editor for any included template and this information provides links for opening the editor for the including template:
+<img class="sample" src="images/EditorWithIncludedJETInclude.png"/>
+</p>
+
+<h2><a name="included-results"></a>Generating Included Results</h2>
+
+<p>
+You can test the template again to see that the included content appears in the result:
+</p>
+<pre class="indent">
+&lt;!DOCTYPE html>
+&lt;html>
+	&lt;head>
+		&lt;title>Sample Title&lt;/title>
+		<b>&lt;!-- Common Included Content --></b>
+	&lt;/head>
+	&lt;body
+		&lt;h1>Sample Section One&lt;/h1>
+		&lt;p>
+			This is sample section one.
+			It has multi-line content.
+		&lt;/p>
+		&lt;h1>Sample Section Two&lt;/h1>
+		&lt;p>
+			This is sample section two.
+		&lt;/p>
+		&lt;p>
+			This is sample section has two paragraphs.
+		&lt;/p>
+	&lt;/body>
+&lt;/html>
+</pre>
+
+<h2><a name="skeleton">Specialization Using a Skeleton Class</a></h2>
+
+<p>
+Suppose you want to specialize some aspects of the compiled Java class, for example, to control arguments of the <tt>generate</tt> method.
+You can use the <tt>skeleton</tt> attribute in the <tt>@jet</tt> directive to reference a so-called skeleton.
+Create a file called <tt>Skeleton.java</tt> in the templates folder and paste the following skeleton into it:
+</p>
+<pre class="indent">
+public class CLASS
+{
+  public String generate(IndexModel model)
+  {
+  }
+}
+</pre>
+
+<p>
+Then use content assist to add a <tt>skeleton</tt> attribute to the <tt>@jet</tt> directive as follow:
+<img class="sample" src="images/EditorWithSkeleton.png"/>
+</p>
+
+<p>
+As you can see, the template now has an error.
+That's because it's compiled using your skeleton and the parameter is named <tt>model</tt> and is of type <tt>IndexModel</tt>.
+This makes your starting scriptlet not just redundant, but erroneous.
+Just delete it.
+</p>
+
+<p>
+The name of the skeleton class is irrelevant and it's package declaration will be replaced; it must be public though.
+You could add Javadoc and define other fields, methods, or even nested classes in the skeleton if you wish.
+</p>
+
+<h2><a name="jet-attributes">Using Additional <tt>@jet</tt> Attributes</a></h2>
+
+<p>
+To touch upon the remaining attributes of the <tt>@jet</tt>, namely <tt>nlString</tt>, <tt>minimize</tt>, and <tt>version</tt>
+here is an illustrative example:
+<img class="sample" src="images/EditorWithCompleteJETDirective.png"/>
+</p>
+
+<p>
+They have the following significance:
+</p>
+<ul>
+<li>
+The <tt>nlString</tt> attribute allows you to specify an arbitrary expression that yields the default line delimiter to be used by the compiled template when none is specified otherwise.
+</li>
+<li>
+The <tt>minimize</tt> attribute will direct the compiler to generate minimal constants:
+</li>
+<li>
+the constants have shorter names, and common line indentation is factored out; this is only important for very large templates where the constant pool of the final <tt>.class</tt> file is limited to 64K.
+</li>
+<li>
+The <tt>version</tt> attribute is completely unused, and with the introduction of comments is not needed.
+</li>
+</ul>
+
+<p>
+Note the completeness of the outline view in reflecting a summary of the contents of the editor and keep in mind that it can be used for navigation purposes, e.g, to edit the skeleton.
+</p>
+
+<h2><a name="jet-editor-features">Fully Exploiting all the Features of the JET Editor</a></h2>
+
+<p>
+The JET editor supports a number of capabilities that we've not explorer yet, many that you might expect from working with the Java editor:
+</p>
+<ul>
+<li>
+ <span class="caps">F3</span> for navigation to the declaration of a selected method, class or variable.
+</li>
+<li>
+ <span class="caps">Alt-Up</span>, <span class="caps">Alt-Down</span>, <span class="caps">Alt-Left</span>, <span class="caps">Alt-Right</span> for extending the current selection just as in the Java Editor.
+</li>
+<li>
+ <span class="caps">Alt-PageUp</span> for selecting the enclosing JET element of the current selection.
+</li>
+<li>
+ <span class="caps">Alt-Shift-R</span> for renaming a local variable of scriptlet.
+</li>
+<li>
+ <span class="caps">Alt-Shift-L</span> for extracting a selected expression to a local variable.
+</li>
+<li>
+ <span class="caps">Ctrl-Shift-P</span> for jumping between matching brackets.
+</li>
+<li>
+ <span class="caps">Ctrl-MouseHover</span> and <span class="caps">Ctrl-MouseClick</span> for Java navigation; 
+ this also works on <tt>file</tt> and <tt>skeleton</tt> links as well as in the Java part of the editor to navigate to the originating template, if it's different from the current document.
+</li>
+</ul>
+
+<h2><a name="support">Support and Problem Reporting</a></h2>
+
+<p>
+Please address questions to the <a href="https://www.eclipse.org/forums/index.php/f/108/">EMF Forum</a> prefixing the subject with <tt>[jet]</tt>.
+</p>
+
+<p>
+Please open problem reports using <a href="https://bugs.eclipse.org/bugs/enter_bug.cgi?product=EMF&amp;component=Tools">EMF's Bugzilla</a>.
+</p>
+
+</body>
+</html>

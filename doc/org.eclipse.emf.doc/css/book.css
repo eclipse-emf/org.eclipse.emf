@@ -65,6 +65,35 @@ EM.CodeName {
 
 body, html { border: 0px }
 
+span.caps {
+	 font-variant: small-caps;
+}
+
+pre.indent {
+	display: inline-block;
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: 1em;
+	font-family: "Courier New", Courier, monospace;
+	border-style: solid;
+	border-width: thin;
+	border-radius: 1ex;
+	border-color: DarkGray;
+	text-align: left;
+	padding: 1ex;
+	font-size: small;
+}
+
+img.sample {
+	margin-left: 1em;
+	margin-top: 1ex;
+	display: block;
+	border-style: solid;
+	border-width: thin;
+	border-radius: 1ex;
+	border-color: DarkGray;
+}
+
 
 /* following font face declarations need to be removed for DBCS */
 
