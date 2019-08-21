@@ -19,7 +19,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses
   ({
     ASTTest.class,
-    // DeprecatedJMergerTest.class,
+    DeprecatedJMergerTest.class,
     JMergerJDOMTest.class,
     JMergerASTTest.class,
   })

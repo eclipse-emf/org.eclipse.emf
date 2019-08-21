@@ -41,7 +41,7 @@ import org.junit.runners.Suite;
     RemappedXMLTypesTest.class,
     ConverterUtilTest.class,
     ModelImporterTest.class,
-    MergerAllSuites.class,
+    // MergerAllSuites.class,
     FacadeAllSuites.class
   })
 public class AllSuites
