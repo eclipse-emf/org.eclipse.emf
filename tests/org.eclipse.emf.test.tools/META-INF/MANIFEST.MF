@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.test.tools;singleton:=true
-Bundle-Version: 2.15.0.qualifier
+Bundle-Version: 2.16.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
@@ -18,7 +18,7 @@ Require-Bundle: org.apache.ant;bundle-version="[1.7.0,2.0.0)",
  org.eclipse.ant.core;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)",
  org.eclipse.core.resources;bundle-version="[3.6.0,4.0.0)",
- org.eclipse.emf.codegen.ecore;bundle-version="[2.18.0,3.0.0)",
+ org.eclipse.emf.codegen.ecore;bundle-version="[2.19.0,3.0.0)",
  org.eclipse.emf.ecore.xmi;bundle-version="[2.16.0,3.0.0)",
  org.eclipse.emf.importer;bundle-version="[2.12.0,3.0.0)",
  org.eclipse.jdt.core;bundle-version="[3.6.0,4.0.0)",
