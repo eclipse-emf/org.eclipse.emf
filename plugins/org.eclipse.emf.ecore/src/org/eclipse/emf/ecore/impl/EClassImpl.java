@@ -2206,6 +2206,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
             {
               eAllStructuralFeatures = null;
               eAllStructuralFeaturesData = null;
+              eAllStructuralFeatureTypes = null;
             }
             if (isAllOperationsCollectionModified())
             {

@@ -249,7 +249,6 @@ public class EcoreTest
     for (EObject eObject : ePackage.eContents())
     {
       URI eProxyURI = EcoreUtil.getURI(eObject);
-      System.err.println("###" + eProxyURI);
       EObject otherEObject = resourceSet.getEObject(eProxyURI, false);
       assertSame("The proxy URI " + eProxyURI + " fails to resolve to the correct object", eObject, otherEObject);
     }

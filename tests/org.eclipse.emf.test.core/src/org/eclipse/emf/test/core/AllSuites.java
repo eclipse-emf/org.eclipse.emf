@@ -43,6 +43,7 @@ import org.junit.runners.Suite;
       org.eclipse.emf.test.core.ecore.ProxyURITest.class,
       org.eclipse.emf.test.core.ecore.ResourceAttachmentTest.class,
       org.eclipse.emf.test.core.ecore.FeatureMapTest.class,
+      org.eclipse.emf.test.core.ecore.EClassGenericTypeCacheTest.class,
       org.eclipse.emf.test.core.ecore.DiagnosticianTest.class,
       org.eclipse.emf.test.core.ecore.ValidationTest.class,
       org.eclipse.emf.test.core.ecore.KeyTest.class,
