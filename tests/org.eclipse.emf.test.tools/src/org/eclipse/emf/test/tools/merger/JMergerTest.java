@@ -17,7 +17,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -57,6 +60,8 @@ import org.junit.Test;
  */
 public abstract class JMergerTest
 {
+  private static boolean UPDATE_EXPECTED_RESULT_ON_FAILURE = System.getProperty("org.eclipse.emf.test.tools.ant.Update") != null;
+
   /**
    * Default root data directory containing java versions subdirectories.
    * <p>
@@ -96,11 +101,6 @@ public abstract class JMergerTest
    */
   protected static void verifyMerge(File expectedOutput, String targetContents)
   {
-    if (Boolean.TRUE)
-    {
-      return;
-    }
-
     // extract merged contents
     StringBuilder mergeResult = new StringBuilder(targetContents);
 
@@ -116,6 +116,7 @@ public abstract class JMergerTest
 
     String expectedMerge = TestUtil.readFile(expectedOutput, false);
     String actualMerge = mergeResult.toString();
+    File updateFile = null;
     try
     {
       assertEquals("Make sure the line breaks are OK.  The expected merge should have no '\\r'", expectedMerge, actualMerge);
@@ -126,11 +127,51 @@ public abstract class JMergerTest
       if (alternative.exists())
       {
         expectedMerge = TestUtil.readFile(alternative, false);
-        assertEquals("Make sure the line breaks are OK.  The expected merge should have no '\\r'", expectedMerge, actualMerge);
+        try
+        {
+          assertEquals("Make sure the line breaks are OK.  The expected merge should have no '\\r'", expectedMerge, actualMerge);
+        }
+        catch (ComparisonFailure exceptionAlt)
+        {
+          if (UPDATE_EXPECTED_RESULT_ON_FAILURE)
+          {
+            updateFile = alternative;
+          }
+        }
       }
       else
       {
+        if (UPDATE_EXPECTED_RESULT_ON_FAILURE)
+        {
+          updateFile = alternative;
+        }
+
         throw exception;
+      }
+    }
+    finally
+    {
+      if (updateFile != null)
+      {
+        OutputStream out = null;
+        try
+        {
+          out = new FileOutputStream(updateFile);
+          out.write(actualMerge.getBytes("UTF-8"));
+        }
+        catch (Exception exception)
+        {
+        }
+        finally
+        {
+          try
+          {
+            out.close();
+          }
+          catch (IOException exception)
+          {
+          }
+        }
       }
     }
   }
