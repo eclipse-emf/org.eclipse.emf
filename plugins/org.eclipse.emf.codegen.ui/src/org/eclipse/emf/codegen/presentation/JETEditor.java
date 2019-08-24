@@ -702,7 +702,7 @@ public final class JETEditor extends AbstractDecoratedTextEditor
   void applyProblemAnnotations(List<JETProblemAnnotation> jetProblemAnnotations)
   {
     SourceViewer sourceViewer = getJETSourceViewer();
-    IAnnotationModel annotationModel = sourceViewer.getVisualAnnotationModel();
+    IAnnotationModel annotationModel = sourceViewer.getAnnotationModel();
     List<Annotation> annotationsToRemove = new ArrayList<Annotation>();
     for (Iterator<Annotation> i = annotationModel.getAnnotationIterator(); i.hasNext();)
     {
@@ -5720,12 +5720,17 @@ public final class JETEditor extends AbstractDecoratedTextEditor
     {
       try
       {
-        return (Integer)markerAnnotation.getMarker().getAttribute(IMarker.SEVERITY);
+        IMarker marker = markerAnnotation.getMarker();
+        if (marker != null)
+        {
+          Object severity = marker.getAttribute(IMarker.SEVERITY);
+          return severity instanceof Integer ? (Integer)severity : IMarker.SEVERITY_INFO;
+        }
       }
       catch (CoreException exception)
       {
-        return IMarker.SEVERITY_ERROR;
       }
+      return IMarker.SEVERITY_ERROR;
     }
   }
 
@@ -8613,6 +8618,9 @@ public final class JETEditor extends AbstractDecoratedTextEditor
       options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.SPACE);
       options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE, "2");
       options.put(DefaultCodeFormatterConstants.FORMATTER_INDENTATION_SIZE, "2");
+      options.put(DefaultCodeFormatterConstants.FORMATTER_INSERT_NEW_LINE_BEFORE_ELSE_IN_IF_STATEMENT, DefaultCodeFormatterConstants.FALSE);
+      options.put(DefaultCodeFormatterConstants.FORMATTER_KEEP_ELSE_STATEMENT_ON_SAME_LINE, DefaultCodeFormatterConstants.TRUE);
+      options.put(DefaultCodeFormatterConstants.FORMATTER_COMPACT_ELSE_IF, DefaultCodeFormatterConstants.TRUE);
 
       CodeFormatter codeFormatter = ToolFactory.createCodeFormatter(options);
       JavaEditor javaEditor = jetEditor.getJavaEditor();
