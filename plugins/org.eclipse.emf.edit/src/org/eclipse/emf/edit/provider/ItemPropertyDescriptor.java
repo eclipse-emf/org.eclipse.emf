@@ -197,7 +197,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
           {
             if (object instanceof List<?>)
             {
-              StringBuffer result = new StringBuffer();
+              StringBuilder result = new StringBuilder();
               for (Iterator<?> i = ((List<?>)object).iterator(); i.hasNext(); )
               {
                 Object value = i.next();
@@ -785,7 +785,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
     }
     else if (parentReferences != null && parentReferences.length != 0)
     {
-      StringBuffer result = new StringBuffer(getDefaultId(parentReferences[0]));
+      StringBuilder result = new StringBuilder(getDefaultId(parentReferences[0]));
       for (int i = 1; i < parentReferences.length; ++i)
       {
         result.append('-');

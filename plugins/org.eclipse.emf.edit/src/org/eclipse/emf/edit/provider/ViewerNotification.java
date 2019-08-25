@@ -116,7 +116,7 @@ public class ViewerNotification extends NotificationWrapper implements IViewerNo
   @Override
   public String toString()
   {
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (");
     if (contentRefresh) result.append("refresh ");
     if (labelUpdate) result.append("update ");

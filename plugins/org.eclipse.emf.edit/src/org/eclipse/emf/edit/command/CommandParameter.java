@@ -295,7 +295,7 @@ public class CommandParameter
     }
     else
     {
-      StringBuffer result = new StringBuffer();
+      StringBuilder result = new StringBuilder();
 
       result.append("{ ");
 
@@ -317,7 +317,7 @@ public class CommandParameter
   @Override
   public String toString()
   {
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
 
     result.append("CommandParameter");
 

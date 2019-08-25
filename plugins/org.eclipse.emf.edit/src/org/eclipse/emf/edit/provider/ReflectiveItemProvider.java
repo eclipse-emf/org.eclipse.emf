@@ -444,7 +444,7 @@ public class ReflectiveItemProvider
    */
   public String format(String name, char separator)
   {
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
 
     for (Iterator<String> i = parseName(name, '_').iterator(); i.hasNext(); )
     {

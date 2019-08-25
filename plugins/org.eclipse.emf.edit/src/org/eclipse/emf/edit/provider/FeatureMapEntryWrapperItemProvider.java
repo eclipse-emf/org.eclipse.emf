@@ -220,7 +220,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
    */
   protected String encode(String s)
   {
-    StringBuffer result = new StringBuffer(s.length());
+    StringBuilder result = new StringBuilder(s.length());
     for (int i = 0, len = s.length(); i < len; i++)
     {
       char c = s.charAt(i);
@@ -271,7 +271,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
    */
   protected String decode(String s)
   {
-    StringBuffer result = new StringBuffer(s.length());
+    StringBuilder result = new StringBuilder(s.length());
     for (int i = 0, len = s.length(); i < len; i++)
     {
       char c = s.charAt(i);

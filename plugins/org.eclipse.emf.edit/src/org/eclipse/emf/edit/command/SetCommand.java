@@ -827,7 +827,7 @@ public class SetCommand extends AbstractOverrideableCommand
   @Override
   public String toString()
   {
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (owner: " + owner + ")");
     result.append(" (feature: " + feature + ")");
     if (ownerList != null)

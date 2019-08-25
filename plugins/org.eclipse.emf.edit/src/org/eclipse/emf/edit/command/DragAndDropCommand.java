@@ -1009,7 +1009,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
   @Override
   public String toString()
   {
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (domain: " + domain + ")");
     result.append(" (owner: " + owner + ")");
     result.append(" (location: " + location + ")");
