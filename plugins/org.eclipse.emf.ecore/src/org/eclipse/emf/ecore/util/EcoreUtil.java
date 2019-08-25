@@ -4103,11 +4103,7 @@ public class EcoreUtil
     public synchronized static void generate(byte [] uuid)
     {
       updateCurrentTime();
-
-      for (int i = 0; i < 16; i++)
-      {
-        uuid[i] = UUID.uuid[i];
-      }
+      System.arraycopy(UUID.uuid, 0, uuid, 0, 16);
     }
 
     private UUID()

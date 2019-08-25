@@ -1392,10 +1392,7 @@ public class ECollections
   public static <T> BasicEList<T> newBasicEList(T... elements)
   {
     BasicEList<T> result = new BasicEList<T>(elements.length);
-    for (T t : elements)
-    {
-      result.add(t);
-    }
+    System.arraycopy(elements, 0, result.data, 0, elements.length);
     return result;
   }
 
