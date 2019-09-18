@@ -449,9 +449,20 @@
           name="org.eclipse.equinox.ds"
           optional="true"/>
       <repositoryList
+          name="2019-12">
+        <repository
+            url="http://download.eclipse.org/releases/2019-12"/>
+        <repository
+            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+        <repository
+            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
+      </repositoryList>
+      <repositoryList
           name="2019-09">
         <repository
-            url="http://download.eclipse.org/releases/2019-06"/>
+            url="http://download.eclipse.org/releases/2019-09"/>
         <repository
             url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
