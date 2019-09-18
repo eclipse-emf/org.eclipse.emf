@@ -139,6 +139,13 @@
       <repositoryList
           name="2019-09">
         <repository
+            url="http://download.eclipse.org/releases/2019-12"/>
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+      </repositoryList>
+      <repositoryList
+          name="2019-09">
+        <repository
             url="http://download.eclipse.org/releases/2019-09"/>
         <repository
             url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
