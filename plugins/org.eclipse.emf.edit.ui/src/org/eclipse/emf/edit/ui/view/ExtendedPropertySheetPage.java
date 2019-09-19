@@ -547,30 +547,33 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
     }
 
     Tree tree = (Tree)getControl();
-    try
-    {
-      tree.setRedraw(false);
-      super.selectionChanged(part, selection);
-    }
-    finally
-    {
-      if (columnResizer != null)
-      {
-        columnResizer.resizeColumns();
-      }
-      tree.setRedraw(true);
-    }
-
-    if (autoExpandLevel != 0)
+    if (tree != null)
     {
       try
       {
         tree.setRedraw(false);
-        expand(tree, tree.getItems(), autoExpandLevel);
+        super.selectionChanged(part, selection);
       }
       finally
       {
+        if (columnResizer != null)
+        {
+          columnResizer.resizeColumns();
+        }
         tree.setRedraw(true);
+      }
+  
+      if (autoExpandLevel != 0)
+      {
+        try
+        {
+          tree.setRedraw(false);
+          expand(tree, tree.getItems(), autoExpandLevel);
+        }
+        finally
+        {
+          tree.setRedraw(true);
+        }
       }
     }
   }
@@ -646,6 +649,11 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
   public void refresh()
   {
     Control control = getControl();
+    if (control == null)
+    {
+      return;
+    }
+
     // Check that there isn't currently a cell editor active.
     // If there is a focus control that isn't the control of the property sheet page...
     Control focusControl = control.getDisplay().getFocusControl();
@@ -679,7 +687,7 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
       return;
     }
 
-    Tree tree = (Tree)getControl();
+    Tree tree = (Tree)control;
     try
     {
       tree.setRedraw(false);
