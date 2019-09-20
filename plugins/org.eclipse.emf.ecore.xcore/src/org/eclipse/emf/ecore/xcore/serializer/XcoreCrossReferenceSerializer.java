@@ -60,11 +60,7 @@ public class XcoreCrossReferenceSerializer extends CrossReferenceSerializer
       {
         if (errors != null)
         {
-          if (recordedErrros == null)
-          {
-            recordedErrros = Lists.newArrayList();
-          }
-
+          recordedErrros = Lists.newArrayList();
           recordedErrros.add(diagnostics.getValueConversionExceptionDiagnostic(semanticObject, crossref, unconverted, e));
         }
       }

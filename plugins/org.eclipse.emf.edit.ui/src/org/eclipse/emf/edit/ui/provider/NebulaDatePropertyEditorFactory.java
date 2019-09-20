@@ -164,7 +164,7 @@ public class NebulaDatePropertyEditorFactory extends EMFEditUIPropertyEditorFact
       // There must be a least a first segment specifying the SimpleDateTime format pattern.
       //
       int segmentCount = propertyEditorURI.segmentCount();
-      if (propertyEditorURI != null && segmentCount >= 1)
+      if (segmentCount >= 1)
       {
         // This is not implemented to support many-valued features.
         //
@@ -258,44 +258,47 @@ public class NebulaDatePropertyEditorFactory extends EMFEditUIPropertyEditorFact
   public IItemLabelProvider createLabelProvider(Object object, IItemPropertyDescriptor propertyDescriptor)
   {
     URI propertyEditorURI = getPropertyEditorURI(object, propertyDescriptor);
-    int segmentCount = propertyEditorURI.segmentCount();
-    if (propertyEditorURI != null && segmentCount >= 1)
+    if (propertyEditorURI != null)
     {
-      EStructuralFeature eStructuralFeature = getEStructuralFeature(object, propertyDescriptor);
-      if (eStructuralFeature != null && !eStructuralFeature.isMany())
+      int segmentCount = propertyEditorURI.segmentCount();
+      if (segmentCount >= 1)
       {
-        final String dateFormatPattern = URI.decode(propertyEditorURI.segment(0));
-        return new IItemLabelProvider()
-          {
-            public String getText(Object object)
+        EStructuralFeature eStructuralFeature = getEStructuralFeature(object, propertyDescriptor);
+        if (eStructuralFeature != null && !eStructuralFeature.isMany())
+        {
+          final String dateFormatPattern = URI.decode(propertyEditorURI.segment(0));
+          return new IItemLabelProvider()
             {
-              if (object instanceof Date)
+              public String getText(Object object)
               {
-                return new SimpleDateFormat(dateFormatPattern).format(object);
-              }
-              else if (object instanceof Calendar)
-              {
+                if (object instanceof Date)
+                {
+                  return new SimpleDateFormat(dateFormatPattern).format(object);
+                }
+                else if (object instanceof Calendar)
+                {
                 return new SimpleDateFormat(dateFormatPattern).format(((Calendar)object).getTime());
+                }
+                else if (object instanceof XMLGregorianCalendar)
+                {
+                  return new SimpleDateFormat(dateFormatPattern).format(((XMLGregorianCalendar)object).toGregorianCalendar().getTime());
+                }
+                else if (object instanceof Long)
+                {
+                  return new SimpleDateFormat(dateFormatPattern).format(new Date((Long)object));
+                }
+                else
+                {
+                  return "";
+                }
               }
-              else if (object instanceof XMLGregorianCalendar)
+  
+              public Object getImage(Object object)
               {
-                return new SimpleDateFormat(dateFormatPattern).format(((XMLGregorianCalendar)object).toGregorianCalendar().getTime());
+                return ItemPropertyDescriptor.GENERIC_VALUE_IMAGE;
               }
-              else if (object instanceof Long)
-              {
-                return new SimpleDateFormat(dateFormatPattern).format(new Date((Long)object));
-              }
-              else
-              {
-                return "";
-              }
-            }
-
-            public Object getImage(Object object)
-            {
-              return ItemPropertyDescriptor.GENERIC_VALUE_IMAGE;
-            }
-          };
+            };
+        }
       }
     }
     return null;

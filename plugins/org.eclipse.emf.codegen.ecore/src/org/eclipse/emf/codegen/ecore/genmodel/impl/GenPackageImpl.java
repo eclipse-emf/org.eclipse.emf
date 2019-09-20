@@ -1938,6 +1938,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("null")
   @Override
   public boolean eIsSet(int featureID)
   {

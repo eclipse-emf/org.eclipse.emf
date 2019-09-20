@@ -424,6 +424,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("null")
   @Override
   public boolean eIsSet(int featureID)
   {
