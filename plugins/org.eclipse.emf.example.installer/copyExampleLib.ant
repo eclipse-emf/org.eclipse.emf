@@ -27,6 +27,7 @@
 					<exclude name="bin/" />
 					<exclude name="target/" />
 					<exclude name="pom.xml" />
+					<exclude name="?/" />
 					<exclude name=".settings/org.eclipse.mylyn*" />
 					<exclude name=".settings/org.eclipse.pde.api.tools.prefs" />
 					<exclude name="**/.gitignore" />
