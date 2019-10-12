@@ -1480,7 +1480,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
       }
     }
 
-    if (!hasConversionDelegate())
+    if (!hasConversionDelegate() || (literal == null && isPrimitiveType()))
     {
       // If there is a base XML or Ecore type, use one of the two corresponding built-in factories to create a value from the literal string.
       //
