@@ -5,6 +5,17 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:setup="http://www.eclipse.org/oomph/setup/1.0"
     label="EMF Development Environment">
+  <annotation
+      source="http://www.eclipse.org/oomph/setup/BrandingInfo">
+    <detail
+        key="imageURI">
+      <value>https://www.eclipse.org/modeling/emf/images/emf_logo.png</value>
+    </detail>
+    <detail
+        key="siteURI">
+      <value>https://www.eclipse.org/modeling/emf/</value>
+    </detail>
+  </annotation>
   <installation
       name="emf.development.environment.installation"
       label="EMF Development Environment Installation">
@@ -31,5 +42,21 @@
         href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']/@projects[name='xsd']/@streams[name='master']"/>
     <description>The EMF/XSD development environment workspace includes the Core, RAP, GWT, Xcore, ODA, Releng, and XSD.</description>
   </workspace>
-  <description>THe EMF Development Environment configuration provides the full development environment for working on EMF.</description>
+  <description>
+    &lt;p>
+    The &lt;a href=&quot;https://www.eclipse.org/modeling/emf&quot;/>EMF&lt;/a> Development Environment configuration provisions a dedicated development environment 
+    for the complete set of source projects used by &lt;a href=&quot;https://ci.eclipse.org/emf/&quot;>EMF's build server&lt;/a> 
+    to produce &lt;a href=&quot;https://download.eclipse.org/eclipse/downloads/&quot;>EMF's update sites&lt;/a>.
+    &lt;/p>
+    &lt;p>
+    Like the build job and update sites, 
+    this environment also includes the &lt;a href=&quot;https://www.eclipse.org/modeling/mdt/?project=xsd&quot; target=&quot;emf&quot;>XML Schema Definition&lt;/a> project, i.e., XSD.
+    As such, all the source projects from &lt;a href=&quot;http://git.eclipse.org/c/emf/org.eclipse.emf.git&quot; target=&quot;emf_git&quot;>EMF's Git Repository&lt;/a>
+    and the &lt;a href=&quot;http://git.eclipse.org/c/xsd/org.eclipse.xsd.git&quot; target=&quot;emf_git&quot;>XSD Git Repository&lt;/a>
+    are available, organized into working sets, and ready for contribution.
+    &lt;/p>
+    &lt;/p>
+    Please &lt;a href=&quot;https://wiki.eclipse.org/Eclipse_Platform_SDK_Provisioning&quot;>read the analgous tutorial instructions&lt;/a> for the Eclispe Platform SDK's configuration for more details.
+    &lt;/p>
+  </description>
 </setup:Configuration>
