@@ -46,12 +46,12 @@
     &lt;p>
     The &lt;a href=&quot;https://www.eclipse.org/modeling/emf&quot;/>EMF&lt;/a> Development Environment configuration provisions a dedicated development environment 
     for the complete set of source projects used by &lt;a href=&quot;https://ci.eclipse.org/emf/&quot;>EMF's build server&lt;/a> 
-    to produce &lt;a href=&quot;https://download.eclipse.org/eclipse/downloads/&quot;>EMF's update sites&lt;/a>.
+    to produce &lt;a href=&quot;http://download.eclipse.org/modeling/emf/emf/builds/&quot;>EMF's update sites&lt;/a>.
     &lt;/p>
     &lt;p>
     Like the build job and update sites, 
-    this environment also includes the &lt;a href=&quot;https://www.eclipse.org/modeling/mdt/?project=xsd&quot; target=&quot;emf&quot;>XML Schema Definition&lt;/a> project, i.e., XSD.
-    As such, all the source projects from &lt;a href=&quot;http://git.eclipse.org/c/emf/org.eclipse.emf.git&quot; target=&quot;emf_git&quot;>EMF's Git Repository&lt;/a>
+    this environment also includes the &lt;a href=&quot;https://www.eclipse.org/modeling/mdt/?project=xsd&quot;>XML Schema Definition&lt;/a> project, i.e., XSD.
+    As such, all the source projects from &lt;a href=&quot;http://git.eclipse.org/c/emf/org.eclipse.emf.git&quot;>EMF's Git Repository&lt;/a>
     and the &lt;a href=&quot;http://git.eclipse.org/c/xsd/org.eclipse.xsd.git&quot; target=&quot;emf_git&quot;>XSD Git Repository&lt;/a>
     are available, organized into working sets, and ready for contribution.
     &lt;/p>
