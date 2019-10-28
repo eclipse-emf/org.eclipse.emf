@@ -24,7 +24,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IActionDelegate;
-
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.emf.codegen.jet.JETAddNatureOperation;
 import org.eclipse.emf.codegen.presentation.CodeGenUIPlugin;
 
@@ -63,7 +63,7 @@ public class AddJETNatureAction implements IActionDelegate
       try 
       {
         ProgressMonitorDialog dialog = 
-          new ProgressMonitorDialog(CodeGenUIPlugin.getPlugin().getWorkbench().getActiveWorkbenchWindow().getShell());
+          new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
         dialog.run(false, true, op);
       } 
       catch (Exception e) 

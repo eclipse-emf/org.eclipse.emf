@@ -27,6 +27,7 @@ import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 
@@ -190,7 +191,7 @@ public class CodeGenUIPlugin extends AbstractUIPlugin
   public static void write(Exception exception)
   {
     DiagnosticDialog.open(
-      getPlugin().getWorkbench().getActiveWorkbenchWindow().getShell(),
+      PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
       getPlugin().getString("_UI_JETProblem_title"),
       exception instanceof JETException ? getPlugin().getString("_UI_JETCompileProblem_message") : null,
       BasicDiagnostic.toDiagnostic(exception));

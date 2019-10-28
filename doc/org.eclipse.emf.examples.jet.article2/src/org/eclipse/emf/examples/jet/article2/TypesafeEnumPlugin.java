@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -78,7 +79,7 @@ public class TypesafeEnumPlugin extends AbstractUIPlugin
     {
       return null;
     }
-    IWorkbench workBench = sPlugin.getWorkbench();
+    IWorkbench workBench = PlatformUI.getWorkbench();
     if (workBench == null)
     {
       return null;
