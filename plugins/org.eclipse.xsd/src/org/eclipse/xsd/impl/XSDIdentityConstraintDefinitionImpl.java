@@ -484,7 +484,7 @@ public class XSDIdentityConstraintDefinitionImpl
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (identityConstraintCategory: ");
     result.append(IDENTITY_CONSTRAINT_CATEGORY_EFLAG_VALUES[(eFlags & IDENTITY_CONSTRAINT_CATEGORY_EFLAG) >>> IDENTITY_CONSTRAINT_CATEGORY_EFLAG_OFFSET]);
     result.append(')');

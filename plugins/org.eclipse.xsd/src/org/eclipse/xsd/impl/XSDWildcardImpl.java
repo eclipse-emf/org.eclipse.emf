@@ -576,7 +576,7 @@ public class XSDWildcardImpl
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (namespaceConstraintCategory: ");
     result.append(NAMESPACE_CONSTRAINT_CATEGORY_EFLAG_VALUES[(eFlags & NAMESPACE_CONSTRAINT_CATEGORY_EFLAG) >>> NAMESPACE_CONSTRAINT_CATEGORY_EFLAG_OFFSET]);
     result.append(", namespaceConstraint: ");

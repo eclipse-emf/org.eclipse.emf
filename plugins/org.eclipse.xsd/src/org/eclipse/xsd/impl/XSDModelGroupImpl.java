@@ -419,7 +419,7 @@ public class XSDModelGroupImpl
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (compositor: ");
     result.append(COMPOSITOR_EFLAG_VALUES[(eFlags & COMPOSITOR_EFLAG) >>> COMPOSITOR_EFLAG_OFFSET]);
     result.append(')');

@@ -2861,7 +2861,7 @@ public class XSDSimpleTypeDefinitionImpl
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (variety: ");
     if ((eFlags & VARIETY_ESETFLAG) != 0) result.append(VARIETY_EFLAG_VALUES[(eFlags & VARIETY_EFLAG) >>> VARIETY_EFLAG_OFFSET]); else result.append("<unset>");
     result.append(", final: ");

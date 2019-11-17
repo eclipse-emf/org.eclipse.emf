@@ -4714,7 +4714,7 @@ public class XSDPackageImpl
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link XSDPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -4729,7 +4729,8 @@ public class XSDPackageImpl
     if (isInited) return (XSDPackage)EPackage.Registry.INSTANCE.getEPackage(XSDPackage.eNS_URI);
 
     // Obtain or create and register package
-    XSDPackageImpl theXSDPackage = (XSDPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof XSDPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new XSDPackageImpl());
+    Object registeredXSDPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    XSDPackageImpl theXSDPackage = registeredXSDPackage instanceof XSDPackageImpl ? (XSDPackageImpl)registeredXSDPackage : new XSDPackageImpl();
 
     isInited = true;
 
@@ -4742,7 +4743,6 @@ public class XSDPackageImpl
     // Mark meta-data to indicate it can't be changed
     theXSDPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(XSDPackage.eNS_URI, theXSDPackage);
     return theXSDPackage;

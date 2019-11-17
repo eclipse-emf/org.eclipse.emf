@@ -483,7 +483,7 @@ public class XSDParticleImpl
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (minOccurs: ");
     if ((eFlags & MIN_OCCURS_ESETFLAG) != 0) result.append(minOccurs); else result.append("<unset>");
     result.append(", maxOccurs: ");

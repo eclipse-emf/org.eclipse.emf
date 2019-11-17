@@ -270,7 +270,7 @@ public abstract class XSDFixedFacetImpl
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (fixed: ");
     if ((eFlags & FIXED_ESETFLAG) != 0) result.append((eFlags & FIXED_EFLAG) != 0); else result.append("<unset>");
     result.append(')');

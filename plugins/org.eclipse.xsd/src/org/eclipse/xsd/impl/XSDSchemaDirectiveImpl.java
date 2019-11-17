@@ -245,7 +245,7 @@ public abstract class XSDSchemaDirectiveImpl
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (schemaLocation: ");
     result.append(schemaLocation);
     result.append(')');

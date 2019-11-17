@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.xsd; singleton:=true
-Bundle-Version: 2.16.0.qualifier
+Bundle-Version: 2.17.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.xsd.XSDPlugin$Implementation
 Bundle-Vendor: %providerName
@@ -14,7 +14,7 @@ Export-Package: org.eclipse.xsd,
  org.eclipse.xsd.impl.type,
  org.eclipse.xsd.util
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)",
- org.eclipse.emf.ecore;bundle-version="[2.16.0,3.0.0)";visibility:=reexport
+ org.eclipse.emf.ecore;bundle-version="[2.20.0,3.0.0)";visibility:=reexport
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.eclipse.xsd

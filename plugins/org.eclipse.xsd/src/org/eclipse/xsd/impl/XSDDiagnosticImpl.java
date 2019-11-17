@@ -789,7 +789,7 @@ public class XSDDiagnosticImpl
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (severity: ");
     result.append(SEVERITY_EFLAG_VALUES[(eFlags & SEVERITY_EFLAG) >>> SEVERITY_EFLAG_OFFSET]);
     result.append(", message: ");

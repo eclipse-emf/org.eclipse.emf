@@ -2246,7 +2246,7 @@ public class XSDElementDeclarationImpl
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (nillable: ");
     if ((eFlags & NILLABLE_ESETFLAG) != 0) result.append((eFlags & NILLABLE_EFLAG) != 0); else result.append("<unset>");
     result.append(", disallowedSubstitutions: ");
