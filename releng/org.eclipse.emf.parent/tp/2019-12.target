@@ -25,12 +25,12 @@
 
       <repository location="http://download.itemis.com/updates/releases/2.1.0"/>
 
-      <repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.19.0"/>
+      <repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.20.0"/>
       <repository location="http://download.eclipse.org/modeling/m2t/xpand/updates/releases/R201605260315"/>
-      <repository location="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.11.0"/>
+      <repository location="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.11.1"/>
       <repository location="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
 
-      <repository location="http://download.eclipse.org/nebula/releases/1.0.0"/>
+      <repository location="http://download.eclipse.org/nebula/releases/2.2.0"/>
 
     </location>
   </locations>
