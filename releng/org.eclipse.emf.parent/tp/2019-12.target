@@ -18,12 +18,15 @@
       <unit id="org.eclipse.nebula.widgets.cdatetime" version="0.0.0"/>
 
       <repository location="http://download.eclipse.org/eclipse/updates/4.14-I-builds"/>
-      <repository location="http://download.eclipse.org/releases/2019-12"/>
       <repository location="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
 
       <repository location="https://dl.google.com/eclipse/plugin/4.6"/>
 
       <repository location="http://download.itemis.com/updates/releases/2.1.0"/>
+
+      <repository location="http://download.eclipse.org/datatools/updates/1.14.105-SNAPSHOT/repository"/>
+
+      <repository location="http://download.eclipse.org/rt/rap/3.10/R-20190911-1524"/>
 
       <repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.20.0"/>
       <repository location="http://download.eclipse.org/modeling/m2t/xpand/updates/releases/R201605260315"/>

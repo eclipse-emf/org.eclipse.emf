@@ -19,6 +19,7 @@
 
       <repository location="http://download.eclipse.org/releases/juno/201303010900"/>
       <repository location="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
+      <repository location="http://download.eclipse.org/tools/orbit/downloads/2019-06"/>
 
       <repository location="https://dl.google.com/eclipse/plugin/4.6"/>
 
