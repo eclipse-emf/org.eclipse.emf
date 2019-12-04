@@ -60,9 +60,9 @@
       <mavenMappings namePattern="org.objectweb.asm" groupId="org.ow2.asm" artifactId="asm"/>
       <mavenMappings namePattern="org.eclipse.xsd(.*)" groupId="org.eclipse.emf" artifactId="org.eclipse.xsd$1"/>
     </contributions>
-    <validationRepositories location="https://download.eclipse.org/eclipse/updates/4.12"/>
-    <validationRepositories location="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.17.0"/>
-    <validationRepositories location="https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.9.1"/>
+    <validationRepositories location="https://download.eclipse.org/eclipse/updates/4.13"/>
+    <validationRepositories location="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.20.0"/>
+    <validationRepositories location="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.11.1"/>
     <validationRepositories location="https://download.eclipse.org/tools/orbit/downloads/latest-R"/>
   </validationSets>
   <configurations architecture="x86_64"/>
