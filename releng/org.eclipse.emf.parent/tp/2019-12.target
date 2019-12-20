@@ -17,7 +17,7 @@
 
       <unit id="org.eclipse.nebula.widgets.cdatetime" version="0.0.0"/>
 
-      <repository location="http://download.eclipse.org/eclipse/updates/4.14-I-builds"/>
+      <repository location="http://download.eclipse.org/eclipse/updates/4.14/R-4.14-201912100610"/>
       <repository location="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
 
       <repository location="https://dl.google.com/eclipse/plugin/4.6"/>
