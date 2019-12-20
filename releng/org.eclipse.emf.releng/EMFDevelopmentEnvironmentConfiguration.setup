@@ -29,7 +29,7 @@
     <setupTask
         xsi:type="setup:VariableTask"
         name="eclipse.target.platform"
-        value="2019-12"/>
+        value="${eclipse.target.platform.latest}"/>
     <stream
         href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']/@projects[name='emf']/@projects[name='core']/@streams[name='master']"/>
     <stream
