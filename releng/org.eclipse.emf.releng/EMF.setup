@@ -84,6 +84,10 @@
           key="/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.redundantNullCheck">
         <value>record</value>
       </detail>
+      <detail
+          key="/instance/org.eclipse.pde/compilers.p.exec-env-too-low">
+        <value>record</value>
+      </detail>
     </annotation>
     <setupTask
         xsi:type="setup:CompoundTask"
@@ -215,6 +219,10 @@
       <setupTask
           xsi:type="setup:PreferenceTask"
           key="/instance/org.eclipse.pde/compilers.p.deprecated"
+          value="2"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.pde/compilers.p.exec-env-too-low"
           value="2"/>
     </setupTask>
     <setupTask
