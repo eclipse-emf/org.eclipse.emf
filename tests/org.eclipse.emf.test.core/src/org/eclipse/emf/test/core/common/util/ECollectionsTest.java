@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -460,6 +461,14 @@ public class ECollectionsTest
     assertListIteratorSet(new ArrayList<Object>());
     assertListIteratorSet(new BasicEList<Object>());
     assertListIteratorSet(createDelegatingEList());
+  }
+  
+  @Test
+  public void testNewBasicEList()
+  {
+    BasicEList<String> basicEList = ECollections.newBasicEList("1", "2", "3");
+    List<String> list = Arrays.asList("1", "2", "3");
+    assertEquals(list, basicEList);
   }
 
   protected List<Object> createDelegatingEList()

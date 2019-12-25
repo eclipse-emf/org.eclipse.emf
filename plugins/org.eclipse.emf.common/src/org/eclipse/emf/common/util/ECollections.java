@@ -1393,6 +1393,7 @@ public class ECollections
   {
     BasicEList<T> result = new BasicEList<T>(elements.length);
     System.arraycopy(elements, 0, result.data, 0, elements.length);
+    result.size = elements.length;
     return result;
   }
 
