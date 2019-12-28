@@ -432,7 +432,23 @@ public final class JETEditor extends AbstractDecoratedTextEditor
   @Override
   public IEditorInput getEditorInput()
   {
-    return editorContextMenuAboutToShow ? jetDocumentManager.getEditorInput() : super.getEditorInput();
+    if (editorContextMenuAboutToShow)
+    {
+      try
+      {
+        // Prevent potential stack overflow.
+        editorContextMenuAboutToShow = false;
+        return jetDocumentManager.getEditorInput();
+      }
+      finally
+      {
+        editorContextMenuAboutToShow = true;
+      }
+    }
+    else
+    {
+      return super.getEditorInput();
+    }
   }
 
   SourceViewer getJETSourceViewer()
