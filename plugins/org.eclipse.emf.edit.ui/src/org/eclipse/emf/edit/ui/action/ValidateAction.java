@@ -20,6 +20,7 @@ import java.util.Map;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -175,13 +176,17 @@ public class ValidateAction extends Action implements ISelectionChangedListener
           {
             diagnostic[0] = validate(progressMonitor);
           }
+          catch (OperationCanceledException exception)
+          {
+            diagnostic[0] = Diagnostic.CANCEL_INSTANCE;
+          }
           finally
           {
             progressMonitor.done();
           }
         }
       };
-    Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+    final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
     try
     {
       new ProgressMonitorDialog(shell).run(true, true, validationRunnable);
@@ -193,7 +198,21 @@ public class ValidateAction extends Action implements ISelectionChangedListener
           {
             try
             {
-              handleDiagnostic(diagnostic[0]);
+              shell.getDisplay().asyncExec 
+                (new Runnable()
+                 {
+                   public void run()
+                   {
+                     if (progressMonitor.isCanceled())
+                     {
+                       handleDiagnostic(Diagnostic.CANCEL_INSTANCE);
+                     }
+                     else
+                     {
+                       handleDiagnostic(diagnostic[0]);
+                     }
+                   }
+                 });
             }
             finally
             {
@@ -300,6 +319,11 @@ public class ValidateAction extends Action implements ISelectionChangedListener
         @Override
         protected boolean doValidate(EValidator eValidator, EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
         {
+          if (progressMonitor.isCanceled())
+          {
+            throw new OperationCanceledException();
+          }
+
           progressMonitor.worked(1);
           Resource resource = eObject.eResource();
           if (resource == null)
