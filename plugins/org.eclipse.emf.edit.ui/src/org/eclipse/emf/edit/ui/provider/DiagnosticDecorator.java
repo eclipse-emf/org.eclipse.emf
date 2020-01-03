@@ -161,7 +161,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
 
   /**
    * Cleans up the escaping and HTML tags inserted by the {@link LiveValidator live validator}.
-   * It can be safely called on text not produces by the live validator because it only transformed {@link #enquote(String) enquoted} content.
+   * It can be safely called on text not produced by the live validator because it only transformed {@link #enquote(String) enquoted} content.
    */
   public static String strip(String content)
   {
@@ -174,7 +174,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
       {
         result.append(content.substring(start, matcher.start()));
         String label = matcher.group(1);
-        result.append(label.replace("&lt;", "<").replace("&amp;", "&"));
+        result.append(label.replace("&lt;", "<").replace("&amp;", "&").replace("&#160;", " "));
         start = matcher.end();
       }
       while (matcher.find());
