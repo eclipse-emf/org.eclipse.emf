@@ -77,9 +77,9 @@ public class URIConverterTest
     assertEquals(contentsFromUncompressedFile, contents);
     new File(URI.createURI(uri.authority().replaceAll("!", "")).toFileString()).delete();
 
-    // Reads the data.zip file from our git repository using http
+    // Reads the data.zip file from our git repository using https
     //
-    uri = URI.createURI("archive:http://git.eclipse.org/c/emf/org.eclipse.emf.git/plain/tests/org.eclipse.emf.test.core/data/data.zip!/%66ile.txt");
+    uri = URI.createURI("archive:https://git.eclipse.org/c/emf/org.eclipse.emf.git/plain/tests/org.eclipse.emf.test.core/data/data.zip!/%66ile.txt");
     contents = readFile(uriConverter.createInputStream(uri));
     assertEquals(contentsFromUncompressedFile, contents);
   }
