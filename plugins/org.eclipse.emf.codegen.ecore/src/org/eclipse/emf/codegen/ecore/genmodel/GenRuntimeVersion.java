@@ -4,8 +4,8 @@
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
@@ -36,7 +36,9 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF22(0, "EMF22", "2.2"), /**
+  EMF22(0, "EMF22", "2.2"),
+
+  /**
    * The '<em><b>EMF23</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -44,7 +46,9 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF23(1, "EMF23", "2.3"), /**
+  EMF23(1, "EMF23", "2.3"),
+
+  /**
    * The '<em><b>EMF24</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -52,7 +56,9 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF24(2, "EMF24", "2.4"), /**
+  EMF24(2, "EMF24", "2.4"),
+
+  /**
    * The '<em><b>EMF25</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -60,7 +66,9 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF25(3, "EMF25", "2.5"), /**
+  EMF25(3, "EMF25", "2.5"),
+
+  /**
    * The '<em><b>EMF26</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -68,7 +76,9 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF26(4, "EMF26", "2.6"), /**
+  EMF26(4, "EMF26", "2.6"),
+
+  /**
    * The '<em><b>EMF27</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -76,7 +86,9 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF27(5, "EMF27", "2.7"), /**
+  EMF27(5, "EMF27", "2.7"),
+
+  /**
    * The '<em><b>EMF28</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -84,7 +96,9 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF28(6, "EMF28", "2.8"), /**
+  EMF28(6, "EMF28", "2.8"),
+
+  /**
    * The '<em><b>EMF29</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -92,7 +106,9 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF29(7, "EMF29", "2.9"), /**
+  EMF29(7, "EMF29", "2.9"),
+
+  /**
    * The '<em><b>EMF210</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -100,7 +116,9 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF210(8, "EMF210", "2.10"), /**
+  EMF210(8, "EMF210", "2.10"),
+
+  /**
    * The '<em><b>EMF211</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -108,7 +126,9 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF211(9, "EMF211", "2.11"), /**
+  EMF211(9, "EMF211", "2.11"),
+
+  /**
    * The '<em><b>EMF212</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -116,7 +136,7 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF212(10, "EMF212", "2.12"), 
+  EMF212(10, "EMF212", "2.12"),
 
   /**
    * The '<em><b>EMF213</b></em>' literal object.
@@ -126,7 +146,9 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF213(11, "EMF213", "2.13"), /**
+  EMF213(11, "EMF213", "2.13"),
+
+  /**
    * The '<em><b>EMF214</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -137,7 +159,9 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF214(12, "EMF214", "2.14"), /**
+  EMF214(12, "EMF214", "2.14"),
+
+  /**
    * The '<em><b>EMF215</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -148,7 +172,9 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF215(13, "EMF215", "2.15"), /**
+  EMF215(13, "EMF215", "2.15"),
+
+  /**
    * The '<em><b>EMF216</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -159,7 +185,9 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF216(14, "EMF216", "2.16"), /**
+  EMF216(14, "EMF216", "2.16"),
+
+  /**
    * The '<em><b>EMF217</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -170,7 +198,9 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF217(15, "EMF217", "2.17"), /**
+  EMF217(15, "EMF217", "2.17"),
+
+  /**
    * The '<em><b>EMF218</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -181,7 +211,9 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF218(16, "EMF218", "2.18"), /**
+  EMF218(16, "EMF218", "2.18"),
+
+  /**
    * The '<em><b>EMF219</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -193,6 +225,7 @@ public enum GenRuntimeVersion implements Enumerator
    * @ordered
    */
   EMF219(17, "EMF219", "2.19"),
+
   /**
    * The '<em><b>EMF220</b></em>' literal object.
    * <!-- begin-user-doc -->
@@ -204,7 +237,20 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF220(18, "EMF220", "2.20");
+  EMF220(18, "EMF220", "2.20"),
+
+  /**
+   * The '<em><b>EMF221</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.21
+   * <!-- end-model-doc -->
+   * @see #EMF221_VALUE
+   * @generated
+   * @ordered
+   */
+  EMF221(19, "EMF221", "2.21");
 
   /**
    * The '<em><b>EMF22</b></em>' literal value.
@@ -451,6 +497,20 @@ public enum GenRuntimeVersion implements Enumerator
   public static final int EMF220_VALUE = 18;
 
   /**
+   * The '<em><b>EMF221</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.21
+   * <!-- end-model-doc -->
+   * @see #EMF221
+   * @model literal="2.21"
+   * @generated
+   * @ordered
+   */
+  public static final int EMF221_VALUE = 19;
+
+  /**
    * An array of all the '<em><b>Gen Runtime Version</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -478,6 +538,7 @@ public enum GenRuntimeVersion implements Enumerator
       EMF218,
       EMF219,
       EMF220,
+      EMF221,
     };
 
   /**
@@ -561,6 +622,7 @@ public enum GenRuntimeVersion implements Enumerator
       case EMF218_VALUE: return EMF218;
       case EMF219_VALUE: return EMF219;
       case EMF220_VALUE: return EMF220;
+      case EMF221_VALUE: return EMF221;
     }
     return null;
   }
@@ -640,5 +702,5 @@ public enum GenRuntimeVersion implements Enumerator
   {
     return literal;
   }
-  
+
 } //GenRuntimeVersion

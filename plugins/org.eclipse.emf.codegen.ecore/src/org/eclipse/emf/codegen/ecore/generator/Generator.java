@@ -383,6 +383,11 @@ public class Generator
               facadeHelper.setCompilerCompliance("13"); 
               break;
             }
+            case JDK140_LITERAL:
+            {
+              facadeHelper.setCompilerCompliance("14"); 
+              break;
+            }
           }
 
           if (genModel.isCodeFormatting())

@@ -4,8 +4,8 @@
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
- * 
- * Contributors: 
+ *
+ * Contributors:
  *   IBM - Initial API and implementation
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
@@ -37,6 +37,7 @@ public enum GenJDKLevel implements Enumerator
    * @ordered
    */
   JDK14_LITERAL(0, "JDK14", "1.4"),
+
   /**
    * The '<em><b>JDK50</b></em>' literal object.
    * <!-- begin-user-doc -->
@@ -46,6 +47,7 @@ public enum GenJDKLevel implements Enumerator
    * @ordered
    */
   JDK50_LITERAL(1, "JDK50", "5.0"),
+
   /**
    * The '<em><b>JDK60</b></em>' literal object.
    * <!-- begin-user-doc -->
@@ -54,7 +56,9 @@ public enum GenJDKLevel implements Enumerator
    * @generated
    * @ordered
    */
-  JDK60_LITERAL(2, "JDK60", "6.0"), /**
+  JDK60_LITERAL(2, "JDK60", "6.0"),
+
+  /**
    * The '<em><b>JDK70</b></em>' literal object.
    * <!-- begin-user-doc -->
    * @since 2.8
@@ -63,7 +67,9 @@ public enum GenJDKLevel implements Enumerator
    * @generated
    * @ordered
    */
-  JDK70_LITERAL(3, "JDK70", "7.0"), /**
+  JDK70_LITERAL(3, "JDK70", "7.0"),
+
+  /**
    * The '<em><b>JDK80</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -71,7 +77,9 @@ public enum GenJDKLevel implements Enumerator
    * @generated
    * @ordered
    */
-  JDK80_LITERAL(4, "JDK80", "8.0"), /**
+  JDK80_LITERAL(4, "JDK80", "8.0"),
+
+  /**
    * The '<em><b>JDK90</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -82,7 +90,9 @@ public enum GenJDKLevel implements Enumerator
    * @generated
    * @ordered
    */
-  JDK90_LITERAL(5, "JDK90", "9.0"), /**
+  JDK90_LITERAL(5, "JDK90", "9.0"),
+
+  /**
    * The '<em><b>JDK100</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -93,7 +103,9 @@ public enum GenJDKLevel implements Enumerator
    * @generated
    * @ordered
    */
-  JDK100_LITERAL(6, "JDK100", "10.0"), /**
+  JDK100_LITERAL(6, "JDK100", "10.0"),
+
+  /**
    * The '<em><b>JDK110</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -104,7 +116,9 @@ public enum GenJDKLevel implements Enumerator
    * @generated
    * @ordered
    */
-  JDK110_LITERAL(6, "JDK110", "11.0"), /**
+  JDK110_LITERAL(7, "JDK110", "11.0"),
+
+  /**
    * The '<em><b>JDK120</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -115,7 +129,9 @@ public enum GenJDKLevel implements Enumerator
    * @generated
    * @ordered
    */
-  JDK120_LITERAL(7, "JDK120", "12.0"), /**
+
+  JDK120_LITERAL(8, "JDK120", "12.0"),
+  /**
    * The '<em><b>JDK130</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -126,7 +142,21 @@ public enum GenJDKLevel implements Enumerator
    * @generated
    * @ordered
    */
-  JDK130_LITERAL(8, "JDK130", "13.0");
+  JDK130_LITERAL(9, "JDK130", "13.0"),
+
+  /**
+   * The '<em><b>JDK140</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.21
+   * <!-- end-model-doc -->
+   * @see #JDK140
+   * @generated
+   * @ordered
+   */
+  JDK140_LITERAL(10, "JDK140", "14.0");
+
   /**
    * The '<em><b>JDK14</b></em>' literal value.
    * <!-- begin-user-doc -->
@@ -227,7 +257,7 @@ public enum GenJDKLevel implements Enumerator
    * @generated
    * @ordered
    */
-  public static final int JDK110 = 6;
+  public static final int JDK110 = 7;
 
   /**
    * The '<em><b>JDK120</b></em>' literal value.
@@ -241,7 +271,7 @@ public enum GenJDKLevel implements Enumerator
    * @generated
    * @ordered
    */
-  public static final int JDK120 = 7;
+  public static final int JDK120 = 8;
 
   /**
    * The '<em><b>JDK130</b></em>' literal value.
@@ -255,7 +285,21 @@ public enum GenJDKLevel implements Enumerator
    * @generated
    * @ordered
    */
-  public static final int JDK130 = 8;
+  public static final int JDK130 = 9;
+
+  /**
+   * The '<em><b>JDK140</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.21
+   * <!-- end-model-doc -->
+   * @see #JDK140_LITERAL
+   * @model literal="14.0"
+   * @generated
+   * @ordered
+   */
+  public static final int JDK140 = 10;
 
   /**
    * An array of all the '<em><b>Gen JDK Level</b></em>' enumerators.
@@ -276,6 +320,7 @@ public enum GenJDKLevel implements Enumerator
       JDK110_LITERAL,
       JDK120_LITERAL,
       JDK130_LITERAL,
+      JDK140_LITERAL,
     };
 
   /**
@@ -347,8 +392,10 @@ public enum GenJDKLevel implements Enumerator
       case JDK80: return JDK80_LITERAL;
       case JDK90: return JDK90_LITERAL;
       case JDK100: return JDK100_LITERAL;
+      case JDK110: return JDK110_LITERAL;
       case JDK120: return JDK120_LITERAL;
       case JDK130: return JDK130_LITERAL;
+      case JDK140: return JDK140_LITERAL;
     }
     return null;
   }

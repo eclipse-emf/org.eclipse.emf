@@ -46,6 +46,7 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenJDKLevel/JDK110"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenJDKLevel/JDK120"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenJDKLevel/JDK130"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenJDKLevel/JDK140"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="GenModel.ecore#//GenRuntimeVersion">
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF22"/>
@@ -67,6 +68,7 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF218"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF219"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF220"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF221"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="GenModel.ecore#//GenRuntimePlatform">
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimePlatform/IDE"/>
@@ -93,6 +95,7 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2019_06"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2019_09"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2019_12"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2020_03"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="GenModel.ecore#//GenCodeStyle">
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenCodeStyle/UnnecessaryElse"/>
