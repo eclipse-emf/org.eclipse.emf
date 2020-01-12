@@ -505,6 +505,11 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
   public EObject eObjectForURIFragmentSegment(String uriFragmentSegment)
   {
     int lastIndex = uriFragmentSegment.length() - 1;
+    if (lastIndex == -1 || uriFragmentSegment.charAt(0) != '@')
+    {
+      throw new IllegalArgumentException("Expecting @ at index 0 of '" + uriFragmentSegment + "'");
+    }
+
     char lastChar = uriFragmentSegment.charAt(lastIndex);
     if (lastChar == ']')
     {      
@@ -514,6 +519,10 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
         EReference eReference = eReference(uriFragmentSegment.substring(1, index));
         String predicate = uriFragmentSegment.substring(index + 1, lastIndex);
         return eObjectForURIFragmentPredicate(predicate, eReference);
+      }
+      else
+      {
+        throw new IllegalArgumentException("Expecting [ in '" + uriFragmentSegment + "'");
       }
     }
     else
@@ -562,7 +571,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     EClass eReferenceType = eReference.getEReferenceType();
     for (int i = 0; i < length; ++i)
     {
-      int index = predicate.indexOf('=', i);
+      int index = requiredIndexOf(predicate, '=', i);
       EAttribute eAttribute = eAttribute(eReferenceType, predicate.substring(i, index));
       EDataType eDataType = eAttribute.getEAttributeType();
       EFactory eFactory = eDataType.getEPackage().getEFactoryInstance();
@@ -570,14 +579,14 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
       {
         case '\'':
         {
-          int end = predicate.indexOf('\'', ++index);
+          int end = requiredIndexOf(predicate, '\'', ++index);
           addEntry(featureMapEntries, eAttribute, eDecodeValue(predicate.substring(index, end), eFactory, eDataType));
           i = end + 1;
           break;
         }
         case '"':
         {
-          int end = predicate.indexOf('"', ++index);
+          int end = requiredIndexOf(predicate, '"', ++index);
           addEntry(featureMapEntries, eAttribute, eDecodeValue(predicate.substring(index, end), eFactory, eDataType));
           i = end + 1;
           break;
@@ -589,18 +598,23 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
           LOOP:
           for (;;)
           {
-            switch (predicate.charAt(++index))
+            if (++index >= length)
+            {
+              throw new IllegalArgumentException("Expecting ', \", ], or null at index " + index + " of '" + predicate + "'");
+            }
+
+            switch (predicate.charAt(index))
             {
               case '\'':
               {
-                int end = predicate.indexOf('\'', ++index);
+                int end = requiredIndexOf(predicate, '\'', ++index);
                 values.add(eDecodeValue(predicate.substring(index, end), eFactory, eDataType));
                 index = end + 1;
                 break;
               }
               case '"':
               {
-                int end = predicate.indexOf('"', ++index);
+                int end = requiredIndexOf(predicate, '"', ++index);
                 values.add(eDecodeValue(predicate.substring(index, end), eFactory, eDataType));
                 index = end + 1;
                 break;
@@ -614,13 +628,21 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
                 }
                 else
                 {
-                  throw new RuntimeException("Expecting null");
+                  throw new IllegalArgumentException("Expecting null at index " + (index - 1) + " of '" + predicate + "'");
                 }
                 index += 3;
                 break;
               }
+              case ']':
+              {
+                break;
+              }
+              default:
+              {
+                throw new IllegalArgumentException("Expecting ', \", ], or null at index " + index + " of '" + predicate + "'");
+              }
             }
-            
+
             if (index < length)
             {
               switch (predicate.charAt(index))
@@ -635,13 +657,13 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
                 }
                 default:
                 {
-                  throw new RuntimeException("Expecting , or ]");
+                  throw new IllegalArgumentException("Expecting , or ] at index " + index + " of '" + predicate + "'");
                 }
               }
             }
             else
             {
-              break;
+              throw new IllegalArgumentException("Expecting , or ] at index " + index + " of '" + predicate + "'");
             }
           }
           i = index + 1;
@@ -656,17 +678,21 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
           }
           else
           {
-            throw new RuntimeException("Expecting null");
+            throw new IllegalArgumentException("Expecting null at index " + (index - 1) + " of '" + predicate + "'");
           }
           i = index + 3;
           break;
+        }
+        default:
+        {
+          throw new IllegalArgumentException("Expecting ', \", [, or null at index " + index  + " of '" + predicate + "'");
         }
       }
       if (i < length)
       {
         if (predicate.charAt(i) != ',')
         {
-          throw new RuntimeException("Expecting ,");
+          throw new IllegalArgumentException("Expecting , at index " + i + " of '" + predicate + "'");
         }
       }
       else
@@ -677,7 +703,20 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     
     return eObjectForURIFragmentPredicate(featureMapEntries, eReference);
   }
-  
+
+  private static final int requiredIndexOf(String string, char character, int start)
+  {
+    int index = string.indexOf(character, start);
+    if (index <0)
+    {
+      throw new IllegalArgumentException("Expecting " + character + " at or after index " + start + " of '" + string + "'");
+    }
+    else
+    {
+      return index;
+    }
+  }
+
   private static final void addEntry(List<FeatureMap.Entry> featureMapEntries, final EAttribute eAttribute, final Object value)
   {
     featureMapEntries.add

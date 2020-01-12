@@ -52,6 +52,7 @@ import org.junit.runners.Suite;
       org.eclipse.emf.test.core.ecore.GenericTypeBuilderTest.class,
       org.eclipse.emf.test.core.featuremap.FeatureMapTest.class,
       org.eclipse.emf.test.core.ecore.BadEcoreDiagnosticTest.class,
+      org.eclipse.emf.test.core.ecore.BadURIFragmentTest.class,
       org.eclipse.emf.test.core.ecore.XMLTypeTest.class,
       org.eclipse.emf.test.core.ecore.BinaryResourceTest.class,
       org.eclipse.emf.test.core.ecore.SwitchTest.class,
