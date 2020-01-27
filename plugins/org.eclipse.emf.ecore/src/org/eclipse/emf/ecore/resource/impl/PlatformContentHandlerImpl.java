@@ -88,7 +88,7 @@ public class PlatformContentHandlerImpl extends ContentHandlerImpl
     IContentDescription contentDescription;
     try
     {
-      if (uri.isPlatformResource() && PlatformResourceURIHandlerImpl.workspaceRoot != null)
+      if (uri.isPlatformResource() && PlatformResourceURIHandlerImpl.getWorkspaceRoot() != null)
       {
         contentDescription = PlatformResourceURIHandlerImpl.WorkbenchHelper.getContentDescription(uri.toPlatformString(true), options);
       }
@@ -175,7 +175,7 @@ public class PlatformContentHandlerImpl extends ContentHandlerImpl
   @Override
   protected String getCharset(URI uri, InputStream inputStream, Map<?, ?> options, Map<Object, Object> context) throws IOException
   {
-    if (uri.isPlatformResource() && PlatformResourceURIHandlerImpl.workspaceRoot != null)
+    if (uri.isPlatformResource() && PlatformResourceURIHandlerImpl.getWorkspaceRoot() != null)
     {
       return PlatformResourceURIHandlerImpl.WorkbenchHelper.getCharset(uri.toPlatformString(true), options);
     }
@@ -193,7 +193,7 @@ public class PlatformContentHandlerImpl extends ContentHandlerImpl
   @Override
   protected String getLineDelimiter(URI uri, InputStream inputStream, Map<?, ?> options, Map<Object, Object> context) throws IOException
   {
-    if (uri.isPlatformResource() && PlatformResourceURIHandlerImpl.workspaceRoot != null)
+    if (uri.isPlatformResource() && PlatformResourceURIHandlerImpl.getWorkspaceRoot() != null)
     {
       return PlatformResourceURIHandlerImpl.WorkbenchHelper.getLineDelimiter(uri.toPlatformString(true), options);
     }

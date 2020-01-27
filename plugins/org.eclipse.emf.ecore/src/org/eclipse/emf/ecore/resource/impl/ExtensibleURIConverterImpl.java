@@ -20,11 +20,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.ContentHandler;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.URIHandler;
@@ -390,7 +388,6 @@ public class ExtensibleURIConverterImpl implements URIConverter
     getURIHandler(normalizedURI).setAttributes(normalizedURI, attributes, new OptionsMap(OPTION_URI_CONVERTER, this, options));
   }
 
-  private static IWorkspaceRoot workspaceRoot = EcorePlugin.getWorkspaceRoot();
 
   /**
    * Returns the normalized form of the URI.
@@ -411,7 +408,7 @@ public class ExtensibleURIConverterImpl implements URIConverter
     String scheme = result.scheme();
     if (scheme == null)
     {
-      if (workspaceRoot != null)
+      if (PlatformResourceURIHandlerImpl.getWorkspaceRoot() != null)
       {
         if (result.hasAbsolutePath())
         {
