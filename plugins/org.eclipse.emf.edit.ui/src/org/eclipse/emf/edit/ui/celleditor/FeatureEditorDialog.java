@@ -365,10 +365,7 @@ public class FeatureEditorDialog extends Dialog
     addButtonGridData.verticalAlignment = SWT.FILL;
     addButtonGridData.horizontalAlignment = SWT.FILL;
     addButton.setLayoutData(addButtonGridData);
-    if (valueHandler != null)
-    {
-      addButton.setEnabled(valueHandler.isValid("") == null);
-    }
+    addButton.setEnabled(valueHandler != null && valueHandler.isValid("") == null);
 
     final Button removeButton = new Button(controlButtons, SWT.PUSH);
     removeButton.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_Remove_label"));
@@ -376,6 +373,7 @@ public class FeatureEditorDialog extends Dialog
     removeButtonGridData.verticalAlignment = SWT.FILL;
     removeButtonGridData.horizontalAlignment = SWT.FILL;
     removeButton.setLayoutData(removeButtonGridData);
+    removeButton.setEnabled(false);
 
     Label spaceLabel = new Label(controlButtons, SWT.NONE);
     GridData spaceLabelGridData = new GridData();
@@ -388,6 +386,7 @@ public class FeatureEditorDialog extends Dialog
     upButtonGridData.verticalAlignment = SWT.FILL;
     upButtonGridData.horizontalAlignment = SWT.FILL;
     upButton.setLayoutData(upButtonGridData);
+    upButton.setEnabled(false);
 
     final Button downButton = new Button(controlButtons, SWT.PUSH);
     downButton.setText(EMFEditUIPlugin.INSTANCE.getString("_UI_Down_label"));
@@ -395,6 +394,7 @@ public class FeatureEditorDialog extends Dialog
     downButtonGridData.verticalAlignment = SWT.FILL;
     downButtonGridData.horizontalAlignment = SWT.FILL;
     downButton.setLayoutData(downButtonGridData);
+    downButton.setEnabled(false);
 
     Composite featureComposite = new Composite(contents, SWT.NONE);
     {
@@ -462,12 +462,15 @@ public class FeatureEditorDialog extends Dialog
           // Up is enabled only if something will actually be moved up.
           //
           boolean upEnabled = false;
-          int upIndex = Math.max(selectionIndices[0] - 1, 0);
-          for (int i = 0; i < selectionIndices.length; ++i)
+          if (selectionIndices.length > 0)
           {
-            if (upIndex++ != selectionIndices[i])
+            int upIndex = Math.max(selectionIndices[0] - 1, 0);
+            for (int i = 0; i < selectionIndices.length; ++i)
             {
-              upEnabled = true;
+              if (upIndex++ != selectionIndices[i])
+              {
+                upEnabled = true;
+              }
             }
           }
           upButton.setEnabled(upEnabled);
@@ -475,12 +478,15 @@ public class FeatureEditorDialog extends Dialog
           // Down is enabled only if something will actually be moved up.
           //
           boolean downEnabled = false;
-          int downIndex = Math.min(selectionIndices[selectionIndices.length - 1] + 1, featureTable.getItemCount() - 1);
-          for (int i = selectionIndices.length - 1; i >= 0; --i)
+          if (selectionIndices.length > 0)
           {
-            if (downIndex-- !=  selectionIndices[i])
+            int downIndex = Math.min(selectionIndices[selectionIndices.length - 1] + 1, featureTable.getItemCount() - 1);
+            for (int i = selectionIndices.length - 1; i >= 0; --i)
             {
-              downEnabled = true;
+              if (downIndex-- !=  selectionIndices[i])
+              {
+                downEnabled = true;
+              }
             }
           }
           downButton.setEnabled(downEnabled);
@@ -772,8 +778,8 @@ public class FeatureEditorDialog extends Dialog
           if (!children.isEmpty())
           {
             featureTable.setSelection(selectionIndices[0] == 0 ? 0 : selectionIndices[0] - 1);
-            featureTable.notifyListeners(SWT.Selection, null);
           }
+          featureTable.notifyListeners(SWT.Selection, null);
 
           // If there is a choice table...
           //
