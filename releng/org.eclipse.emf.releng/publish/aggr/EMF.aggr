@@ -43,6 +43,18 @@
         <bundles name="org.eclipse.emf.mapping.ecore2xml.source"/>
         <bundles name="org.eclipse.emf.mapping.xsd2ecore"/>
         <bundles name="org.eclipse.emf.mapping.xsd2ecore.source"/>
+        <bundles name="org.eclipse.emf.gwt.common"/>
+        <bundles name="org.eclipse.emf.gwt.common.source"/>
+        <bundles name="org.eclipse.emf.gwt.ecore"/>
+        <bundles name="org.eclipse.emf.gwt.ecore.source"/>
+        <bundles name="org.eclipse.emf.gwt.ecore.change"/>
+        <bundles name="org.eclipse.emf.gwt.ecore.change.source"/>
+        <bundles name="org.eclipse.emf.gwt.ecore.edit"/>
+        <bundles name="org.eclipse.emf.gwt.ecore.edit.source"/>
+        <bundles name="org.eclipse.emf.gwt.edit"/>
+        <bundles name="org.eclipse.emf.gwt.edit.source"/>
+        <bundles name="org.eclipse.emf.gwt.edit.ui"/>
+        <bundles name="org.eclipse.emf.gwt.edit.ui.source"/>
         <bundles name="org.eclipse.xsd"/>
         <bundles name="org.eclipse.xsd.source"/>
         <bundles name="org.eclipse.xsd.edit"/>
@@ -60,7 +72,7 @@
       <mavenMappings namePattern="org.objectweb.asm" groupId="org.ow2.asm" artifactId="asm"/>
       <mavenMappings namePattern="org.eclipse.xsd(.*)" groupId="org.eclipse.emf" artifactId="org.eclipse.xsd$1"/>
     </contributions>
-    <validationRepositories location="https://download.eclipse.org/eclipse/updates/4.13"/>
+    <validationRepositories location="https://download.eclipse.org/eclipse/updates/4.14"/>
     <validationRepositories location="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.20.0"/>
     <validationRepositories location="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.11.1"/>
     <validationRepositories location="https://download.eclipse.org/tools/orbit/downloads/latest-R"/>
