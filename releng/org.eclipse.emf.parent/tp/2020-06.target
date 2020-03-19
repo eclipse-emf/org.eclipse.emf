@@ -17,7 +17,7 @@
 
       <unit id="org.eclipse.nebula.widgets.cdatetime" version="0.0.0"/>
 
-      <repository location="http://download.eclipse.org/eclipse/updates/4.15/R-4.15-202003050155"/>
+      <repository location="http://download.eclipse.org/eclipse/updates/4.16-I-builds"/>
       <repository location="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
 
       <repository location="https://dl.google.com/eclipse/plugin/4.6"/>
@@ -28,9 +28,10 @@
 
       <repository location="http://download.eclipse.org/rt/rap/3.10/R-20190911-1524"/>
 
-      <repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.20.0"/>
+      <repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.21.0"/>
       <repository location="http://download.eclipse.org/modeling/m2t/xpand/updates/releases/R201605260315"/>
-      <repository location="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.11.1"/>
+      <repository location="http://download.eclipse.org/eclipse/updates/4.15/R-4.15-202003050155"/>
+      <repository location="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.11.2"/>
       <repository location="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
 
       <repository location="http://download.eclipse.org/nebula/releases/2.2.0"/>
