@@ -833,7 +833,7 @@ public class JETEmitter
           // Define a class loader that looks up classes using the URLs or the parent class loader,
           // and failing those, tries to look up the class in each bundle in the running JVM.
           //
-          @SuppressWarnings("resource")
+          @SuppressWarnings("all")
           URLClassLoader theClassLoader = 
             new URLClassLoader(urls.toArray(new URL [0]), jetEmitter.classLoader)
             {

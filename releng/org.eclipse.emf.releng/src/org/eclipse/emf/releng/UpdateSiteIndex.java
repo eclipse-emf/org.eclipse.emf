@@ -2,7 +2,6 @@ package org.eclipse.emf.releng;
 
 import java.util.*;
 import java.io.*;
-import org.eclipse.emf.releng.UpdateSiteIndexGenerator;
 
 public class UpdateSiteIndex
 {

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.releng" imports="java.util.* java.io.* org.eclipse.emf.releng.UpdateSiteIndexGenerator" class="UpdateSiteIndex"%>
+<%@ jet package="org.eclipse.emf.releng" imports="java.util.* java.io.*" class="UpdateSiteIndex"%>
 <%UpdateSiteIndexGenerator parent = (UpdateSiteIndexGenerator)argument;%>
 <%List<UpdateSiteIndexGenerator> children = parent.getChildren();%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

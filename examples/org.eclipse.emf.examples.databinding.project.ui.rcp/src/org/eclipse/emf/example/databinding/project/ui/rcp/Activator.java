@@ -93,7 +93,6 @@ public class Activator extends AbstractUIPlugin implements ServiceListener
    * @param path the path
    * @return the image descriptor
    */
-  @SuppressWarnings("deprecation")
   public static ImageDescriptor getImageDescriptor(String path)
   {
     return imageDescriptorFromPlugin(PLUGIN_ID, path);
