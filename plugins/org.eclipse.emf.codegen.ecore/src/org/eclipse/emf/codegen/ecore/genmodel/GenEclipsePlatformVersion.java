@@ -181,7 +181,18 @@ public enum GenEclipsePlatformVersion implements Enumerator
    * @generated
    * @ordered
    */
-  ECLIPSE_2020_03(13, "Eclipse_2020_03", "2020-03");
+  ECLIPSE_2020_03(13, "Eclipse_2020_03", "2020-03"), /**
+   * The '<em><b>Eclipse 2020 06</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.22
+   * <!-- end-model-doc -->
+   * @see #ECLIPSE_2020_06_VALUE
+   * @generated
+   * @ordered
+   */
+  ECLIPSE_2020_06(14, "Eclipse_2020_06", "2020-06");
 
   /**
    * The '<em><b>Juno</b></em>' literal value.
@@ -359,6 +370,20 @@ public enum GenEclipsePlatformVersion implements Enumerator
   public static final int ECLIPSE_2020_03_VALUE = 13;
 
   /**
+   * The '<em><b>Eclipse 2020 06</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.22
+   * <!-- end-model-doc -->
+   * @see #ECLIPSE_2020_06
+   * @model name="Eclipse_2020_06" literal="2020-06"
+   * @generated
+   * @ordered
+   */
+  public static final int ECLIPSE_2020_06_VALUE = 14;
+
+  /**
    * An array of all the '<em><b>Gen Eclipse Platform Version</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -381,6 +406,7 @@ public enum GenEclipsePlatformVersion implements Enumerator
       ECLIPSE_2019_09,
       ECLIPSE_2019_12,
       ECLIPSE_2020_03,
+      ECLIPSE_2020_06,
     };
 
   /**
@@ -459,6 +485,7 @@ public enum GenEclipsePlatformVersion implements Enumerator
       case ECLIPSE_2019_09_VALUE: return ECLIPSE_2019_09;
       case ECLIPSE_2019_12_VALUE: return ECLIPSE_2019_12;
       case ECLIPSE_2020_03_VALUE: return ECLIPSE_2020_03;
+      case ECLIPSE_2020_06_VALUE: return ECLIPSE_2020_06;
     }
     return null;
   }
