@@ -92,6 +92,7 @@
       <plugin>
         <groupId>org.eclipse.tycho.extras</groupId>
         <artifactId>tycho-source-feature-plugin</artifactId>
+        <version>${tycho-version}</version>
         <executions>
           <execution>
             <id>generate-source-feature</id>
