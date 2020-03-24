@@ -34,6 +34,20 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
+			<name>org.eclipse.ui.externaltools.ExternalToolBuilder</name>
+			<triggers>auto,full,incremental,</triggers>
+			<arguments>
+			<dictionary>
+				<key>LaunchConfigHandle</key>
+				<value>&lt;project&gt;/.externalToolBuilders/org.eclipse.emf.importer.rose.test.launch</value>
+				</dictionary>
+			<dictionary>
+				<key>incclean</key>
+				<value>true</value>
+			</dictionary>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
 			<name>org.eclipse.oomph.version.VersionBuilder</name>
 			<arguments>
 				<dictionary>
