@@ -95,6 +95,7 @@
         <version>${tycho-version}</version>
         <executions>
           <execution>
+            <phase>package</phase>
             <id>generate-source-feature</id>
             <goals>
               <goal>source-feature</goal>
