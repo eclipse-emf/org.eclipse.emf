@@ -6,7 +6,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <tycho.scmUrl>scm:git:https://git.eclipse.org/r/p/emf/org.eclipse.emf.git</tycho.scmUrl>
-    <tycho-version>1.0.0</tycho-version>
+    <tycho-version>1.6.0</tycho-version>
     <os-jvm-flags />
   </properties>
 
@@ -24,8 +24,8 @@
 
   <repositories>
     <repository>
-      <id>eclipse-oxygen</id>
-      <url>http://download.eclipse.org/releases/oxygen</url>
+      <id>eclipse-2020-03</id>
+      <url>http://download.eclipse.org/releases/2020-03</url>
       <layout>p2</layout>
     </repository>
   </repositories>
