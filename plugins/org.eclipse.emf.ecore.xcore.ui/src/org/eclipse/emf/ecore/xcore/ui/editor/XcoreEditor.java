@@ -49,7 +49,6 @@ import org.eclipse.emf.ecore.xcore.services.XcoreGrammarAccess;
 import org.eclipse.emf.ecore.xcore.ui.quickfix.XcoreQuickfixProvider;
 import org.eclipse.emf.ecore.xcore.util.XcoreGenModelInitializer;
 import org.eclipse.emf.ecore.xcore.validation.XcoreResourceValidator;
-import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -252,14 +251,32 @@ public class XcoreEditor extends XtextEditor
         {
           EClassifier eType = eStructuralFeature.getEType();
           Object value = eObject.eGet(eStructuralFeature);
-          @SuppressWarnings("unchecked")
           String literal =
             eType instanceof EDataType ?
-              eStructuralFeature.isMany() ?
-                XMLTypeFactory.eINSTANCE.convertENTITIESBase((List<String>)value) :
-                EcoreUtil.convertToString((EDataType)eType, value) :
+              getEDataTypeLiteral(value, (EDataType)eType, eStructuralFeature.isMany()) :
               ((GenFeature)value).getName();
           return valueConverterService.toString(literal, "STRING");
+        }
+
+        protected String getEDataTypeLiteral(Object value, EDataType eDataType, boolean isMany)
+        {
+          if (isMany)
+          {
+            StringBuilder result = new StringBuilder();
+            for (Object element : (List<?>)value)
+            {
+              if (result.length() != 0)
+              {
+                result.append(" ");
+              }
+              result.append(EcoreUtil.convertToString(eDataType, element));
+            }
+            return result.toString();
+          }
+          else
+          {
+            return EcoreUtil.convertToString(eDataType, value);
+          }
         }
 
         @Override
