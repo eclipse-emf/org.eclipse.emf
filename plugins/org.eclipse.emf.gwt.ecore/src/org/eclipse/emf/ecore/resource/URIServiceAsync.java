@@ -12,8 +12,6 @@ package org.eclipse.emf.ecore.resource;
 
 import java.util.Map;
 
-import org.eclipse.emf.ecore.resource.URIService;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
