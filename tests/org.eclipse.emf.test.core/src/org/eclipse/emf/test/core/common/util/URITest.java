@@ -1332,14 +1332,36 @@ public class URITest
     System.gc();
 
     uriStrings = new HashSet<String>();
-    for (Iterator<URI> i = uris.iterator(); i.hasNext(); )
+
+    // This is kind of ugly, but I'm seeing exceptions indicating garbage collection is happening during this loop.
+    // It's just generally impossible to be sure when garbage collection is actually completely finished.
+    //
+    for (int j = 0; j < 10; ++j)
     {
-      String value = i.next().toString();
-      if (!uriStrings.add(value))
+      try
       {
-        fail("Duplicate URI" + value);
+        for (Iterator<URI> i = uris.iterator(); i.hasNext(); )
+        {
+          String value = i.next().toString();
+          if (!uriStrings.add(value))
+          {
+            fail("Duplicate URI" + value);
+          }
+        }
+
+        // If we get this far, then we didn't get an exception, so terminate the loop now.
+        //
+        break;
+      }
+      catch (ConcurrentModificationException exception)
+      {
+        // If garbage collection was not completed, then we can get this exception.
+        // So try again with a clean set of strings.
+        //
+        uriStrings.clear();
       }
     }
+
     uriStrings.removeAll(initialURIs);
     assertEquals(0, uriStrings.size());
   }
