@@ -7522,6 +7522,10 @@ public final class JETEditor extends AbstractDecoratedTextEditor
               return getSuccessToken();
             }
           }
+          else
+          {
+            unread(scanner);
+          }
         }
         else if (read == '\n')
         {
