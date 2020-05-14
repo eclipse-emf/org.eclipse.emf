@@ -12,12 +12,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.impl.EClassImpl;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.junit.Assert;
@@ -272,6 +275,77 @@ public class DiagnosticianTest
   {
     diagnostician.validate(eObject);
     Assert.assertEquals("Unsatisified validate count expectation", 4, diagnostician.validateCount);
+  }
+
+  @Test
+  public void testExceptionHandlingRecorded()
+  {
+    final NullPointerException exception = new NullPointerException();
+    EClass eClass = new EClassImpl()
+      {
+        @Override
+        public EList<EClass> getEAllSuperTypes()
+        {
+          throw exception;
+        }
+      };
+
+    Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eClass);
+    Assert.assertEquals("Expected an error", Diagnostic.ERROR, diagnostic.getSeverity());
+    Assert.assertEquals("Expected one child", 1, diagnostic.getChildren().size());
+    Diagnostic child = diagnostic.getChildren().get(0);
+    Throwable diagnosticException = child.getException();
+    Assert.assertSame("Expected the specific exception to be thrown", exception, diagnosticException);
+  }
+
+  @Test
+  public void testExceptionHandlingNotRecorded()
+  {
+    final NullPointerException exception = new NullPointerException();
+    EClass eClass = new EClassImpl()
+      {
+        @Override
+        public EList<EClass> getEAllSuperTypes()
+        {
+          throw exception;
+        }
+      };
+
+    try
+    {
+      @SuppressWarnings("unused")
+      boolean isValid = Diagnostician.INSTANCE.validate(eClass, (DiagnosticChain)null);
+      Assert.fail("Exected an exception to be thrown");
+    }
+    catch (Throwable throwable)
+    {
+      Assert.assertSame("Expected the specific exception to be thrown", exception, throwable);
+    }
+  }
+
+  @Test
+  public void testExceptionHandlingNotHandledException()
+  {
+    final OutOfMemoryError exception = new OutOfMemoryError();
+    EClass eClass = new EClassImpl()
+      {
+        @Override
+        public EList<EClass> getEAllSuperTypes()
+        {
+          throw exception;
+        }
+      };
+
+    try
+    {
+      @SuppressWarnings("unused")
+      Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eClass);
+      Assert.fail("Exected an exception to be thrown");
+    }
+    catch (Throwable throwable)
+    {
+      Assert.assertSame("Expected the specific exception to be thrown", exception, throwable);
+    }
   }
 
 //  /**

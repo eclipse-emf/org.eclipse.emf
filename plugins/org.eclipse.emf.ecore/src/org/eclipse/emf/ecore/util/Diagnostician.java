@@ -224,28 +224,71 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
    */
   public boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    Object eValidator;
-    EClass eType = eClass;
-    while ((eValidator = eValidatorRegistry.get(eType.eContainer())) == null)
+    try
     {
-      List<EClass> eSuperTypes = eType.getESuperTypes();
-      if (eSuperTypes.isEmpty())
+      Object eValidator;
+      EClass eType = eClass;
+      while ((eValidator = eValidatorRegistry.get(eType.eContainer())) == null)
       {
-        eValidator = eValidatorRegistry.get(null);
-        break;
+        List<EClass> eSuperTypes = eType.getESuperTypes();
+        if (eSuperTypes.isEmpty())
+        {
+          eValidator = eValidatorRegistry.get(null);
+          break;
+        }
+        else
+        {
+          eType = eSuperTypes.get(0);
+        }
       }
-      else
+      boolean circular = context.get(EObjectValidator.ROOT_OBJECT) == eObject;
+      boolean result = doValidate((EValidator)eValidator, eClass, eObject, diagnostics, context);
+      if (!Boolean.FALSE.equals(context.get(VALIDATE_RECURSIVELY)) && (result || diagnostics != null) && !circular)
       {
-        eType = eSuperTypes.get(0);
+        result &= doValidateContents(eObject, diagnostics, context);
+      }
+      return result;
+    }
+    catch (RuntimeException e)
+    {
+      if (!handleThrowable(eClass, eObject, diagnostics, context, e))
+      {
+        throw e;
       }
     }
-    boolean circular = context.get(EObjectValidator.ROOT_OBJECT) == eObject;
-    boolean result = doValidate((EValidator)eValidator, eClass, eObject, diagnostics, context);
-    if (!Boolean.FALSE.equals(context.get(VALIDATE_RECURSIVELY)) && (result || diagnostics != null) && !circular)
+    catch (Error e)
     {
-      result &= doValidateContents(eObject, diagnostics, context);
+      if (!handleThrowable(eClass, eObject, diagnostics, context, e))
+      {
+        throw e;
+      }
     }
-    return result;
+    return false;
+  }
+
+  /**
+   * Called by {@link #validate(EClass, EObject, DiagnosticChain, Map)} when an exception is thrown during validation.
+   * If diagnostics are being recorded and the exception is a {@link RuntimeException} or an {@link AssertionError},
+   * a diagnostic is created and added to the diagnostics to record the exception.
+   * 
+   * Returns true if the throwable has been adequately handled, false if the caller should rethrow it.
+   *
+   * @since 2.22
+   */
+  protected boolean handleThrowable(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context, Throwable throwable)
+  {
+    if (diagnostics != null && throwable instanceof RuntimeException || throwable instanceof AssertionError)
+    {
+      Object[] messageSubstitutions = new Object []{ EObjectValidator.getObjectLabel(eObject, context) };
+      String message = EcorePlugin.INSTANCE.getString("_UI_ValidationFailed_diagnostic", messageSubstitutions);
+      Object[] data = new Object []{ eObject, throwable };
+      diagnostics.add(new BasicDiagnostic(Diagnostic.ERROR, EObjectValidator.DIAGNOSTIC_SOURCE, -1, message, data));
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 
   /**
