@@ -3,12 +3,11 @@
  */
 package org.eclipse.emf.ecore.xcore.ui;
 
+import com.google.inject.Injector;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.xcore.ui.internal.XcoreActivator;
 import org.eclipse.xtext.ui.guice.AbstractGuiceAwareExecutableExtensionFactory;
 import org.osgi.framework.Bundle;
-
-import com.google.inject.Injector;
-
-import org.eclipse.emf.ecore.xcore.ui.internal.XcoreActivator;
 
 /**
  * This class was generated. Customizations should only happen in a newly
@@ -18,12 +17,13 @@ public class XcoreExecutableExtensionFactory extends AbstractGuiceAwareExecutabl
 
 	@Override
 	protected Bundle getBundle() {
-		return XcoreActivator.getInstance().getBundle();
+		return Platform.getBundle(XcoreActivator.PLUGIN_ID);
 	}
 	
 	@Override
 	protected Injector getInjector() {
-		return XcoreActivator.getInstance().getInjector(XcoreActivator.ORG_ECLIPSE_EMF_ECORE_XCORE_XCORE);
+		XcoreActivator activator = XcoreActivator.getInstance();
+		return activator != null ? activator.getInjector(XcoreActivator.ORG_ECLIPSE_EMF_ECORE_XCORE_XCORE) : null;
 	}
-	
+
 }

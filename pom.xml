@@ -8,6 +8,10 @@
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <properties>
+    <target-platform>2020-09</target-platform>
+  </properties>
+
   <modules>
     <module>releng/org.eclipse.emf.parent</module>
   </modules>

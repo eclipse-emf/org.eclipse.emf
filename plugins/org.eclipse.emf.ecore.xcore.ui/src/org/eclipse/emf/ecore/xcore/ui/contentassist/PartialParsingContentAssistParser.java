@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014 itemis AG (http://www.itemis.eu) and others.
+ * Copyright (c) 2014, 2020 itemis AG (http://www.itemis.eu) and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -9,7 +9,7 @@ package org.eclipse.emf.ecore.xcore.ui.contentassist;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xcore.XClassifier;
-import org.eclipse.emf.ecore.xcore.ui.contentassist.antlr.XcoreParser;
+import org.eclipse.emf.ecore.xcore.ide.contentassist.antlr.XcoreParser;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.xbase.XBlockExpression;
 

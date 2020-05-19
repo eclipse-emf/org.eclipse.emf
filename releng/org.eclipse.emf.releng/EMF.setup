@@ -417,12 +417,6 @@
   </setupTask>
   <setupTask
       xsi:type="setup:VariableTask"
-      name="xpand.latest.release.url"
-      value="http://download.eclipse.org/modeling/m2t/xpand/updates/releases/R201605260315">
-    <description>The p2 update site URL for the last XPant release.</description>
-  </setupTask>
-  <setupTask
-      xsi:type="setup:VariableTask"
       name="mwe.latest.release.url"
       value="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.11.3">
     <description>The p2 update site URL for the last MWE release.</description>
@@ -1013,8 +1007,6 @@
               url="${xtext.latest.release.url}"/>
           <repository
               url="${mwe.latest.release.url}"/>
-          <repository
-              url="${xpand.latest.release.url}"/>
         </repositoryList>
       </targlet>
     </setupTask>

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2012 Eclipse contributors and others.
+ * Copyright (c) 2011-2020 Eclipse contributors and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -8,7 +8,7 @@
 package org.eclipse.emf.ecore.xcore.validation;
 
 
-import static com.google.common.collect.Maps.*;
+import static com.google.common.collect.Maps.newHashMap;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,7 +40,7 @@ import org.eclipse.xtext.xtype.XtypePackage;
 import com.google.inject.Inject;
 
 
-public class XcoreJavaValidator extends AbstractXcoreJavaValidator
+public class XcoreValidator extends AbstractXcoreValidator
 {
   @Inject
   TypeReferences typeReferences;

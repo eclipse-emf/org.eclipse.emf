@@ -13,7 +13,7 @@
 
       <unit id="org.eclipse.rap.ui.views" version="0.0.0"/>
 
-      <unit id="org.eclipse.xtext.sdk.feature.group" version="0.0.0"/>
+      <unit id="org.junit" version="0.0.0"/>
 
       <unit id="org.eclipse.nebula.widgets.cdatetime" version="0.0.0"/>
 
@@ -23,11 +23,6 @@
 
       <repository location="https://dl.google.com/eclipse/plugin/4.6"/>
 
-      <repository location="http://download.itemis.com/updates/releases/2.1.0"/>
-
-      <repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.17.0"/>
-      <repository location="http://download.eclipse.org/modeling/m2t/xpand/updates/releases/R201605260315"/>
-      <repository location="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.9.1"/>
       <repository location="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
 
       <repository location="http://download.eclipse.org/nebula/releases/1.0.0"/>

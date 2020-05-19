@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016 Eclipse contributors and others.
+ * Copyright (c) 2016, 2020 Eclipse contributors and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -9,9 +9,9 @@ package org.eclipse.emf.test.ecore.xcore;
 
 
 import org.eclipse.emf.common.CommonPlugin;
-import org.eclipse.emf.ecore.xcore.XcoreInjectorProvider;
 import org.eclipse.emf.ecore.xcore.XcoreRuntimeModule;
 import org.eclipse.emf.ecore.xcore.XcoreStandaloneSetup;
+import org.eclipse.emf.ecore.xcore.tests.XcoreInjectorProvider;
 
 import com.google.inject.Injector;
 

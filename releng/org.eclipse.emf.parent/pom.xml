@@ -13,15 +13,13 @@
     <tycho.scmUrl>scm:git:https://git.eclipse.org/r/p/emf/org.eclipse.emf.git</tycho.scmUrl>
     <tycho-version>1.6.0</tycho-version>
     <jarsigner-version>1.1.7</jarsigner-version>
-    <os-jvm-flags />
-    <target-platform>2020-03</target-platform>
+    <os-jvm-flags/>
   </properties>
 
   <modules>
     <module>plugins</module>
     <module>features</module>
     <module>tp</module>
-    <module>../org.eclipse.emf.site</module>
   </modules>
 
   <profiles>
@@ -43,6 +41,19 @@
           </resource>
         </resources>
       </build>
+    </profile>
+
+    <!-- Build the site only if we are building Xcore. -->
+    <profile>
+      <id>site</id>
+      <activation>
+        <file>
+         <missing>tp/${target-platform}-no-xcore</missing>
+        </file>
+      </activation>
+      <modules>
+        <module>../org.eclipse.emf.site</module>
+      </modules>
     </profile>
   </profiles>
 

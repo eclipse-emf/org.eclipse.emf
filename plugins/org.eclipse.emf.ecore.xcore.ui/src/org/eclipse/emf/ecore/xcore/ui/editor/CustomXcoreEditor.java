@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012 Eclipse contributors and others.
+ * Copyright (c) 2012, 2020 Eclipse contributors and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -58,9 +58,9 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptorDecorator;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
+import org.eclipse.emf.edit.ui.provider.DiagnosticDecorator.DiagnosticDecoratorAdapter;
 import org.eclipse.emf.edit.ui.provider.PropertyDescriptor;
 import org.eclipse.emf.edit.ui.provider.PropertySource;
-import org.eclipse.emf.edit.ui.provider.DiagnosticDecorator.DiagnosticDecoratorAdapter;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.viewers.CellEditor;
@@ -87,7 +87,6 @@ import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.parser.IParseResult;
 import org.eclipse.xtext.resource.XtextResource;
-import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.editor.outline.impl.EObjectNode;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
@@ -95,9 +94,9 @@ import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 import com.google.inject.Inject;
 
 /**
- * A derived {@link XtextEditor} that supports a properties view for the Xcore resource's {@link GenModel}.
+ * A derived {@link XcoreEditor} that supports a properties view for the Xcore resource's {@link GenModel}.
  */
-public class XcoreEditor extends XtextEditor
+public class CustomXcoreEditor extends XcoreEditor
 {
   @Inject
   private XcoreMapper mapper;
@@ -324,7 +323,7 @@ public class XcoreEditor extends XtextEditor
                                     }
                                     else
                                     {
-                                      propertySheetPage.selectionChanged(XcoreEditor.this, selection);
+                                      propertySheetPage.selectionChanged(CustomXcoreEditor.this, selection);
                                     }
                                   }
                                 }
@@ -686,11 +685,11 @@ public class XcoreEditor extends XtextEditor
                              // Determine the EObject and process that instead.
                              //
                              EObject eObject = NodeModelUtils.findActualSemanticObjectFor(node);
-                             if (!selectionChanged(XcoreEditor.this, eObject))
+                             if (!selectionChanged(CustomXcoreEditor.this, eObject))
                              {
                                if (AdapterFactoryEditingDomain.isStale(getInput()))
                                {
-                                 selectionChanged(XcoreEditor.this, StructuredSelection.EMPTY);
+                                 selectionChanged(CustomXcoreEditor.this, StructuredSelection.EMPTY);
                                }
                              }
                            }
@@ -705,7 +704,7 @@ public class XcoreEditor extends XtextEditor
         @Override
         public void setSelectionToViewer(List<?> selection)
         {
-          XcoreEditor.this.setFocus();
+          CustomXcoreEditor.this.setFocus();
         }
 
         @Override
@@ -847,7 +846,7 @@ public class XcoreEditor extends XtextEditor
        {
          public void run()
          {
-           propertySheetPage.selectionChanged(XcoreEditor.this, getSourceViewer().getSelectionProvider().getSelection());
+           propertySheetPage.selectionChanged(CustomXcoreEditor.this, getSourceViewer().getSelectionProvider().getSelection());
          }
        });
 

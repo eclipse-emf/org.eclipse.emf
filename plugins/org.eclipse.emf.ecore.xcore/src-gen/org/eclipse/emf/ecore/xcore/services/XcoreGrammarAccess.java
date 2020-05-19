@@ -3,21 +3,28 @@
  */
 package org.eclipse.emf.ecore.xcore.services;
 
-import com.google.inject.Singleton;
 import com.google.inject.Inject;
-
+import com.google.inject.Singleton;
 import java.util.List;
-
-import org.eclipse.xtext.*;
+import org.eclipse.xtext.Action;
+import org.eclipse.xtext.Alternatives;
+import org.eclipse.xtext.Assignment;
+import org.eclipse.xtext.CrossReference;
+import org.eclipse.xtext.Grammar;
+import org.eclipse.xtext.GrammarUtil;
+import org.eclipse.xtext.Group;
+import org.eclipse.xtext.Keyword;
+import org.eclipse.xtext.ParserRule;
+import org.eclipse.xtext.RuleCall;
+import org.eclipse.xtext.TerminalRule;
+import org.eclipse.xtext.UnorderedGroup;
+import org.eclipse.xtext.service.AbstractElementFinder;
 import org.eclipse.xtext.service.GrammarProvider;
-import org.eclipse.xtext.service.AbstractElementFinder.*;
-
 import org.eclipse.xtext.xbase.services.XbaseGrammarAccess;
 import org.eclipse.xtext.xbase.services.XtypeGrammarAccess;
 
 @Singleton
-public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
-	
+public class XcoreGrammarAccess extends AbstractElementFinder.AbstractGrammarElementFinder {
 	
 	public class XPackageElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XPackage");
@@ -43,48 +50,47 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	annotationDirectives+=XAnnotationDirective*
 		//	classifiers+=XClassifier*;
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//{XPackage} annotations+=XAnnotation* 'package' name=QualifiedName importDirectives+=XImportDirective*
 		//annotationDirectives+=XAnnotationDirective* classifiers+=XClassifier*
 		public Group getGroup() { return cGroup; }
-
+		
 		//{XPackage}
 		public Action getXPackageAction_0() { return cXPackageAction_0; }
-
+		
 		//annotations+=XAnnotation*
 		public Assignment getAnnotationsAssignment_1() { return cAnnotationsAssignment_1; }
-
+		
 		//XAnnotation
 		public RuleCall getAnnotationsXAnnotationParserRuleCall_1_0() { return cAnnotationsXAnnotationParserRuleCall_1_0; }
-
+		
 		//'package'
 		public Keyword getPackageKeyword_2() { return cPackageKeyword_2; }
-
+		
 		//name=QualifiedName
 		public Assignment getNameAssignment_3() { return cNameAssignment_3; }
-
+		
 		//QualifiedName
 		public RuleCall getNameQualifiedNameParserRuleCall_3_0() { return cNameQualifiedNameParserRuleCall_3_0; }
-
+		
 		//importDirectives+=XImportDirective*
 		public Assignment getImportDirectivesAssignment_4() { return cImportDirectivesAssignment_4; }
-
+		
 		//XImportDirective
 		public RuleCall getImportDirectivesXImportDirectiveParserRuleCall_4_0() { return cImportDirectivesXImportDirectiveParserRuleCall_4_0; }
-
+		
 		//annotationDirectives+=XAnnotationDirective*
 		public Assignment getAnnotationDirectivesAssignment_5() { return cAnnotationDirectivesAssignment_5; }
-
+		
 		//XAnnotationDirective
 		public RuleCall getAnnotationDirectivesXAnnotationDirectiveParserRuleCall_5_0() { return cAnnotationDirectivesXAnnotationDirectiveParserRuleCall_5_0; }
-
+		
 		//classifiers+=XClassifier*
 		public Assignment getClassifiersAssignment_6() { return cClassifiersAssignment_6; }
-
+		
 		//XClassifier
 		public RuleCall getClassifiersXClassifierParserRuleCall_6_0() { return cClassifiersXClassifierParserRuleCall_6_0; }
 	}
-
 	public class XAnnotationElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XAnnotation");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -106,51 +112,50 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	'@' source=[XAnnotationDirective|XQualifiedName] ('(' details+=XStringToStringMapEntry (','
 		//	details+=XStringToStringMapEntry)* ')')?;
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//'@' source=[XAnnotationDirective|XQualifiedName] ('(' details+=XStringToStringMapEntry (','
 		//details+=XStringToStringMapEntry)* ')')?
 		public Group getGroup() { return cGroup; }
-
+		
 		//'@'
 		public Keyword getCommercialAtKeyword_0() { return cCommercialAtKeyword_0; }
-
+		
 		//source=[XAnnotationDirective|XQualifiedName]
 		public Assignment getSourceAssignment_1() { return cSourceAssignment_1; }
-
+		
 		//[XAnnotationDirective|XQualifiedName]
 		public CrossReference getSourceXAnnotationDirectiveCrossReference_1_0() { return cSourceXAnnotationDirectiveCrossReference_1_0; }
-
+		
 		//XQualifiedName
 		public RuleCall getSourceXAnnotationDirectiveXQualifiedNameParserRuleCall_1_0_1() { return cSourceXAnnotationDirectiveXQualifiedNameParserRuleCall_1_0_1; }
-
+		
 		//('(' details+=XStringToStringMapEntry (',' details+=XStringToStringMapEntry)* ')')?
 		public Group getGroup_2() { return cGroup_2; }
-
+		
 		//'('
 		public Keyword getLeftParenthesisKeyword_2_0() { return cLeftParenthesisKeyword_2_0; }
-
+		
 		//details+=XStringToStringMapEntry
 		public Assignment getDetailsAssignment_2_1() { return cDetailsAssignment_2_1; }
-
+		
 		//XStringToStringMapEntry
 		public RuleCall getDetailsXStringToStringMapEntryParserRuleCall_2_1_0() { return cDetailsXStringToStringMapEntryParserRuleCall_2_1_0; }
-
+		
 		//(',' details+=XStringToStringMapEntry)*
 		public Group getGroup_2_2() { return cGroup_2_2; }
-
+		
 		//','
 		public Keyword getCommaKeyword_2_2_0() { return cCommaKeyword_2_2_0; }
-
+		
 		//details+=XStringToStringMapEntry
 		public Assignment getDetailsAssignment_2_2_1() { return cDetailsAssignment_2_2_1; }
-
+		
 		//XStringToStringMapEntry
 		public RuleCall getDetailsXStringToStringMapEntryParserRuleCall_2_2_1_0() { return cDetailsXStringToStringMapEntryParserRuleCall_2_2_1_0; }
-
+		
 		//')'
 		public Keyword getRightParenthesisKeyword_2_3() { return cRightParenthesisKeyword_2_3; }
 	}
-
 	public class XStringToStringMapEntryElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XStringToStringMapEntry");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -165,26 +170,25 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	'='
 		//	value=STRING;
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//key=QualifiedName '=' value=STRING
 		public Group getGroup() { return cGroup; }
-
+		
 		//key=QualifiedName
 		public Assignment getKeyAssignment_0() { return cKeyAssignment_0; }
-
+		
 		//QualifiedName
 		public RuleCall getKeyQualifiedNameParserRuleCall_0_0() { return cKeyQualifiedNameParserRuleCall_0_0; }
-
+		
 		//'='
 		public Keyword getEqualsSignKeyword_1() { return cEqualsSignKeyword_1; }
-
+		
 		//value=STRING
 		public Assignment getValueAssignment_2() { return cValueAssignment_2; }
-
+		
 		//STRING
 		public RuleCall getValueSTRINGTerminalRuleCall_2_0() { return cValueSTRINGTerminalRuleCall_2_0; }
 	}
-
 	public class XImportDirectiveElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XImportDirective");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -201,35 +205,34 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	{XImportDirective}
 		//	'import' (importedNamespace=QualifiedNameWithWildcard | importedObject=[EObject|QualifiedName]);
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//{XImportDirective} 'import' (importedNamespace=QualifiedNameWithWildcard | importedObject=[EObject|QualifiedName])
 		public Group getGroup() { return cGroup; }
-
+		
 		//{XImportDirective}
 		public Action getXImportDirectiveAction_0() { return cXImportDirectiveAction_0; }
-
+		
 		//'import'
 		public Keyword getImportKeyword_1() { return cImportKeyword_1; }
-
+		
 		//(importedNamespace=QualifiedNameWithWildcard | importedObject=[EObject|QualifiedName])
 		public Alternatives getAlternatives_2() { return cAlternatives_2; }
-
+		
 		//importedNamespace=QualifiedNameWithWildcard
 		public Assignment getImportedNamespaceAssignment_2_0() { return cImportedNamespaceAssignment_2_0; }
-
+		
 		//QualifiedNameWithWildcard
 		public RuleCall getImportedNamespaceQualifiedNameWithWildcardParserRuleCall_2_0_0() { return cImportedNamespaceQualifiedNameWithWildcardParserRuleCall_2_0_0; }
-
+		
 		//importedObject=[EObject|QualifiedName]
 		public Assignment getImportedObjectAssignment_2_1() { return cImportedObjectAssignment_2_1; }
-
+		
 		//[EObject|QualifiedName]
 		public CrossReference getImportedObjectEObjectCrossReference_2_1_0() { return cImportedObjectEObjectCrossReference_2_1_0; }
-
+		
 		//QualifiedName
 		public RuleCall getImportedObjectEObjectQualifiedNameParserRuleCall_2_1_0_1() { return cImportedObjectEObjectQualifiedNameParserRuleCall_2_1_0_1; }
 	}
-
 	public class XAnnotationDirectiveElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XAnnotationDirective");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -245,35 +248,34 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//XAnnotationDirective:
 		//	=> ('annotation' sourceURI=STRING) 'as' name=ValidID;
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//=> ('annotation' sourceURI=STRING) 'as' name=ValidID
 		public Group getGroup() { return cGroup; }
-
+		
 		//=> ('annotation' sourceURI=STRING)
 		public Group getGroup_0() { return cGroup_0; }
-
+		
 		//('annotation' sourceURI=STRING)
 		public Group getGroup_0_0() { return cGroup_0_0; }
-
+		
 		//'annotation'
 		public Keyword getAnnotationKeyword_0_0_0() { return cAnnotationKeyword_0_0_0; }
-
+		
 		//sourceURI=STRING
 		public Assignment getSourceURIAssignment_0_0_1() { return cSourceURIAssignment_0_0_1; }
-
+		
 		//STRING
 		public RuleCall getSourceURISTRINGTerminalRuleCall_0_0_1_0() { return cSourceURISTRINGTerminalRuleCall_0_0_1_0; }
-
+		
 		//'as'
 		public Keyword getAsKeyword_1() { return cAsKeyword_1; }
-
+		
 		//name=ValidID
 		public Assignment getNameAssignment_2() { return cNameAssignment_2; }
-
+		
 		//ValidID
 		public RuleCall getNameValidIDParserRuleCall_2_0() { return cNameValidIDParserRuleCall_2_0; }
 	}
-
 	public class XClassifierElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XClassifier");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
@@ -284,20 +286,19 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//XClassifier:
 		//	XClass | XDataType | XEnum;
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//XClass | XDataType | XEnum
 		public Alternatives getAlternatives() { return cAlternatives; }
-
+		
 		//XClass
 		public RuleCall getXClassParserRuleCall_0() { return cXClassParserRuleCall_0; }
-
+		
 		//XDataType
 		public RuleCall getXDataTypeParserRuleCall_1() { return cXDataTypeParserRuleCall_1; }
-
+		
 		//XEnum
 		public RuleCall getXEnumParserRuleCall_2() { return cXEnumParserRuleCall_2; }
 	}
-
 	public class XDataTypeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XDataType");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -335,94 +336,93 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	'wraps' instanceType=JvmTypeReference ((serializable?='create' createBody=XBlockExpression)? & ('convert'
 		//	convertBody=XBlockExpression)?);
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//annotations+=XAnnotation* 'type' name=ID ('<' typeParameters+=XTypeParameter (',' typeParameters+=XTypeParameter)* '>')?
 		//'wraps' instanceType=JvmTypeReference ((serializable?='create' createBody=XBlockExpression)? & ('convert'
 		//convertBody=XBlockExpression)?)
 		public Group getGroup() { return cGroup; }
-
+		
 		//annotations+=XAnnotation*
 		public Assignment getAnnotationsAssignment_0() { return cAnnotationsAssignment_0; }
-
+		
 		//XAnnotation
 		public RuleCall getAnnotationsXAnnotationParserRuleCall_0_0() { return cAnnotationsXAnnotationParserRuleCall_0_0; }
-
+		
 		//'type'
 		public Keyword getTypeKeyword_1() { return cTypeKeyword_1; }
-
+		
 		//name=ID
 		public Assignment getNameAssignment_2() { return cNameAssignment_2; }
-
+		
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_2_0() { return cNameIDTerminalRuleCall_2_0; }
-
+		
 		//('<' typeParameters+=XTypeParameter (',' typeParameters+=XTypeParameter)* '>')?
 		public Group getGroup_3() { return cGroup_3; }
-
+		
 		//'<'
 		public Keyword getLessThanSignKeyword_3_0() { return cLessThanSignKeyword_3_0; }
-
+		
 		//typeParameters+=XTypeParameter
 		public Assignment getTypeParametersAssignment_3_1() { return cTypeParametersAssignment_3_1; }
-
+		
 		//XTypeParameter
 		public RuleCall getTypeParametersXTypeParameterParserRuleCall_3_1_0() { return cTypeParametersXTypeParameterParserRuleCall_3_1_0; }
-
+		
 		//(',' typeParameters+=XTypeParameter)*
 		public Group getGroup_3_2() { return cGroup_3_2; }
-
+		
 		//','
 		public Keyword getCommaKeyword_3_2_0() { return cCommaKeyword_3_2_0; }
-
+		
 		//typeParameters+=XTypeParameter
 		public Assignment getTypeParametersAssignment_3_2_1() { return cTypeParametersAssignment_3_2_1; }
-
+		
 		//XTypeParameter
 		public RuleCall getTypeParametersXTypeParameterParserRuleCall_3_2_1_0() { return cTypeParametersXTypeParameterParserRuleCall_3_2_1_0; }
-
+		
 		//'>'
 		public Keyword getGreaterThanSignKeyword_3_3() { return cGreaterThanSignKeyword_3_3; }
-
+		
 		//'wraps'
 		public Keyword getWrapsKeyword_4() { return cWrapsKeyword_4; }
-
+		
 		//instanceType=JvmTypeReference
 		public Assignment getInstanceTypeAssignment_5() { return cInstanceTypeAssignment_5; }
-
+		
 		//JvmTypeReference
 		public RuleCall getInstanceTypeJvmTypeReferenceParserRuleCall_5_0() { return cInstanceTypeJvmTypeReferenceParserRuleCall_5_0; }
-
+		
 		//((serializable?='create' createBody=XBlockExpression)? & ('convert' convertBody=XBlockExpression)?)
 		public UnorderedGroup getUnorderedGroup_6() { return cUnorderedGroup_6; }
-
+		
 		//(serializable?='create' createBody=XBlockExpression)?
 		public Group getGroup_6_0() { return cGroup_6_0; }
-
+		
 		//serializable?='create'
 		public Assignment getSerializableAssignment_6_0_0() { return cSerializableAssignment_6_0_0; }
-
+		
 		//'create'
 		public Keyword getSerializableCreateKeyword_6_0_0_0() { return cSerializableCreateKeyword_6_0_0_0; }
-
+		
 		//createBody=XBlockExpression
 		public Assignment getCreateBodyAssignment_6_0_1() { return cCreateBodyAssignment_6_0_1; }
-
+		
 		//XBlockExpression
 		public RuleCall getCreateBodyXBlockExpressionParserRuleCall_6_0_1_0() { return cCreateBodyXBlockExpressionParserRuleCall_6_0_1_0; }
-
+		
 		//('convert' convertBody=XBlockExpression)?
 		public Group getGroup_6_1() { return cGroup_6_1; }
-
+		
 		//'convert'
 		public Keyword getConvertKeyword_6_1_0() { return cConvertKeyword_6_1_0; }
-
+		
 		//convertBody=XBlockExpression
 		public Assignment getConvertBodyAssignment_6_1_1() { return cConvertBodyAssignment_6_1_1; }
-
+		
 		//XBlockExpression
 		public RuleCall getConvertBodyXBlockExpressionParserRuleCall_6_1_1_0() { return cConvertBodyXBlockExpressionParserRuleCall_6_1_1_0; }
 	}
-
 	public class XEnumElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XEnum");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -447,53 +447,52 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	'{' (literals+=XEnumLiteral (','? literals+=XEnumLiteral)*)?
 		//	'}';
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//annotations+=XAnnotation* 'enum' name=ID '{' (literals+=XEnumLiteral (','? literals+=XEnumLiteral)*)? '}'
 		public Group getGroup() { return cGroup; }
-
+		
 		//annotations+=XAnnotation*
 		public Assignment getAnnotationsAssignment_0() { return cAnnotationsAssignment_0; }
-
+		
 		//XAnnotation
 		public RuleCall getAnnotationsXAnnotationParserRuleCall_0_0() { return cAnnotationsXAnnotationParserRuleCall_0_0; }
-
+		
 		//'enum'
 		public Keyword getEnumKeyword_1() { return cEnumKeyword_1; }
-
+		
 		//name=ID
 		public Assignment getNameAssignment_2() { return cNameAssignment_2; }
-
+		
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_2_0() { return cNameIDTerminalRuleCall_2_0; }
-
+		
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_3() { return cLeftCurlyBracketKeyword_3; }
-
+		
 		//(literals+=XEnumLiteral (','? literals+=XEnumLiteral)*)?
 		public Group getGroup_4() { return cGroup_4; }
-
+		
 		//literals+=XEnumLiteral
 		public Assignment getLiteralsAssignment_4_0() { return cLiteralsAssignment_4_0; }
-
+		
 		//XEnumLiteral
 		public RuleCall getLiteralsXEnumLiteralParserRuleCall_4_0_0() { return cLiteralsXEnumLiteralParserRuleCall_4_0_0; }
-
+		
 		//(','? literals+=XEnumLiteral)*
 		public Group getGroup_4_1() { return cGroup_4_1; }
-
+		
 		//','?
 		public Keyword getCommaKeyword_4_1_0() { return cCommaKeyword_4_1_0; }
-
+		
 		//literals+=XEnumLiteral
 		public Assignment getLiteralsAssignment_4_1_1() { return cLiteralsAssignment_4_1_1; }
-
+		
 		//XEnumLiteral
 		public RuleCall getLiteralsXEnumLiteralParserRuleCall_4_1_1_0() { return cLiteralsXEnumLiteralParserRuleCall_4_1_1_0; }
-
+		
 		//'}'
 		public Keyword getRightCurlyBracketKeyword_5() { return cRightCurlyBracketKeyword_5; }
 	}
-
 	public class XEnumLiteralElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XEnumLiteral");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -514,47 +513,46 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	annotations+=XAnnotation*
 		//	name=ID ('as' literal=STRING)? ('=' value=SignedInt)?;
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//annotations+=XAnnotation* name=ID ('as' literal=STRING)? ('=' value=SignedInt)?
 		public Group getGroup() { return cGroup; }
-
+		
 		//annotations+=XAnnotation*
 		public Assignment getAnnotationsAssignment_0() { return cAnnotationsAssignment_0; }
-
+		
 		//XAnnotation
 		public RuleCall getAnnotationsXAnnotationParserRuleCall_0_0() { return cAnnotationsXAnnotationParserRuleCall_0_0; }
-
+		
 		//name=ID
 		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
-
+		
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
-
+		
 		//('as' literal=STRING)?
 		public Group getGroup_2() { return cGroup_2; }
-
+		
 		//'as'
 		public Keyword getAsKeyword_2_0() { return cAsKeyword_2_0; }
-
+		
 		//literal=STRING
 		public Assignment getLiteralAssignment_2_1() { return cLiteralAssignment_2_1; }
-
+		
 		//STRING
 		public RuleCall getLiteralSTRINGTerminalRuleCall_2_1_0() { return cLiteralSTRINGTerminalRuleCall_2_1_0; }
-
+		
 		//('=' value=SignedInt)?
 		public Group getGroup_3() { return cGroup_3; }
-
+		
 		//'='
 		public Keyword getEqualsSignKeyword_3_0() { return cEqualsSignKeyword_3_0; }
-
+		
 		//value=SignedInt
 		public Assignment getValueAssignment_3_1() { return cValueAssignment_3_1; }
-
+		
 		//SignedInt
 		public RuleCall getValueSignedIntParserRuleCall_3_1_0() { return cValueSignedIntParserRuleCall_3_1_0; }
 	}
-
 	public class SignedIntElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.SignedInt");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -562,19 +560,18 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cINTTerminalRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
 		
 		//SignedInt EInt:
-		//	'-'? INT
+		//	'-'? INT;
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//'-'? INT
 		public Group getGroup() { return cGroup; }
-
+		
 		//'-'?
 		public Keyword getHyphenMinusKeyword_0() { return cHyphenMinusKeyword_0; }
-
+		
 		//INT
 		public RuleCall getINTTerminalRuleCall_1() { return cINTTerminalRuleCall_1; }
 	}
-
 	public class XClassElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XClass");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -624,124 +621,123 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	members+=XMember*
 		//	'}';
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//{XClass} annotations+=XAnnotation* (abstract?='abstract'? 'class' | interface?='interface') name=ID ('<'
 		//typeParameters+=XTypeParameter (',' typeParameters+=XTypeParameter)* '>')? ('extends' superTypes+=XGenericType (','
 		//superTypes+=XGenericType)*)? ('wraps' instanceType=JvmTypeReference)? '{' members+=XMember* '}'
 		public Group getGroup() { return cGroup; }
-
+		
 		//{XClass}
 		public Action getXClassAction_0() { return cXClassAction_0; }
-
+		
 		//annotations+=XAnnotation*
 		public Assignment getAnnotationsAssignment_1() { return cAnnotationsAssignment_1; }
-
+		
 		//XAnnotation
 		public RuleCall getAnnotationsXAnnotationParserRuleCall_1_0() { return cAnnotationsXAnnotationParserRuleCall_1_0; }
-
+		
 		//(abstract?='abstract'? 'class' | interface?='interface')
 		public Alternatives getAlternatives_2() { return cAlternatives_2; }
-
+		
 		//abstract?='abstract'? 'class'
 		public Group getGroup_2_0() { return cGroup_2_0; }
-
+		
 		//abstract?='abstract'?
 		public Assignment getAbstractAssignment_2_0_0() { return cAbstractAssignment_2_0_0; }
-
+		
 		//'abstract'
 		public Keyword getAbstractAbstractKeyword_2_0_0_0() { return cAbstractAbstractKeyword_2_0_0_0; }
-
+		
 		//'class'
 		public Keyword getClassKeyword_2_0_1() { return cClassKeyword_2_0_1; }
-
+		
 		//interface?='interface'
 		public Assignment getInterfaceAssignment_2_1() { return cInterfaceAssignment_2_1; }
-
+		
 		//'interface'
 		public Keyword getInterfaceInterfaceKeyword_2_1_0() { return cInterfaceInterfaceKeyword_2_1_0; }
-
+		
 		//name=ID
 		public Assignment getNameAssignment_3() { return cNameAssignment_3; }
-
+		
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_3_0() { return cNameIDTerminalRuleCall_3_0; }
-
+		
 		//('<' typeParameters+=XTypeParameter (',' typeParameters+=XTypeParameter)* '>')?
 		public Group getGroup_4() { return cGroup_4; }
-
+		
 		//'<'
 		public Keyword getLessThanSignKeyword_4_0() { return cLessThanSignKeyword_4_0; }
-
+		
 		//typeParameters+=XTypeParameter
 		public Assignment getTypeParametersAssignment_4_1() { return cTypeParametersAssignment_4_1; }
-
+		
 		//XTypeParameter
 		public RuleCall getTypeParametersXTypeParameterParserRuleCall_4_1_0() { return cTypeParametersXTypeParameterParserRuleCall_4_1_0; }
-
+		
 		//(',' typeParameters+=XTypeParameter)*
 		public Group getGroup_4_2() { return cGroup_4_2; }
-
+		
 		//','
 		public Keyword getCommaKeyword_4_2_0() { return cCommaKeyword_4_2_0; }
-
+		
 		//typeParameters+=XTypeParameter
 		public Assignment getTypeParametersAssignment_4_2_1() { return cTypeParametersAssignment_4_2_1; }
-
+		
 		//XTypeParameter
 		public RuleCall getTypeParametersXTypeParameterParserRuleCall_4_2_1_0() { return cTypeParametersXTypeParameterParserRuleCall_4_2_1_0; }
-
+		
 		//'>'
 		public Keyword getGreaterThanSignKeyword_4_3() { return cGreaterThanSignKeyword_4_3; }
-
+		
 		//('extends' superTypes+=XGenericType (',' superTypes+=XGenericType)*)?
 		public Group getGroup_5() { return cGroup_5; }
-
+		
 		//'extends'
 		public Keyword getExtendsKeyword_5_0() { return cExtendsKeyword_5_0; }
-
+		
 		//superTypes+=XGenericType
 		public Assignment getSuperTypesAssignment_5_1() { return cSuperTypesAssignment_5_1; }
-
+		
 		//XGenericType
 		public RuleCall getSuperTypesXGenericTypeParserRuleCall_5_1_0() { return cSuperTypesXGenericTypeParserRuleCall_5_1_0; }
-
+		
 		//(',' superTypes+=XGenericType)*
 		public Group getGroup_5_2() { return cGroup_5_2; }
-
+		
 		//','
 		public Keyword getCommaKeyword_5_2_0() { return cCommaKeyword_5_2_0; }
-
+		
 		//superTypes+=XGenericType
 		public Assignment getSuperTypesAssignment_5_2_1() { return cSuperTypesAssignment_5_2_1; }
-
+		
 		//XGenericType
 		public RuleCall getSuperTypesXGenericTypeParserRuleCall_5_2_1_0() { return cSuperTypesXGenericTypeParserRuleCall_5_2_1_0; }
-
+		
 		//('wraps' instanceType=JvmTypeReference)?
 		public Group getGroup_6() { return cGroup_6; }
-
+		
 		//'wraps'
 		public Keyword getWrapsKeyword_6_0() { return cWrapsKeyword_6_0; }
-
+		
 		//instanceType=JvmTypeReference
 		public Assignment getInstanceTypeAssignment_6_1() { return cInstanceTypeAssignment_6_1; }
-
+		
 		//JvmTypeReference
 		public RuleCall getInstanceTypeJvmTypeReferenceParserRuleCall_6_1_0() { return cInstanceTypeJvmTypeReferenceParserRuleCall_6_1_0; }
-
+		
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_7() { return cLeftCurlyBracketKeyword_7; }
-
+		
 		//members+=XMember*
 		public Assignment getMembersAssignment_8() { return cMembersAssignment_8; }
-
+		
 		//XMember
 		public RuleCall getMembersXMemberParserRuleCall_8_0() { return cMembersXMemberParserRuleCall_8_0; }
-
+		
 		//'}'
 		public Keyword getRightCurlyBracketKeyword_9() { return cRightCurlyBracketKeyword_9; }
 	}
-
 	public class XMemberElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XMember");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
@@ -752,20 +748,19 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//XMember:
 		//	XOperation | XAttribute | XReference;
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//XOperation | XAttribute | XReference
 		public Alternatives getAlternatives() { return cAlternatives; }
-
+		
 		//XOperation
 		public RuleCall getXOperationParserRuleCall_0() { return cXOperationParserRuleCall_0; }
-
+		
 		//XAttribute
 		public RuleCall getXAttributeParserRuleCall_1() { return cXAttributeParserRuleCall_1; }
-
+		
 		//XReference
 		public RuleCall getXReferenceParserRuleCall_2() { return cXReferenceParserRuleCall_2; }
 	}
-
 	public class XAttributeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XAttribute");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -824,158 +819,157 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	name=ID ('=' defaultValueLiteral=STRING)? (('get' getBody=XBlockExpression)? & ('set' setBody=XBlockExpression)? &
 		//	('isSet' isSetBody=XBlockExpression)? & ('unset' unsetBody=XBlockExpression)?);
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//{XAttribute} annotations+=XAnnotation* (unordered?='unordered'? & unique?='unique'? & readonly?='readonly'? &
 		//transient?='transient'? & volatile?='volatile'? & unsettable?='unsettable'? & derived?='derived'? & iD?='id'?)
 		//type=XGenericType multiplicity=XMultiplicity? name=ID ('=' defaultValueLiteral=STRING)? (('get'
 		//getBody=XBlockExpression)? & ('set' setBody=XBlockExpression)? & ('isSet' isSetBody=XBlockExpression)? & ('unset'
 		//unsetBody=XBlockExpression)?)
 		public Group getGroup() { return cGroup; }
-
+		
 		//{XAttribute}
 		public Action getXAttributeAction_0() { return cXAttributeAction_0; }
-
+		
 		//annotations+=XAnnotation*
 		public Assignment getAnnotationsAssignment_1() { return cAnnotationsAssignment_1; }
-
+		
 		//XAnnotation
 		public RuleCall getAnnotationsXAnnotationParserRuleCall_1_0() { return cAnnotationsXAnnotationParserRuleCall_1_0; }
-
+		
 		//(unordered?='unordered'? & unique?='unique'? & readonly?='readonly'? & transient?='transient'? & volatile?='volatile'? &
 		//unsettable?='unsettable'? & derived?='derived'? & iD?='id'?)
 		public UnorderedGroup getUnorderedGroup_2() { return cUnorderedGroup_2; }
-
+		
 		//unordered?='unordered'?
 		public Assignment getUnorderedAssignment_2_0() { return cUnorderedAssignment_2_0; }
-
+		
 		//'unordered'
 		public Keyword getUnorderedUnorderedKeyword_2_0_0() { return cUnorderedUnorderedKeyword_2_0_0; }
-
+		
 		//unique?='unique'?
 		public Assignment getUniqueAssignment_2_1() { return cUniqueAssignment_2_1; }
-
+		
 		//'unique'
 		public Keyword getUniqueUniqueKeyword_2_1_0() { return cUniqueUniqueKeyword_2_1_0; }
-
+		
 		//readonly?='readonly'?
 		public Assignment getReadonlyAssignment_2_2() { return cReadonlyAssignment_2_2; }
-
+		
 		//'readonly'
 		public Keyword getReadonlyReadonlyKeyword_2_2_0() { return cReadonlyReadonlyKeyword_2_2_0; }
-
+		
 		//transient?='transient'?
 		public Assignment getTransientAssignment_2_3() { return cTransientAssignment_2_3; }
-
+		
 		//'transient'
 		public Keyword getTransientTransientKeyword_2_3_0() { return cTransientTransientKeyword_2_3_0; }
-
+		
 		//volatile?='volatile'?
 		public Assignment getVolatileAssignment_2_4() { return cVolatileAssignment_2_4; }
-
+		
 		//'volatile'
 		public Keyword getVolatileVolatileKeyword_2_4_0() { return cVolatileVolatileKeyword_2_4_0; }
-
+		
 		//unsettable?='unsettable'?
 		public Assignment getUnsettableAssignment_2_5() { return cUnsettableAssignment_2_5; }
-
+		
 		//'unsettable'
 		public Keyword getUnsettableUnsettableKeyword_2_5_0() { return cUnsettableUnsettableKeyword_2_5_0; }
-
+		
 		//derived?='derived'?
 		public Assignment getDerivedAssignment_2_6() { return cDerivedAssignment_2_6; }
-
+		
 		//'derived'
 		public Keyword getDerivedDerivedKeyword_2_6_0() { return cDerivedDerivedKeyword_2_6_0; }
-
+		
 		//iD?='id'?
 		public Assignment getIDAssignment_2_7() { return cIDAssignment_2_7; }
-
+		
 		//'id'
 		public Keyword getIDIdKeyword_2_7_0() { return cIDIdKeyword_2_7_0; }
-
+		
 		//type=XGenericType
 		public Assignment getTypeAssignment_3() { return cTypeAssignment_3; }
-
+		
 		//XGenericType
 		public RuleCall getTypeXGenericTypeParserRuleCall_3_0() { return cTypeXGenericTypeParserRuleCall_3_0; }
-
+		
 		//multiplicity=XMultiplicity?
 		public Assignment getMultiplicityAssignment_4() { return cMultiplicityAssignment_4; }
-
+		
 		//XMultiplicity
 		public RuleCall getMultiplicityXMultiplicityParserRuleCall_4_0() { return cMultiplicityXMultiplicityParserRuleCall_4_0; }
-
+		
 		//name=ID
 		public Assignment getNameAssignment_5() { return cNameAssignment_5; }
-
+		
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_5_0() { return cNameIDTerminalRuleCall_5_0; }
-
+		
 		//('=' defaultValueLiteral=STRING)?
 		public Group getGroup_6() { return cGroup_6; }
-
+		
 		//'='
 		public Keyword getEqualsSignKeyword_6_0() { return cEqualsSignKeyword_6_0; }
-
+		
 		//defaultValueLiteral=STRING
 		public Assignment getDefaultValueLiteralAssignment_6_1() { return cDefaultValueLiteralAssignment_6_1; }
-
+		
 		//STRING
 		public RuleCall getDefaultValueLiteralSTRINGTerminalRuleCall_6_1_0() { return cDefaultValueLiteralSTRINGTerminalRuleCall_6_1_0; }
-
+		
 		//(('get' getBody=XBlockExpression)? & ('set' setBody=XBlockExpression)? & ('isSet' isSetBody=XBlockExpression)? &
 		//('unset' unsetBody=XBlockExpression)?)
 		public UnorderedGroup getUnorderedGroup_7() { return cUnorderedGroup_7; }
-
+		
 		//('get' getBody=XBlockExpression)?
 		public Group getGroup_7_0() { return cGroup_7_0; }
-
+		
 		//'get'
 		public Keyword getGetKeyword_7_0_0() { return cGetKeyword_7_0_0; }
-
+		
 		//getBody=XBlockExpression
 		public Assignment getGetBodyAssignment_7_0_1() { return cGetBodyAssignment_7_0_1; }
-
+		
 		//XBlockExpression
 		public RuleCall getGetBodyXBlockExpressionParserRuleCall_7_0_1_0() { return cGetBodyXBlockExpressionParserRuleCall_7_0_1_0; }
-
+		
 		//('set' setBody=XBlockExpression)?
 		public Group getGroup_7_1() { return cGroup_7_1; }
-
+		
 		//'set'
 		public Keyword getSetKeyword_7_1_0() { return cSetKeyword_7_1_0; }
-
+		
 		//setBody=XBlockExpression
 		public Assignment getSetBodyAssignment_7_1_1() { return cSetBodyAssignment_7_1_1; }
-
+		
 		//XBlockExpression
 		public RuleCall getSetBodyXBlockExpressionParserRuleCall_7_1_1_0() { return cSetBodyXBlockExpressionParserRuleCall_7_1_1_0; }
-
+		
 		//('isSet' isSetBody=XBlockExpression)?
 		public Group getGroup_7_2() { return cGroup_7_2; }
-
+		
 		//'isSet'
 		public Keyword getIsSetKeyword_7_2_0() { return cIsSetKeyword_7_2_0; }
-
+		
 		//isSetBody=XBlockExpression
 		public Assignment getIsSetBodyAssignment_7_2_1() { return cIsSetBodyAssignment_7_2_1; }
-
+		
 		//XBlockExpression
 		public RuleCall getIsSetBodyXBlockExpressionParserRuleCall_7_2_1_0() { return cIsSetBodyXBlockExpressionParserRuleCall_7_2_1_0; }
-
+		
 		//('unset' unsetBody=XBlockExpression)?
 		public Group getGroup_7_3() { return cGroup_7_3; }
-
+		
 		//'unset'
 		public Keyword getUnsetKeyword_7_3_0() { return cUnsetKeyword_7_3_0; }
-
+		
 		//unsetBody=XBlockExpression
 		public Assignment getUnsetBodyAssignment_7_3_1() { return cUnsetBodyAssignment_7_3_1; }
-
+		
 		//XBlockExpression
 		public RuleCall getUnsetBodyXBlockExpressionParserRuleCall_7_3_1_0() { return cUnsetBodyXBlockExpressionParserRuleCall_7_3_1_0; }
 	}
-
 	public class XReferenceElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XReference");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -1076,7 +1070,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	keys+=[genmodel::GenFeature|ValidID])*)? (('get' getBody=XBlockExpression)? & ('set' setBody=XBlockExpression)? &
 		//	('isSet' isSetBody=XBlockExpression)? & ('unset' unsetBody=XBlockExpression)?);
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//{XReference} annotations+=XAnnotation* (containment?='contains' resolveProxies?='resolving'? |
 		//resolveProxies?='resolving' containment?='contains' | container?='container' resolveProxies?='resolving'? |
 		//resolveProxies?='resolving' container?='container' | 'refers' local?='local'? | local?='local' 'refers')
@@ -1086,267 +1080,266 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//keys+=[genmodel::GenFeature|ValidID])*)? (('get' getBody=XBlockExpression)? & ('set' setBody=XBlockExpression)? &
 		//('isSet' isSetBody=XBlockExpression)? & ('unset' unsetBody=XBlockExpression)?)
 		public Group getGroup() { return cGroup; }
-
+		
 		//{XReference}
 		public Action getXReferenceAction_0() { return cXReferenceAction_0; }
-
+		
 		//annotations+=XAnnotation*
 		public Assignment getAnnotationsAssignment_1() { return cAnnotationsAssignment_1; }
-
+		
 		//XAnnotation
 		public RuleCall getAnnotationsXAnnotationParserRuleCall_1_0() { return cAnnotationsXAnnotationParserRuleCall_1_0; }
-
+		
 		//(containment?='contains' resolveProxies?='resolving'? | resolveProxies?='resolving' containment?='contains' |
 		//container?='container' resolveProxies?='resolving'? | resolveProxies?='resolving' container?='container' | 'refers'
 		//local?='local'? | local?='local' 'refers')
 		public Alternatives getAlternatives_2() { return cAlternatives_2; }
-
+		
 		//containment?='contains' resolveProxies?='resolving'?
 		public Group getGroup_2_0() { return cGroup_2_0; }
-
+		
 		//containment?='contains'
 		public Assignment getContainmentAssignment_2_0_0() { return cContainmentAssignment_2_0_0; }
-
+		
 		//'contains'
 		public Keyword getContainmentContainsKeyword_2_0_0_0() { return cContainmentContainsKeyword_2_0_0_0; }
-
+		
 		//resolveProxies?='resolving'?
 		public Assignment getResolveProxiesAssignment_2_0_1() { return cResolveProxiesAssignment_2_0_1; }
-
+		
 		//'resolving'
 		public Keyword getResolveProxiesResolvingKeyword_2_0_1_0() { return cResolveProxiesResolvingKeyword_2_0_1_0; }
-
+		
 		//resolveProxies?='resolving' containment?='contains'
 		public Group getGroup_2_1() { return cGroup_2_1; }
-
+		
 		//resolveProxies?='resolving'
 		public Assignment getResolveProxiesAssignment_2_1_0() { return cResolveProxiesAssignment_2_1_0; }
-
+		
 		//'resolving'
 		public Keyword getResolveProxiesResolvingKeyword_2_1_0_0() { return cResolveProxiesResolvingKeyword_2_1_0_0; }
-
+		
 		//containment?='contains'
 		public Assignment getContainmentAssignment_2_1_1() { return cContainmentAssignment_2_1_1; }
-
+		
 		//'contains'
 		public Keyword getContainmentContainsKeyword_2_1_1_0() { return cContainmentContainsKeyword_2_1_1_0; }
-
+		
 		//container?='container' resolveProxies?='resolving'?
 		public Group getGroup_2_2() { return cGroup_2_2; }
-
+		
 		//container?='container'
 		public Assignment getContainerAssignment_2_2_0() { return cContainerAssignment_2_2_0; }
-
+		
 		//'container'
 		public Keyword getContainerContainerKeyword_2_2_0_0() { return cContainerContainerKeyword_2_2_0_0; }
-
+		
 		//resolveProxies?='resolving'?
 		public Assignment getResolveProxiesAssignment_2_2_1() { return cResolveProxiesAssignment_2_2_1; }
-
+		
 		//'resolving'
 		public Keyword getResolveProxiesResolvingKeyword_2_2_1_0() { return cResolveProxiesResolvingKeyword_2_2_1_0; }
-
+		
 		//resolveProxies?='resolving' container?='container'
 		public Group getGroup_2_3() { return cGroup_2_3; }
-
+		
 		//resolveProxies?='resolving'
 		public Assignment getResolveProxiesAssignment_2_3_0() { return cResolveProxiesAssignment_2_3_0; }
-
+		
 		//'resolving'
 		public Keyword getResolveProxiesResolvingKeyword_2_3_0_0() { return cResolveProxiesResolvingKeyword_2_3_0_0; }
-
+		
 		//container?='container'
 		public Assignment getContainerAssignment_2_3_1() { return cContainerAssignment_2_3_1; }
-
+		
 		//'container'
 		public Keyword getContainerContainerKeyword_2_3_1_0() { return cContainerContainerKeyword_2_3_1_0; }
-
+		
 		//'refers' local?='local'?
 		public Group getGroup_2_4() { return cGroup_2_4; }
-
+		
 		//'refers'
 		public Keyword getRefersKeyword_2_4_0() { return cRefersKeyword_2_4_0; }
-
+		
 		//local?='local'?
 		public Assignment getLocalAssignment_2_4_1() { return cLocalAssignment_2_4_1; }
-
+		
 		//'local'
 		public Keyword getLocalLocalKeyword_2_4_1_0() { return cLocalLocalKeyword_2_4_1_0; }
-
+		
 		//local?='local' 'refers'
 		public Group getGroup_2_5() { return cGroup_2_5; }
-
+		
 		//local?='local'
 		public Assignment getLocalAssignment_2_5_0() { return cLocalAssignment_2_5_0; }
-
+		
 		//'local'
 		public Keyword getLocalLocalKeyword_2_5_0_0() { return cLocalLocalKeyword_2_5_0_0; }
-
+		
 		//'refers'
 		public Keyword getRefersKeyword_2_5_1() { return cRefersKeyword_2_5_1; }
-
+		
 		//(unordered?='unordered'? & unique?='unique'? & readonly?='readonly'? & transient?='transient'? & volatile?='volatile'? &
 		//unsettable?='unsettable'? & derived?='derived'?)
 		public UnorderedGroup getUnorderedGroup_3() { return cUnorderedGroup_3; }
-
+		
 		//unordered?='unordered'?
 		public Assignment getUnorderedAssignment_3_0() { return cUnorderedAssignment_3_0; }
-
+		
 		//'unordered'
 		public Keyword getUnorderedUnorderedKeyword_3_0_0() { return cUnorderedUnorderedKeyword_3_0_0; }
-
+		
 		//unique?='unique'?
 		public Assignment getUniqueAssignment_3_1() { return cUniqueAssignment_3_1; }
-
+		
 		//'unique'
 		public Keyword getUniqueUniqueKeyword_3_1_0() { return cUniqueUniqueKeyword_3_1_0; }
-
+		
 		//readonly?='readonly'?
 		public Assignment getReadonlyAssignment_3_2() { return cReadonlyAssignment_3_2; }
-
+		
 		//'readonly'
 		public Keyword getReadonlyReadonlyKeyword_3_2_0() { return cReadonlyReadonlyKeyword_3_2_0; }
-
+		
 		//transient?='transient'?
 		public Assignment getTransientAssignment_3_3() { return cTransientAssignment_3_3; }
-
+		
 		//'transient'
 		public Keyword getTransientTransientKeyword_3_3_0() { return cTransientTransientKeyword_3_3_0; }
-
+		
 		//volatile?='volatile'?
 		public Assignment getVolatileAssignment_3_4() { return cVolatileAssignment_3_4; }
-
+		
 		//'volatile'
 		public Keyword getVolatileVolatileKeyword_3_4_0() { return cVolatileVolatileKeyword_3_4_0; }
-
+		
 		//unsettable?='unsettable'?
 		public Assignment getUnsettableAssignment_3_5() { return cUnsettableAssignment_3_5; }
-
+		
 		//'unsettable'
 		public Keyword getUnsettableUnsettableKeyword_3_5_0() { return cUnsettableUnsettableKeyword_3_5_0; }
-
+		
 		//derived?='derived'?
 		public Assignment getDerivedAssignment_3_6() { return cDerivedAssignment_3_6; }
-
+		
 		//'derived'
 		public Keyword getDerivedDerivedKeyword_3_6_0() { return cDerivedDerivedKeyword_3_6_0; }
-
+		
 		//type=XGenericType
 		public Assignment getTypeAssignment_4() { return cTypeAssignment_4; }
-
+		
 		//XGenericType
 		public RuleCall getTypeXGenericTypeParserRuleCall_4_0() { return cTypeXGenericTypeParserRuleCall_4_0; }
-
+		
 		//multiplicity=XMultiplicity?
 		public Assignment getMultiplicityAssignment_5() { return cMultiplicityAssignment_5; }
-
+		
 		//XMultiplicity
 		public RuleCall getMultiplicityXMultiplicityParserRuleCall_5_0() { return cMultiplicityXMultiplicityParserRuleCall_5_0; }
-
+		
 		//name=ID
 		public Assignment getNameAssignment_6() { return cNameAssignment_6; }
-
+		
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_6_0() { return cNameIDTerminalRuleCall_6_0; }
-
+		
 		//('opposite' opposite=[genmodel::GenFeature|ValidID])?
 		public Group getGroup_7() { return cGroup_7; }
-
+		
 		//'opposite'
 		public Keyword getOppositeKeyword_7_0() { return cOppositeKeyword_7_0; }
-
+		
 		//opposite=[genmodel::GenFeature|ValidID]
 		public Assignment getOppositeAssignment_7_1() { return cOppositeAssignment_7_1; }
-
+		
 		//[genmodel::GenFeature|ValidID]
 		public CrossReference getOppositeGenFeatureCrossReference_7_1_0() { return cOppositeGenFeatureCrossReference_7_1_0; }
-
+		
 		//ValidID
 		public RuleCall getOppositeGenFeatureValidIDParserRuleCall_7_1_0_1() { return cOppositeGenFeatureValidIDParserRuleCall_7_1_0_1; }
-
+		
 		//('keys' keys+=[genmodel::GenFeature|ValidID] (',' keys+=[genmodel::GenFeature|ValidID])*)?
 		public Group getGroup_8() { return cGroup_8; }
-
+		
 		//'keys'
 		public Keyword getKeysKeyword_8_0() { return cKeysKeyword_8_0; }
-
+		
 		//keys+=[genmodel::GenFeature|ValidID]
 		public Assignment getKeysAssignment_8_1() { return cKeysAssignment_8_1; }
-
+		
 		//[genmodel::GenFeature|ValidID]
 		public CrossReference getKeysGenFeatureCrossReference_8_1_0() { return cKeysGenFeatureCrossReference_8_1_0; }
-
+		
 		//ValidID
 		public RuleCall getKeysGenFeatureValidIDParserRuleCall_8_1_0_1() { return cKeysGenFeatureValidIDParserRuleCall_8_1_0_1; }
-
+		
 		//(',' keys+=[genmodel::GenFeature|ValidID])*
 		public Group getGroup_8_2() { return cGroup_8_2; }
-
+		
 		//','
 		public Keyword getCommaKeyword_8_2_0() { return cCommaKeyword_8_2_0; }
-
+		
 		//keys+=[genmodel::GenFeature|ValidID]
 		public Assignment getKeysAssignment_8_2_1() { return cKeysAssignment_8_2_1; }
-
+		
 		//[genmodel::GenFeature|ValidID]
 		public CrossReference getKeysGenFeatureCrossReference_8_2_1_0() { return cKeysGenFeatureCrossReference_8_2_1_0; }
-
+		
 		//ValidID
 		public RuleCall getKeysGenFeatureValidIDParserRuleCall_8_2_1_0_1() { return cKeysGenFeatureValidIDParserRuleCall_8_2_1_0_1; }
-
+		
 		//(('get' getBody=XBlockExpression)? & ('set' setBody=XBlockExpression)? & ('isSet' isSetBody=XBlockExpression)? &
 		//('unset' unsetBody=XBlockExpression)?)
 		public UnorderedGroup getUnorderedGroup_9() { return cUnorderedGroup_9; }
-
+		
 		//('get' getBody=XBlockExpression)?
 		public Group getGroup_9_0() { return cGroup_9_0; }
-
+		
 		//'get'
 		public Keyword getGetKeyword_9_0_0() { return cGetKeyword_9_0_0; }
-
+		
 		//getBody=XBlockExpression
 		public Assignment getGetBodyAssignment_9_0_1() { return cGetBodyAssignment_9_0_1; }
-
+		
 		//XBlockExpression
 		public RuleCall getGetBodyXBlockExpressionParserRuleCall_9_0_1_0() { return cGetBodyXBlockExpressionParserRuleCall_9_0_1_0; }
-
+		
 		//('set' setBody=XBlockExpression)?
 		public Group getGroup_9_1() { return cGroup_9_1; }
-
+		
 		//'set'
 		public Keyword getSetKeyword_9_1_0() { return cSetKeyword_9_1_0; }
-
+		
 		//setBody=XBlockExpression
 		public Assignment getSetBodyAssignment_9_1_1() { return cSetBodyAssignment_9_1_1; }
-
+		
 		//XBlockExpression
 		public RuleCall getSetBodyXBlockExpressionParserRuleCall_9_1_1_0() { return cSetBodyXBlockExpressionParserRuleCall_9_1_1_0; }
-
+		
 		//('isSet' isSetBody=XBlockExpression)?
 		public Group getGroup_9_2() { return cGroup_9_2; }
-
+		
 		//'isSet'
 		public Keyword getIsSetKeyword_9_2_0() { return cIsSetKeyword_9_2_0; }
-
+		
 		//isSetBody=XBlockExpression
 		public Assignment getIsSetBodyAssignment_9_2_1() { return cIsSetBodyAssignment_9_2_1; }
-
+		
 		//XBlockExpression
 		public RuleCall getIsSetBodyXBlockExpressionParserRuleCall_9_2_1_0() { return cIsSetBodyXBlockExpressionParserRuleCall_9_2_1_0; }
-
+		
 		//('unset' unsetBody=XBlockExpression)?
 		public Group getGroup_9_3() { return cGroup_9_3; }
-
+		
 		//'unset'
 		public Keyword getUnsetKeyword_9_3_0() { return cUnsetKeyword_9_3_0; }
-
+		
 		//unsetBody=XBlockExpression
 		public Assignment getUnsetBodyAssignment_9_3_1() { return cUnsetBodyAssignment_9_3_1; }
-
+		
 		//XBlockExpression
 		public RuleCall getUnsetBodyXBlockExpressionParserRuleCall_9_3_1_0() { return cUnsetBodyXBlockExpressionParserRuleCall_9_3_1_0; }
 	}
-
 	public class XOperationElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XOperation");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -1410,182 +1403,181 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	name=ID
 		//	'(' (parameters+=XParameter (',' parameters+=XParameter)*)? ')' ('throws' exceptions+=XGenericType (','
 		//	exceptions+=XGenericType)*)?
-		//	/ *
+		//	/*
 		//	 * This is the logic for the operation.
 		//	 * How are we going to resolve all references that are in scope for Xbase language?
 		//	 * Will things like variables that are actually there in generated in the Impl class be accessible directly?
-		//	 * /
+		//	 */
 		//	body=XBlockExpression?;
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//{XOperation} annotations+=XAnnotation* 'op' (unordered?='unordered' unique?='unique'? | unique?='unique'
 		//unordered?='unordered'?)? ('<' typeParameters+=XTypeParameter (',' typeParameters+=XTypeParameter)* '>')?
 		//(type=XGenericType | 'void') multiplicity=XMultiplicity? name=ID '(' (parameters+=XParameter (','
-		//parameters+=XParameter)*)? ')' ('throws' exceptions+=XGenericType (',' exceptions+=XGenericType)*)? / *
+		//parameters+=XParameter)*)? ')' ('throws' exceptions+=XGenericType (',' exceptions+=XGenericType)*)? /*
 		//	 * This is the logic for the operation.
 		//	 * How are we going to resolve all references that are in scope for Xbase language?
 		//	 * Will things like variables that are actually there in generated in the Impl class be accessible directly?
-		//	 * / body=XBlockExpression?
+		//	 */ body=XBlockExpression?
 		public Group getGroup() { return cGroup; }
-
+		
 		//{XOperation}
 		public Action getXOperationAction_0() { return cXOperationAction_0; }
-
+		
 		//annotations+=XAnnotation*
 		public Assignment getAnnotationsAssignment_1() { return cAnnotationsAssignment_1; }
-
+		
 		//XAnnotation
 		public RuleCall getAnnotationsXAnnotationParserRuleCall_1_0() { return cAnnotationsXAnnotationParserRuleCall_1_0; }
-
+		
 		//'op'
 		public Keyword getOpKeyword_2() { return cOpKeyword_2; }
-
+		
 		//(unordered?='unordered' unique?='unique'? | unique?='unique' unordered?='unordered'?)?
 		public Alternatives getAlternatives_3() { return cAlternatives_3; }
-
+		
 		//unordered?='unordered' unique?='unique'?
 		public Group getGroup_3_0() { return cGroup_3_0; }
-
+		
 		//unordered?='unordered'
 		public Assignment getUnorderedAssignment_3_0_0() { return cUnorderedAssignment_3_0_0; }
-
+		
 		//'unordered'
 		public Keyword getUnorderedUnorderedKeyword_3_0_0_0() { return cUnorderedUnorderedKeyword_3_0_0_0; }
-
+		
 		//unique?='unique'?
 		public Assignment getUniqueAssignment_3_0_1() { return cUniqueAssignment_3_0_1; }
-
+		
 		//'unique'
 		public Keyword getUniqueUniqueKeyword_3_0_1_0() { return cUniqueUniqueKeyword_3_0_1_0; }
-
+		
 		//unique?='unique' unordered?='unordered'?
 		public Group getGroup_3_1() { return cGroup_3_1; }
-
+		
 		//unique?='unique'
 		public Assignment getUniqueAssignment_3_1_0() { return cUniqueAssignment_3_1_0; }
-
+		
 		//'unique'
 		public Keyword getUniqueUniqueKeyword_3_1_0_0() { return cUniqueUniqueKeyword_3_1_0_0; }
-
+		
 		//unordered?='unordered'?
 		public Assignment getUnorderedAssignment_3_1_1() { return cUnorderedAssignment_3_1_1; }
-
+		
 		//'unordered'
 		public Keyword getUnorderedUnorderedKeyword_3_1_1_0() { return cUnorderedUnorderedKeyword_3_1_1_0; }
-
+		
 		//('<' typeParameters+=XTypeParameter (',' typeParameters+=XTypeParameter)* '>')?
 		public Group getGroup_4() { return cGroup_4; }
-
+		
 		//'<'
 		public Keyword getLessThanSignKeyword_4_0() { return cLessThanSignKeyword_4_0; }
-
+		
 		//typeParameters+=XTypeParameter
 		public Assignment getTypeParametersAssignment_4_1() { return cTypeParametersAssignment_4_1; }
-
+		
 		//XTypeParameter
 		public RuleCall getTypeParametersXTypeParameterParserRuleCall_4_1_0() { return cTypeParametersXTypeParameterParserRuleCall_4_1_0; }
-
+		
 		//(',' typeParameters+=XTypeParameter)*
 		public Group getGroup_4_2() { return cGroup_4_2; }
-
+		
 		//','
 		public Keyword getCommaKeyword_4_2_0() { return cCommaKeyword_4_2_0; }
-
+		
 		//typeParameters+=XTypeParameter
 		public Assignment getTypeParametersAssignment_4_2_1() { return cTypeParametersAssignment_4_2_1; }
-
+		
 		//XTypeParameter
 		public RuleCall getTypeParametersXTypeParameterParserRuleCall_4_2_1_0() { return cTypeParametersXTypeParameterParserRuleCall_4_2_1_0; }
-
+		
 		//'>'
 		public Keyword getGreaterThanSignKeyword_4_3() { return cGreaterThanSignKeyword_4_3; }
-
+		
 		//(type=XGenericType | 'void')
 		public Alternatives getAlternatives_5() { return cAlternatives_5; }
-
+		
 		//type=XGenericType
 		public Assignment getTypeAssignment_5_0() { return cTypeAssignment_5_0; }
-
+		
 		//XGenericType
 		public RuleCall getTypeXGenericTypeParserRuleCall_5_0_0() { return cTypeXGenericTypeParserRuleCall_5_0_0; }
-
+		
 		//'void'
 		public Keyword getVoidKeyword_5_1() { return cVoidKeyword_5_1; }
-
+		
 		//multiplicity=XMultiplicity?
 		public Assignment getMultiplicityAssignment_6() { return cMultiplicityAssignment_6; }
-
+		
 		//XMultiplicity
 		public RuleCall getMultiplicityXMultiplicityParserRuleCall_6_0() { return cMultiplicityXMultiplicityParserRuleCall_6_0; }
-
+		
 		//name=ID
 		public Assignment getNameAssignment_7() { return cNameAssignment_7; }
-
+		
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_7_0() { return cNameIDTerminalRuleCall_7_0; }
-
+		
 		//'('
 		public Keyword getLeftParenthesisKeyword_8() { return cLeftParenthesisKeyword_8; }
-
+		
 		//(parameters+=XParameter (',' parameters+=XParameter)*)?
 		public Group getGroup_9() { return cGroup_9; }
-
+		
 		//parameters+=XParameter
 		public Assignment getParametersAssignment_9_0() { return cParametersAssignment_9_0; }
-
+		
 		//XParameter
 		public RuleCall getParametersXParameterParserRuleCall_9_0_0() { return cParametersXParameterParserRuleCall_9_0_0; }
-
+		
 		//(',' parameters+=XParameter)*
 		public Group getGroup_9_1() { return cGroup_9_1; }
-
+		
 		//','
 		public Keyword getCommaKeyword_9_1_0() { return cCommaKeyword_9_1_0; }
-
+		
 		//parameters+=XParameter
 		public Assignment getParametersAssignment_9_1_1() { return cParametersAssignment_9_1_1; }
-
+		
 		//XParameter
 		public RuleCall getParametersXParameterParserRuleCall_9_1_1_0() { return cParametersXParameterParserRuleCall_9_1_1_0; }
-
+		
 		//')'
 		public Keyword getRightParenthesisKeyword_10() { return cRightParenthesisKeyword_10; }
-
+		
 		//('throws' exceptions+=XGenericType (',' exceptions+=XGenericType)*)?
 		public Group getGroup_11() { return cGroup_11; }
-
+		
 		//'throws'
 		public Keyword getThrowsKeyword_11_0() { return cThrowsKeyword_11_0; }
-
+		
 		//exceptions+=XGenericType
 		public Assignment getExceptionsAssignment_11_1() { return cExceptionsAssignment_11_1; }
-
+		
 		//XGenericType
 		public RuleCall getExceptionsXGenericTypeParserRuleCall_11_1_0() { return cExceptionsXGenericTypeParserRuleCall_11_1_0; }
-
+		
 		//(',' exceptions+=XGenericType)*
 		public Group getGroup_11_2() { return cGroup_11_2; }
-
+		
 		//','
 		public Keyword getCommaKeyword_11_2_0() { return cCommaKeyword_11_2_0; }
-
+		
 		//exceptions+=XGenericType
 		public Assignment getExceptionsAssignment_11_2_1() { return cExceptionsAssignment_11_2_1; }
-
+		
 		//XGenericType
 		public RuleCall getExceptionsXGenericTypeParserRuleCall_11_2_1_0() { return cExceptionsXGenericTypeParserRuleCall_11_2_1_0; }
-
-		/// *
+		
+		///*
 		//	 * This is the logic for the operation.
 		//	 * How are we going to resolve all references that are in scope for Xbase language?
 		//	 * Will things like variables that are actually there in generated in the Impl class be accessible directly?
-		//	 * / body=XBlockExpression?
+		//	 */ body=XBlockExpression?
 		public Assignment getBodyAssignment_12() { return cBodyAssignment_12; }
-
+		
 		//XBlockExpression
 		public RuleCall getBodyXBlockExpressionParserRuleCall_12_0() { return cBodyXBlockExpressionParserRuleCall_12_0; }
 	}
-
 	public class XParameterElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XParameter");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -1615,69 +1607,68 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	multiplicity=XMultiplicity?
 		//	name=ID;
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//annotations+=XAnnotation* (unordered?='unordered' unique?='unique'? | unique?='unique' unordered?='unordered'?)?
 		//type=XGenericType multiplicity=XMultiplicity? name=ID
 		public Group getGroup() { return cGroup; }
-
+		
 		//annotations+=XAnnotation*
 		public Assignment getAnnotationsAssignment_0() { return cAnnotationsAssignment_0; }
-
+		
 		//XAnnotation
 		public RuleCall getAnnotationsXAnnotationParserRuleCall_0_0() { return cAnnotationsXAnnotationParserRuleCall_0_0; }
-
+		
 		//(unordered?='unordered' unique?='unique'? | unique?='unique' unordered?='unordered'?)?
 		public Alternatives getAlternatives_1() { return cAlternatives_1; }
-
+		
 		//unordered?='unordered' unique?='unique'?
 		public Group getGroup_1_0() { return cGroup_1_0; }
-
+		
 		//unordered?='unordered'
 		public Assignment getUnorderedAssignment_1_0_0() { return cUnorderedAssignment_1_0_0; }
-
+		
 		//'unordered'
 		public Keyword getUnorderedUnorderedKeyword_1_0_0_0() { return cUnorderedUnorderedKeyword_1_0_0_0; }
-
+		
 		//unique?='unique'?
 		public Assignment getUniqueAssignment_1_0_1() { return cUniqueAssignment_1_0_1; }
-
+		
 		//'unique'
 		public Keyword getUniqueUniqueKeyword_1_0_1_0() { return cUniqueUniqueKeyword_1_0_1_0; }
-
+		
 		//unique?='unique' unordered?='unordered'?
 		public Group getGroup_1_1() { return cGroup_1_1; }
-
+		
 		//unique?='unique'
 		public Assignment getUniqueAssignment_1_1_0() { return cUniqueAssignment_1_1_0; }
-
+		
 		//'unique'
 		public Keyword getUniqueUniqueKeyword_1_1_0_0() { return cUniqueUniqueKeyword_1_1_0_0; }
-
+		
 		//unordered?='unordered'?
 		public Assignment getUnorderedAssignment_1_1_1() { return cUnorderedAssignment_1_1_1; }
-
+		
 		//'unordered'
 		public Keyword getUnorderedUnorderedKeyword_1_1_1_0() { return cUnorderedUnorderedKeyword_1_1_1_0; }
-
+		
 		//type=XGenericType
 		public Assignment getTypeAssignment_2() { return cTypeAssignment_2; }
-
+		
 		//XGenericType
 		public RuleCall getTypeXGenericTypeParserRuleCall_2_0() { return cTypeXGenericTypeParserRuleCall_2_0; }
-
+		
 		//multiplicity=XMultiplicity?
 		public Assignment getMultiplicityAssignment_3() { return cMultiplicityAssignment_3; }
-
+		
 		//XMultiplicity
 		public RuleCall getMultiplicityXMultiplicityParserRuleCall_3_0() { return cMultiplicityXMultiplicityParserRuleCall_3_0; }
-
+		
 		//name=ID
 		public Assignment getNameAssignment_4() { return cNameAssignment_4; }
-
+		
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_4_0() { return cNameIDTerminalRuleCall_4_0; }
 	}
-
 	public class XTypeParameterElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XTypeParameter");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -1698,47 +1689,46 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	annotations+=XAnnotation*
 		//	name=ID ('extends' bounds+=XGenericType ('&' bounds+=XGenericType)*)?;
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//annotations+=XAnnotation* name=ID ('extends' bounds+=XGenericType ('&' bounds+=XGenericType)*)?
 		public Group getGroup() { return cGroup; }
-
+		
 		//annotations+=XAnnotation*
 		public Assignment getAnnotationsAssignment_0() { return cAnnotationsAssignment_0; }
-
+		
 		//XAnnotation
 		public RuleCall getAnnotationsXAnnotationParserRuleCall_0_0() { return cAnnotationsXAnnotationParserRuleCall_0_0; }
-
+		
 		//name=ID
 		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
-
+		
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
-
+		
 		//('extends' bounds+=XGenericType ('&' bounds+=XGenericType)*)?
 		public Group getGroup_2() { return cGroup_2; }
-
+		
 		//'extends'
 		public Keyword getExtendsKeyword_2_0() { return cExtendsKeyword_2_0; }
-
+		
 		//bounds+=XGenericType
 		public Assignment getBoundsAssignment_2_1() { return cBoundsAssignment_2_1; }
-
+		
 		//XGenericType
 		public RuleCall getBoundsXGenericTypeParserRuleCall_2_1_0() { return cBoundsXGenericTypeParserRuleCall_2_1_0; }
-
+		
 		//('&' bounds+=XGenericType)*
 		public Group getGroup_2_2() { return cGroup_2_2; }
-
+		
 		//'&'
 		public Keyword getAmpersandKeyword_2_2_0() { return cAmpersandKeyword_2_2_0; }
-
+		
 		//bounds+=XGenericType
 		public Assignment getBoundsAssignment_2_2_1() { return cBoundsAssignment_2_2_1; }
-
+		
 		//XGenericType
 		public RuleCall getBoundsXGenericTypeParserRuleCall_2_2_1_0() { return cBoundsXGenericTypeParserRuleCall_2_2_1_0; }
 	}
-
 	public class XMultiplicityElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XMultiplicity");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -1759,55 +1749,54 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//XMultiplicity XMultiplicity:
 		//	'[' ('?' | '*' | '+' | INT ('..' (INT | '?' | '*'))?)?
-		//	']'
+		//	']';
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//'[' ('?' | '*' | '+' | INT ('..' (INT | '?' | '*'))?)? ']'
 		public Group getGroup() { return cGroup; }
-
+		
 		//'['
 		public Keyword getLeftSquareBracketKeyword_0() { return cLeftSquareBracketKeyword_0; }
-
+		
 		//('?' | '*' | '+' | INT ('..' (INT | '?' | '*'))?)?
 		public Alternatives getAlternatives_1() { return cAlternatives_1; }
-
+		
 		//'?'
 		public Keyword getQuestionMarkKeyword_1_0() { return cQuestionMarkKeyword_1_0; }
-
+		
 		//'*'
 		public Keyword getAsteriskKeyword_1_1() { return cAsteriskKeyword_1_1; }
-
+		
 		//'+'
 		public Keyword getPlusSignKeyword_1_2() { return cPlusSignKeyword_1_2; }
-
+		
 		//INT ('..' (INT | '?' | '*'))?
 		public Group getGroup_1_3() { return cGroup_1_3; }
-
+		
 		//INT
 		public RuleCall getINTTerminalRuleCall_1_3_0() { return cINTTerminalRuleCall_1_3_0; }
-
+		
 		//('..' (INT | '?' | '*'))?
 		public Group getGroup_1_3_1() { return cGroup_1_3_1; }
-
+		
 		//'..'
 		public Keyword getFullStopFullStopKeyword_1_3_1_0() { return cFullStopFullStopKeyword_1_3_1_0; }
-
+		
 		//(INT | '?' | '*')
 		public Alternatives getAlternatives_1_3_1_1() { return cAlternatives_1_3_1_1; }
-
+		
 		//INT
 		public RuleCall getINTTerminalRuleCall_1_3_1_1_0() { return cINTTerminalRuleCall_1_3_1_1_0; }
-
+		
 		//'?'
 		public Keyword getQuestionMarkKeyword_1_3_1_1_1() { return cQuestionMarkKeyword_1_3_1_1_1; }
-
+		
 		//'*'
 		public Keyword getAsteriskKeyword_1_3_1_1_2() { return cAsteriskKeyword_1_3_1_1_2; }
-
+		
 		//']'
 		public Keyword getRightSquareBracketKeyword_2() { return cRightSquareBracketKeyword_2; }
 	}
-
 	public class XBlockExpressionElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XBlockExpression");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -1819,37 +1808,37 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cSemicolonKeyword_2_1 = (Keyword)cGroup_2.eContents().get(1);
 		private final Keyword cRightCurlyBracketKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		
+		//@Override
 		//XBlockExpression xbase::XBlockExpression:
 		//	{xbase::XBlockExpression}
 		//	'{' (expressions+=XExpressionOrVarDeclaration ';'?)*
-		//	'}'
+		//	'}';
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//{xbase::XBlockExpression} '{' (expressions+=XExpressionOrVarDeclaration ';'?)* '}'
 		public Group getGroup() { return cGroup; }
-
+		
 		//{xbase::XBlockExpression}
 		public Action getXBlockExpressionAction_0() { return cXBlockExpressionAction_0; }
-
+		
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_1() { return cLeftCurlyBracketKeyword_1; }
-
+		
 		//(expressions+=XExpressionOrVarDeclaration ';'?)*
 		public Group getGroup_2() { return cGroup_2; }
-
+		
 		//expressions+=XExpressionOrVarDeclaration
 		public Assignment getExpressionsAssignment_2_0() { return cExpressionsAssignment_2_0; }
-
+		
 		//XExpressionOrVarDeclaration
 		public RuleCall getExpressionsXExpressionOrVarDeclarationParserRuleCall_2_0_0() { return cExpressionsXExpressionOrVarDeclarationParserRuleCall_2_0_0; }
-
+		
 		//';'?
 		public Keyword getSemicolonKeyword_2_1() { return cSemicolonKeyword_2_1; }
-
+		
 		//'}'
 		public Keyword getRightCurlyBracketKeyword_3() { return cRightCurlyBracketKeyword_3; }
 	}
-
 	public class XGenericTypeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XGenericType");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -1870,48 +1859,47 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	type=[genmodel::GenBase|XQualifiedName] (=> '<' typeArguments+=XGenericTypeArgument (','
 		//	typeArguments+=XGenericTypeArgument)* '>')?;
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//type=[genmodel::GenBase|XQualifiedName] (=> '<' typeArguments+=XGenericTypeArgument (','
 		//typeArguments+=XGenericTypeArgument)* '>')?
 		public Group getGroup() { return cGroup; }
-
+		
 		//type=[genmodel::GenBase|XQualifiedName]
 		public Assignment getTypeAssignment_0() { return cTypeAssignment_0; }
-
+		
 		//[genmodel::GenBase|XQualifiedName]
 		public CrossReference getTypeGenBaseCrossReference_0_0() { return cTypeGenBaseCrossReference_0_0; }
-
+		
 		//XQualifiedName
 		public RuleCall getTypeGenBaseXQualifiedNameParserRuleCall_0_0_1() { return cTypeGenBaseXQualifiedNameParserRuleCall_0_0_1; }
-
+		
 		//(=> '<' typeArguments+=XGenericTypeArgument (',' typeArguments+=XGenericTypeArgument)* '>')?
 		public Group getGroup_1() { return cGroup_1; }
-
+		
 		//=> '<'
 		public Keyword getLessThanSignKeyword_1_0() { return cLessThanSignKeyword_1_0; }
-
+		
 		//typeArguments+=XGenericTypeArgument
 		public Assignment getTypeArgumentsAssignment_1_1() { return cTypeArgumentsAssignment_1_1; }
-
+		
 		//XGenericTypeArgument
 		public RuleCall getTypeArgumentsXGenericTypeArgumentParserRuleCall_1_1_0() { return cTypeArgumentsXGenericTypeArgumentParserRuleCall_1_1_0; }
-
+		
 		//(',' typeArguments+=XGenericTypeArgument)*
 		public Group getGroup_1_2() { return cGroup_1_2; }
-
+		
 		//','
 		public Keyword getCommaKeyword_1_2_0() { return cCommaKeyword_1_2_0; }
-
+		
 		//typeArguments+=XGenericTypeArgument
 		public Assignment getTypeArgumentsAssignment_1_2_1() { return cTypeArgumentsAssignment_1_2_1; }
-
+		
 		//XGenericTypeArgument
 		public RuleCall getTypeArgumentsXGenericTypeArgumentParserRuleCall_1_2_1_0() { return cTypeArgumentsXGenericTypeArgumentParserRuleCall_1_2_1_0; }
-
+		
 		//'>'
 		public Keyword getGreaterThanSignKeyword_1_3() { return cGreaterThanSignKeyword_1_3; }
 	}
-
 	public class XGenericTypeArgumentElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XGenericTypeArgument");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
@@ -1919,19 +1907,18 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cXGenericWildcardTypeArgumentParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		
 		//XGenericTypeArgument XGenericType:
-		//	XGenericType | XGenericWildcardTypeArgument
+		//	XGenericType | XGenericWildcardTypeArgument;
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//XGenericType | XGenericWildcardTypeArgument
 		public Alternatives getAlternatives() { return cAlternatives; }
-
+		
 		//XGenericType
 		public RuleCall getXGenericTypeParserRuleCall_0() { return cXGenericTypeParserRuleCall_0; }
-
+		
 		//XGenericWildcardTypeArgument
 		public RuleCall getXGenericWildcardTypeArgumentParserRuleCall_1() { return cXGenericWildcardTypeArgumentParserRuleCall_1; }
 	}
-
 	public class XGenericWildcardTypeArgumentElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XGenericWildcardTypeArgument");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -1949,46 +1936,45 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//XGenericWildcardTypeArgument XGenericType:
 		//	{XGenericType}
-		//	'?' ('extends' upperBound=XGenericType | 'super' lowerBound=XGenericType)?
+		//	'?' ('extends' upperBound=XGenericType | 'super' lowerBound=XGenericType)?;
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//{XGenericType} '?' ('extends' upperBound=XGenericType | 'super' lowerBound=XGenericType)?
 		public Group getGroup() { return cGroup; }
-
+		
 		//{XGenericType}
 		public Action getXGenericTypeAction_0() { return cXGenericTypeAction_0; }
-
+		
 		//'?'
 		public Keyword getQuestionMarkKeyword_1() { return cQuestionMarkKeyword_1; }
-
+		
 		//('extends' upperBound=XGenericType | 'super' lowerBound=XGenericType)?
 		public Alternatives getAlternatives_2() { return cAlternatives_2; }
-
+		
 		//'extends' upperBound=XGenericType
 		public Group getGroup_2_0() { return cGroup_2_0; }
-
+		
 		//'extends'
 		public Keyword getExtendsKeyword_2_0_0() { return cExtendsKeyword_2_0_0; }
-
+		
 		//upperBound=XGenericType
 		public Assignment getUpperBoundAssignment_2_0_1() { return cUpperBoundAssignment_2_0_1; }
-
+		
 		//XGenericType
 		public RuleCall getUpperBoundXGenericTypeParserRuleCall_2_0_1_0() { return cUpperBoundXGenericTypeParserRuleCall_2_0_1_0; }
-
+		
 		//'super' lowerBound=XGenericType
 		public Group getGroup_2_1() { return cGroup_2_1; }
-
+		
 		//'super'
 		public Keyword getSuperKeyword_2_1_0() { return cSuperKeyword_2_1_0; }
-
+		
 		//lowerBound=XGenericType
 		public Assignment getLowerBoundAssignment_2_1_1() { return cLowerBoundAssignment_2_1_1; }
-
+		
 		//XGenericType
 		public RuleCall getLowerBoundXGenericTypeParserRuleCall_2_1_1_0() { return cLowerBoundXGenericTypeParserRuleCall_2_1_1_0; }
 	}
-
 	public class XQualifiedNameElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XQualifiedName");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -2000,23 +1986,22 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//XQualifiedName:
 		//	XID ('.' XID)*;
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//XID ('.' XID)*
 		public Group getGroup() { return cGroup; }
-
+		
 		//XID
 		public RuleCall getXIDParserRuleCall_0() { return cXIDParserRuleCall_0; }
-
+		
 		//('.' XID)*
 		public Group getGroup_1() { return cGroup_1; }
-
+		
 		//'.'
 		public Keyword getFullStopKeyword_1_0() { return cFullStopKeyword_1_0; }
-
+		
 		//XID
 		public RuleCall getXIDParserRuleCall_1_1() { return cXIDParserRuleCall_1_1; }
 	}
-
 	public class XIDElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.XID");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
@@ -2029,46 +2014,45 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//XID:
 		//	ID | 'get' | 'isSet' | 'set' | 'unset';
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//ID | 'get' | 'isSet' | 'set' | 'unset'
 		public Alternatives getAlternatives() { return cAlternatives; }
-
+		
 		//ID
 		public RuleCall getIDTerminalRuleCall_0() { return cIDTerminalRuleCall_0; }
-
+		
 		//'get'
 		public Keyword getGetKeyword_1() { return cGetKeyword_1; }
-
+		
 		//'isSet'
 		public Keyword getIsSetKeyword_2() { return cIsSetKeyword_2; }
-
+		
 		//'set'
 		public Keyword getSetKeyword_3() { return cSetKeyword_3; }
-
+		
 		//'unset'
 		public Keyword getUnsetKeyword_4() { return cUnsetKeyword_4; }
 	}
-
 	public class ValidIDElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.ValidID");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cXIDParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final Keyword cVoidKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
 		
+		//@Override
 		//ValidID:
 		//	XID | 'void';
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//XID | 'void'
 		public Alternatives getAlternatives() { return cAlternatives; }
-
+		
 		//XID
 		public RuleCall getXIDParserRuleCall_0() { return cXIDParserRuleCall_0; }
-
+		
 		//'void'
 		public Keyword getVoidKeyword_1() { return cVoidKeyword_1; }
 	}
-
 	public class FeatureCallIDElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.emf.ecore.xcore.Xcore.FeatureCallID");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
@@ -2105,6 +2089,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cVolatileKeyword_30 = (Keyword)cAlternatives.eContents().get(30);
 		private final Keyword cWrapsKeyword_31 = (Keyword)cAlternatives.eContents().get(31);
 		
+		//@Override
 		//FeatureCallID:
 		//	ValidID | 'abstract' | 'annotation' | 'as' | 'class' | 'container' | 'contains' | 'convert' | 'create' | 'derived' |
 		//	'enum' | 'extends' | 'extension' | 'id' | 'import' | 'keys' |
@@ -2112,106 +2097,106 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		//	'transient' | 'unique' | 'unordered' | 'unsettable' |
 		//	'volatile' | 'wraps';
 		@Override public ParserRule getRule() { return rule; }
-
+		
 		//ValidID | 'abstract' | 'annotation' | 'as' | 'class' | 'container' | 'contains' | 'convert' | 'create' | 'derived' |
 		//'enum' | 'extends' | 'extension' | 'id' | 'import' | 'keys' | 'interface' | 'local' | 'op' | 'opposite' | 'package' |
 		//'readonly' | 'refers' | 'resolving' | 'static' | 'throws' | 'transient' | 'unique' | 'unordered' | 'unsettable' |
 		//'volatile' | 'wraps'
 		public Alternatives getAlternatives() { return cAlternatives; }
-
+		
 		//ValidID
 		public RuleCall getValidIDParserRuleCall_0() { return cValidIDParserRuleCall_0; }
-
+		
 		//'abstract'
 		public Keyword getAbstractKeyword_1() { return cAbstractKeyword_1; }
-
+		
 		//'annotation'
 		public Keyword getAnnotationKeyword_2() { return cAnnotationKeyword_2; }
-
+		
 		//'as'
 		public Keyword getAsKeyword_3() { return cAsKeyword_3; }
-
+		
 		//'class'
 		public Keyword getClassKeyword_4() { return cClassKeyword_4; }
-
+		
 		//'container'
 		public Keyword getContainerKeyword_5() { return cContainerKeyword_5; }
-
+		
 		//'contains'
 		public Keyword getContainsKeyword_6() { return cContainsKeyword_6; }
-
+		
 		//'convert'
 		public Keyword getConvertKeyword_7() { return cConvertKeyword_7; }
-
+		
 		//'create'
 		public Keyword getCreateKeyword_8() { return cCreateKeyword_8; }
-
+		
 		//'derived'
 		public Keyword getDerivedKeyword_9() { return cDerivedKeyword_9; }
-
+		
 		//'enum'
 		public Keyword getEnumKeyword_10() { return cEnumKeyword_10; }
-
+		
 		//'extends'
 		public Keyword getExtendsKeyword_11() { return cExtendsKeyword_11; }
-
+		
 		//'extension'
 		public Keyword getExtensionKeyword_12() { return cExtensionKeyword_12; }
-
+		
 		//'id'
 		public Keyword getIdKeyword_13() { return cIdKeyword_13; }
-
+		
 		//'import'
 		public Keyword getImportKeyword_14() { return cImportKeyword_14; }
-
+		
 		//'keys'
 		public Keyword getKeysKeyword_15() { return cKeysKeyword_15; }
-
+		
 		//'interface'
 		public Keyword getInterfaceKeyword_16() { return cInterfaceKeyword_16; }
-
+		
 		//'local'
 		public Keyword getLocalKeyword_17() { return cLocalKeyword_17; }
-
+		
 		//'op'
 		public Keyword getOpKeyword_18() { return cOpKeyword_18; }
-
+		
 		//'opposite'
 		public Keyword getOppositeKeyword_19() { return cOppositeKeyword_19; }
-
+		
 		//'package'
 		public Keyword getPackageKeyword_20() { return cPackageKeyword_20; }
-
+		
 		//'readonly'
 		public Keyword getReadonlyKeyword_21() { return cReadonlyKeyword_21; }
-
+		
 		//'refers'
 		public Keyword getRefersKeyword_22() { return cRefersKeyword_22; }
-
+		
 		//'resolving'
 		public Keyword getResolvingKeyword_23() { return cResolvingKeyword_23; }
-
+		
 		//'static'
 		public Keyword getStaticKeyword_24() { return cStaticKeyword_24; }
-
+		
 		//'throws'
 		public Keyword getThrowsKeyword_25() { return cThrowsKeyword_25; }
-
+		
 		//'transient'
 		public Keyword getTransientKeyword_26() { return cTransientKeyword_26; }
-
+		
 		//'unique'
 		public Keyword getUniqueKeyword_27() { return cUniqueKeyword_27; }
-
+		
 		//'unordered'
 		public Keyword getUnorderedKeyword_28() { return cUnorderedKeyword_28; }
-
+		
 		//'unsettable'
 		public Keyword getUnsettableKeyword_29() { return cUnsettableKeyword_29; }
-
+		
 		//'volatile'
 		public Keyword getVolatileKeyword_30() { return cVolatileKeyword_30; }
-
+		
 		//'wraps'
 		public Keyword getWrapsKeyword_31() { return cWrapsKeyword_31; }
 	}
@@ -2245,15 +2230,15 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	private final FeatureCallIDElements pFeatureCallID;
 	
 	private final Grammar grammar;
-
+	
 	private final XbaseGrammarAccess gaXbase;
-
+	
 	private final XtypeGrammarAccess gaXtype;
 
 	@Inject
 	public XcoreGrammarAccess(GrammarProvider grammarProvider,
-		XbaseGrammarAccess gaXbase,
-		XtypeGrammarAccess gaXtype) {
+			XbaseGrammarAccess gaXbase,
+			XtypeGrammarAccess gaXtype) {
 		this.grammar = internalFindGrammar(grammarProvider);
 		this.gaXbase = gaXbase;
 		this.gaXtype = gaXtype;
@@ -2306,11 +2291,11 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 		return grammar;
 	}
 	
-
+	
 	public XbaseGrammarAccess getXbaseGrammarAccess() {
 		return gaXbase;
 	}
-
+	
 	public XtypeGrammarAccess getXtypeGrammarAccess() {
 		return gaXtype;
 	}
@@ -2330,7 +2315,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXPackageRule() {
 		return getXPackageAccess().getRule();
 	}
-
+	
 	//XAnnotation:
 	//	'@' source=[XAnnotationDirective|XQualifiedName] ('(' details+=XStringToStringMapEntry (','
 	//	details+=XStringToStringMapEntry)* ')')?;
@@ -2341,7 +2326,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXAnnotationRule() {
 		return getXAnnotationAccess().getRule();
 	}
-
+	
 	//XStringToStringMapEntry:
 	//	key=QualifiedName
 	//	'='
@@ -2353,7 +2338,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXStringToStringMapEntryRule() {
 		return getXStringToStringMapEntryAccess().getRule();
 	}
-
+	
 	//XImportDirective:
 	//	{XImportDirective}
 	//	'import' (importedNamespace=QualifiedNameWithWildcard | importedObject=[EObject|QualifiedName]);
@@ -2364,7 +2349,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXImportDirectiveRule() {
 		return getXImportDirectiveAccess().getRule();
 	}
-
+	
 	//XAnnotationDirective:
 	//	=> ('annotation' sourceURI=STRING) 'as' name=ValidID;
 	public XAnnotationDirectiveElements getXAnnotationDirectiveAccess() {
@@ -2374,7 +2359,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXAnnotationDirectiveRule() {
 		return getXAnnotationDirectiveAccess().getRule();
 	}
-
+	
 	//XClassifier:
 	//	XClass | XDataType | XEnum;
 	public XClassifierElements getXClassifierAccess() {
@@ -2384,7 +2369,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXClassifierRule() {
 		return getXClassifierAccess().getRule();
 	}
-
+	
 	//XDataType:
 	//	annotations+=XAnnotation*
 	//	'type' name=ID ('<' typeParameters+=XTypeParameter (',' typeParameters+=XTypeParameter)* '>')?
@@ -2397,7 +2382,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXDataTypeRule() {
 		return getXDataTypeAccess().getRule();
 	}
-
+	
 	//XEnum:
 	//	annotations+=XAnnotation*
 	//	'enum' name=ID
@@ -2410,7 +2395,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXEnumRule() {
 		return getXEnumAccess().getRule();
 	}
-
+	
 	//XEnumLiteral:
 	//	annotations+=XAnnotation*
 	//	name=ID ('as' literal=STRING)? ('=' value=SignedInt)?;
@@ -2421,9 +2406,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXEnumLiteralRule() {
 		return getXEnumLiteralAccess().getRule();
 	}
-
+	
 	//SignedInt EInt:
-	//	'-'? INT
+	//	'-'? INT;
 	public SignedIntElements getSignedIntAccess() {
 		return pSignedInt;
 	}
@@ -2431,7 +2416,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getSignedIntRule() {
 		return getSignedIntAccess().getRule();
 	}
-
+	
 	//XClass:
 	//	{XClass} annotations+=XAnnotation* (abstract?='abstract'? 'class' | interface?='interface') name=ID ('<'
 	//	typeParameters+=XTypeParameter (',' typeParameters+=XTypeParameter)* '>')? ('extends' superTypes+=XGenericType (','
@@ -2446,7 +2431,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXClassRule() {
 		return getXClassAccess().getRule();
 	}
-
+	
 	//XMember:
 	//	XOperation | XAttribute | XReference;
 	public XMemberElements getXMemberAccess() {
@@ -2456,7 +2441,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXMemberRule() {
 		return getXMemberAccess().getRule();
 	}
-
+	
 	//XAttribute:
 	//	{XAttribute} annotations+=XAnnotation* (unordered?='unordered'? & unique?='unique'? & readonly?='readonly'? &
 	//	transient?='transient'? & volatile?='volatile'? & unsettable?='unsettable'? & derived?='derived'? & iD?='id'?)
@@ -2470,7 +2455,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXAttributeRule() {
 		return getXAttributeAccess().getRule();
 	}
-
+	
 	//XReference:
 	//	{XReference} annotations+=XAnnotation* (containment?='contains' resolveProxies?='resolving'? |
 	//	resolveProxies?='resolving' containment?='contains' | container?='container' resolveProxies?='resolving'? |
@@ -2488,7 +2473,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXReferenceRule() {
 		return getXReferenceAccess().getRule();
 	}
-
+	
 	//XOperation:
 	//	{XOperation} annotations+=XAnnotation*
 	//	'op' (unordered?='unordered' unique?='unique'? | unique?='unique' unordered?='unordered'?)? ('<'
@@ -2497,11 +2482,11 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	//	name=ID
 	//	'(' (parameters+=XParameter (',' parameters+=XParameter)*)? ')' ('throws' exceptions+=XGenericType (','
 	//	exceptions+=XGenericType)*)?
-	//	/ *
+	//	/*
 	//	 * This is the logic for the operation.
 	//	 * How are we going to resolve all references that are in scope for Xbase language?
 	//	 * Will things like variables that are actually there in generated in the Impl class be accessible directly?
-	//	 * /
+	//	 */
 	//	body=XBlockExpression?;
 	public XOperationElements getXOperationAccess() {
 		return pXOperation;
@@ -2510,7 +2495,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXOperationRule() {
 		return getXOperationAccess().getRule();
 	}
-
+	
 	//XParameter:
 	//	annotations+=XAnnotation* (unordered?='unordered' unique?='unique'? | unique?='unique' unordered?='unordered'?)?
 	//	type=XGenericType
@@ -2523,7 +2508,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXParameterRule() {
 		return getXParameterAccess().getRule();
 	}
-
+	
 	//XTypeParameter:
 	//	annotations+=XAnnotation*
 	//	name=ID ('extends' bounds+=XGenericType ('&' bounds+=XGenericType)*)?;
@@ -2534,10 +2519,10 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXTypeParameterRule() {
 		return getXTypeParameterAccess().getRule();
 	}
-
+	
 	//XMultiplicity XMultiplicity:
 	//	'[' ('?' | '*' | '+' | INT ('..' (INT | '?' | '*'))?)?
-	//	']'
+	//	']';
 	public XMultiplicityElements getXMultiplicityAccess() {
 		return pXMultiplicity;
 	}
@@ -2545,11 +2530,12 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXMultiplicityRule() {
 		return getXMultiplicityAccess().getRule();
 	}
-
+	
+	//@Override
 	//XBlockExpression xbase::XBlockExpression:
 	//	{xbase::XBlockExpression}
 	//	'{' (expressions+=XExpressionOrVarDeclaration ';'?)*
-	//	'}'
+	//	'}';
 	public XBlockExpressionElements getXBlockExpressionAccess() {
 		return pXBlockExpression;
 	}
@@ -2557,7 +2543,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXBlockExpressionRule() {
 		return getXBlockExpressionAccess().getRule();
 	}
-
+	
 	//XGenericType:
 	//	type=[genmodel::GenBase|XQualifiedName] (=> '<' typeArguments+=XGenericTypeArgument (','
 	//	typeArguments+=XGenericTypeArgument)* '>')?;
@@ -2568,9 +2554,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXGenericTypeRule() {
 		return getXGenericTypeAccess().getRule();
 	}
-
+	
 	//XGenericTypeArgument XGenericType:
-	//	XGenericType | XGenericWildcardTypeArgument
+	//	XGenericType | XGenericWildcardTypeArgument;
 	public XGenericTypeArgumentElements getXGenericTypeArgumentAccess() {
 		return pXGenericTypeArgument;
 	}
@@ -2578,10 +2564,10 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXGenericTypeArgumentRule() {
 		return getXGenericTypeArgumentAccess().getRule();
 	}
-
+	
 	//XGenericWildcardTypeArgument XGenericType:
 	//	{XGenericType}
-	//	'?' ('extends' upperBound=XGenericType | 'super' lowerBound=XGenericType)?
+	//	'?' ('extends' upperBound=XGenericType | 'super' lowerBound=XGenericType)?;
 	public XGenericWildcardTypeArgumentElements getXGenericWildcardTypeArgumentAccess() {
 		return pXGenericWildcardTypeArgument;
 	}
@@ -2589,7 +2575,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXGenericWildcardTypeArgumentRule() {
 		return getXGenericWildcardTypeArgumentAccess().getRule();
 	}
-
+	
 	//XQualifiedName:
 	//	XID ('.' XID)*;
 	public XQualifiedNameElements getXQualifiedNameAccess() {
@@ -2599,7 +2585,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXQualifiedNameRule() {
 		return getXQualifiedNameAccess().getRule();
 	}
-
+	
 	//XID:
 	//	ID | 'get' | 'isSet' | 'set' | 'unset';
 	public XIDElements getXIDAccess() {
@@ -2609,7 +2595,8 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXIDRule() {
 		return getXIDAccess().getRule();
 	}
-
+	
+	//@Override
 	//ValidID:
 	//	XID | 'void';
 	public ValidIDElements getValidIDAccess() {
@@ -2619,7 +2606,8 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getValidIDRule() {
 		return getValidIDAccess().getRule();
 	}
-
+	
+	//@Override
 	//FeatureCallID:
 	//	ValidID | 'abstract' | 'annotation' | 'as' | 'class' | 'container' | 'contains' | 'convert' | 'create' | 'derived' |
 	//	'enum' | 'extends' | 'extension' | 'id' | 'import' | 'keys' |
@@ -2633,7 +2621,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getFeatureCallIDRule() {
 		return getFeatureCallIDAccess().getRule();
 	}
-
+	
 	//XExpression:
 	//	XAssignment;
 	public XbaseGrammarAccess.XExpressionElements getXExpressionAccess() {
@@ -2643,11 +2631,11 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXExpressionRule() {
 		return getXExpressionAccess().getRule();
 	}
-
+	
 	//XAssignment XExpression:
 	//	{XAssignment} feature=[types::JvmIdentifiableElement|super::FeatureCallID] OpSingleAssign value=XAssignment |
 	//	XOrExpression (=> ({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpMultiAssign])
-	//	rightOperand=XAssignment)?
+	//	rightOperand=XAssignment)?;
 	public XbaseGrammarAccess.XAssignmentElements getXAssignmentAccess() {
 		return gaXbase.getXAssignmentAccess();
 	}
@@ -2655,7 +2643,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXAssignmentRule() {
 		return getXAssignmentAccess().getRule();
 	}
-
+	
 	//OpSingleAssign:
 	//	'=';
 	public XbaseGrammarAccess.OpSingleAssignElements getOpSingleAssignAccess() {
@@ -2665,9 +2653,11 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getOpSingleAssignRule() {
 		return getOpSingleAssignAccess().getRule();
 	}
-
+	
 	//OpMultiAssign:
-	//	'+=' | '-=' | '*=' | '/=' | '%=' | '<' '<' '=' | '>' '>'? '>=';
+	//	'+=' | '-=' | '*=' | '/=' | '%=' |
+	//	'<' '<' '=' |
+	//	'>' '>'? '>=';
 	public XbaseGrammarAccess.OpMultiAssignElements getOpMultiAssignAccess() {
 		return gaXbase.getOpMultiAssignAccess();
 	}
@@ -2675,10 +2665,10 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getOpMultiAssignRule() {
 		return getOpMultiAssignAccess().getRule();
 	}
-
+	
 	//XOrExpression XExpression:
 	//	XAndExpression (=> ({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpOr])
-	//	rightOperand=XAndExpression)*
+	//	rightOperand=XAndExpression)*;
 	public XbaseGrammarAccess.XOrExpressionElements getXOrExpressionAccess() {
 		return gaXbase.getXOrExpressionAccess();
 	}
@@ -2686,7 +2676,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXOrExpressionRule() {
 		return getXOrExpressionAccess().getRule();
 	}
-
+	
 	//OpOr:
 	//	'||';
 	public XbaseGrammarAccess.OpOrElements getOpOrAccess() {
@@ -2696,10 +2686,10 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getOpOrRule() {
 		return getOpOrAccess().getRule();
 	}
-
+	
 	//XAndExpression XExpression:
 	//	XEqualityExpression (=> ({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpAnd])
-	//	rightOperand=XEqualityExpression)*
+	//	rightOperand=XEqualityExpression)*;
 	public XbaseGrammarAccess.XAndExpressionElements getXAndExpressionAccess() {
 		return gaXbase.getXAndExpressionAccess();
 	}
@@ -2707,7 +2697,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXAndExpressionRule() {
 		return getXAndExpressionAccess().getRule();
 	}
-
+	
 	//OpAnd:
 	//	'&&';
 	public XbaseGrammarAccess.OpAndElements getOpAndAccess() {
@@ -2717,10 +2707,10 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getOpAndRule() {
 		return getOpAndAccess().getRule();
 	}
-
+	
 	//XEqualityExpression XExpression:
 	//	XRelationalExpression (=> ({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpEquality])
-	//	rightOperand=XRelationalExpression)*
+	//	rightOperand=XRelationalExpression)*;
 	public XbaseGrammarAccess.XEqualityExpressionElements getXEqualityExpressionAccess() {
 		return gaXbase.getXEqualityExpressionAccess();
 	}
@@ -2728,7 +2718,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXEqualityExpressionRule() {
 		return getXEqualityExpressionAccess().getRule();
 	}
-
+	
 	//OpEquality:
 	//	'==' | '!=' | '===' | '!==';
 	public XbaseGrammarAccess.OpEqualityElements getOpEqualityAccess() {
@@ -2738,11 +2728,11 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getOpEqualityRule() {
 		return getOpEqualityAccess().getRule();
 	}
-
+	
 	//XRelationalExpression XExpression:
-	//	XOtherOperatorExpression (=> ({XInstanceOfExpression.expression=current} 'instanceof') type=JvmTypeReference | =>
-	//	({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpCompare])
-	//	rightOperand=XOtherOperatorExpression)*
+	//	XOtherOperatorExpression (=> ({XInstanceOfExpression.expression=current} 'instanceof') type=JvmTypeReference |
+	//	=> ({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpCompare])
+	//	rightOperand=XOtherOperatorExpression)*;
 	public XbaseGrammarAccess.XRelationalExpressionElements getXRelationalExpressionAccess() {
 		return gaXbase.getXRelationalExpressionAccess();
 	}
@@ -2750,7 +2740,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXRelationalExpressionRule() {
 		return getXRelationalExpressionAccess().getRule();
 	}
-
+	
 	//OpCompare:
 	//	'>=' | '<' '=' | '>' | '<';
 	public XbaseGrammarAccess.OpCompareElements getOpCompareAccess() {
@@ -2760,10 +2750,10 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getOpCompareRule() {
 		return getOpCompareAccess().getRule();
 	}
-
+	
 	//XOtherOperatorExpression XExpression:
 	//	XAdditiveExpression (=> ({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpOther])
-	//	rightOperand=XAdditiveExpression)*
+	//	rightOperand=XAdditiveExpression)*;
 	public XbaseGrammarAccess.XOtherOperatorExpressionElements getXOtherOperatorExpressionAccess() {
 		return gaXbase.getXOtherOperatorExpressionAccess();
 	}
@@ -2771,9 +2761,15 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXOtherOperatorExpressionRule() {
 		return getXOtherOperatorExpressionAccess().getRule();
 	}
-
+	
 	//OpOther:
-	//	'->' | '..<' | '>' '..' | '..' | '=>' | '>' (=> ('>' '>') | '>') | '<' (=> ('<' '<') | '<' | '=>') | '<>' | '?:';
+	//	'->'
+	//	| '..<'
+	//	| '>' '..'
+	//	| '..'
+	//	| '=>'
+	//	| '>' (=> ('>' '>') | '>') | '<' (=> ('<' '<') | '<' | '=>') | '<>'
+	//	| '?:';
 	public XbaseGrammarAccess.OpOtherElements getOpOtherAccess() {
 		return gaXbase.getOpOtherAccess();
 	}
@@ -2781,10 +2777,10 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getOpOtherRule() {
 		return getOpOtherAccess().getRule();
 	}
-
+	
 	//XAdditiveExpression XExpression:
 	//	XMultiplicativeExpression (=> ({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpAdd])
-	//	rightOperand=XMultiplicativeExpression)*
+	//	rightOperand=XMultiplicativeExpression)*;
 	public XbaseGrammarAccess.XAdditiveExpressionElements getXAdditiveExpressionAccess() {
 		return gaXbase.getXAdditiveExpressionAccess();
 	}
@@ -2792,7 +2788,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXAdditiveExpressionRule() {
 		return getXAdditiveExpressionAccess().getRule();
 	}
-
+	
 	//OpAdd:
 	//	'+' | '-';
 	public XbaseGrammarAccess.OpAddElements getOpAddAccess() {
@@ -2802,10 +2798,10 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getOpAddRule() {
 		return getOpAddAccess().getRule();
 	}
-
+	
 	//XMultiplicativeExpression XExpression:
 	//	XUnaryOperation (=> ({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpMulti])
-	//	rightOperand=XUnaryOperation)*
+	//	rightOperand=XUnaryOperation)*;
 	public XbaseGrammarAccess.XMultiplicativeExpressionElements getXMultiplicativeExpressionAccess() {
 		return gaXbase.getXMultiplicativeExpressionAccess();
 	}
@@ -2813,7 +2809,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXMultiplicativeExpressionRule() {
 		return getXMultiplicativeExpressionAccess().getRule();
 	}
-
+	
 	//OpMulti:
 	//	'*' | '**' | '/' | '%';
 	public XbaseGrammarAccess.OpMultiElements getOpMultiAccess() {
@@ -2823,9 +2819,10 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getOpMultiRule() {
 		return getOpMultiAccess().getRule();
 	}
-
+	
 	//XUnaryOperation XExpression:
-	//	{XUnaryOperation} feature=[types::JvmIdentifiableElement|OpUnary] operand=XUnaryOperation | XCastedExpression
+	//	{XUnaryOperation} feature=[types::JvmIdentifiableElement|OpUnary] operand=XUnaryOperation
+	//	| XCastedExpression;
 	public XbaseGrammarAccess.XUnaryOperationElements getXUnaryOperationAccess() {
 		return gaXbase.getXUnaryOperationAccess();
 	}
@@ -2833,7 +2830,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXUnaryOperationRule() {
 		return getXUnaryOperationAccess().getRule();
 	}
-
+	
 	//OpUnary:
 	//	"!" | "-" | "+";
 	public XbaseGrammarAccess.OpUnaryElements getOpUnaryAccess() {
@@ -2843,9 +2840,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getOpUnaryRule() {
 		return getOpUnaryAccess().getRule();
 	}
-
+	
 	//XCastedExpression XExpression:
-	//	XPostfixOperation (=> ({XCastedExpression.target=current} 'as') type=JvmTypeReference)*
+	//	XPostfixOperation (=> ({XCastedExpression.target=current} 'as') type=JvmTypeReference)*;
 	public XbaseGrammarAccess.XCastedExpressionElements getXCastedExpressionAccess() {
 		return gaXbase.getXCastedExpressionAccess();
 	}
@@ -2853,9 +2850,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXCastedExpressionRule() {
 		return getXCastedExpressionAccess().getRule();
 	}
-
+	
 	//XPostfixOperation XExpression:
-	//	XMemberFeatureCall => ({XPostfixOperation.operand=current} feature=[types::JvmIdentifiableElement|OpPostfix])?
+	//	XMemberFeatureCall => ({XPostfixOperation.operand=current} feature=[types::JvmIdentifiableElement|OpPostfix])?;
 	public XbaseGrammarAccess.XPostfixOperationElements getXPostfixOperationAccess() {
 		return gaXbase.getXPostfixOperationAccess();
 	}
@@ -2863,7 +2860,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXPostfixOperationRule() {
 		return getXPostfixOperationAccess().getRule();
 	}
-
+	
 	//OpPostfix:
 	//	"++" | "--";
 	public XbaseGrammarAccess.OpPostfixElements getOpPostfixAccess() {
@@ -2873,14 +2870,16 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getOpPostfixRule() {
 		return getOpPostfixAccess().getRule();
 	}
-
+	
 	//XMemberFeatureCall XExpression:
 	//	XPrimaryExpression (=> ({XAssignment.assignable=current} ('.' | explicitStatic?="::")
-	//	feature=[types::JvmIdentifiableElement|super::FeatureCallID] OpSingleAssign) value=XAssignment | =>
-	//	({XMemberFeatureCall.memberCallTarget=current} ("." | nullSafe?="?." | explicitStatic?="::")) ('<'
+	//	feature=[types::JvmIdentifiableElement|super::FeatureCallID] OpSingleAssign) value=XAssignment
+	//	| => ({XMemberFeatureCall.memberCallTarget=current} ("." | nullSafe?="?." | explicitStatic?="::")) ('<'
 	//	typeArguments+=JvmArgumentTypeReference (',' typeArguments+=JvmArgumentTypeReference)* '>')?
 	//	feature=[types::JvmIdentifiableElement|IdOrSuper] (=> explicitOperationCall?='(' (memberCallArguments+=XShortClosure
-	//	| memberCallArguments+=XExpression (',' memberCallArguments+=XExpression)*)? ')')? memberCallArguments+=XClosure?)*
+	//	| memberCallArguments+=XExpression (',' memberCallArguments+=XExpression)*)?
+	//	')')?
+	//	memberCallArguments+=XClosure?)*;
 	public XbaseGrammarAccess.XMemberFeatureCallElements getXMemberFeatureCallAccess() {
 		return gaXbase.getXMemberFeatureCallAccess();
 	}
@@ -2888,11 +2887,11 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXMemberFeatureCallRule() {
 		return getXMemberFeatureCallAccess().getRule();
 	}
-
+	
 	//XPrimaryExpression XExpression:
 	//	XConstructorCall | super::XBlockExpression | XSwitchExpression | XSynchronizedExpression | XFeatureCall | XLiteral |
 	//	XIfExpression | XForLoopExpression | XBasicForLoopExpression | XWhileExpression | XDoWhileExpression |
-	//	XThrowExpression | XReturnExpression | XTryCatchFinallyExpression | XParenthesizedExpression
+	//	XThrowExpression | XReturnExpression | XTryCatchFinallyExpression | XParenthesizedExpression;
 	public XbaseGrammarAccess.XPrimaryExpressionElements getXPrimaryExpressionAccess() {
 		return gaXbase.getXPrimaryExpressionAccess();
 	}
@@ -2900,9 +2899,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXPrimaryExpressionRule() {
 		return getXPrimaryExpressionAccess().getRule();
 	}
-
+	
 	//XLiteral XExpression:
-	//	XCollectionLiteral | XClosure | XBooleanLiteral | XNumberLiteral | XNullLiteral | XStringLiteral | XTypeLiteral
+	//	XCollectionLiteral | XClosure | XBooleanLiteral | XNumberLiteral | XNullLiteral | XStringLiteral | XTypeLiteral;
 	public XbaseGrammarAccess.XLiteralElements getXLiteralAccess() {
 		return gaXbase.getXLiteralAccess();
 	}
@@ -2910,7 +2909,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXLiteralRule() {
 		return getXLiteralAccess().getRule();
 	}
-
+	
 	//XCollectionLiteral:
 	//	XSetLiteral | XListLiteral;
 	public XbaseGrammarAccess.XCollectionLiteralElements getXCollectionLiteralAccess() {
@@ -2920,7 +2919,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXCollectionLiteralRule() {
 		return getXCollectionLiteralAccess().getRule();
 	}
-
+	
 	//XSetLiteral:
 	//	{XSetLiteral} '#' '{' (elements+=XExpression (',' elements+=XExpression)*)? '}';
 	public XbaseGrammarAccess.XSetLiteralElements getXSetLiteralAccess() {
@@ -2930,7 +2929,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXSetLiteralRule() {
 		return getXSetLiteralAccess().getRule();
 	}
-
+	
 	//XListLiteral:
 	//	{XListLiteral} '#' '[' (elements+=XExpression (',' elements+=XExpression)*)? ']';
 	public XbaseGrammarAccess.XListLiteralElements getXListLiteralAccess() {
@@ -2940,10 +2939,14 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXListLiteralRule() {
 		return getXListLiteralAccess().getRule();
 	}
-
+	
 	//XClosure XExpression:
-	//	=> ({XClosure} '[') => ((declaredFormalParameters+=JvmFormalParameter (','
-	//	declaredFormalParameters+=JvmFormalParameter)*)? explicitSyntax?='|')? expression=XExpressionInClosure ']'
+	//	=> ({XClosure}
+	//	'[')
+	//	=> ((declaredFormalParameters+=JvmFormalParameter (',' declaredFormalParameters+=JvmFormalParameter)*)?
+	//	explicitSyntax?='|')?
+	//	expression=XExpressionInClosure
+	//	']';
 	public XbaseGrammarAccess.XClosureElements getXClosureAccess() {
 		return gaXbase.getXClosureAccess();
 	}
@@ -2951,9 +2954,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXClosureRule() {
 		return getXClosureAccess().getRule();
 	}
-
+	
 	//XExpressionInClosure XExpression:
-	//	{XBlockExpression} (expressions+=XExpressionOrVarDeclaration ';'?)*
+	//	{XBlockExpression} (expressions+=XExpressionOrVarDeclaration ';'?)*;
 	public XbaseGrammarAccess.XExpressionInClosureElements getXExpressionInClosureAccess() {
 		return gaXbase.getXExpressionInClosureAccess();
 	}
@@ -2961,10 +2964,10 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXExpressionInClosureRule() {
 		return getXExpressionInClosureAccess().getRule();
 	}
-
+	
 	//XShortClosure XExpression:
 	//	=> ({XClosure} (declaredFormalParameters+=JvmFormalParameter (',' declaredFormalParameters+=JvmFormalParameter)*)?
-	//	explicitSyntax?='|') expression=XExpression
+	//	explicitSyntax?='|') expression=XExpression;
 	public XbaseGrammarAccess.XShortClosureElements getXShortClosureAccess() {
 		return gaXbase.getXShortClosureAccess();
 	}
@@ -2972,9 +2975,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXShortClosureRule() {
 		return getXShortClosureAccess().getRule();
 	}
-
+	
 	//XParenthesizedExpression XExpression:
-	//	'(' XExpression ')'
+	//	'(' XExpression ')';
 	public XbaseGrammarAccess.XParenthesizedExpressionElements getXParenthesizedExpressionAccess() {
 		return gaXbase.getXParenthesizedExpressionAccess();
 	}
@@ -2982,9 +2985,11 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXParenthesizedExpressionRule() {
 		return getXParenthesizedExpressionAccess().getRule();
 	}
-
+	
 	//XIfExpression XExpression:
-	//	{XIfExpression} 'if' '(' if=XExpression ')' then=XExpression (=> 'else' else=XExpression)?
+	//	{XIfExpression}
+	//	'if' '(' if=XExpression ')'
+	//	then=XExpression (=> 'else' else=XExpression)?;
 	public XbaseGrammarAccess.XIfExpressionElements getXIfExpressionAccess() {
 		return gaXbase.getXIfExpressionAccess();
 	}
@@ -2992,11 +2997,13 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXIfExpressionRule() {
 		return getXIfExpressionAccess().getRule();
 	}
-
+	
 	//XSwitchExpression XExpression:
-	//	{XSwitchExpression} 'switch' (=> ('(' declaredParam=JvmFormalParameter ':') switch=XExpression ')' | =>
-	//	(declaredParam=JvmFormalParameter ':')? switch=XExpression) '{' cases+=XCasePart* ('default' ':'
-	//	default=XExpression)? '}'
+	//	{XSwitchExpression}
+	//	'switch' (=> ('(' declaredParam=JvmFormalParameter ':') switch=XExpression ')'
+	//	| => (declaredParam=JvmFormalParameter ':')? switch=XExpression) '{'
+	//	cases+=XCasePart* ('default' ':' default=XExpression)?
+	//	'}';
 	public XbaseGrammarAccess.XSwitchExpressionElements getXSwitchExpressionAccess() {
 		return gaXbase.getXSwitchExpressionAccess();
 	}
@@ -3004,7 +3011,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXSwitchExpressionRule() {
 		return getXSwitchExpressionAccess().getRule();
 	}
-
+	
 	//XCasePart:
 	//	{XCasePart} typeGuard=JvmTypeReference? ('case' case=XExpression)? (':' then=XExpression | fallThrough?=',');
 	public XbaseGrammarAccess.XCasePartElements getXCasePartAccess() {
@@ -3014,10 +3021,11 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXCasePartRule() {
 		return getXCasePartAccess().getRule();
 	}
-
+	
 	//XForLoopExpression XExpression:
-	//	=> ({XForLoopExpression} 'for' '(' declaredParam=JvmFormalParameter ':') forExpression=XExpression ')'
-	//	eachExpression=XExpression
+	//	=> ({XForLoopExpression}
+	//	'for' '(' declaredParam=JvmFormalParameter ':') forExpression=XExpression ')'
+	//	eachExpression=XExpression;
 	public XbaseGrammarAccess.XForLoopExpressionElements getXForLoopExpressionAccess() {
 		return gaXbase.getXForLoopExpressionAccess();
 	}
@@ -3025,11 +3033,12 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXForLoopExpressionRule() {
 		return getXForLoopExpressionAccess().getRule();
 	}
-
+	
 	//XBasicForLoopExpression XExpression:
-	//	{XBasicForLoopExpression} 'for' '(' (initExpressions+=XExpressionOrVarDeclaration (','
-	//	initExpressions+=XExpressionOrVarDeclaration)*)? ';' expression=XExpression? ';' (updateExpressions+=XExpression (','
-	//	updateExpressions+=XExpression)*)? ')' eachExpression=XExpression
+	//	{XBasicForLoopExpression}
+	//	'for' '(' (initExpressions+=XExpressionOrVarDeclaration (',' initExpressions+=XExpressionOrVarDeclaration)*)? ';'
+	//	expression=XExpression? ';' (updateExpressions+=XExpression (',' updateExpressions+=XExpression)*)? ')'
+	//	eachExpression=XExpression;
 	public XbaseGrammarAccess.XBasicForLoopExpressionElements getXBasicForLoopExpressionAccess() {
 		return gaXbase.getXBasicForLoopExpressionAccess();
 	}
@@ -3037,9 +3046,11 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXBasicForLoopExpressionRule() {
 		return getXBasicForLoopExpressionAccess().getRule();
 	}
-
+	
 	//XWhileExpression XExpression:
-	//	{XWhileExpression} 'while' '(' predicate=XExpression ')' body=XExpression
+	//	{XWhileExpression}
+	//	'while' '(' predicate=XExpression ')'
+	//	body=XExpression;
 	public XbaseGrammarAccess.XWhileExpressionElements getXWhileExpressionAccess() {
 		return gaXbase.getXWhileExpressionAccess();
 	}
@@ -3047,9 +3058,12 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXWhileExpressionRule() {
 		return getXWhileExpressionAccess().getRule();
 	}
-
+	
 	//XDoWhileExpression XExpression:
-	//	{XDoWhileExpression} 'do' body=XExpression 'while' '(' predicate=XExpression ')'
+	//	{XDoWhileExpression}
+	//	'do'
+	//	body=XExpression
+	//	'while' '(' predicate=XExpression ')';
 	public XbaseGrammarAccess.XDoWhileExpressionElements getXDoWhileExpressionAccess() {
 		return gaXbase.getXDoWhileExpressionAccess();
 	}
@@ -3057,9 +3071,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXDoWhileExpressionRule() {
 		return getXDoWhileExpressionAccess().getRule();
 	}
-
+	
 	//XExpressionOrVarDeclaration XExpression:
-	//	XVariableDeclaration | XExpression
+	//	XVariableDeclaration | XExpression;
 	public XbaseGrammarAccess.XExpressionOrVarDeclarationElements getXExpressionOrVarDeclarationAccess() {
 		return gaXbase.getXExpressionOrVarDeclarationAccess();
 	}
@@ -3067,10 +3081,10 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXExpressionOrVarDeclarationRule() {
 		return getXExpressionOrVarDeclarationAccess().getRule();
 	}
-
+	
 	//XVariableDeclaration XExpression:
 	//	{XVariableDeclaration} (writeable?='var' | 'val') (=> (type=JvmTypeReference name=super::ValidID) |
-	//	name=super::ValidID) ('=' right=XExpression)?
+	//	name=super::ValidID) ('=' right=XExpression)?;
 	public XbaseGrammarAccess.XVariableDeclarationElements getXVariableDeclarationAccess() {
 		return gaXbase.getXVariableDeclarationAccess();
 	}
@@ -3078,9 +3092,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXVariableDeclarationRule() {
 		return getXVariableDeclarationAccess().getRule();
 	}
-
+	
 	//JvmFormalParameter types::JvmFormalParameter:
-	//	parameterType=JvmTypeReference? name=super::ValidID
+	//	parameterType=JvmTypeReference? name=super::ValidID;
 	public XbaseGrammarAccess.JvmFormalParameterElements getJvmFormalParameterAccess() {
 		return gaXbase.getJvmFormalParameterAccess();
 	}
@@ -3088,9 +3102,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getJvmFormalParameterRule() {
 		return getJvmFormalParameterAccess().getRule();
 	}
-
+	
 	//FullJvmFormalParameter types::JvmFormalParameter:
-	//	parameterType=JvmTypeReference name=super::ValidID
+	//	parameterType=JvmTypeReference name=super::ValidID;
 	public XbaseGrammarAccess.FullJvmFormalParameterElements getFullJvmFormalParameterAccess() {
 		return gaXbase.getFullJvmFormalParameterAccess();
 	}
@@ -3098,11 +3112,13 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getFullJvmFormalParameterRule() {
 		return getFullJvmFormalParameterAccess().getRule();
 	}
-
+	
 	//XFeatureCall XExpression:
 	//	{XFeatureCall} ('<' typeArguments+=JvmArgumentTypeReference (',' typeArguments+=JvmArgumentTypeReference)* '>')?
 	//	feature=[types::JvmIdentifiableElement|IdOrSuper] (=> explicitOperationCall?='(' (featureCallArguments+=XShortClosure
-	//	| featureCallArguments+=XExpression (',' featureCallArguments+=XExpression)*)? ')')? featureCallArguments+=XClosure?
+	//	| featureCallArguments+=XExpression (',' featureCallArguments+=XExpression)*)?
+	//	')')?
+	//	featureCallArguments+=XClosure?;
 	public XbaseGrammarAccess.XFeatureCallElements getXFeatureCallAccess() {
 		return gaXbase.getXFeatureCallAccess();
 	}
@@ -3110,7 +3126,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXFeatureCallRule() {
 		return getXFeatureCallAccess().getRule();
 	}
-
+	
 	//IdOrSuper:
 	//	super::FeatureCallID | 'super';
 	public XbaseGrammarAccess.IdOrSuperElements getIdOrSuperAccess() {
@@ -3120,12 +3136,14 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getIdOrSuperRule() {
 		return getIdOrSuperAccess().getRule();
 	}
-
+	
 	//XConstructorCall XExpression:
-	//	{XConstructorCall} 'new' constructor=[types::JvmConstructor|QualifiedName] (=> '<'
-	//	typeArguments+=JvmArgumentTypeReference (',' typeArguments+=JvmArgumentTypeReference)* '>')? (=>
-	//	explicitConstructorCall?='(' (arguments+=XShortClosure | arguments+=XExpression (',' arguments+=XExpression)*)? ')')?
-	//	arguments+=XClosure?
+	//	{XConstructorCall}
+	//	'new' constructor=[types::JvmConstructor|QualifiedName] (=> '<' typeArguments+=JvmArgumentTypeReference (','
+	//	typeArguments+=JvmArgumentTypeReference)* '>')? (=> explicitConstructorCall?='(' (arguments+=XShortClosure
+	//	| arguments+=XExpression (',' arguments+=XExpression)*)?
+	//	')')?
+	//	arguments+=XClosure?;
 	public XbaseGrammarAccess.XConstructorCallElements getXConstructorCallAccess() {
 		return gaXbase.getXConstructorCallAccess();
 	}
@@ -3133,9 +3151,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXConstructorCallRule() {
 		return getXConstructorCallAccess().getRule();
 	}
-
+	
 	//XBooleanLiteral XExpression:
-	//	{XBooleanLiteral} ('false' | isTrue?='true')
+	//	{XBooleanLiteral} ('false' | isTrue?='true');
 	public XbaseGrammarAccess.XBooleanLiteralElements getXBooleanLiteralAccess() {
 		return gaXbase.getXBooleanLiteralAccess();
 	}
@@ -3143,9 +3161,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXBooleanLiteralRule() {
 		return getXBooleanLiteralAccess().getRule();
 	}
-
+	
 	//XNullLiteral XExpression:
-	//	{XNullLiteral} 'null'
+	//	{XNullLiteral} 'null';
 	public XbaseGrammarAccess.XNullLiteralElements getXNullLiteralAccess() {
 		return gaXbase.getXNullLiteralAccess();
 	}
@@ -3153,9 +3171,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXNullLiteralRule() {
 		return getXNullLiteralAccess().getRule();
 	}
-
+	
 	//XNumberLiteral XExpression:
-	//	{XNumberLiteral} value=Number
+	//	{XNumberLiteral} value=Number;
 	public XbaseGrammarAccess.XNumberLiteralElements getXNumberLiteralAccess() {
 		return gaXbase.getXNumberLiteralAccess();
 	}
@@ -3163,9 +3181,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXNumberLiteralRule() {
 		return getXNumberLiteralAccess().getRule();
 	}
-
+	
 	//XStringLiteral XExpression:
-	//	{XStringLiteral} value=STRING
+	//	{XStringLiteral} value=STRING;
 	public XbaseGrammarAccess.XStringLiteralElements getXStringLiteralAccess() {
 		return gaXbase.getXStringLiteralAccess();
 	}
@@ -3173,9 +3191,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXStringLiteralRule() {
 		return getXStringLiteralAccess().getRule();
 	}
-
+	
 	//XTypeLiteral XExpression:
-	//	{XTypeLiteral} 'typeof' '(' type=[types::JvmType|QualifiedName] arrayDimensions+=ArrayBrackets* ')'
+	//	{XTypeLiteral} 'typeof' '(' type=[types::JvmType|QualifiedName] arrayDimensions+=ArrayBrackets* ')';
 	public XbaseGrammarAccess.XTypeLiteralElements getXTypeLiteralAccess() {
 		return gaXbase.getXTypeLiteralAccess();
 	}
@@ -3183,9 +3201,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXTypeLiteralRule() {
 		return getXTypeLiteralAccess().getRule();
 	}
-
+	
 	//XThrowExpression XExpression:
-	//	{XThrowExpression} 'throw' expression=XExpression
+	//	{XThrowExpression} 'throw' expression=XExpression;
 	public XbaseGrammarAccess.XThrowExpressionElements getXThrowExpressionAccess() {
 		return gaXbase.getXThrowExpressionAccess();
 	}
@@ -3193,9 +3211,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXThrowExpressionRule() {
 		return getXThrowExpressionAccess().getRule();
 	}
-
+	
 	//XReturnExpression XExpression:
-	//	{XReturnExpression} 'return' -> expression=XExpression?
+	//	{XReturnExpression} 'return' -> expression=XExpression?;
 	public XbaseGrammarAccess.XReturnExpressionElements getXReturnExpressionAccess() {
 		return gaXbase.getXReturnExpressionAccess();
 	}
@@ -3203,10 +3221,12 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXReturnExpressionRule() {
 		return getXReturnExpressionAccess().getRule();
 	}
-
+	
 	//XTryCatchFinallyExpression XExpression:
-	//	{XTryCatchFinallyExpression} 'try' expression=XExpression (catchClauses+=XCatchClause+ (=> 'finally'
-	//	finallyExpression=XExpression)? | 'finally' finallyExpression=XExpression)
+	//	{XTryCatchFinallyExpression}
+	//	'try'
+	//	expression=XExpression (catchClauses+=XCatchClause+ (=> 'finally' finallyExpression=XExpression)?
+	//	| 'finally' finallyExpression=XExpression);
 	public XbaseGrammarAccess.XTryCatchFinallyExpressionElements getXTryCatchFinallyExpressionAccess() {
 		return gaXbase.getXTryCatchFinallyExpressionAccess();
 	}
@@ -3214,9 +3234,10 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXTryCatchFinallyExpressionRule() {
 		return getXTryCatchFinallyExpressionAccess().getRule();
 	}
-
+	
 	//XSynchronizedExpression XExpression:
-	//	=> ({XSynchronizedExpression} 'synchronized' '(') param=XExpression ')' expression=XExpression
+	//	=> ({XSynchronizedExpression}
+	//	'synchronized' '(') param=XExpression ')' expression=XExpression;
 	public XbaseGrammarAccess.XSynchronizedExpressionElements getXSynchronizedExpressionAccess() {
 		return gaXbase.getXSynchronizedExpressionAccess();
 	}
@@ -3224,7 +3245,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXSynchronizedExpressionRule() {
 		return getXSynchronizedExpressionAccess().getRule();
 	}
-
+	
 	//XCatchClause:
 	//	=> 'catch' '(' declaredParam=FullJvmFormalParameter ')' expression=XExpression;
 	public XbaseGrammarAccess.XCatchClauseElements getXCatchClauseAccess() {
@@ -3234,7 +3255,8 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXCatchClauseRule() {
 		return getXCatchClauseAccess().getRule();
 	}
-
+	
+	//@Override
 	//QualifiedName:
 	//	super::ValidID (=> '.' super::ValidID)*;
 	public XbaseGrammarAccess.QualifiedNameElements getQualifiedNameAccess() {
@@ -3244,7 +3266,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getQualifiedNameRule() {
 		return getQualifiedNameAccess().getRule();
 	}
-
+	
 	//Number hidden():
 	//	HEX | (INT | DECIMAL) ('.' (INT | DECIMAL))?;
 	public XbaseGrammarAccess.NumberElements getNumberAccess() {
@@ -3254,11 +3276,11 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getNumberRule() {
 		return getNumberAccess().getRule();
 	}
-
-	/// **
-	// * Dummy rule, for "better" downwards compatibility, since GrammarAccess generates non-static inner classes, 
+	
+	///**
+	// * Dummy rule, for "better" downwards compatibility, since GrammarAccess generates non-static inner classes,
 	// * which makes downstream grammars break on classloading, when a rule is removed.
-	// * /
+	// */
 	//StaticQualifier:
 	//	(super::ValidID '::')+;
 	public XbaseGrammarAccess.StaticQualifierElements getStaticQualifierAccess() {
@@ -3268,28 +3290,28 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getStaticQualifierRule() {
 		return getStaticQualifierAccess().getRule();
 	}
-
+	
 	//terminal HEX:
 	//	('0x' | '0X') ('0'..'9' | 'a'..'f' | 'A'..'F' | '_')+ ('#' (('b' | 'B') ('i' | 'I') | ('l' | 'L')))?;
 	public TerminalRule getHEXRule() {
 		return gaXbase.getHEXRule();
-	} 
-
+	}
+	
 	//terminal INT returns ecore::EInt:
 	//	'0'..'9' ('0'..'9' | '_')*;
 	public TerminalRule getINTRule() {
 		return gaXbase.getINTRule();
-	} 
-
+	}
+	
 	//terminal DECIMAL:
 	//	INT (('e' | 'E') ('+' | '-')? INT)? (('b' | 'B') ('i' | 'I' | 'd' | 'D') | ('l' | 'L' | 'd' | 'D' | 'f' | 'F'))?;
 	public TerminalRule getDECIMALRule() {
 		return gaXbase.getDECIMALRule();
-	} 
-
+	}
+	
 	//JvmTypeReference:
-	//	JvmParameterizedTypeReference => ({JvmGenericArrayTypeReference.componentType=current} ArrayBrackets)* |
-	//	XFunctionTypeRef;
+	//	JvmParameterizedTypeReference => ({JvmGenericArrayTypeReference.componentType=current} ArrayBrackets)*
+	//	| XFunctionTypeRef;
 	public XtypeGrammarAccess.JvmTypeReferenceElements getJvmTypeReferenceAccess() {
 		return gaXtype.getJvmTypeReferenceAccess();
 	}
@@ -3297,7 +3319,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getJvmTypeReferenceRule() {
 		return getJvmTypeReferenceAccess().getRule();
 	}
-
+	
 	//ArrayBrackets:
 	//	'[' ']';
 	public XtypeGrammarAccess.ArrayBracketsElements getArrayBracketsAccess() {
@@ -3307,7 +3329,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getArrayBracketsRule() {
 		return getArrayBracketsAccess().getRule();
 	}
-
+	
 	//XFunctionTypeRef:
 	//	('(' (paramTypes+=JvmTypeReference (',' paramTypes+=JvmTypeReference)*)? ')')? '=>' returnType=JvmTypeReference;
 	public XtypeGrammarAccess.XFunctionTypeRefElements getXFunctionTypeRefAccess() {
@@ -3317,7 +3339,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXFunctionTypeRefRule() {
 		return getXFunctionTypeRefAccess().getRule();
 	}
-
+	
 	//JvmParameterizedTypeReference:
 	//	type=[JvmType|super::QualifiedName] (=> '<' arguments+=JvmArgumentTypeReference (','
 	//	arguments+=JvmArgumentTypeReference)* '>' (=> ({JvmInnerTypeReference.outer=current} '.')
@@ -3330,9 +3352,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getJvmParameterizedTypeReferenceRule() {
 		return getJvmParameterizedTypeReferenceAccess().getRule();
 	}
-
+	
 	//JvmArgumentTypeReference JvmTypeReference:
-	//	JvmTypeReference | JvmWildcardTypeReference
+	//	JvmTypeReference | JvmWildcardTypeReference;
 	public XtypeGrammarAccess.JvmArgumentTypeReferenceElements getJvmArgumentTypeReferenceAccess() {
 		return gaXtype.getJvmArgumentTypeReferenceAccess();
 	}
@@ -3340,10 +3362,10 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getJvmArgumentTypeReferenceRule() {
 		return getJvmArgumentTypeReferenceAccess().getRule();
 	}
-
+	
 	//JvmWildcardTypeReference:
-	//	{JvmWildcardTypeReference} '?' (constraints+=JvmUpperBound constraints+=JvmUpperBoundAnded* |
-	//	constraints+=JvmLowerBound constraints+=JvmLowerBoundAnded*)?;
+	//	{JvmWildcardTypeReference} '?' (constraints+=JvmUpperBound constraints+=JvmUpperBoundAnded*
+	//	| constraints+=JvmLowerBound constraints+=JvmLowerBoundAnded*)?;
 	public XtypeGrammarAccess.JvmWildcardTypeReferenceElements getJvmWildcardTypeReferenceAccess() {
 		return gaXtype.getJvmWildcardTypeReferenceAccess();
 	}
@@ -3351,7 +3373,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getJvmWildcardTypeReferenceRule() {
 		return getJvmWildcardTypeReferenceAccess().getRule();
 	}
-
+	
 	//JvmUpperBound:
 	//	'extends' typeReference=JvmTypeReference;
 	public XtypeGrammarAccess.JvmUpperBoundElements getJvmUpperBoundAccess() {
@@ -3361,9 +3383,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getJvmUpperBoundRule() {
 		return getJvmUpperBoundAccess().getRule();
 	}
-
+	
 	//JvmUpperBoundAnded JvmUpperBound:
-	//	'&' typeReference=JvmTypeReference
+	//	'&' typeReference=JvmTypeReference;
 	public XtypeGrammarAccess.JvmUpperBoundAndedElements getJvmUpperBoundAndedAccess() {
 		return gaXtype.getJvmUpperBoundAndedAccess();
 	}
@@ -3371,7 +3393,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getJvmUpperBoundAndedRule() {
 		return getJvmUpperBoundAndedAccess().getRule();
 	}
-
+	
 	//JvmLowerBound:
 	//	'super' typeReference=JvmTypeReference;
 	public XtypeGrammarAccess.JvmLowerBoundElements getJvmLowerBoundAccess() {
@@ -3381,9 +3403,9 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getJvmLowerBoundRule() {
 		return getJvmLowerBoundAccess().getRule();
 	}
-
+	
 	//JvmLowerBoundAnded JvmLowerBound:
-	//	'&' typeReference=JvmTypeReference
+	//	'&' typeReference=JvmTypeReference;
 	public XtypeGrammarAccess.JvmLowerBoundAndedElements getJvmLowerBoundAndedAccess() {
 		return gaXtype.getJvmLowerBoundAndedAccess();
 	}
@@ -3391,7 +3413,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getJvmLowerBoundAndedRule() {
 		return getJvmLowerBoundAndedAccess().getRule();
 	}
-
+	
 	//JvmTypeParameter:
 	//	name=super::ValidID (constraints+=JvmUpperBound constraints+=JvmUpperBoundAnded*)?;
 	public XtypeGrammarAccess.JvmTypeParameterElements getJvmTypeParameterAccess() {
@@ -3401,7 +3423,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getJvmTypeParameterRule() {
 		return getJvmTypeParameterAccess().getRule();
 	}
-
+	
 	//QualifiedNameWithWildcard:
 	//	super::QualifiedName '.' '*';
 	public XtypeGrammarAccess.QualifiedNameWithWildcardElements getQualifiedNameWithWildcardAccess() {
@@ -3411,7 +3433,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getQualifiedNameWithWildcardRule() {
 		return getQualifiedNameWithWildcardAccess().getRule();
 	}
-
+	
 	//XImportSection:
 	//	importDeclarations+=XImportDeclaration+;
 	public XtypeGrammarAccess.XImportSectionElements getXImportSectionAccess() {
@@ -3421,7 +3443,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXImportSectionRule() {
 		return getXImportSectionAccess().getRule();
 	}
-
+	
 	//XImportDeclaration:
 	//	'import' (static?='static' extension?='extension'? importedType=[JvmDeclaredType|QualifiedNameInStaticImport]
 	//	(wildcard?='*' | memberName=super::ValidID) | importedType=[JvmDeclaredType|super::QualifiedName] |
@@ -3433,7 +3455,7 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getXImportDeclarationRule() {
 		return getXImportDeclarationAccess().getRule();
 	}
-
+	
 	//QualifiedNameInStaticImport:
 	//	(super::ValidID '.')+;
 	public XtypeGrammarAccess.QualifiedNameInStaticImportElements getQualifiedNameInStaticImportAccess() {
@@ -3443,40 +3465,41 @@ public class XcoreGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getQualifiedNameInStaticImportRule() {
 		return getQualifiedNameInStaticImportAccess().getRule();
 	}
-
+	
 	//terminal ID:
 	//	'^'? ('a'..'z' | 'A'..'Z' | '$' | '_') ('a'..'z' | 'A'..'Z' | '$' | '_' | '0'..'9')*;
 	public TerminalRule getIDRule() {
 		return gaXtype.getIDRule();
-	} 
-
+	}
+	
 	//terminal STRING:
-	//	'"' ('\\' . | !('\\' | '"'))* '"'? | "'" ('\\' . | !('\\' | "'"))* "'"?;
+	//	'"' ('\\' . | !('\\' | '"'))* '"'? |
+	//	"'" ('\\' . | !('\\' | "'"))* "'"?;
 	public TerminalRule getSTRINGRule() {
 		return gaXtype.getSTRINGRule();
-	} 
-
+	}
+	
 	//terminal ML_COMMENT:
-	//	'/ *'->'* /';
+	//	'/*'->'*/';
 	public TerminalRule getML_COMMENTRule() {
 		return gaXtype.getML_COMMENTRule();
-	} 
-
+	}
+	
 	//terminal SL_COMMENT:
 	//	'//' !('\n' | '\r')* ('\r'? '\n')?;
 	public TerminalRule getSL_COMMENTRule() {
 		return gaXtype.getSL_COMMENTRule();
-	} 
-
+	}
+	
 	//terminal WS:
 	//	' ' | '\t' | '\r' | '\n'+;
 	public TerminalRule getWSRule() {
 		return gaXtype.getWSRule();
-	} 
-
+	}
+	
 	//terminal ANY_OTHER:
 	//	.;
 	public TerminalRule getANY_OTHERRule() {
 		return gaXtype.getANY_OTHERRule();
-	} 
+	}
 }

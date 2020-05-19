@@ -1,8 +1,8 @@
-package org.eclipse.emf.ecore.xcore.ui.contentassist.antlr.internal;
+package org.eclipse.emf.ecore.xcore.ide.contentassist.antlr.internal;
 
 // Hack: Use our own Lexer superclass by means of import. 
 // Currently there is no other way to specify the superclass for the lexer.
-import org.eclipse.xtext.ui.editor.contentassist.antlr.internal.Lexer;
+import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.Lexer;
 
 
 import org.antlr.runtime.*;
@@ -2371,10 +2371,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = RULE_HEX;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalXcore.g:30400:10: ( ( '0x' | '0X' ) ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' | '_' )+ ( '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) ) )? )
-            // InternalXcore.g:30400:12: ( '0x' | '0X' ) ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' | '_' )+ ( '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) ) )?
+            // InternalXcore.g:26686:10: ( ( '0x' | '0X' ) ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' | '_' )+ ( '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) ) )? )
+            // InternalXcore.g:26686:12: ( '0x' | '0X' ) ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' | '_' )+ ( '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) ) )?
             {
-            // InternalXcore.g:30400:12: ( '0x' | '0X' )
+            // InternalXcore.g:26686:12: ( '0x' | '0X' )
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -2402,7 +2402,7 @@ public class InternalXcoreLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // InternalXcore.g:30400:13: '0x'
+                    // InternalXcore.g:26686:13: '0x'
                     {
                     match("0x"); 
 
@@ -2410,7 +2410,7 @@ public class InternalXcoreLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // InternalXcore.g:30400:18: '0X'
+                    // InternalXcore.g:26686:18: '0X'
                     {
                     match("0X"); 
 
@@ -2420,7 +2420,7 @@ public class InternalXcoreLexer extends Lexer {
 
             }
 
-            // InternalXcore.g:30400:24: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' | '_' )+
+            // InternalXcore.g:26686:24: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' | '_' )+
             int cnt2=0;
             loop2:
             do {
@@ -2458,7 +2458,7 @@ public class InternalXcoreLexer extends Lexer {
                 cnt2++;
             } while (true);
 
-            // InternalXcore.g:30400:58: ( '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) ) )?
+            // InternalXcore.g:26686:58: ( '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) ) )?
             int alt4=2;
             int LA4_0 = input.LA(1);
 
@@ -2467,10 +2467,10 @@ public class InternalXcoreLexer extends Lexer {
             }
             switch (alt4) {
                 case 1 :
-                    // InternalXcore.g:30400:59: '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) )
+                    // InternalXcore.g:26686:59: '#' ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) )
                     {
                     match('#'); 
-                    // InternalXcore.g:30400:63: ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) )
+                    // InternalXcore.g:26686:63: ( ( 'b' | 'B' ) ( 'i' | 'I' ) | ( 'l' | 'L' ) )
                     int alt3=2;
                     int LA3_0 = input.LA(1);
 
@@ -2488,7 +2488,7 @@ public class InternalXcoreLexer extends Lexer {
                     }
                     switch (alt3) {
                         case 1 :
-                            // InternalXcore.g:30400:64: ( 'b' | 'B' ) ( 'i' | 'I' )
+                            // InternalXcore.g:26686:64: ( 'b' | 'B' ) ( 'i' | 'I' )
                             {
                             if ( input.LA(1)=='B'||input.LA(1)=='b' ) {
                                 input.consume();
@@ -2512,7 +2512,7 @@ public class InternalXcoreLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // InternalXcore.g:30400:84: ( 'l' | 'L' )
+                            // InternalXcore.g:26686:84: ( 'l' | 'L' )
                             {
                             if ( input.LA(1)=='L'||input.LA(1)=='l' ) {
                                 input.consume();
@@ -2551,11 +2551,11 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalXcore.g:30402:10: ( '0' .. '9' ( '0' .. '9' | '_' )* )
-            // InternalXcore.g:30402:12: '0' .. '9' ( '0' .. '9' | '_' )*
+            // InternalXcore.g:26688:10: ( '0' .. '9' ( '0' .. '9' | '_' )* )
+            // InternalXcore.g:26688:12: '0' .. '9' ( '0' .. '9' | '_' )*
             {
             matchRange('0','9'); 
-            // InternalXcore.g:30402:21: ( '0' .. '9' | '_' )*
+            // InternalXcore.g:26688:21: ( '0' .. '9' | '_' )*
             loop5:
             do {
                 int alt5=2;
@@ -2604,11 +2604,11 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = RULE_DECIMAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalXcore.g:30404:14: ( RULE_INT ( ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT )? ( ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' ) | ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' ) )? )
-            // InternalXcore.g:30404:16: RULE_INT ( ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT )? ( ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' ) | ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' ) )?
+            // InternalXcore.g:26690:14: ( RULE_INT ( ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT )? ( ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' ) | ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' ) )? )
+            // InternalXcore.g:26690:16: RULE_INT ( ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT )? ( ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' ) | ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' ) )?
             {
             mRULE_INT(); 
-            // InternalXcore.g:30404:25: ( ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT )?
+            // InternalXcore.g:26690:25: ( ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT )?
             int alt7=2;
             int LA7_0 = input.LA(1);
 
@@ -2617,7 +2617,7 @@ public class InternalXcoreLexer extends Lexer {
             }
             switch (alt7) {
                 case 1 :
-                    // InternalXcore.g:30404:26: ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT
+                    // InternalXcore.g:26690:26: ( 'e' | 'E' ) ( '+' | '-' )? RULE_INT
                     {
                     if ( input.LA(1)=='E'||input.LA(1)=='e' ) {
                         input.consume();
@@ -2628,7 +2628,7 @@ public class InternalXcoreLexer extends Lexer {
                         recover(mse);
                         throw mse;}
 
-                    // InternalXcore.g:30404:36: ( '+' | '-' )?
+                    // InternalXcore.g:26690:36: ( '+' | '-' )?
                     int alt6=2;
                     int LA6_0 = input.LA(1);
 
@@ -2661,7 +2661,7 @@ public class InternalXcoreLexer extends Lexer {
 
             }
 
-            // InternalXcore.g:30404:58: ( ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' ) | ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' ) )?
+            // InternalXcore.g:26690:58: ( ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' ) | ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' ) )?
             int alt8=3;
             int LA8_0 = input.LA(1);
 
@@ -2673,7 +2673,7 @@ public class InternalXcoreLexer extends Lexer {
             }
             switch (alt8) {
                 case 1 :
-                    // InternalXcore.g:30404:59: ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' )
+                    // InternalXcore.g:26690:59: ( 'b' | 'B' ) ( 'i' | 'I' | 'd' | 'D' )
                     {
                     if ( input.LA(1)=='B'||input.LA(1)=='b' ) {
                         input.consume();
@@ -2697,7 +2697,7 @@ public class InternalXcoreLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // InternalXcore.g:30404:87: ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' )
+                    // InternalXcore.g:26690:87: ( 'l' | 'L' | 'd' | 'D' | 'f' | 'F' )
                     {
                     if ( input.LA(1)=='D'||input.LA(1)=='F'||input.LA(1)=='L'||input.LA(1)=='d'||input.LA(1)=='f'||input.LA(1)=='l' ) {
                         input.consume();
@@ -2730,10 +2730,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalXcore.g:30406:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' )* )
-            // InternalXcore.g:30406:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' )*
+            // InternalXcore.g:26692:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' )* )
+            // InternalXcore.g:26692:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' )*
             {
-            // InternalXcore.g:30406:11: ( '^' )?
+            // InternalXcore.g:26692:11: ( '^' )?
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -2742,7 +2742,7 @@ public class InternalXcoreLexer extends Lexer {
             }
             switch (alt9) {
                 case 1 :
-                    // InternalXcore.g:30406:11: '^'
+                    // InternalXcore.g:26692:11: '^'
                     {
                     match('^'); 
 
@@ -2760,7 +2760,7 @@ public class InternalXcoreLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // InternalXcore.g:30406:44: ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' )*
+            // InternalXcore.g:26692:44: ( 'a' .. 'z' | 'A' .. 'Z' | '$' | '_' | '0' .. '9' )*
             loop10:
             do {
                 int alt10=2;
@@ -2809,10 +2809,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalXcore.g:30408:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* ( '\"' )? | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* ( '\\'' )? ) )
-            // InternalXcore.g:30408:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* ( '\"' )? | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* ( '\\'' )? )
+            // InternalXcore.g:26694:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* ( '\"' )? | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* ( '\\'' )? ) )
+            // InternalXcore.g:26694:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* ( '\"' )? | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* ( '\\'' )? )
             {
-            // InternalXcore.g:30408:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* ( '\"' )? | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* ( '\\'' )? )
+            // InternalXcore.g:26694:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* ( '\"' )? | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* ( '\\'' )? )
             int alt15=2;
             int LA15_0 = input.LA(1);
 
@@ -2830,10 +2830,10 @@ public class InternalXcoreLexer extends Lexer {
             }
             switch (alt15) {
                 case 1 :
-                    // InternalXcore.g:30408:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* ( '\"' )?
+                    // InternalXcore.g:26694:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* ( '\"' )?
                     {
                     match('\"'); 
-                    // InternalXcore.g:30408:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // InternalXcore.g:26694:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop11:
                     do {
                         int alt11=3;
@@ -2849,7 +2849,7 @@ public class InternalXcoreLexer extends Lexer {
 
                         switch (alt11) {
                     	case 1 :
-                    	    // InternalXcore.g:30408:21: '\\\\' .
+                    	    // InternalXcore.g:26694:21: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -2857,7 +2857,7 @@ public class InternalXcoreLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // InternalXcore.g:30408:28: ~ ( ( '\\\\' | '\"' ) )
+                    	    // InternalXcore.g:26694:28: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -2877,7 +2877,7 @@ public class InternalXcoreLexer extends Lexer {
                         }
                     } while (true);
 
-                    // InternalXcore.g:30408:44: ( '\"' )?
+                    // InternalXcore.g:26694:44: ( '\"' )?
                     int alt12=2;
                     int LA12_0 = input.LA(1);
 
@@ -2886,7 +2886,7 @@ public class InternalXcoreLexer extends Lexer {
                     }
                     switch (alt12) {
                         case 1 :
-                            // InternalXcore.g:30408:44: '\"'
+                            // InternalXcore.g:26694:44: '\"'
                             {
                             match('\"'); 
 
@@ -2899,10 +2899,10 @@ public class InternalXcoreLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // InternalXcore.g:30408:49: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* ( '\\'' )?
+                    // InternalXcore.g:26694:49: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* ( '\\'' )?
                     {
                     match('\''); 
-                    // InternalXcore.g:30408:54: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // InternalXcore.g:26694:54: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop13:
                     do {
                         int alt13=3;
@@ -2918,7 +2918,7 @@ public class InternalXcoreLexer extends Lexer {
 
                         switch (alt13) {
                     	case 1 :
-                    	    // InternalXcore.g:30408:55: '\\\\' .
+                    	    // InternalXcore.g:26694:55: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -2926,7 +2926,7 @@ public class InternalXcoreLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // InternalXcore.g:30408:62: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // InternalXcore.g:26694:62: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -2946,7 +2946,7 @@ public class InternalXcoreLexer extends Lexer {
                         }
                     } while (true);
 
-                    // InternalXcore.g:30408:79: ( '\\'' )?
+                    // InternalXcore.g:26694:79: ( '\\'' )?
                     int alt14=2;
                     int LA14_0 = input.LA(1);
 
@@ -2955,7 +2955,7 @@ public class InternalXcoreLexer extends Lexer {
                     }
                     switch (alt14) {
                         case 1 :
-                            // InternalXcore.g:30408:79: '\\''
+                            // InternalXcore.g:26694:79: '\\''
                             {
                             match('\''); 
 
@@ -2986,12 +2986,12 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalXcore.g:30410:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // InternalXcore.g:30410:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // InternalXcore.g:26696:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // InternalXcore.g:26696:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // InternalXcore.g:30410:24: ( options {greedy=false; } : . )*
+            // InternalXcore.g:26696:24: ( options {greedy=false; } : . )*
             loop16:
             do {
                 int alt16=2;
@@ -3016,7 +3016,7 @@ public class InternalXcoreLexer extends Lexer {
 
                 switch (alt16) {
             	case 1 :
-            	    // InternalXcore.g:30410:52: .
+            	    // InternalXcore.g:26696:52: .
             	    {
             	    matchAny(); 
 
@@ -3046,12 +3046,12 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalXcore.g:30412:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // InternalXcore.g:30412:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // InternalXcore.g:26698:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // InternalXcore.g:26698:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // InternalXcore.g:30412:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // InternalXcore.g:26698:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop17:
             do {
                 int alt17=2;
@@ -3064,7 +3064,7 @@ public class InternalXcoreLexer extends Lexer {
 
                 switch (alt17) {
             	case 1 :
-            	    // InternalXcore.g:30412:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // InternalXcore.g:26698:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -3084,7 +3084,7 @@ public class InternalXcoreLexer extends Lexer {
                 }
             } while (true);
 
-            // InternalXcore.g:30412:40: ( ( '\\r' )? '\\n' )?
+            // InternalXcore.g:26698:40: ( ( '\\r' )? '\\n' )?
             int alt19=2;
             int LA19_0 = input.LA(1);
 
@@ -3093,9 +3093,9 @@ public class InternalXcoreLexer extends Lexer {
             }
             switch (alt19) {
                 case 1 :
-                    // InternalXcore.g:30412:41: ( '\\r' )? '\\n'
+                    // InternalXcore.g:26698:41: ( '\\r' )? '\\n'
                     {
-                    // InternalXcore.g:30412:41: ( '\\r' )?
+                    // InternalXcore.g:26698:41: ( '\\r' )?
                     int alt18=2;
                     int LA18_0 = input.LA(1);
 
@@ -3104,7 +3104,7 @@ public class InternalXcoreLexer extends Lexer {
                     }
                     switch (alt18) {
                         case 1 :
-                            // InternalXcore.g:30412:41: '\\r'
+                            // InternalXcore.g:26698:41: '\\r'
                             {
                             match('\r'); 
 
@@ -3136,10 +3136,10 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalXcore.g:30414:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // InternalXcore.g:30414:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalXcore.g:26700:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // InternalXcore.g:26700:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // InternalXcore.g:30414:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalXcore.g:26700:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt20=0;
             loop20:
             do {
@@ -3193,8 +3193,8 @@ public class InternalXcoreLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalXcore.g:30416:16: ( . )
-            // InternalXcore.g:30416:18: .
+            // InternalXcore.g:26702:16: ( . )
+            // InternalXcore.g:26702:18: .
             {
             matchAny(); 
 
@@ -4482,7 +4482,7 @@ public class InternalXcoreLexer extends Lexer {
         }
     }
 
-    static class DFA21 extends DFA {
+    class DFA21 extends DFA {
 
         public DFA21(BaseRecognizer recognizer) {
             this.recognizer = recognizer;

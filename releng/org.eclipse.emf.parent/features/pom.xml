@@ -65,13 +65,6 @@
 
     <module>../../../tests/org.eclipse.emf.tests-feature</module>
 
-    <module>../../../features/org.eclipse.emf.ecore.xcore-feature</module>
-    <module>../../../features/org.eclipse.emf.ecore.xcore.lib-feature</module>
-    <module>../../../features/org.eclipse.emf.ecore.xcore.sdk-feature</module>
-    <module>../../../features/org.eclipse.emf.ecore.xcore.ui-feature</module>
-
-    <module>../../../tests/org.eclipse.emf.test.ecore.xcore-feature</module>
-
     <module>../../../../org.eclipse.xsd/features/org.eclipse.xsd.example-feature</module>
 
     <module>../../../../org.eclipse.xsd/features/org.eclipse.xsd-feature</module>
@@ -201,6 +194,23 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+
+    <profile>
+      <id>xcore</id>
+      <activation>
+        <file>
+          <missing>../tp/${target-platform}-no-xcore</missing>
+        </file>
+      </activation>
+      <modules>
+        <module>../../../features/org.eclipse.emf.ecore.xcore-feature</module>
+        <module>../../../features/org.eclipse.emf.ecore.xcore.lib-feature</module>
+        <module>../../../features/org.eclipse.emf.ecore.xcore.sdk-feature</module>
+        <module>../../../features/org.eclipse.emf.ecore.xcore.ui-feature</module>
+
+        <module>../../../tests/org.eclipse.emf.test.ecore.xcore-feature</module>
+      </modules>
     </profile>
   </profiles>
 

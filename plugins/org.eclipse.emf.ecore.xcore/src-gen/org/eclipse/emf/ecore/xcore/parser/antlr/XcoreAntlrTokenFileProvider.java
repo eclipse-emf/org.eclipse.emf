@@ -7,10 +7,10 @@ import java.io.InputStream;
 import org.eclipse.xtext.parser.antlr.IAntlrTokenFileProvider;
 
 public class XcoreAntlrTokenFileProvider implements IAntlrTokenFileProvider {
-	
+
 	@Override
 	public InputStream getAntlrTokenFile() {
 		ClassLoader classLoader = getClass().getClassLoader();
-    	return classLoader.getResourceAsStream("org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.tokens");
+		return classLoader.getResourceAsStream("org/eclipse/emf/ecore/xcore/parser/antlr/internal/InternalXcore.tokens");
 	}
 }

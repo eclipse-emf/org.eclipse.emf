@@ -98,18 +98,6 @@
     <module>../../../plugins/org.eclipse.emf.rap.common.ui</module>
     <module>../../../plugins/org.eclipse.emf.rap.edit.ui</module>
 
-    <module>../../../plugins/org.eclipse.emf.codegen.ecore.xtext</module>
-    <module>../../../plugins/org.eclipse.emf.codegen.ecore.xtext.ui</module>
-    <module>../../../plugins/org.eclipse.emf.ecore.xcore</module>
-    <module>../../../plugins/org.eclipse.emf.ecore.xcore.edit</module>
-    <module>../../../plugins/org.eclipse.emf.ecore.xcore.exporter</module>
-    <module>../../../plugins/org.eclipse.emf.ecore.xcore.importer</module>
-    <module>../../../plugins/org.eclipse.emf.ecore.xcore.lib</module>
-    <module>../../../plugins/org.eclipse.emf.ecore.xcore.ui</module>
-
-    <module>../../../tests//org.eclipse.emf.test.ecore.xcore</module>
-    <module>../../../tests//org.eclipse.emf.test.codegen.ecore.xtext</module>
-
     <module>../../../../org.eclipse.xsd/examples/org.eclipse.xsd.example</module>
 
     <module>../../../../org.eclipse.xsd/plugins/org.eclipse.emf.mapping.xsd2ecore</module>
@@ -315,6 +303,28 @@
 
         </plugins>
       </build>
+    </profile>
+
+    <profile>
+      <id>xcore</id>
+      <activation>
+        <file>
+          <missing>../tp/${target-platform}-no-xcore</missing>
+        </file>
+      </activation>
+      <modules>
+        <module>../../../plugins/org.eclipse.emf.codegen.ecore.xtext</module>
+        <module>../../../plugins/org.eclipse.emf.codegen.ecore.xtext.ui</module>
+        <module>../../../plugins/org.eclipse.emf.ecore.xcore</module>
+        <module>../../../plugins/org.eclipse.emf.ecore.xcore.edit</module>
+        <module>../../../plugins/org.eclipse.emf.ecore.xcore.exporter</module>
+        <module>../../../plugins/org.eclipse.emf.ecore.xcore.importer</module>
+        <module>../../../plugins/org.eclipse.emf.ecore.xcore.lib</module>
+        <module>../../../plugins/org.eclipse.emf.ecore.xcore.ui</module>
+
+        <module>../../../tests//org.eclipse.emf.test.ecore.xcore</module>
+        <module>../../../tests//org.eclipse.emf.test.codegen.ecore.xtext</module>
+      </modules>
     </profile>
   </profiles>
 

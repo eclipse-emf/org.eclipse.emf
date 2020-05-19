@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2012 Eclipse contributors and others.
+ * Copyright (c) 2011-2020 Eclipse contributors and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -40,10 +40,10 @@ import org.eclipse.xtext.common.types.util.jdt.IJavaElementFinder;
 import org.eclipse.xtext.common.types.xtext.ui.ITypesProposalProvider;
 import org.eclipse.xtext.common.types.xtext.ui.JdtVariableCompletions;
 import org.eclipse.xtext.formatting2.FormatterPreferenceValuesProvider;
+import org.eclipse.xtext.ide.editor.contentassist.antlr.IContentAssistParser;
 import org.eclipse.xtext.resource.containers.IAllContainersState;
 import org.eclipse.xtext.service.SingletonBinding;
 import org.eclipse.xtext.ui.containers.JavaProjectsState;
-import org.eclipse.xtext.ui.editor.contentassist.antlr.IContentAssistParser;
 import org.eclipse.xtext.ui.editor.folding.IFoldingRegionProvider;
 import org.eclipse.xtext.ui.editor.formatting.IContentFormatterFactory;
 import org.eclipse.xtext.ui.editor.hover.IEObjectHover;
