@@ -278,7 +278,7 @@ public class DiagnosticianTest
   }
 
   @Test
-  public void testExceptionHandlingRecorded()
+  public void testExceptionHandlingRecordedNPE()
   {
     final NullPointerException exception = new NullPointerException();
     EClass eClass = new EClassImpl()
@@ -299,9 +299,55 @@ public class DiagnosticianTest
   }
 
   @Test
-  public void testExceptionHandlingNotRecorded()
+  public void testExceptionHandlingRecordedAE()
+  {
+    final AssertionError exception = new AssertionError();
+    EClass eClass = new EClassImpl()
+      {
+        @Override
+        public EList<EClass> getEAllSuperTypes()
+        {
+          throw exception;
+        }
+      };
+
+    Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eClass);
+    Assert.assertEquals("Expected an error", Diagnostic.ERROR, diagnostic.getSeverity());
+    Assert.assertEquals("Expected one child", 1, diagnostic.getChildren().size());
+    Diagnostic child = diagnostic.getChildren().get(0);
+    Throwable diagnosticException = child.getException();
+    Assert.assertSame("Expected the specific exception to be thrown", exception, diagnosticException);
+  }
+
+  @Test
+  public void testExceptionHandlingNotRecordedNPE()
   {
     final NullPointerException exception = new NullPointerException();
+    EClass eClass = new EClassImpl()
+      {
+        @Override
+        public EList<EClass> getEAllSuperTypes()
+        {
+          throw exception;
+        }
+      };
+
+    try
+    {
+      @SuppressWarnings("unused")
+      boolean isValid = Diagnostician.INSTANCE.validate(eClass, (DiagnosticChain)null);
+      Assert.fail("Exected an exception to be thrown");
+    }
+    catch (Throwable throwable)
+    {
+      Assert.assertSame("Expected the specific exception to be thrown", exception, throwable);
+    }
+  }
+  
+  @Test
+  public void testExceptionHandlingNotRecordedAE()
+  {
+    final AssertionError exception = new AssertionError();
     EClass eClass = new EClassImpl()
       {
         @Override

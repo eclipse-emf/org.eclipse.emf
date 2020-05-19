@@ -277,7 +277,7 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
    */
   protected boolean handleThrowable(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context, Throwable throwable)
   {
-    if (diagnostics != null && throwable instanceof RuntimeException || throwable instanceof AssertionError)
+    if (diagnostics != null && (throwable instanceof RuntimeException || throwable instanceof AssertionError))
     {
       Object[] messageSubstitutions = new Object []{ EObjectValidator.getObjectLabel(eObject, context) };
       String message = EcorePlugin.INSTANCE.getString("_UI_ValidationFailed_diagnostic", messageSubstitutions);
