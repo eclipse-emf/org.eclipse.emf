@@ -92,7 +92,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
-      defaultValue="2019-03"
+      defaultValue="${eclipse.target.platform.latest}"
       storageURI="scope://Workspace"/>
   <setupTask
       xsi:type="git:GitCloneTask"
@@ -136,6 +136,13 @@
           name="org.eclipse.xsd.example.feature.group"/>
       <sourceLocator
           rootFolder="${xsd.git.clone.location}"/>
+      <repositoryList
+          name="2020-09">
+        <repository
+            url="http://download.eclipse.org/releases/2020-09"/>
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+      </repositoryList>
       <repositoryList
           name="2020-06">
         <repository
@@ -258,7 +265,8 @@
     </targlet>
   </setupTask>
   <setupTask
-      xsi:type="setup.workingsets:WorkingSetTask">
+      xsi:type="setup.workingsets:WorkingSetTask"
+      id="workingsets.xsd">
     <workingSet
         name="XSD"
         id="EMF XSD">
@@ -272,10 +280,10 @@
             nature="org.eclipse.pde.PluginNature"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.11/@workingSets.1"/>
+            excludedWorkingSet="//'workingsets.xsd'/@workingSets[name='XSD%20Examples']"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.11/@workingSets.3"/>
+            excludedWorkingSet="//'workingsets.xsd'/@workingSets[name='XSD%20Documentation']"/>
       </predicate>
     </workingSet>
     <workingSet
