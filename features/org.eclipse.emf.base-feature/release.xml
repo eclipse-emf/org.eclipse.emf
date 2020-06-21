@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <release>
-	<feature name="org.eclipse.emf.base" version="2.21.0">
+	<feature name="org.eclipse.emf.base" version="2.22.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<feature name="org.eclipse.emf.common" version="2.18.0"/>
-		<feature name="org.eclipse.emf.ecore" version="2.21.0"/>
+		<feature name="org.eclipse.emf.common" version="2.19.0"/>
+		<feature name="org.eclipse.emf.ecore" version="2.22.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.common" version="2.18.0">
+	<feature name="org.eclipse.emf.common" version="2.19.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<plugin name="org.eclipse.emf.common" version="2.18.0"/>
+		<plugin name="org.eclipse.emf.common" version="2.19.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.ecore" version="2.21.0">
+	<feature name="org.eclipse.emf.ecore" version="2.22.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<plugin name="org.eclipse.emf.ecore" version="2.21.0"/>
+		<plugin name="org.eclipse.emf.ecore" version="2.22.0"/>
 		<plugin name="org.eclipse.emf.ecore.change" version="2.14.0"/>
 		<plugin name="org.eclipse.emf.ecore.xmi" version="2.16.0"/>
 	</feature>
 	<feature name="org.eclipse.emf.license" version="2.11.0"/>
-	<plugin name="org.eclipse.emf.common" version="2.18.0"/>
-	<plugin name="org.eclipse.emf.ecore" version="2.21.0"/>
+	<plugin name="org.eclipse.emf.common" version="2.19.0"/>
+	<plugin name="org.eclipse.emf.ecore" version="2.22.0"/>
 	<plugin name="org.eclipse.emf.ecore.change" version="2.14.0"/>
 	<plugin name="org.eclipse.emf.ecore.xmi" version="2.16.0"/>
 </release>
