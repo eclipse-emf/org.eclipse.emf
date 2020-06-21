@@ -347,7 +347,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="xtext.latest.release.url"
-      value="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.21.0">
+      value="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.22.0">
     <description>The p2 update site URL for the last Xtext release.</description>
   </setupTask>
   <setupTask
@@ -359,7 +359,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="mwe.latest.release.url"
-      value="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.11.2">
+      value="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.11.3">
     <description>The p2 update site URL for the last MWE release.</description>
   </setupTask>
   <setupTask
@@ -464,6 +464,17 @@
       <requirement
           name="org.eclipse.equinox.ds"
           optional="true"/>
+      <repositoryList
+          name="2020-09">
+        <repository
+            url="http://download.eclipse.org/releases/2020-09"/>
+        <repository
+            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+        <repository
+            url="http://download.eclipse.org/nebula/releases/2.2.0"/>
+      </repositoryList>
       <repositoryList
           name="2020-06">
         <repository
@@ -671,7 +682,8 @@
       </targlet>
     </setupTask>
     <setupTask
-        xsi:type="setup.workingsets:WorkingSetTask">
+        xsi:type="setup.workingsets:WorkingSetTask"
+        id="workingsets.core">
       <workingSet
           name="EMF Core">
         <predicate
@@ -690,19 +702,19 @@
           </operand>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='core']/@setupTasks.1/@workingSets.1"/>
+              excludedWorkingSet="//'workingsets.core'/@workingSets[name='EMF%20Tests']"/>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='core']/@setupTasks.1/@workingSets.2"/>
+              excludedWorkingSet="//'workingsets.core'/@workingSets[name='EMF%20Examples']"/>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='core']/@setupTasks.1/@workingSets.3"/>
+              excludedWorkingSet="//'workingsets.core'/@workingSets[name='EMF%20Documentation']"/>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='core']/@setupTasks.1/@workingSets.6"/>
+              excludedWorkingSet="//'workingsets.core'/@workingSets[name='EMF%20ODA']"/>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='core']/@setupTasks.1/@workingSets.5"/>
+              excludedWorkingSet="//'workingsets.core'/@workingSets[name='EMF%20Releng']"/>
         </predicate>
       </workingSet>
       <workingSet
@@ -786,10 +798,10 @@
           </operand>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='core']/@setupTasks.1/@workingSets.7"/>
+              excludedWorkingSet="//'workingsets.core'/@workingSets[name='EMF%20ODA%20Features']"/>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='core']/@setupTasks.1/@workingSets.5"/>
+              excludedWorkingSet="//'workingsets.core'/@workingSets[name='EMF%20Releng']"/>
         </predicate>
       </workingSet>
       <workingSet
@@ -938,7 +950,8 @@
       </targlet>
     </setupTask>
     <setupTask
-        xsi:type="setup.workingsets:WorkingSetTask">
+        xsi:type="setup.workingsets:WorkingSetTask"
+        id="workingsets.xcore">
       <workingSet
           name="Xcore">
         <predicate
@@ -954,7 +967,7 @@
               pattern=".*\.xcore.*|.*\.xtext.*"/>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
-              excludedWorkingSet="//@projects[name='xcore']/@setupTasks.4/@workingSets.1"/>
+              excludedWorkingSet="//'workingsets.xcore'/@workingSets[name='Xcore%20Tests']"/>
         </predicate>
       </workingSet>
       <workingSet
@@ -1027,7 +1040,8 @@
       </targlet>
     </setupTask>
     <setupTask
-        xsi:type="setup.workingsets:WorkingSetTask">
+        xsi:type="setup.workingsets:WorkingSetTask"
+        id="workingsets.gwt">
       <workingSet
           name="EMF GWT">
         <predicate
@@ -1099,7 +1113,8 @@
       </targlet>
     </setupTask>
     <setupTask
-        xsi:type="setup.workingsets:WorkingSetTask">
+        xsi:type="setup.workingsets:WorkingSetTask"
+        id="workingsets.rap">
       <workingSet
           name="EMF RAP">
         <predicate
