@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * An abstract implementation of {@link InternalEList}.

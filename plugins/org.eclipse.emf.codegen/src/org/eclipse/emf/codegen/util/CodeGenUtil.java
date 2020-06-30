@@ -1625,6 +1625,7 @@ public class CodeGenUtil
     public static Diagnostic validateClassName(String name, Object context)
     {
       String[] javaCompliance = getJavaCompliance(context);
+      @SuppressWarnings("deprecation")
       IStatus status = JavaConventions.validateJavaTypeName(name, javaCompliance[0], javaCompliance[1]);
       return BasicDiagnostic.toDiagnostic(status);
     }

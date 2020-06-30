@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.MissingResourceException;
 
 import org.eclipse.emf.common.CommonPlugin;
-import org.eclipse.emf.common.util.ResourceLocator;
 
 
 /**
