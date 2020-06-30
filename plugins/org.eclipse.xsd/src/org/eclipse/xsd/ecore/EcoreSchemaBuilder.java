@@ -74,7 +74,6 @@ import org.eclipse.xsd.XSDTypeDefinition;
 import org.eclipse.xsd.XSDWhiteSpace;
 import org.eclipse.xsd.XSDWhiteSpaceFacet;
 import org.eclipse.xsd.XSDWildcard;
-import org.eclipse.xsd.ecore.MapBuilder;
 import org.eclipse.xsd.util.XSDConstants;
 import org.eclipse.xsd.util.XSDParser;
 import org.w3c.dom.Document;
