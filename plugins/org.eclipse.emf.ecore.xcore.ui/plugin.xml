@@ -211,7 +211,7 @@
 			base-type="org.eclipse.core.runtime.text"
 			file-extensions="xcore"
 			id="org.eclipse.emf.ecore.xcore.Xcore.contenttype"
-			name="Xcore File"
+			name="%content-type.name"
 			priority="normal">
 		</content-type>
 	</extension>
@@ -541,6 +541,15 @@
 					</reference>
 				</activeWhen>
 		</handler>
+		<handler
+			class="org.eclipse.emf.ecore.xcore.ui.XcoreExecutableExtensionFactory:org.eclipse.emf.ecore.xcore.ui.ShowPropertiesViewHandler"
+			commandId="org.eclipse.emf.ecore.xcore.ui.ShowPropertiesView">
+			<activeWhen>
+				<reference
+					definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
+				</reference>
+			</activeWhen>
+		</handler>
 	</extension>
 
 	<extension point="org.eclipse.ui.commands">
@@ -549,6 +558,12 @@
 			description="%command.description.1"
 			id="org.eclipse.emf.ecore.xcore.ui.CreateDynamicInstance"
 			name="%command.name.1">
+		</command>
+		<command
+			categoryId="org.eclipse.ui.category.file"
+			description="%command.showProperties.description"
+			id="org.eclipse.emf.ecore.xcore.ui.ShowPropertiesView"
+			name="%command.showProperties.name">
 		</command>
 	</extension>
 
@@ -579,12 +594,12 @@
 				commandId="org.eclipse.emf.ecore.xcore.ui.CreateDynamicInstance"
 				style="push"
 				tooltip="%command.tooltip.1">
-			<visibleWhen checkEnabled="false">
-				<reference
-					definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
-				</reference>
-			</visibleWhen>
-		</command>
+				<visibleWhen checkEnabled="false">
+					<reference
+						definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
+					</reference>
+				</visibleWhen>
+			</command>
 		</menuContribution>
 		<menuContribution
 			locationURI="popup:#TextEditorContext?after=group.edit">
@@ -592,12 +607,25 @@
 				commandId="org.eclipse.xtext.xbase.ui.organizeImports"
 				style="push"
 				tooltip="%command.tooltip.2">
-			<visibleWhen checkEnabled="false">
-				<reference
-					definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
-				</reference>
-			</visibleWhen>
-		</command>
+				<visibleWhen checkEnabled="false">
+					<reference
+						definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
+					</reference>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+		<menuContribution
+			locationURI="popup:#TextEditorContext?before=additions">
+			<command
+				commandId="org.eclipse.emf.ecore.xcore.ui.ShowPropertiesView"
+				style="push"
+				tooltip="%command.showProperties.tooltip">
+				<visibleWhen checkEnabled="false">
+					<reference
+						definitionId="org.eclipse.emf.ecore.xcore.Xcore.Editor.opened">
+					</reference>
+				</visibleWhen>
+			</command>
 		</menuContribution>
 	</extension>
 
