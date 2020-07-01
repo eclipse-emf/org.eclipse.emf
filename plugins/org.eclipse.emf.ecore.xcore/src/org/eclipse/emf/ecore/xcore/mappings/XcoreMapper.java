@@ -244,7 +244,7 @@ public class XcoreMapper
     {
       try
       {
-        adapter = mapperType.newInstance();
+        adapter = mapperType.getDeclaredConstructor().newInstance();
         eAdapters.add(adapter);
       }
       catch (Exception exception)

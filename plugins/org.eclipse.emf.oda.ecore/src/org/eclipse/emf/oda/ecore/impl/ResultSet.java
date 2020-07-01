@@ -327,13 +327,13 @@ public abstract class ResultSet implements IResultSet
       case EcorePackage.EBYTE_OBJECT:
       {
         Object value = getValue(index);
-        return wasNull ? 0 : new Integer((Byte)value);
+        return wasNull ? 0 : Integer.valueOf((Byte)value);
       }
       case EcorePackage.ECHAR:
       case EcorePackage.ECHARACTER_OBJECT:
       {
         Object value = getValue(index);
-        return wasNull ? 0 : new Integer((Character)value);
+        return wasNull ? 0 : Integer.valueOf((Character)value);
       }
       case EcorePackage.EINT:
       case EcorePackage.EINTEGER_OBJECT:
@@ -345,13 +345,13 @@ public abstract class ResultSet implements IResultSet
       case EcorePackage.ESHORT_OBJECT:
       {
         Object value = getValue(index);
-        return wasNull ? 0 : new Integer((Short)value);
+        return wasNull ? 0 : Integer.valueOf((Short)value);
       }
       case EcorePackage.ELONG:
       case EcorePackage.ELONG_OBJECT:
       {
         Object value = getValue(index);
-        return wasNull ? 0 : new Integer(((Long)value).intValue());
+        return wasNull ? 0 : Integer.valueOf(((Long)value).intValue());
       }
       default:
         throw new OdaException(new IllegalArgumentException(String.valueOf(index)));
@@ -377,7 +377,7 @@ public abstract class ResultSet implements IResultSet
       case EcorePackage.EFLOAT_OBJECT:
       {
         Object value = getValue(index);
-        return wasNull ? 0 : new Double((Float)value);
+        return wasNull ? 0 : Double.valueOf((Float)value);
       }
       default:
         throw new OdaException(new IllegalArgumentException(String.valueOf(index)));

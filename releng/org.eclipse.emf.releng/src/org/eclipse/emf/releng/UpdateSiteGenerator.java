@@ -479,7 +479,7 @@ public class UpdateSiteGenerator
       //
       Bundle bundle = Platform.getBundle("org.eclipse.equinox.p2.repository.tools");
       Class<?> xzCompressorClass = bundle.loadClass("org.eclipse.equinox.p2.internal.repository.tools.XZCompressor");
-      Object xzCompressor = xzCompressorClass.newInstance();
+      Object xzCompressor = xzCompressorClass.getDeclaredConstructor().newInstance();
       xzCompressorClass.getMethod("setRepoFolder", String.class).invoke(xzCompressor, targetRepository);
       xzCompressorClass.getMethod("compressRepo").invoke(xzCompressor);
     }

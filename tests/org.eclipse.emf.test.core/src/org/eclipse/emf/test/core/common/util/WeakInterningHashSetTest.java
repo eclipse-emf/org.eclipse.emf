@@ -220,7 +220,7 @@ public class WeakInterningHashSetTest
     Random random = new Random(100);
     for (int i = 0; i < count; ++i)
     {
-      Integer integer = new Integer(random.nextInt() % (count / 4));
+      Integer integer = Integer.valueOf(random.nextInt() % (count / 4));
       stash.add(integer);
       if (random.nextBoolean())
       {
