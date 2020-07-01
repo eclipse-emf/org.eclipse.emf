@@ -41,7 +41,7 @@ public class XSDDoubleType extends XSDAnySimpleType
       }
       else
       {
-        return new Double(literal);
+        return Double.valueOf(literal);
       }
     }
     catch (NumberFormatException e)

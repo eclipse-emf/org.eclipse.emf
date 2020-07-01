@@ -14,7 +14,6 @@ package org.eclipse.xsd.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
-import java.lang.reflect.Method;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,6 +43,7 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.ext.LexicalHandler;
+import org.xml.sax.ext.Locator2;
 import org.xml.sax.helpers.DefaultHandler;
 
 import org.eclipse.xsd.XSDDiagnostic;
@@ -510,20 +510,9 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
 
   public String getEncoding()
   {
-    if (locator != null)
+    if (locator instanceof Locator2)
     {
-      try 
-      {
-        Method getEncodingMethod = locator.getClass().getMethod("getEncoding", new Class[]{});
-        if (getEncodingMethod != null)
-        {
-          encoding = (String)getEncodingMethod.invoke(locator);
-        }
-      }
-      catch (Exception e) 
-      {
-        // If we can't find it, there's nothing we can do...
-      }
+      encoding = ((Locator2)locator).getEncoding();
     }
 
     return encoding;

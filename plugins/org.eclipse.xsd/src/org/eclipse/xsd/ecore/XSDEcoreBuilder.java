@@ -2763,7 +2763,7 @@ public class XSDEcoreBuilder extends MapBuilder
     {
       try
       {
-         extensionToFactoryMap.put("ecore", ecoreResourceFactoryImplClass.newInstance());
+         extensionToFactoryMap.put("ecore", ecoreResourceFactoryImplClass.getDeclaredConstructor().newInstance());
       }
       catch (Exception exception)
       {

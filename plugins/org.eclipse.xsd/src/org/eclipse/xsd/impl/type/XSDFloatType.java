@@ -41,7 +41,7 @@ public class XSDFloatType extends XSDAnySimpleType
       }
       else
       {
-        return new Float(literal);
+        return Float.valueOf(literal);
       }
     }
     catch (NumberFormatException e)
