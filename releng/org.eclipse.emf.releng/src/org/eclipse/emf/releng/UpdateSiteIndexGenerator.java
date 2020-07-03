@@ -228,7 +228,7 @@ public class UpdateSiteIndexGenerator
   }
 
   /**
-   * This is specialized to ensure that on the real build host we use the http: URL not the file: URL that we use locally when testing.
+   * This is specialized to ensure that on the real build host we use the https: URL not the file: URL that we use locally when testing.
    * @param folder the folder for which we want the site URL.
    * @return the site URL.
    */
@@ -237,7 +237,7 @@ public class UpdateSiteIndexGenerator
     String path = folder.getPath();
     if (UpdateSiteGenerator.DOWLOAD_ROOT_FOLDER.equals(UpdateSiteGenerator.DOWNLOAD_ECLIPSE_ORG_FOLDER))
     {
-      return "http://download.eclipse.org/" + path.substring(UpdateSiteGenerator.DOWLOAD_ROOT_FOLDER.length());
+      return "https://download.eclipse.org/" + path.substring(UpdateSiteGenerator.DOWLOAD_ROOT_FOLDER.length());
     }
     else
     {

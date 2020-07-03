@@ -28,7 +28,7 @@ import org.junit.runners.MethodSorters;
  * <p>
  * This test class is more than just a test.
  * It is used to maintain, update, and manage the integrity of EMF's public update site:
- * <pre><a href="http://download.eclipse.org/modeling/emf/emf/builds/index.html">http://download.eclipse.org/modeling/emf/emf/builds/index.html</a></pre>
+ * <pre><a href="https://download.eclipse.org/modeling/emf/emf/builds/index.html">https://download.eclipse.org/modeling/emf/emf/builds/index.html</a></pre>
  * It can also be used locally to test the promotion process.
  * The physical file location that will be updated by these tests is rooted at at {@link UpdateSiteGenerator#BUILDS_ROOT_FOLDER}.
  * </p>

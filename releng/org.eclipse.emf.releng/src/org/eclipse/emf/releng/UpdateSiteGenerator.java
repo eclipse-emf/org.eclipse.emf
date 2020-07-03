@@ -1140,8 +1140,8 @@ public class UpdateSiteGenerator
     public Map<String, String> getCommits()
     {
       Map<String, String> result = new LinkedHashMap<String, String>();
-      getIDs(result, "org.eclipse.emf", COMMIT_ID_PATTERN, VALID_COMMIT_ID_PATTERN, "http://git.eclipse.org/c/emf/org.eclipse.emf.git/commit/?id=");
-      getIDs(result, "org.eclipse.xsd", COMMIT_ID_PATTERN, VALID_COMMIT_ID_PATTERN, "http://git.eclipse.org/c/xsd/org.eclipse.xsd.git/commit/?id=");
+      getIDs(result, "org.eclipse.emf", COMMIT_ID_PATTERN, VALID_COMMIT_ID_PATTERN, "https://git.eclipse.org/c/emf/org.eclipse.emf.git/commit/?id=");
+      getIDs(result, "org.eclipse.xsd", COMMIT_ID_PATTERN, VALID_COMMIT_ID_PATTERN, "https://git.eclipse.org/c/xsd/org.eclipse.xsd.git/commit/?id=");
       getDate();
       return result;
     }
