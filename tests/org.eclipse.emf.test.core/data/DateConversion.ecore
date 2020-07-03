@@ -77,7 +77,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="BadLocaleBadCountry" instanceClassName="java.util.Date">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/DateConversionDelegate">
-      <details key="format" value="//DateFormat/LONG/en/DE"/>
+      <details key="format" value="//DateFormat/LONG/de/US"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="BadLocaleBadVariant" instanceClassName="java.util.Date">
