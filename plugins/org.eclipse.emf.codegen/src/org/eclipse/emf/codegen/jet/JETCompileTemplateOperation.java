@@ -144,8 +144,14 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
    */
   public JETCompileTemplateOperation(IFile file, JETCompilationMonitor compilationMonitor) throws CoreException
   {
-    this(file.getProject(), JETNature.getRuntime(file.getProject()).getTemplateContainers(), Collections.singleton(file));
+    this(file.getProject(), getTemplateContainers(file.getProject()), Collections.singleton(file));
     this.compilationMonitor = compilationMonitor;
+  }
+
+  private static List<Object> getTemplateContainers(IProject project)
+  {
+    JETNature nature = JETNature.getRuntime(project);
+    return nature == null ? Collections.emptyList() : nature.getTemplateContainers();
   }
 
   State getNewState()
@@ -260,6 +266,11 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
         progressMonitor.subTask(CodeGenPlugin.getPlugin().getString("_UI_JETCompile_message", new Object []{ fileName }));
 
         JETNature nature = JETNature.getRuntime(project);
+        if (nature == null)
+        {
+          break;
+        }
+
         IContainer directory = nature.getJavaSourceContainer();
 
         // Only create the source container if we are not monitoring compilation and the folder doesn't already exist.
