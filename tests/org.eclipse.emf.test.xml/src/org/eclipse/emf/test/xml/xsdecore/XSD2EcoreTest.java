@@ -23,8 +23,11 @@ import java.util.Vector;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -159,6 +162,22 @@ public class XSD2EcoreTest
           name = name.substring(dot + 1);
           ePackage.setName(name);
         }
+
+        // The call to org.eclipse.xsd.ecore.XSDEcoreBuilder.serialize(Element) introduces indentation and line breaks with Java 11.
+        // So we will normalize them away so that the tests don't fail.
+        for (TreeIterator<EObject> eAllContents = ePackage.eAllContents(); eAllContents.hasNext(); )
+        {
+          EObject eObject = eAllContents.next();
+          if (EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY.isInstance(eObject))
+          {
+            if ("appinfo".equals(eObject.eGet(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY__KEY)))
+            {
+              String value = (String)eObject.eGet(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY__VALUE);
+              eObject.eSet(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY__VALUE, value.replaceAll("[\n\r ]", ""));
+            }
+          }
+        }
+
         newResource.getContents().add(ePackage);
       }
 
