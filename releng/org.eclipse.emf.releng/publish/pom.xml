@@ -5,8 +5,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <version.tycho>1.2.0</version.tycho>
-    <version.emf>2.13</version.emf>
+    <version.tycho>1.7.0</version.tycho>
+    <version.emf>2.22</version.emf>
     <p2.emf>https://download.eclipse.org/modeling/emf/emf/builds/release/${version.emf}</p2.emf>
   </properties>
 
@@ -63,7 +63,7 @@
             <repository>
               <id>cbi-aggregator</id>
               <layout>p2</layout>
-              <url>https://download.eclipse.org/cbi/updates/aggregator/headless/4.8/I20180518-0759</url>
+              <url>https://download.eclipse.org/cbi/updates/aggregator/headless/4.13/I20200625-1232</url>
             </repository>
           </repositories>
           <executionEnvironment>JavaSE-11</executionEnvironment>
