@@ -158,7 +158,7 @@
               </execution>
             </executions>
             <configuration>
-              <executionEnvironment>JavaSE-11</executionEnvironment>
+              <executionEnvironment>JavaSE-${javaVersion}</executionEnvironment>
               <appArgLine>-consolelog -debug -application org.eclipse.ant.core.antRunner -data target/workspace -quiet -buildfile .externalToolBuilders/copyExample.ant</appArgLine>
               <argLine>-Dbuild.project=. -Dproject=${project.artifactId}</argLine>
               <repositories>
@@ -207,7 +207,7 @@
             </executions>
             <configuration>
               <appArgLine>-consolelog -debug -application org.eclipse.ant.core.antRunner -data target/workspace -quiet -buildfile buildDoc.xml</appArgLine>
-              <executionEnvironment>JavaSE-11</executionEnvironment>
+              <executionEnvironment>JavaSE-${javaVersion}</executionEnvironment>
               <repositories>
                 <repository>
                   <id>juno</id>

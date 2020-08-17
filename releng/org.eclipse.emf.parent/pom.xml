@@ -11,8 +11,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <tycho.scmUrl>scm:git:https://git.eclipse.org/r/p/emf/org.eclipse.emf.git</tycho.scmUrl>
-    <tycho-version>1.6.0</tycho-version>
+    <tycho-version>1.7.0</tycho-version>
     <jarsigner-version>1.1.7</jarsigner-version>
+    <javaVersion>11</javaVersion>
     <os-jvm-flags/>
   </properties>
 
@@ -74,6 +75,27 @@
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-maven-plugin</artifactId>
         <extensions>true</extensions>
+      </plugin>
+
+      <!-- This is needed to ensure that surefire uses an older JDK with older target platforms. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-toolchains-plugin</artifactId>
+        <version>1.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>toolchain</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <toolchains>
+            <jdk>
+              <id>JavaSE-${javaVersion}</id>
+            </jdk>
+          </toolchains>
+        </configuration>
       </plugin>
     </plugins>
 
@@ -213,6 +235,7 @@
           </executions>
           <configuration>
             <appArgLine></appArgLine>
+            <useJDK>SYSTEM</useJDK>
             <argLine>
               -Xmx1024m
               -ea
