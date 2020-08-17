@@ -158,7 +158,7 @@
               </execution>
             </executions>
             <configuration>
-              <executionEnvironment>JavaSE-1.8</executionEnvironment>
+              <executionEnvironment>JavaSE-11</executionEnvironment>
               <appArgLine>-consolelog -debug -application org.eclipse.ant.core.antRunner -data target/workspace -quiet -buildfile .externalToolBuilders/copyExample.ant</appArgLine>
               <argLine>-Dbuild.project=. -Dproject=${project.artifactId}</argLine>
               <repositories>
