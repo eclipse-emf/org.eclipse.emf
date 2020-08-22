@@ -200,7 +200,8 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
                 {
                   this.bundleLocalization = bundleLocalization;
                 }
-                baseURL = new URL(uri.toString() + "/");
+                String baseURI = uri.toString();
+                baseURL = new URL(baseURI.endsWith("/") ? baseURI : baseURI + "/");
               }
               catch (IOException exception)
               {
