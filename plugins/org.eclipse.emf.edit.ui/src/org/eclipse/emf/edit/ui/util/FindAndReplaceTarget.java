@@ -9,6 +9,7 @@ package org.eclipse.emf.edit.ui.util;
 
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.WeakHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -96,6 +96,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -141,7 +142,7 @@ public final class FindAndReplaceTarget implements IFindReplaceTarget, IFindRepl
   /**
    * A map for managing the association between a workbench part and it associated find and replace target.
    */
-  private static final Map<IWorkbenchPart, FindAndReplaceTarget> FIND_AND_REPLACE_TARGETS = new WeakHashMap<IWorkbenchPart, FindAndReplaceTarget>();
+  private static final Map<IWorkbenchPart, FindAndReplaceTarget> FIND_AND_REPLACE_TARGETS = new HashMap<IWorkbenchPart, FindAndReplaceTarget>();
 
   /**
    * A styler for drawing a box around matching text.
@@ -165,16 +166,25 @@ public final class FindAndReplaceTarget implements IFindReplaceTarget, IFindRepl
    */
   private static final Field F_SELECTED_RANGE_RADIO_BUTTON_FIELD;
 
+  /**
+   * Provides access to the {@code fTarget} of a {@code org.eclipse.ui.texteditor.FindReplaceDialog}.
+   */
+  private static final Field F_TARGET_FIELD;
+
   static
   {
     Field fIsRegExCheckBoxField = null;
     Field fSelectedRangeRadioButtonField = null;
+    Field fTarget = null;
     try
     {
       Class<?> findReplaceDialogClass = CommonPlugin.loadClass("org.eclipse.ui.workbench.texteditor", "org.eclipse.ui.texteditor.FindReplaceDialog");
       fIsRegExCheckBoxField = findReplaceDialogClass.getDeclaredField("fIsRegExCheckBox");
       fIsRegExCheckBoxField.setAccessible(true);
       fSelectedRangeRadioButtonField = findReplaceDialogClass.getDeclaredField("fSelectedRangeRadioButton");
+      fSelectedRangeRadioButtonField.setAccessible(true);
+      fTarget = findReplaceDialogClass.getDeclaredField("fTarget");
+      fTarget.setAccessible(true);
     }
     catch (Throwable throwable)
     {
@@ -182,6 +192,7 @@ public final class FindAndReplaceTarget implements IFindReplaceTarget, IFindRepl
     }
     F_IS_REGEX_CHECK_BOX_FIELD = fIsRegExCheckBoxField;
     F_SELECTED_RANGE_RADIO_BUTTON_FIELD = fSelectedRangeRadioButtonField;
+    F_TARGET_FIELD = fTarget;
   }
 
   /**
@@ -189,6 +200,41 @@ public final class FindAndReplaceTarget implements IFindReplaceTarget, IFindRepl
    * @see #hookLabelProvider()
    */
   private static final Map<Font, Font> TINY_FONT = new HashMap<Font, Font>();
+
+  /**
+   * A listener for when parts are closed to clean up the {@link #FIND_AND_REPLACE_TARGETS}.
+   * @see #getAdapter(Class, IWorkbenchPart, AbstractUIPlugin)
+   */
+  private static final IPartListener PART_LISTENER = new IPartListener()
+    {
+      public void partOpened(IWorkbenchPart part)
+      {
+      }
+
+      public void partDeactivated(IWorkbenchPart part)
+      {
+      }
+
+      public void partClosed(IWorkbenchPart part)
+      {
+        synchronized (FIND_AND_REPLACE_TARGETS)
+        {
+          FindAndReplaceTarget findAndReplaceTarget = FIND_AND_REPLACE_TARGETS.remove(part);
+          if (findAndReplaceTarget != null)
+          {
+            findAndReplaceTarget.dispose();
+          }
+        }
+      }
+
+      public void partBroughtToTop(IWorkbenchPart part)
+      {
+      }
+
+      public void partActivated(IWorkbenchPart part)
+      {
+      }
+    };
 
   /**
    * The workbench part of this find and replace target.
@@ -220,6 +266,14 @@ public final class FindAndReplaceTarget implements IFindReplaceTarget, IFindRepl
    * @see #endSession()
    */
   private Runnable sessionCleanup;
+
+  /**
+   * A cleanup action for when the workbench part is disposed.
+   *
+   * @see #addSearchTypeControl()
+   * @see #dispose()
+   */
+  private Runnable disposeCleanup;
 
   /**
    * If an advanced property needs to be displayed for search results and that action is currently not checked,
@@ -323,6 +377,7 @@ public final class FindAndReplaceTarget implements IFindReplaceTarget, IFindRepl
         FindAndReplaceTarget findAndReplaceTarget = FindAndReplaceTarget.FIND_AND_REPLACE_TARGETS.get(workbenchPart);
         if (findAndReplaceTarget == null)
         {
+          workbenchPart.getSite().getPage().addPartListener(PART_LISTENER);
           findAndReplaceTarget = new FindAndReplaceTarget(workbenchPart, plugin);
           FindAndReplaceTarget.FIND_AND_REPLACE_TARGETS.put(workbenchPart, findAndReplaceTarget);
         }
@@ -549,7 +604,7 @@ public final class FindAndReplaceTarget implements IFindReplaceTarget, IFindRepl
       if (data instanceof Dialog && "org.eclipse.ui.texteditor.FindReplaceDialog".equals(data.getClass().getName()))
       {
         // Find the last checkbox in the dialog.
-        Dialog dialog = (Dialog)data;
+        final Dialog dialog = (Dialog)data;
         Object checkBox = getFieldValue(dialog, F_IS_REGEX_CHECK_BOX_FIELD);
         if (checkBox instanceof Button)
         {
@@ -689,11 +744,47 @@ public final class FindAndReplaceTarget implements IFindReplaceTarget, IFindRepl
                   {
                     categoriesChangeCleanup.run();
                   }
+
+                  sessionCleanup = null;
+                }
+              };
+
+            disposeCleanup = new Runnable()
+              {
+                public void run()
+                {
+                  // It may be the case that the properties view has focus and the editor being closed is the last one.
+                  // The find-and-replace target is not updated in this case.
+                  // So set it to null to ensure that the
+                  //
+                  Object fieldValue = getFieldValue(dialog, F_TARGET_FIELD);
+                  if (fieldValue == FindAndReplaceTarget.this)
+                  {
+                    try
+                    {
+                      Method method = dialog.getClass().getMethod("updateTarget", IFindReplaceTarget.class, boolean.class, boolean.class);
+                      method.setAccessible(true);
+                      method.invoke(dialog, null, false, false);
+                    }
+                    catch (Exception exception)
+                    {
+                      // Ignore.
+                    }
+                  }
+                  disposeCleanup = null;
                 }
               };
           }
         }
       }
+    }
+  }
+
+  private void dispose()
+  {
+    if (disposeCleanup != null)
+    {
+      disposeCleanup.run();
     }
   }
 
@@ -811,7 +902,6 @@ public final class FindAndReplaceTarget implements IFindReplaceTarget, IFindRepl
     if (propertiesCleanup != null)
     {
       propertiesCleanup.run();
-      propertiesCleanup = null;
     }
   }
 
@@ -1227,6 +1317,7 @@ public final class FindAndReplaceTarget implements IFindReplaceTarget, IFindRepl
                           {
                             action.setChecked(false);
                             action.run();
+                            filterChangeCleanup = null;
                           }
                         };
                     }
@@ -1246,6 +1337,7 @@ public final class FindAndReplaceTarget implements IFindReplaceTarget, IFindRepl
                     {
                       categoriesAction.setChecked(false);
                       categoriesAction.run();
+                      categoriesChangeCleanup = null;
                     }
                   };
               }
@@ -1363,6 +1455,8 @@ public final class FindAndReplaceTarget implements IFindReplaceTarget, IFindRepl
 
                           // Refresh the view.
                           propertySheetPage.refreshLabels();
+
+                          propertiesCleanup = null;
                         }
                       };
 
