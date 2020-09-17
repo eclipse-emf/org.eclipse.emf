@@ -166,7 +166,20 @@ public enum GenJDKLevel implements Enumerator
    * @generated
    * @ordered
    */
-  JDK150_LITERAL(11, "JDK150", "15.0");
+  JDK150_LITERAL(11, "JDK150", "15.0"),
+
+  /**
+   * The '<em><b>JDK160</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.24
+   * <!-- end-model-doc -->
+   * @see #JDK160
+   * @generated
+   * @ordered
+   */
+  JDK160_LITERAL(12, "JDK160", "16.0");
 
   /**
    * The '<em><b>JDK14</b></em>' literal value.
@@ -327,6 +340,20 @@ public enum GenJDKLevel implements Enumerator
   public static final int JDK150 = 11;
 
   /**
+   * The '<em><b>JDK160</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.24
+   * <!-- end-model-doc -->
+   * @see #JDK160_LITERAL
+   * @model literal="16.0"
+   * @generated
+   * @ordered
+   */
+  public static final int JDK160 = 12;
+
+  /**
    * An array of all the '<em><b>Gen JDK Level</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -347,6 +374,7 @@ public enum GenJDKLevel implements Enumerator
       JDK130_LITERAL,
       JDK140_LITERAL,
       JDK150_LITERAL,
+      JDK160_LITERAL,
     };
 
   /**
@@ -423,6 +451,7 @@ public enum GenJDKLevel implements Enumerator
       case JDK130: return JDK130_LITERAL;
       case JDK140: return JDK140_LITERAL;
       case JDK150: return JDK150_LITERAL;
+      case JDK160: return JDK160_LITERAL;
     }
     return null;
   }
