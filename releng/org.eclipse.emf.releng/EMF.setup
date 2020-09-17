@@ -412,7 +412,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="xtext.latest.release.url"
-      value="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.22.0">
+      value="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.23.0">
     <description>The p2 update site URL for the last Xtext release.</description>
   </setupTask>
   <setupTask
@@ -523,6 +523,17 @@
       <requirement
           name="org.eclipse.equinox.ds"
           optional="true"/>
+      <repositoryList
+          name="2020-12">
+        <repository
+            url="http://download.eclipse.org/releases/2020-12"/>
+        <repository
+            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+        <repository
+            url="http://download.eclipse.org/nebula/releases/2.2.0"/>
+      </repositoryList>
       <repositoryList
           name="2020-09">
         <repository
