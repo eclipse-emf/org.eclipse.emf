@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.IStatus;
 /**
  * The most basic implementation of a task monitor.
  */
+@SuppressWarnings("deprecation")
 public class BasicMonitor implements Monitor 
 {
   private boolean isCanceled;
@@ -326,7 +327,6 @@ public class BasicMonitor implements Monitor
   /**
    * An Eclipse subprogress monitor that directly implements the monitor API.
    */
-  @SuppressWarnings("deprecation")
   public static class EclipseSubProgress extends org.eclipse.core.runtime.SubProgressMonitor implements Monitor
   {
     public EclipseSubProgress(IProgressMonitor monitor, int ticks)

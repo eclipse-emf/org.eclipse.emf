@@ -1,5 +1,7 @@
 package org.eclipse.emf.test.ecore.xcore.legacy_xpect_runner;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.emf.test.ecore.xcore.legacy_xpect_runner.ActualCollection.ActualItem;
 import org.eclipse.xtext.util.Exceptions;
 
@@ -34,9 +36,13 @@ public class ActualCollection extends StringCollection<ActualItem> {
 			Class<? extends Function<Object, String>> functionClass) {
 		items = createCollection();
 		try {
-			Function<Object, String> func = functionClass.newInstance();
+			Function<Object, String> func = functionClass.getDeclaredConstructor().newInstance();
 			for (Object obj : actual)
 				items.add(new ActualItem(func.apply(obj)));
+		} catch (InvocationTargetException e) {
+			Exceptions.throwUncheckedException(e);
+		} catch (NoSuchMethodException e) {
+			Exceptions.throwUncheckedException(e);
 		} catch (InstantiationException e) {
 			Exceptions.throwUncheckedException(e);
 		} catch (IllegalAccessException e) {

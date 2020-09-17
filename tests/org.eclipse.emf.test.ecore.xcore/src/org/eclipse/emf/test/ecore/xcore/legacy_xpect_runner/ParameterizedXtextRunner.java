@@ -308,7 +308,7 @@ public class ParameterizedXtextRunner extends ParentRunner<ResourceRunner> {
 				InjectWith.class);
 		if (injectWith != null) {
 			try {
-				injectorProvider = injectWith.value().newInstance();
+				injectorProvider = injectWith.value().getDeclaredConstructor().newInstance();
 			} catch (Exception e) {
 				throwUncheckedException(e);
 			}
