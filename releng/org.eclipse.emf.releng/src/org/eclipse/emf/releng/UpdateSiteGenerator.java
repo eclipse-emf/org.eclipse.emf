@@ -85,7 +85,7 @@ public class UpdateSiteGenerator
    * The files and folders that comprise a simple update site.
    */
   private static final List<String> UPDATE_SITE_CONTENT = Arrays.asList(
-    new String []{ "binary", "features", "plugins", "artifacts.jar", "artifacts.xml.xz", "content.jar", "content.xml.xz", "p2.index" });
+    new String []{ ".blobstore", "binary", "features", "plugins", "artifacts.jar", "artifacts.xml.xz", "content.jar", "content.xml.xz", "p2.index" });
 
   /**
    * The number of nightly builds to maintain in the nightly composite.
@@ -259,6 +259,21 @@ public class UpdateSiteGenerator
     repositoryAnalyzer.addSource(repositoryDescriptor);
     String version = repositoryAnalyzer.getVersion();
     return version;
+  }
+
+  /**
+   * Returns the first child of the target repository.
+   * @param targetRepository the repository location.
+   * @return the first child of the target repository.
+   * @throws Exception
+   */
+  public String getFirstChild(String targetRepository) throws Exception
+  {
+    RepositoryAnalyzer repositoryAnalyzer = new RepositoryAnalyzer();
+    RepositoryDescriptor repositoryDescriptor = new RepositoryDescriptor();
+    repositoryDescriptor.setLocation(createURI(targetRepository));
+    repositoryAnalyzer.addSource(repositoryDescriptor);
+    return repositoryAnalyzer.getChildren().get(0);
   }
 
   /**

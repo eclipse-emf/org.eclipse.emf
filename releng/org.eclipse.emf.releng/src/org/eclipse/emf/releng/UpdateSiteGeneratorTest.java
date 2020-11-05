@@ -155,7 +155,7 @@ public class UpdateSiteGeneratorTest
     Assume.assumeTrue("release".equals(System.getProperty("publish.build.type")));
 
     UpdateSiteGenerator updateSiteGenerator = new UpdateSiteGenerator();
-    String source = UpdateSiteGenerator.BUILDS_ROOT_FOLDER + "/milestone/latest";
+    String source = updateSiteGenerator.getFirstChild(UpdateSiteGenerator.BUILDS_ROOT_FOLDER + "/milestone/latest");
     String version = updateSiteGenerator.getVersion(source);
     final String destination = updateSiteGenerator.getPromoteUpdateSiteDestination("release", version);
     Assert.assertFalse("The release '" + destination + "' already exists", new File(destination).exists());
