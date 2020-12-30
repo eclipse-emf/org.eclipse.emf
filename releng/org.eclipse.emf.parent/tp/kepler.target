@@ -21,7 +21,7 @@
       <repository location="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
       <repository location="http://download.eclipse.org/tools/orbit/downloads/2019-06"/>
 
-      <repository location="https://dl.google.com/eclipse/plugin/4.6"/>
+      <repository location="http://www.macromodeling.com/gwt"/>
 
       <repository location="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
 
