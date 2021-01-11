@@ -37,6 +37,7 @@ public class EMFEditMultiListProperty extends MultiListProperty implements IEMFE
   public EMFEditMultiListProperty(EditingDomain editingDomain, IEMFEditListProperty[] properties)
   {
     super(properties);
+    this.editingDomain = editingDomain;
   }
 
   public IEMFEditListProperty values(EStructuralFeature feature)
