@@ -790,7 +790,7 @@ public final class CommonUtil
         {
           // Special case handling for string buffer which can fetch the characters faster than calling charAt for each index.
           //
-          ((StringBuilder)charSequence).getChars(0, count, buffer, 0);
+          ((StringBuffer)charSequence).getChars(0, count, buffer, 0);
         }
         else
         {
