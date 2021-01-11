@@ -2376,7 +2376,7 @@ public final class SegmentSequence implements CharSequence
       {
         // If the delimiters match...
         //
-        if (delimiter.equals(delimiter))
+        if (delimiter.equals(value.delimiter))
         {
           // If the segment count matches...
           //
