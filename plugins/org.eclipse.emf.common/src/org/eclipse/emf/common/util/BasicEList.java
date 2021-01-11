@@ -748,7 +748,7 @@ public class BasicEList<E> extends AbstractEList<E> implements RandomAccess, Clo
     }
   }
 
-  private synchronized void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException
+  private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException
   {
     objectInputStream.defaultReadObject();
     int arrayLength = objectInputStream.readInt();

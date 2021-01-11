@@ -1123,7 +1123,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
   /**
    * Reads the set from the input stream.
    */
-  private synchronized void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException
+  private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException
   {
     objectInputStream.defaultReadObject();
     internalQueue = new ReferenceQueue<E>();

@@ -797,7 +797,7 @@ public abstract class ArrayDelegatingEList<E> extends AbstractEList<E> implement
     }
   }
 
-  private synchronized void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException
+  private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException
   {
     objectInputStream.defaultReadObject();
     int size = objectInputStream.readInt();
