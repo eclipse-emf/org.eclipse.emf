@@ -39,8 +39,6 @@ import org.eclipse.emf.ecore.xcore.XDataType;
 import org.eclipse.emf.ecore.xcore.XOperation;
 import org.eclipse.emf.ecore.xcore.XPackage;
 import org.eclipse.emf.ecore.xcore.XStructuralFeature;
-import org.eclipse.emf.ecore.xcore.generator.XcoreAppendable;
-import org.eclipse.emf.ecore.xcore.generator.XcoreGeneratorImpl;
 import org.eclipse.emf.ecore.xcore.mappings.XOperationMapping;
 import org.eclipse.emf.ecore.xcore.mappings.XcoreMapper;
 import org.eclipse.xtext.common.types.JvmDeclaredType;
