@@ -24,14 +24,14 @@ The project maintains the following source code repositories
 
 This project uses Bugzilla to track ongoing development and issues.
 
-* Search for issues: https://eclipse.org/bugs/buglist.cgi?product=MDT
-* Create a new report: https://eclipse.org/bugs/enter_bug.cgi?product=MDT
+* Search for issues: https://bugs.eclipse.org/bugs/buglist.cgi?product=MDT.XSD
+* Create a new report: https://bugs.eclipse.org/bugs/enter_bug.cgi?product=MDT.XSD
 
-Be sure to search for existing bugs before you create another one. Remember that
-contributions are always welcome!
+Be sure to search for existing bugs before you create another one. 
+Remember that contributions are always welcome!
 
-This project is built, along with EMF, using Maven/Tycho. Instructions for setting 
-up a development environment and for replicating the build locally are provided here:
+This project is built, along with EMF, using Maven/Tycho. 
+Instructions for setting up a development environment and for replicating the build locally are provided here:
 
 * https://ci.eclipse.org/emf/
 
