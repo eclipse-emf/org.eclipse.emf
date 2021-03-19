@@ -45,6 +45,7 @@ public class XcoreCollectionLiterals
    * @return an immutable list containing the given elements.
    */
   @Pure
+  @SafeVarargs
   public static <T> EList<T> newImmutableEList(T... elements)
   {
     return new XcoreEListExtensions.UnmodiableArrayView<T>(elements.clone());
@@ -57,6 +58,7 @@ public class XcoreCollectionLiterals
    * @return a new {@link BasicEList} containing the given elements
    */
   @Pure
+  @SafeVarargs
   public static <T> BasicEList<T> newBasicEList(T... elements)
   {
     return ECollections.newBasicEList(elements);
