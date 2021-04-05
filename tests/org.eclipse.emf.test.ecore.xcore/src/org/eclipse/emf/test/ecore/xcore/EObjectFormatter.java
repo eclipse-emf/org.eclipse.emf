@@ -145,7 +145,7 @@ public class EObjectFormatter implements Function<EObject, String>
 
   protected String indent(String string)
   {
-    return string.replaceAll("\\n", "\n\t");
+    return string.replace("\n", "\n\t");
   }
 
   public EObjectFormatter resolveCrossReferences()

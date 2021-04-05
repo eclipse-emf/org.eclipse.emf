@@ -60,22 +60,22 @@ public class URIConverterTest
     assertEquals(contentsFromUncompressedFile, contents);
 
     uri = URI.createURI("archive:file:" + pluginDirectory + "/%661/data.jar!/%66ile.txt");
-    new File(URI.createURI(uri.authority().replaceAll("!", "")).toFileString()).delete();
+    new File(URI.createURI(uri.authority().replace("!", "")).toFileString()).delete();
     writeFile(uriConverter.createOutputStream(uri), contents);
     contents = readFile(uriConverter.createInputStream(uri));
     assertEquals(contentsFromUncompressedFile, contents);
-    new File(URI.createURI(uri.authority().replaceAll("!", "")).toFileString()).delete();
+    new File(URI.createURI(uri.authority().replace("!", "")).toFileString()).delete();
 
     uri = URI.createURI("archive:file:" + pluginDirectory + "/%64ata/data.zip!/%66ile.txt");
     contents = readFile(uriConverter.createInputStream(uri));
     assertEquals(contentsFromUncompressedFile, contents);
 
     uri = URI.createURI("archive:file:" + pluginDirectory + "/%661/data.zip!/%66ile.txt");
-    new File(URI.createURI(uri.authority().replaceAll("!", "")).toFileString()).delete();
+    new File(URI.createURI(uri.authority().replace("!", "")).toFileString()).delete();
     writeFile(uriConverter.createOutputStream(uri), contents);
     contents = readFile(uriConverter.createInputStream(uri));
     assertEquals(contentsFromUncompressedFile, contents);
-    new File(URI.createURI(uri.authority().replaceAll("!", "")).toFileString()).delete();
+    new File(URI.createURI(uri.authority().replace("!", "")).toFileString()).delete();
 
     // Reads the data.zip file from our git repository using https
     //

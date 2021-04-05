@@ -48,7 +48,7 @@ public class JETTest
     JETEmitter emitter = new JETEmitter(TEMPLATE_FILE.getAbsolutePath());
     String generatedText = emitter.generate(new NullProgressMonitor(), new Object[]{""});
 
-    text = text.replaceAll(nonOSLineSeparator, System.getProperties().getProperty("line.separator"));
+    text = text.replace(nonOSLineSeparator, System.getProperties().getProperty("line.separator"));
     assertEquals(text, generatedText);
     TEMPLATE_FILE.delete();
   }
@@ -109,7 +109,7 @@ public class JETTest
     {
       expectedText.deleteCharAt(i);
     }
-    text = "\"" + expectedText.toString().replaceAll(lineSeparator, "\" + NL + \"").replaceAll("\t", "\\\\t") + "\"";
+    text = "\"" + expectedText.toString().replace(lineSeparator, "\" + NL + \"").replace("\t", "\\t") + "\"";
 
     assertTrue(generatedGen.indexOf(text) >= 0);
     TEMPLATE_FILE.delete();

@@ -583,7 +583,7 @@ public class AntTest
       for (int i=testTokenReplacements.length-1; i >= 0; i--)
       {
         String replacement = testTokenReplacements[i];
-        expectedContent = expectedContent.replaceAll(TEST_TOKEN+i, replacement.replaceAll("\\\\", "\\\\\\\\"));
+        expectedContent = expectedContent.replace(TEST_TOKEN + i, replacement);
       }
     }
     String generatedContent = TestUtil.readFile(generatedFile, true);

@@ -51,7 +51,7 @@ public class TemplateGenerator
     try
     {
       diagnostic = diagnoseBadEcore();
-      System.out.println(diagnosticTemplate(diagnostic).replaceAll("\t", "  "));
+      System.out.println(diagnosticTemplate(diagnostic).replace("\t", "  "));
     }
     catch (IOException e)
     {

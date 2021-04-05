@@ -703,7 +703,7 @@ public class JavaTest
   {
     if (string2 != null)
     {
-      string2 = string2.replaceAll("\r\n", "\n");
+      string2 = string2.replace("\r\n", "\n");
       string2 = string2.replace('\r', '\n');
 
       if (trimContents)

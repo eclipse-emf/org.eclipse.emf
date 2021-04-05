@@ -86,7 +86,7 @@ public class ProjectAdminViewPart extends ViewPart implements ISaveablePart2
   @Override
   public void createPartControl(Composite parent)
   {
-    String path = getViewSite().getSecondaryId().replaceAll("#_#", ":");
+    String path = getViewSite().getSecondaryId().replace("#_#", ":");
 
     resource = Activator.getDefault().loadResource(path); //FIXME This needs to be a real URI
     modelListener = new IModelResource.Listener()

@@ -125,10 +125,10 @@ public class JDOMJMethod extends JDOMJMember implements JMethod
     String[] names = getParameterNames();
     for (int i = 0; i < types.length && i < names.length; i++)
     {
-      String name = names[i].replaceAll(" ", "");
+      String name = names[i].replace(" ", "");
       if (name != null)
       {
-        name = name.replaceAll(" ", "");
+        name = name.replace(" ", "");
         if (!types[i].matches(name + ",?\\s?\\["))
         {
           types[i] += " " + name;

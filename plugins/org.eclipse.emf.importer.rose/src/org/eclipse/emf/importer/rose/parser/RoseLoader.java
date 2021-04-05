@@ -61,7 +61,7 @@ public class RoseLoader extends RoseComponent
     catch (Exception exception)
     {
       Pattern pattern = Pattern.compile(".*/([^/]*?)(?:_)?[0-9.]*/((src/)?model/[^/]*\\.cat)$");
-      Matcher matcher = pattern.matcher(fileName.replaceAll("\\\\", "/"));
+      Matcher matcher = pattern.matcher(fileName.replace("\\", "/"));
       if (matcher.matches())
       {
         String name = matcher.group(1);

@@ -159,7 +159,7 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 	 */
 	public static EObject load(InputSource inputSource, <%=_MapStringBoolean%> features, <%=_MapStringWildcard%> properties, boolean useLexicalHandler) throws IOException
 	{
-		<%=_MapStringBoolean%> requiredFeatures = new <%=_MapStringBoolean.replaceAll("Map","HashMap")%>();
+		<%=_MapStringBoolean%> requiredFeatures = new <%=_MapStringBoolean.replace("Map","HashMap")%>();
 		requiredFeatures.put("http://xml.org/sax/features/namespaces", Boolean.TRUE); 
 		if (features != null)
 		{

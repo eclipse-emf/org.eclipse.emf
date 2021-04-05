@@ -218,7 +218,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
      */
     protected String escape(String message)
     {
-      return message == null ? null : message.replaceAll("'","''").replaceAll("\\{", "'{'"); // }}
+      return message == null ? null : message.replace("'","''").replace("{", "'{'"); // }}
     }
 
     public String isValid(String text)

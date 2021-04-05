@@ -258,7 +258,7 @@ public class ResourceClass
     stringBuffer.append(TEXT_29);
     stringBuffer.append(_MapStringBoolean);
     stringBuffer.append(TEXT_30);
-    stringBuffer.append(_MapStringBoolean.replaceAll("Map","HashMap"));
+    stringBuffer.append(_MapStringBoolean.replace("Map","HashMap"));
     stringBuffer.append(TEXT_31);
     if (genModel.useGenerics()) {
     stringBuffer.append(TEXT_32);

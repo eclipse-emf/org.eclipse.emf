@@ -791,7 +791,7 @@ public class UpdateSiteGenerator
   public static File getDigestFile(String target, String algorithm)
   {
     File file = new File(target);
-    File result = new File(file.getParentFile(), file.getName() + "." + algorithm.toLowerCase().replaceAll("-", ""));
+    File result = new File(file.getParentFile(), file.getName() + "." + algorithm.toLowerCase().replace("-", ""));
     return result;
   }
 

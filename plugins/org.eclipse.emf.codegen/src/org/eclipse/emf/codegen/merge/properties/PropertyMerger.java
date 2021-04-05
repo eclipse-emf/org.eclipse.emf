@@ -127,7 +127,7 @@ public class PropertyMerger
         String sourceNL = matcher.group(1);
         if (!sourceNL.equals(nl))
         {
-          sourceProperties = sourceProperties.replaceAll(sourceNL, nl);
+          sourceProperties = sourceProperties.replace(sourceNL, nl);
         }
       }
     }

@@ -88,7 +88,7 @@ public class NewXMIHandler extends AbstractHandler
       {
         IWorkbenchWindow w = (IWorkbenchWindow)ctx.getVariable(ISources.ACTIVE_WORKBENCH_WINDOW_NAME);
         String path = f.toURI().toURL().toString();
-        path = path.replaceAll(":", "#_#");
+        path = path.replace(":", "#_#");
 
         w.getActivePage().showView(ProjectAdminViewPart.ID, path, IWorkbenchPage.VIEW_ACTIVATE);
       }

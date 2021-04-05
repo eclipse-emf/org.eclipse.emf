@@ -186,7 +186,7 @@ public class TestUtil
     if(length > 0)
     {
       String nl = useSystemLineSeparator ? System.getProperties().getProperty("line.separator") : "\n";
-      return stringBuffer.toString().replaceAll("\\r\\n", "\n").replaceAll("[\\n|\\r]", nl);
+      return stringBuffer.toString().replace("\r\n", "\n").replaceAll("[\\n|\\r]", nl);
     }
     return stringBuffer.toString();
   }

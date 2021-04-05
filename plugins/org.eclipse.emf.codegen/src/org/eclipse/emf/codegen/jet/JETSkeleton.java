@@ -267,7 +267,7 @@ public class JETSkeleton
       String nl = matcher.group(1);
       if (!NL.equals(nl))
       {
-        return value.replaceAll(nl, NL);
+        return value.replace(nl, NL);
       }
     }
 

@@ -180,7 +180,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
       }
       else
       {
-        return (diagnostic.getChildren().get(0)).getMessage().replaceAll("'","''").replaceAll("\\{", "'{'"); // }}
+        return (diagnostic.getChildren().get(0)).getMessage().replace("'","''").replace("{", "'{'"); // }}
       }
     }
 
