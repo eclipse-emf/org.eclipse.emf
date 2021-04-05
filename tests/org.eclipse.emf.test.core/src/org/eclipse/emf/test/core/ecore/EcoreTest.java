@@ -16,23 +16,31 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EcoreUtil.EqualityHelper;
 import org.junit.Test;
 
 public class EcoreTest
@@ -252,5 +260,121 @@ public class EcoreTest
       EObject otherEObject = resourceSet.getEObject(eProxyURI, false);
       assertSame("The proxy URI " + eProxyURI + " fails to resolve to the correct object", eObject, otherEObject);
     }
+  }
+
+  @Test
+  public void testGeneratedPackageInstanceEquality()
+  {
+    compareDynamicEPackageWithGeneratedEPackage(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"));
+    compareDynamicEPackageWithGeneratedEPackage(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/XMLType.ecore"));
+    compareDynamicEPackageWithGeneratedEPackage(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/XMLNamespace.ecore"));
+    compareDynamicEPackageWithGeneratedEPackage(URI.createURI("platform:/plugin/org.eclipse.emf.ecore.change/model/Change.ecore"));
+  }
+
+  public static void compareDynamicEPackageWithGeneratedEPackage(final URI uri)
+  {
+    ResourceSet resourceSet = new ResourceSetImpl()
+      {
+        URI ecoreURI = URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore");
+
+        @Override
+        protected Resource delegatedGetResource(URI otherURI, boolean loadOnDemand)
+        {
+          if (!uri.equals(ecoreURI) && otherURI.equals(ecoreURI))
+          {
+            return EcorePackage.eINSTANCE.eResource();
+          }
+          else
+          {
+            return super.delegatedGetResource(otherURI, loadOnDemand);
+          }
+        }
+      };
+    EPackage ePackage = (EPackage)resourceSet.getResource(uri, true).getContents().get(0);
+    resourceSet.getURIConverter().getURIMap().put(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"), URI.createURI(EcorePackage.eNS_URI));
+    EcoreUtil.resolveAll(resourceSet);
+    List<EObject> genModelAnnotations = new ArrayList<EObject>();
+    for (Iterator<Notifier> i = resourceSet.getAllContents(); i.hasNext();)
+    {
+      Notifier eObject = i.next();
+      if (eObject instanceof EAnnotation && EcoreUtil.GEN_MODEL_ANNOTATION_URI.equals(((EAnnotation)eObject).getSource()))
+      {
+        genModelAnnotations.add((EObject)eObject);
+      }
+    }
+
+    for (EObject eObject : genModelAnnotations)
+    {
+      EcoreUtil.delete(eObject);
+    }
+
+    EqualityHelper equalityHelper = new EcoreUtil.EqualityHelper()
+      {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        protected boolean haveEqualReference(EObject eObject1, EObject eObject2, EReference reference)
+        {
+          if (reference == EcorePackage.Literals.EPACKAGE__ECLASSIFIERS)
+          {
+            EPackage ePackage1 = (EPackage)eObject1;
+            EList<EClassifier> eClassifiers1 = ePackage1.getEClassifiers();
+            EPackage ePackage2 = (EPackage)eObject2;
+            EList<EClassifier> eClassifiers2 = ePackage2.getEClassifiers();
+
+            int size = eClassifiers1.size();
+            if (size != eClassifiers2.size())
+            {
+              return false;
+            }
+
+            for (EClassifier eClassifier : eClassifiers1)
+            {
+              if (!equals(eClassifier, ePackage2.getEClassifier(eClassifier.getName())))
+              {
+                return false;
+              }
+            }
+
+            return true;
+          }
+          else
+          {
+            return super.haveEqualReference(eObject1, eObject2, reference);
+          }
+        }
+
+        @Override
+        protected boolean haveEqualFeature(EObject eObject1, EObject eObject2, EStructuralFeature feature)
+        {
+          boolean result = super.haveEqualFeature(eObject1, eObject2, feature);
+          if (!result)
+          {
+            if (feature == EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME)
+            {
+              EClassifier eClassifer1 = (EClassifier)eObject1;
+              String instanceClassName1 = eClassifer1.getInstanceClassName();
+              EClassifier eClassifer2 = (EClassifier)eObject2;
+              String instanceClassName2 = eClassifer2.getInstanceClassName();
+              if ("org.eclipse.emf.common.util.Enumerator".equals(instanceClassName1) && "org.eclipse.emf.common.util.AbstractEnumerator".equals(instanceClassName2))
+              {
+                return true;
+              }
+            }
+            else if (feature == EcorePackage.Literals.EREFERENCE__RESOLVE_PROXIES)
+            {
+               EReference eReference1 = (EReference)eObject1;
+               EReference eReference2 = (EReference)eObject2;
+               if (eReference1.isContainment() && eReference2.isContainment() && eReference1.isResolveProxies() && !eReference2.isRequired()) {
+                 return true;
+               }
+            }
+          }
+          return result;
+        }
+      };
+
+    boolean equal = equalityHelper.equals(ePackage, EPackage.Registry.INSTANCE.getEPackage(ePackage.getNsURI()));
+    assertTrue("The dynamic and static instances of '" + uri + "' should be structurally equivalent", equal);
   }
 }

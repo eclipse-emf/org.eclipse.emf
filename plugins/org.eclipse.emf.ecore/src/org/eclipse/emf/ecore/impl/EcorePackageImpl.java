@@ -515,7 +515,9 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
   {
     // Create annotations
     // http:///org/eclipse/emf/ecore/util/ExtendedMetaData
-    ((EcorePackageImpl)EcorePackage.eINSTANCE).createExtendedMetaDataAnnotations();
+    EcorePackageImpl ecorePackageImpl = (EcorePackageImpl)EcorePackage.eINSTANCE;
+    ecorePackageImpl.createExtendedMetaDataAnnotations();
+    ecorePackageImpl.createEcoreAnnotations();
 
     ((EPackageImpl)EcorePackage.eINSTANCE).freeze();
 
