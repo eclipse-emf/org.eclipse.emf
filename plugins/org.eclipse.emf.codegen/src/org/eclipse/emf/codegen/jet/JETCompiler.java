@@ -657,7 +657,7 @@ public class JETCompiler implements JETParseEventListener, JETParseEventListener
               for (String component : name.split("\\."))
               {
                 String validJavaIdentifier = CodeGenUtil.validJavaIdentifier(component);
-                if (validJavaIdentifier.isEmpty() || validJavaIdentifier.equals("_"))
+                if (validJavaIdentifier.length() == 0 || validJavaIdentifier.equals("_"))
                 {
                   validJavaIdentifier = "__";
                 }
@@ -697,7 +697,7 @@ public class JETCompiler implements JETParseEventListener, JETParseEventListener
                 valueItem.getStart().format("jet.mark.file.line.column"));
 
               name = CodeGenUtil.validJavaIdentifier(name);
-              if (name.isEmpty() || name.equals("_"))
+              if (name.length() == 0 || name.equals("_"))
               {
                 name = "__";
               }
@@ -1065,7 +1065,7 @@ public class JETCompiler implements JETParseEventListener, JETParseEventListener
           fakeClassName = CodeGenUtil.validJavaIdentifier(fileName);
         }
 
-        if (fakeClassName.isEmpty() || fakeClassName.equals("_"))
+        if (fakeClassName.length() == 0 || fakeClassName.equals("_"))
         {
           fakeClassName = "__";
         }

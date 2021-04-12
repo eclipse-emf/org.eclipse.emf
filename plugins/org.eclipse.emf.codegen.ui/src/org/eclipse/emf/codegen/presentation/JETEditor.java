@@ -8681,7 +8681,7 @@ public final class JETEditor extends AbstractDecoratedTextEditor
           JETDirectiveItem jetDirectiveItem = (JETDirectiveItem)jetRootItem;
           String directive = jetDirectiveItem.getText();
           String directiveName = jetDirectiveItem.getNameItem().getText();
-          if (!directiveName.isEmpty() && Character.isUpperCase(directiveName.codePointAt(0)))
+          if (directiveName.length() != 0 && Character.isUpperCase(directiveName.codePointAt(0)))
           {
             multiTextEdit.addChild(new ReplaceEdit(start + 2, 0, " "));
             reformatScriptletBody(jetDocument, jetPositions, javaDocument, multiTextEdit, start + 2, stop - 2, directive.substring(2, directive.length() - 2));
