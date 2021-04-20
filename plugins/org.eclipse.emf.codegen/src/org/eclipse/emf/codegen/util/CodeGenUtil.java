@@ -227,6 +227,7 @@ public class CodeGenUtil
       result.add("ProcessBuilder");
       result.add("ProcessHandle");
       result.add("Readable");
+      result.add("Record");
       result.add("ReflectiveOperationException");
       result.add("Runnable");
       result.add("Runtime");
