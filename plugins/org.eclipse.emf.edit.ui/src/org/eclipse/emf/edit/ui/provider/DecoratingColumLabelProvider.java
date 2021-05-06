@@ -54,14 +54,14 @@ public class DecoratingColumLabelProvider extends ColumnLabelProvider implements
         }
         else
         {
-          styledString = new StyledString(getText(element));
+          styledString = AdapterFactoryLabelProvider.createStyledString(getText(element));
         }
         
         return ((IStyledLabelDecorator)labelDecorator).decorateStyledText(styledString, element);
       }
       else
       {
-        return new StyledString(labelDecorator.decorateText(labelProvider.getText(element), element));
+        return AdapterFactoryLabelProvider.createStyledString(labelDecorator.decorateText(labelProvider.getText(element), element));
       }
     }
   }

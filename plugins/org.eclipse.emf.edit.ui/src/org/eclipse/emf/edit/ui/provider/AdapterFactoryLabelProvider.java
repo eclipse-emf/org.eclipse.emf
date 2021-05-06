@@ -461,7 +461,12 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
         .adapt(object, IItemStyledLabelProviderClass);
 
     return itemStyledLabelProvider != null ? getStyledStringFromObject(itemStyledLabelProvider
-        .getStyledText(object)) : new StyledString(getText(object));
+        .getStyledText(object)) : createStyledString(getText(object));
+  }
+
+  static StyledString createStyledString(String text)
+  {
+    return text == null ? new StyledString() : new StyledString(text);
   }
 
   /**
