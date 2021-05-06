@@ -4590,14 +4590,14 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         {
           for (InternalEObject container = internalEObject.eInternalContainer(); container != null; container = internalEObject.eInternalContainer())
           {
-            uriFragmentPath.add(container.eURIFragmentSegment(internalEObject.eContainingFeature(), internalEObject));
-
             // Don't walk past a package's containing package.
             //
             if (internalEObject instanceof EPackage && container instanceof EPackage)
             {
               break;
             }
+
+            uriFragmentPath.add(container.eURIFragmentSegment(internalEObject.eContainingFeature(), internalEObject));
             internalEObject = container;
           }
         }

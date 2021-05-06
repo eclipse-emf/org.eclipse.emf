@@ -24,7 +24,10 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage.AnnotationReferenceData;
+import org.eclipse.emf.codegen.ecore.genmodel.GenRuntimeVersion;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -630,4 +633,67 @@ public class GenModelTest
     }
   }
 
+  /*
+   * Bugzilla 573321
+   */
+  @Test
+  public void testAnnotationReferenceURIs() throws Exception
+  {
+    EPackage rootPackage = EcoreFactory.eINSTANCE.createEPackage();
+    rootPackage.setName("root");
+    rootPackage.setNsURI("root");
+
+    EClass rootEClass = EcoreFactory.eINSTANCE.createEClass();
+    rootEClass.setName("RootClass");
+    rootPackage.getEClassifiers().add(rootEClass);
+
+    EPackage subPackage = EcoreFactory.eINSTANCE.createEPackage();
+    subPackage.setName("sub");
+    subPackage.setNsURI("sub");
+
+    EClass subEClass = EcoreFactory.eINSTANCE.createEClass();
+    subEClass.setName("SubClass");
+    subPackage.getEClassifiers().add(subEClass);
+
+    EAnnotation rootEAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+    rootEAnnotation.setSource("test");
+    rootEAnnotation.getReferences().add(rootEClass);
+    rootEAnnotation.getReferences().add(subEClass);
+    rootEClass.getEAnnotations().add(rootEAnnotation);
+
+    EAnnotation subEAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+    subEAnnotation.setSource("test");
+    subEAnnotation.getReferences().add(rootEClass);
+    subEAnnotation.getReferences().add(subEClass);
+    subEClass.getEAnnotations().add(subEAnnotation);
+
+    rootPackage.getESubpackages().add(subPackage);
+
+    GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
+    genModel.setRuntimeVersion(GenRuntimeVersion.EMF26);
+    genModel.initialize(Collections.singletonList(rootPackage));
+    GenPackage genPackage = genModel.getGenPackages().get(0);
+    for (EAnnotation eAnnnotation : genPackage.getAllAnnotations())
+    {
+      List<AnnotationReferenceData> referenceData = genPackage.getReferenceData(eAnnnotation);
+      assertEquals(2, referenceData.size());
+      assertEquals("eNS_URI#//RootClass", getReferenceDetail(genPackage, referenceData.get(0)));
+      assertEquals("root.sub.SubPackage.eNS_URI#//SubClass", getReferenceDetail(genPackage, referenceData.get(1)));
+    }
+
+    GenPackage subGenPackage = genPackage.getSubGenPackages().get(0);
+    for (EAnnotation eAnnnotation : subGenPackage.getAllAnnotations())
+    {
+      List<AnnotationReferenceData> referenceData = genPackage.getReferenceData(eAnnnotation);
+      assertEquals(2, referenceData.size());
+      assertEquals("root.RootPackage.eNS_URI#//RootClass", getReferenceDetail(subGenPackage, referenceData.get(0)));
+      assertEquals("eNS_URI#//SubClass", getReferenceDetail(subGenPackage, referenceData.get(1)));
+    }
+  }
+
+  private String getReferenceDetail(GenPackage genPackage, AnnotationReferenceData referenceDataItem)
+  {
+    String detail = (referenceDataItem.containingGenPackage != genPackage ? referenceDataItem.containingGenPackage.getImportedPackageInterfaceName() + "." : "")  + "eNS_URI#"  + referenceDataItem.uriFragment;
+    return detail;
+  }
 }
