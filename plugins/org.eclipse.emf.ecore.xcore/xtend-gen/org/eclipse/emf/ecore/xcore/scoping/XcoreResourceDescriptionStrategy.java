@@ -46,11 +46,8 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
         boolean _matched_1 = false;
         if (it instanceof EPackage) {
           _matched_1=true;
-          final Consumer<EClassifier> _function = new Consumer<EClassifier>() {
-            @Override
-            public void accept(final EClassifier it) {
-              XcoreResourceDescriptionStrategy.this.createEObjectDescriptions(it, acceptor);
-            }
+          final Consumer<EClassifier> _function = (EClassifier it_1) -> {
+            this.createEObjectDescriptions(it_1, acceptor);
           };
           ((EPackage)it).getEClassifiers().forEach(_function);
         }
@@ -59,11 +56,8 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
             _matched_1=true;
             EList<EOperation> _eOperations = ((EClass)it).getEOperations();
             EList<EStructuralFeature> _eStructuralFeatures = ((EClass)it).getEStructuralFeatures();
-            final Consumer<ETypedElement> _function = new Consumer<ETypedElement>() {
-              @Override
-              public void accept(final ETypedElement it) {
-                XcoreResourceDescriptionStrategy.this.createEObjectDescriptions(it, acceptor);
-              }
+            final Consumer<ETypedElement> _function = (ETypedElement it_1) -> {
+              this.createEObjectDescriptions(it_1, acceptor);
             };
             Iterables.<ETypedElement>concat(_eOperations, _eStructuralFeatures).forEach(_function);
           }
@@ -75,22 +69,16 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
           boolean _matched_2 = false;
           if (it instanceof GenModel) {
             _matched_2=true;
-            final Consumer<GenPackage> _function = new Consumer<GenPackage>() {
-              @Override
-              public void accept(final GenPackage it) {
-                XcoreResourceDescriptionStrategy.this.createEObjectDescriptions(it, acceptor);
-              }
+            final Consumer<GenPackage> _function = (GenPackage it_1) -> {
+              this.createEObjectDescriptions(it_1, acceptor);
             };
             ((GenModel)it).getGenPackages().forEach(_function);
           }
           if (!_matched_2) {
             if (it instanceof GenPackage) {
               _matched_2=true;
-              final Consumer<GenClassifier> _function = new Consumer<GenClassifier>() {
-                @Override
-                public void accept(final GenClassifier it) {
-                  XcoreResourceDescriptionStrategy.this.createEObjectDescriptions(it, acceptor);
-                }
+              final Consumer<GenClassifier> _function = (GenClassifier it_1) -> {
+                this.createEObjectDescriptions(it_1, acceptor);
               };
               ((GenPackage)it).getGenClassifiers().forEach(_function);
             }
@@ -109,11 +97,8 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
           boolean _matched_3 = false;
           if (it instanceof XPackage) {
             _matched_3=true;
-            final Consumer<XAnnotationDirective> _function = new Consumer<XAnnotationDirective>() {
-              @Override
-              public void accept(final XAnnotationDirective it) {
-                XcoreResourceDescriptionStrategy.this.createEObjectDescriptions(it, acceptor);
-              }
+            final Consumer<XAnnotationDirective> _function = (XAnnotationDirective it_1) -> {
+              this.createEObjectDescriptions(it_1, acceptor);
             };
             ((XPackage)it).getAnnotationDirectives().forEach(_function);
           }
@@ -130,11 +115,8 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
           _matched=true;
           if ((it instanceof JvmDeclaredType)) {
             super.createEObjectDescriptions(it, acceptor);
-            final Consumer<JvmDeclaredType> _function = new Consumer<JvmDeclaredType>() {
-              @Override
-              public void accept(final JvmDeclaredType it) {
-                XcoreResourceDescriptionStrategy.this.createEObjectDescriptions(it, acceptor);
-              }
+            final Consumer<JvmDeclaredType> _function = (JvmDeclaredType it_1) -> {
+              this.createEObjectDescriptions(it_1, acceptor);
             };
             Iterables.<JvmDeclaredType>filter(((JvmDeclaredType)it).getMembers(), JvmDeclaredType.class).forEach(_function);
           }

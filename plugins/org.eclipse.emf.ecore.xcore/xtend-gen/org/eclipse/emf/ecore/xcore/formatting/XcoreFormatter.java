@@ -77,92 +77,56 @@ import org.eclipse.xtext.xtype.XImportSection;
 @SuppressWarnings("all")
 public class XcoreFormatter extends XbaseFormatter {
   protected void _format(final XAnnotation xAnnotation, @Extension final IFormattableDocument format) {
-    final Procedure1<IHiddenRegionFormatter> _function = new Procedure1<IHiddenRegionFormatter>() {
-      @Override
-      public void apply(final IHiddenRegionFormatter it) {
-        it.noSpace();
-      }
+    final Procedure1<IHiddenRegionFormatter> _function = (IHiddenRegionFormatter it) -> {
+      it.noSpace();
     };
     format.append(this.textRegionExtensions.regionFor(xAnnotation).keyword("@"), _function);
     final Pair<ISemanticRegion, ISemanticRegion> parentheses = IterableExtensions.<Pair<ISemanticRegion, ISemanticRegion>>head(this.textRegionExtensions.regionFor(xAnnotation).keywordPairs("(", ")"));
     if ((parentheses == null)) {
-      final Procedure1<IHiddenRegionFormatter> _function_1 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.newLine();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_1 = (IHiddenRegionFormatter it) -> {
+        it.newLine();
       };
       format.append(this.textRegionExtensions.regionFor(xAnnotation).feature(XcorePackage.Literals.XANNOTATION__SOURCE), _function_1);
     } else {
-      final Procedure1<IHiddenRegionFormatter> _function_2 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.indent();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
+        it.indent();
       };
       format.<ISemanticRegion, ISemanticRegion>interior(parentheses, _function_2);
-      final Procedure1<IHiddenRegionFormatter> _function_3 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
-      final Procedure1<IHiddenRegionFormatter> _function_4 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_4 = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
       format.append(format.prepend(this.textRegionExtensions.regionFor(xAnnotation).keyword("("), _function_3), _function_4);
-      final Procedure1<IHiddenRegionFormatter> _function_5 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_5 = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
-      final Procedure1<IHiddenRegionFormatter> _function_6 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.newLine();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_6 = (IHiddenRegionFormatter it) -> {
+        it.newLine();
       };
       format.append(format.prepend(this.textRegionExtensions.regionFor(xAnnotation).keyword(")"), _function_5), _function_6);
       EMap<String, String> _details = xAnnotation.getDetails();
       for (final Map.Entry<String, String> entry : _details) {
         {
           final EObject detail = ((EObject) entry);
-          final Procedure1<IHiddenRegionFormatter> _function_7 = new Procedure1<IHiddenRegionFormatter>() {
-            @Override
-            public void apply(final IHiddenRegionFormatter it) {
-              it.noSpace();
-            }
+          final Procedure1<IHiddenRegionFormatter> _function_7 = (IHiddenRegionFormatter it) -> {
+            it.noSpace();
           };
-          final Procedure1<IHiddenRegionFormatter> _function_8 = new Procedure1<IHiddenRegionFormatter>() {
-            @Override
-            public void apply(final IHiddenRegionFormatter it) {
-              it.noSpace();
-            }
+          final Procedure1<IHiddenRegionFormatter> _function_8 = (IHiddenRegionFormatter it) -> {
+            it.noSpace();
           };
           format.append(format.prepend(this.textRegionExtensions.regionFor(detail).keyword("="), _function_7), _function_8);
           final ISemanticRegion comma = this.textRegionExtensions.immediatelyFollowing(detail).keyword(",");
           if ((comma != null)) {
-            final Procedure1<IHiddenRegionFormatter> _function_9 = new Procedure1<IHiddenRegionFormatter>() {
-              @Override
-              public void apply(final IHiddenRegionFormatter it) {
-                it.noSpace();
-              }
+            final Procedure1<IHiddenRegionFormatter> _function_9 = (IHiddenRegionFormatter it) -> {
+              it.noSpace();
             };
-            final Procedure1<IHiddenRegionFormatter> _function_10 = new Procedure1<IHiddenRegionFormatter>() {
-              @Override
-              public void apply(final IHiddenRegionFormatter it) {
-                it.oneSpace();
-              }
+            final Procedure1<IHiddenRegionFormatter> _function_10 = (IHiddenRegionFormatter it) -> {
+              it.oneSpace();
             };
-            final Procedure1<IHiddenRegionFormatter> _function_11 = new Procedure1<IHiddenRegionFormatter>() {
-              @Override
-              public void apply(final IHiddenRegionFormatter it) {
-                it.autowrap();
-              }
+            final Procedure1<IHiddenRegionFormatter> _function_11 = (IHiddenRegionFormatter it) -> {
+              it.autowrap();
             };
             format.append(format.append(format.prepend(comma, _function_9), _function_10), _function_11);
           }
@@ -173,18 +137,12 @@ public class XcoreFormatter extends XbaseFormatter {
   
   protected void _format(final XPackage xPackage, @Extension final IFormattableDocument format) {
     this.formatAnnotations(xPackage.getAnnotations(), format);
-    final Procedure1<IHiddenRegionFormatter> _function = new Procedure1<IHiddenRegionFormatter>() {
-      @Override
-      public void apply(final IHiddenRegionFormatter it) {
-        it.noSpace();
-      }
+    final Procedure1<IHiddenRegionFormatter> _function = (IHiddenRegionFormatter it) -> {
+      it.noSpace();
     };
     format.prepend(this.textRegionExtensions.regionFor(xPackage).keyword("package"), _function);
-    final Procedure1<IHiddenRegionFormatter> _function_1 = new Procedure1<IHiddenRegionFormatter>() {
-      @Override
-      public void apply(final IHiddenRegionFormatter it) {
-        it.oneSpace();
-      }
+    final Procedure1<IHiddenRegionFormatter> _function_1 = (IHiddenRegionFormatter it) -> {
+      it.oneSpace();
     };
     format.prepend(this.textRegionExtensions.regionFor(xPackage).feature(XcorePackage.Literals.XNAMED_ELEMENT__NAME), _function_1);
     final EList<XImportDirective> xImportDirectives = xPackage.getImportDirectives();
@@ -195,39 +153,30 @@ public class XcoreFormatter extends XbaseFormatter {
       final XImportDirective last = IterableExtensions.<XImportDirective>last(xImportDirectives);
       for (final XImportDirective xImportDirective : xImportDirectives) {
         {
-          final Procedure1<IHiddenRegionFormatter> _function_2 = new Procedure1<IHiddenRegionFormatter>() {
-            @Override
-            public void apply(final IHiddenRegionFormatter it) {
-              int _xifexpression = (int) 0;
-              boolean _equals = Objects.equal(xImportDirective, first);
-              if (_equals) {
-                _xifexpression = 2;
-              } else {
-                _xifexpression = 1;
-              }
-              it.setNewLines(_xifexpression);
+          final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
+            int _xifexpression = (int) 0;
+            boolean _equals = Objects.equal(xImportDirective, first);
+            if (_equals) {
+              _xifexpression = 2;
+            } else {
+              _xifexpression = 1;
             }
+            it.setNewLines(_xifexpression);
           };
           format.prepend(this.textRegionExtensions.regionFor(xImportDirective).keyword("import"), _function_2);
           this.format(xImportDirective, format);
           boolean _equals = Objects.equal(xImportDirective, last);
           if (_equals) {
-            final Procedure1<IHiddenRegionFormatter> _function_3 = new Procedure1<IHiddenRegionFormatter>() {
-              @Override
-              public void apply(final IHiddenRegionFormatter it) {
-                it.setNewLines(2);
-              }
+            final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
+              it.setNewLines(2);
             };
             format.append(IterableExtensions.<ISemanticRegion>last(this.textRegionExtensions.regionForEObject(xImportDirective).getAllSemanticRegions()), _function_3);
           }
         }
       }
     } else {
-      final Procedure1<IHiddenRegionFormatter> _function_2 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.setNewLines(2);
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
+        it.setNewLines(2);
       };
       format.append(this.textRegionExtensions.regionFor(xPackage).feature(XcorePackage.Literals.XNAMED_ELEMENT__NAME), _function_2);
     }
@@ -235,11 +184,8 @@ public class XcoreFormatter extends XbaseFormatter {
     for (final XClassifier xClassifier : xClassifiers) {
       {
         this.format(xClassifier, format);
-        final Procedure1<IHiddenRegionFormatter> _function_3 = new Procedure1<IHiddenRegionFormatter>() {
-          @Override
-          public void apply(final IHiddenRegionFormatter it) {
-            it.setNewLines(2);
-          }
+        final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
+          it.setNewLines(2);
         };
         format.prepend(IterableExtensions.<ISemanticRegion>head(this.textRegionExtensions.regionForEObject(xClassifier).getAllSemanticRegions()), _function_3);
       }
@@ -248,29 +194,20 @@ public class XcoreFormatter extends XbaseFormatter {
   
   protected void _format(final XEnum xEnum, @Extension final IFormattableDocument format) {
     this.formatAnnotations(xEnum.getAnnotations(), format);
-    final Procedure1<IHiddenRegionFormatter> _function = new Procedure1<IHiddenRegionFormatter>() {
-      @Override
-      public void apply(final IHiddenRegionFormatter it) {
-        it.indent();
-      }
+    final Procedure1<IHiddenRegionFormatter> _function = (IHiddenRegionFormatter it) -> {
+      it.indent();
     };
     format.<ISemanticRegion, ISemanticRegion>interior(IterableExtensions.<Pair<ISemanticRegion, ISemanticRegion>>head(this.textRegionExtensions.regionFor(xEnum).keywordPairs("{", "}")), _function);
-    final Procedure1<IHiddenRegionFormatter> _function_1 = new Procedure1<IHiddenRegionFormatter>() {
-      @Override
-      public void apply(final IHiddenRegionFormatter it) {
-        it.newLine();
-      }
+    final Procedure1<IHiddenRegionFormatter> _function_1 = (IHiddenRegionFormatter it) -> {
+      it.newLine();
     };
     format.append(this.textRegionExtensions.regionFor(xEnum).keyword("{"), _function_1);
     EList<XEnumLiteral> _literals = xEnum.getLiterals();
     for (final XEnumLiteral xEnumLiteral : _literals) {
       {
         this.format(xEnumLiteral, format);
-        final Procedure1<IHiddenRegionFormatter> _function_2 = new Procedure1<IHiddenRegionFormatter>() {
-          @Override
-          public void apply(final IHiddenRegionFormatter it) {
-            it.newLine();
-          }
+        final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
+          it.newLine();
         };
         format.append(IterableExtensions.<ISemanticRegion>last(this.textRegionExtensions.regionForEObject(xEnumLiteral).getAllSemanticRegions()), _function_2);
       }
@@ -285,31 +222,19 @@ public class XcoreFormatter extends XbaseFormatter {
     this.formatAnnotations(xDataType.getAnnotations(), format);
     final ISemanticRegion leftAngleBracket = this.textRegionExtensions.regionFor(xDataType).keyword("<");
     if ((leftAngleBracket != null)) {
-      final Procedure1<IHiddenRegionFormatter> _function = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
-      final Procedure1<IHiddenRegionFormatter> _function_1 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_1 = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
       format.append(format.prepend(leftAngleBracket, _function), _function_1);
       this.formatTypeParameters(xDataType.getTypeParameters(), format);
-      final Procedure1<IHiddenRegionFormatter> _function_2 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
-      final Procedure1<IHiddenRegionFormatter> _function_3 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.oneSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
+        it.oneSpace();
       };
       format.append(format.prepend(this.textRegionExtensions.regionFor(xDataType).keyword(">"), _function_2), _function_3);
     }
@@ -319,57 +244,36 @@ public class XcoreFormatter extends XbaseFormatter {
     this.formatAnnotations(xClass.getAnnotations(), format);
     final ISemanticRegion leftAngleBracket = this.textRegionExtensions.regionFor(xClass).keyword("<");
     if ((leftAngleBracket != null)) {
-      final Procedure1<IHiddenRegionFormatter> _function = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
-      final Procedure1<IHiddenRegionFormatter> _function_1 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_1 = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
       format.append(format.prepend(leftAngleBracket, _function), _function_1);
       this.formatTypeParameters(xClass.getTypeParameters(), format);
-      final Procedure1<IHiddenRegionFormatter> _function_2 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
-      final Procedure1<IHiddenRegionFormatter> _function_3 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.oneSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
+        it.oneSpace();
       };
       format.append(format.prepend(this.textRegionExtensions.regionFor(xClass).keyword(">"), _function_2), _function_3);
     }
-    final Procedure1<IHiddenRegionFormatter> _function_4 = new Procedure1<IHiddenRegionFormatter>() {
-      @Override
-      public void apply(final IHiddenRegionFormatter it) {
-        it.indent();
-      }
+    final Procedure1<IHiddenRegionFormatter> _function_4 = (IHiddenRegionFormatter it) -> {
+      it.indent();
     };
     format.<ISemanticRegion, ISemanticRegion>interior(IterableExtensions.<Pair<ISemanticRegion, ISemanticRegion>>head(this.textRegionExtensions.regionFor(xClass).keywordPairs("{", "}")), _function_4);
-    final Procedure1<IHiddenRegionFormatter> _function_5 = new Procedure1<IHiddenRegionFormatter>() {
-      @Override
-      public void apply(final IHiddenRegionFormatter it) {
-        it.newLine();
-      }
+    final Procedure1<IHiddenRegionFormatter> _function_5 = (IHiddenRegionFormatter it) -> {
+      it.newLine();
     };
     format.append(this.textRegionExtensions.regionFor(xClass).keyword("{"), _function_5);
     EList<XMember> _members = xClass.getMembers();
     for (final XMember xMember : _members) {
       {
         this.format(xMember, format);
-        final Procedure1<IHiddenRegionFormatter> _function_6 = new Procedure1<IHiddenRegionFormatter>() {
-          @Override
-          public void apply(final IHiddenRegionFormatter it) {
-            it.newLine();
-          }
+        final Procedure1<IHiddenRegionFormatter> _function_6 = (IHiddenRegionFormatter it) -> {
+          it.newLine();
         };
         format.append(IterableExtensions.<ISemanticRegion>last(this.textRegionExtensions.regionForEObject(xMember).getAllSemanticRegions()), _function_6);
       }
@@ -381,21 +285,15 @@ public class XcoreFormatter extends XbaseFormatter {
     format.<XGenericType>format(xReference.getType());
     final ISemanticRegion multiplicity = this.textRegionExtensions.regionFor(xReference).feature(XcorePackage.Literals.XTYPED_ELEMENT__MULTIPLICITY);
     if ((multiplicity != null)) {
-      final Procedure1<IHiddenRegionFormatter> _function = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
       format.prepend(multiplicity, _function);
     }
     final XBlockExpression get = xReference.getGetBody();
     if ((get != null)) {
-      final Procedure1<IHiddenRegionFormatter> _function_1 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.oneSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_1 = (IHiddenRegionFormatter it) -> {
+        it.oneSpace();
       };
       format.prepend(this.textRegionExtensions.regionFor(get).keyword("{"), _function_1);
       this.format(get, format);
@@ -407,21 +305,15 @@ public class XcoreFormatter extends XbaseFormatter {
     format.<XGenericType>format(xAttribute.getType());
     final ISemanticRegion multiplicity = this.textRegionExtensions.regionFor(xAttribute).feature(XcorePackage.Literals.XTYPED_ELEMENT__MULTIPLICITY);
     if ((multiplicity != null)) {
-      final Procedure1<IHiddenRegionFormatter> _function = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
       format.prepend(multiplicity, _function);
     }
     final XBlockExpression get = xAttribute.getGetBody();
     if ((get != null)) {
-      final Procedure1<IHiddenRegionFormatter> _function_1 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.oneSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_1 = (IHiddenRegionFormatter it) -> {
+        it.oneSpace();
       };
       format.prepend(this.textRegionExtensions.regionFor(get).keyword("{"), _function_1);
       this.format(get, format);
@@ -433,66 +325,42 @@ public class XcoreFormatter extends XbaseFormatter {
     format.<XGenericType>format(xOperation.getType());
     final ISemanticRegion multiplicity = this.textRegionExtensions.regionFor(xOperation).feature(XcorePackage.Literals.XTYPED_ELEMENT__MULTIPLICITY);
     if ((multiplicity != null)) {
-      final Procedure1<IHiddenRegionFormatter> _function = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
       format.prepend(multiplicity, _function);
     }
     final ISemanticRegion leftAngleBracket = this.textRegionExtensions.regionFor(xOperation).keyword("<");
     if ((leftAngleBracket != null)) {
-      final Procedure1<IHiddenRegionFormatter> _function_1 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.oneSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_1 = (IHiddenRegionFormatter it) -> {
+        it.oneSpace();
       };
-      final Procedure1<IHiddenRegionFormatter> _function_2 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
       format.append(format.prepend(leftAngleBracket, _function_1), _function_2);
       this.formatTypeParameters(xOperation.getTypeParameters(), format);
-      final Procedure1<IHiddenRegionFormatter> _function_3 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
-      final Procedure1<IHiddenRegionFormatter> _function_4 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.oneSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_4 = (IHiddenRegionFormatter it) -> {
+        it.oneSpace();
       };
       format.append(format.prepend(this.textRegionExtensions.regionFor(xOperation).keyword(">"), _function_3), _function_4);
     }
-    final Procedure1<IHiddenRegionFormatter> _function_5 = new Procedure1<IHiddenRegionFormatter>() {
-      @Override
-      public void apply(final IHiddenRegionFormatter it) {
-        it.noSpace();
-      }
+    final Procedure1<IHiddenRegionFormatter> _function_5 = (IHiddenRegionFormatter it) -> {
+      it.noSpace();
     };
-    final Procedure1<IHiddenRegionFormatter> _function_6 = new Procedure1<IHiddenRegionFormatter>() {
-      @Override
-      public void apply(final IHiddenRegionFormatter it) {
-        it.noSpace();
-      }
+    final Procedure1<IHiddenRegionFormatter> _function_6 = (IHiddenRegionFormatter it) -> {
+      it.noSpace();
     };
     format.append(format.prepend(this.textRegionExtensions.regionFor(xOperation).keyword("("), _function_5), _function_6);
     final EList<XParameter> xParameters = xOperation.getParameters();
     boolean _isEmpty = xParameters.isEmpty();
     boolean _not = (!_isEmpty);
     if (_not) {
-      final Procedure1<IHiddenRegionFormatter> _function_7 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_7 = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
       format.prepend(this.textRegionExtensions.regionFor(xOperation).keyword(")"), _function_7);
       for (final XParameter xParameter : xParameters) {
@@ -501,11 +369,8 @@ public class XcoreFormatter extends XbaseFormatter {
     }
     final XBlockExpression body = xOperation.getBody();
     if ((body != null)) {
-      final Procedure1<IHiddenRegionFormatter> _function_8 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.oneSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_8 = (IHiddenRegionFormatter it) -> {
+        it.oneSpace();
       };
       format.prepend(this.textRegionExtensions.regionFor(body).keyword("{"), _function_8);
       this.format(body, format);
@@ -516,11 +381,8 @@ public class XcoreFormatter extends XbaseFormatter {
     this.formatAnnotations(xParameter.getAnnotations(), format);
     final ISemanticRegion multiplicity = this.textRegionExtensions.regionFor(xParameter).feature(XcorePackage.Literals.XTYPED_ELEMENT__MULTIPLICITY);
     if ((multiplicity != null)) {
-      final Procedure1<IHiddenRegionFormatter> _function = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
       format.prepend(multiplicity, _function);
     }
@@ -531,17 +393,11 @@ public class XcoreFormatter extends XbaseFormatter {
     format.<GenBase>format(xGenericType.getType());
     final ISemanticRegion leftAngleBracket = this.textRegionExtensions.regionFor(xGenericType).keyword("<");
     if ((leftAngleBracket != null)) {
-      final Procedure1<IHiddenRegionFormatter> _function = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
-      final Procedure1<IHiddenRegionFormatter> _function_1 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_1 = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
       format.append(format.prepend(leftAngleBracket, _function), _function_1);
       EList<XGenericType> _typeArguments = xGenericType.getTypeArguments();
@@ -550,67 +406,43 @@ public class XcoreFormatter extends XbaseFormatter {
           format.<XGenericType>format(typeArgument);
           final ISemanticRegion comma = this.textRegionExtensions.immediatelyFollowing(typeArgument).keyword(",");
           if ((comma != null)) {
-            final Procedure1<IHiddenRegionFormatter> _function_2 = new Procedure1<IHiddenRegionFormatter>() {
-              @Override
-              public void apply(final IHiddenRegionFormatter it) {
-                it.noSpace();
-              }
+            final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
+              it.noSpace();
             };
-            final Procedure1<IHiddenRegionFormatter> _function_3 = new Procedure1<IHiddenRegionFormatter>() {
-              @Override
-              public void apply(final IHiddenRegionFormatter it) {
-                it.oneSpace();
-              }
+            final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
+              it.oneSpace();
             };
             format.append(format.prepend(comma, _function_2), _function_3);
           }
         }
       }
-      final Procedure1<IHiddenRegionFormatter> _function_2 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
-      final Procedure1<IHiddenRegionFormatter> _function_3 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.noSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
+        it.noSpace();
       };
       format.append(format.prepend(this.textRegionExtensions.regionFor(xGenericType).keyword(">"), _function_2), _function_3);
     }
     final XGenericType upperBound = xGenericType.getUpperBound();
     if ((upperBound != null)) {
       format.<XGenericType>format(upperBound);
-      final Procedure1<IHiddenRegionFormatter> _function_4 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.oneSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_4 = (IHiddenRegionFormatter it) -> {
+        it.oneSpace();
       };
-      final Procedure1<IHiddenRegionFormatter> _function_5 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.oneSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_5 = (IHiddenRegionFormatter it) -> {
+        it.oneSpace();
       };
       format.append(format.prepend(this.textRegionExtensions.regionFor(xGenericType).keyword("extends"), _function_4), _function_5);
     }
     final XGenericType lowerBound = xGenericType.getLowerBound();
     if ((lowerBound != null)) {
       format.<XGenericType>format(lowerBound);
-      final Procedure1<IHiddenRegionFormatter> _function_6 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.oneSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_6 = (IHiddenRegionFormatter it) -> {
+        it.oneSpace();
       };
-      final Procedure1<IHiddenRegionFormatter> _function_7 = new Procedure1<IHiddenRegionFormatter>() {
-        @Override
-        public void apply(final IHiddenRegionFormatter it) {
-          it.oneSpace();
-        }
+      final Procedure1<IHiddenRegionFormatter> _function_7 = (IHiddenRegionFormatter it) -> {
+        it.oneSpace();
       };
       format.append(format.prepend(this.textRegionExtensions.regionFor(xGenericType).keyword("super"), _function_6), _function_7);
     }
@@ -624,17 +456,11 @@ public class XcoreFormatter extends XbaseFormatter {
         format.<XGenericType>format(bound);
         final ISemanticRegion ampersand = this.textRegionExtensions.immediatelyFollowing(bound).keyword("&");
         if ((ampersand != null)) {
-          final Procedure1<IHiddenRegionFormatter> _function = new Procedure1<IHiddenRegionFormatter>() {
-            @Override
-            public void apply(final IHiddenRegionFormatter it) {
-              it.oneSpace();
-            }
+          final Procedure1<IHiddenRegionFormatter> _function = (IHiddenRegionFormatter it) -> {
+            it.oneSpace();
           };
-          final Procedure1<IHiddenRegionFormatter> _function_1 = new Procedure1<IHiddenRegionFormatter>() {
-            @Override
-            public void apply(final IHiddenRegionFormatter it) {
-              it.oneSpace();
-            }
+          final Procedure1<IHiddenRegionFormatter> _function_1 = (IHiddenRegionFormatter it) -> {
+            it.oneSpace();
           };
           format.append(format.prepend(ampersand, _function), _function_1);
         }
