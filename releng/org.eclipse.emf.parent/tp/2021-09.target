@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Target Platform for 2021-06" sequenceNumber="1">
+<target name="Target Platform for 2021-09" sequenceNumber="1">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 
@@ -17,8 +17,8 @@
 
       <unit id="org.eclipse.nebula.widgets.cdatetime" version="0.0.0"/>
 
-      <repository location="http://download.eclipse.org/eclipse/updates/4.20/R-4.20-202106111600"/>
-      <repository location="http://download.eclipse.org/releases/2021-06"/>
+      <repository location="http://download.eclipse.org/eclipse/updates/4.21-I-builds"/>
+      <repository location="http://download.eclipse.org/releases/2021-09"/>
       <repository location="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
 
       <repository location="http://www.macromodeling.com/gwt"/>
