@@ -21,21 +21,21 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.jar.Manifest;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleActivator;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.Constants;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
-
 import org.eclipse.emf.common.util.DelegatingResourceLocator;
 import org.eclipse.emf.common.util.Logger;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.Constants;
+import org.osgi.framework.FrameworkUtil;
 
 
 /**
@@ -57,6 +57,24 @@ import org.eclipse.emf.common.util.WrappedException;
  */
 public abstract class EMFPlugin extends DelegatingResourceLocator implements ResourceLocator, Logger
 {
+  /**
+   * @since 2.27
+   */
+  public static final boolean IS_OSGI_RUNNING;
+  static
+  {
+    boolean result = false;
+    try
+    {
+      result = FrameworkUtil.getBundle(EMFPlugin.class) != null;
+    }
+    catch (Throwable exception)
+    {
+      // Assume that we aren't running.
+    }
+    IS_OSGI_RUNNING = result;
+  }
+
   public static final boolean IS_ECLIPSE_RUNNING;
   static
   {

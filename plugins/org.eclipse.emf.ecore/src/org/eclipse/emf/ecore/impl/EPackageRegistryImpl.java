@@ -52,7 +52,7 @@ public class EPackageRegistryImpl extends HashMap<String, Object> implements EPa
         {
           return EcorePlugin.getDefaultRegistryImplementation();
         }
-        else if (!EMFPlugin.IS_ECLIPSE_RUNNING)
+        else if (!EMFPlugin.IS_OSGI_RUNNING)
         {
           try
           {
