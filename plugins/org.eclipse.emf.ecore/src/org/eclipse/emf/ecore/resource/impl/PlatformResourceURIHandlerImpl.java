@@ -42,6 +42,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.URIConverter;
+import org.osgi.framework.Bundle;
 
 
 public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
@@ -481,11 +482,16 @@ public class PlatformResourceURIHandlerImpl extends URIHandlerImpl
         // If the resource bundle isn't available, we will always return null for this method.
         if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE)
         {
-          // This will throw an exception if the instance location is not yet initialized,
-          // i.e., when EMF is used by some component before the the user chooses the workspace location.
-          // In this case we will return null and try again later to initialize the cached workspace root instance.
-          EcorePlugin.getPlugin().getStateLocation();
-          cachedWorkspaceRoot = workspaceRoot = EcorePlugin.getWorkspaceRoot();
+          // This guards for the case when EMF is used by some component before the user chooses the workspace location.
+          Bundle resourcesBundle = Platform.getBundle("org.eclipse.core.resources");
+          if (resourcesBundle == null || (resourcesBundle.getState() & Bundle.ACTIVE) == 0)
+          {
+            return null;
+          }
+          else
+          {
+            cachedWorkspaceRoot = workspaceRoot = EcorePlugin.getWorkspaceRoot();
+          }
         }
         cachedWorkspaceRootInitialized = true;
       }
