@@ -549,6 +549,11 @@
         <details key="documentation" value="@since 2.25"/>
       </eAnnotations>
     </eLiterals>
+    <eLiterals name="JDK180" value="14" literal="18.0">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.27"/>
+      </eAnnotations>
+    </eLiterals>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenTypeParameter" eSuperTypes="#//GenBase">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ecoreTypeParameter" lowerBound="1"
@@ -640,6 +645,11 @@
         <details key="documentation" value="@since 2.26"/>
       </eAnnotations>
     </eLiterals>
+    <eLiterals name="EMF227" value="25" literal="2.27">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.27"/>
+      </eAnnotations>
+    </eLiterals>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="GenRuntimePlatform">
     <eLiterals name="IDE"/>
@@ -721,6 +731,11 @@
     <eLiterals name="Eclipse_2021_06" value="18" literal="2021-06">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="@since 2.26"/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="Eclipse_2021_09" value="19" literal="2021-09">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.27"/>
       </eAnnotations>
     </eLiterals>
   </eClassifiers>
