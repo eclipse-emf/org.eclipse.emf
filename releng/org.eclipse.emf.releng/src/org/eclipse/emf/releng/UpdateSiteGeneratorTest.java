@@ -78,11 +78,6 @@ public class UpdateSiteGeneratorTest
   @Test
   public void step01PromoteUpdateSite() throws Exception
   {
-    String userDir = System.getProperty("user.dir");
-    String sourceRepository = UpdateSiteGenerator.getCanonicalPath(new File(userDir, "../org.eclipse.emf.site/target/repository"));
-    System.out.println("sourceRepository=" + sourceRepository);
-    Assert.assertTrue("Update site is invalid: " + sourceRepository, new File(sourceRepository, "content.jar").isFile());
-
     String buildTimestamp = System.getProperty("publish.build.timestamp");
     Assert.assertNotNull("publish.build.timestamp is null", buildTimestamp);
     try
@@ -105,6 +100,11 @@ public class UpdateSiteGeneratorTest
 
     Assume.assumeTrue("true".equals(System.getProperty("publish.repository")));
     Assume.assumeTrue(!"release".equals(System.getProperty("publish.build.type")));
+
+    String userDir = System.getProperty("user.dir");
+    String sourceRepository = UpdateSiteGenerator.getCanonicalPath(new File(userDir, "../org.eclipse.emf.site/target/repository"));
+    System.out.println("sourceRepository=" + sourceRepository);
+    Assert.assertTrue("Update site is invalid: " + sourceRepository, new File(sourceRepository, "content.jar").isFile());
 
     UpdateSiteGenerator updateSiteGenerator = new UpdateSiteGenerator();
     System.out.println("Promoting update site to " + updateSiteGenerator.getPromoteUpdateSiteDestination(buildType, buildTimestamp));
