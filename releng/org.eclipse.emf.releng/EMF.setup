@@ -525,6 +525,17 @@
           name="org.eclipse.equinox.ds"
           optional="true"/>
       <repositoryList
+          name="2021-12">
+        <repository
+            url="http://download.eclipse.org/releases/2021-12"/>
+        <repository
+            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+        <repository
+            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+        <repository
+            url="http://download.eclipse.org/nebula/releases/2.2.0"/>
+      </repositoryList>
+      <repositoryList
           name="2021-09">
         <repository
             url="http://download.eclipse.org/releases/2021-09"/>
