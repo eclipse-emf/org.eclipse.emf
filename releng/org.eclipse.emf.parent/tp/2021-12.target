@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Target Platform for 2019-03" sequenceNumber="1">
+<target name="Target Platform for 2021-12" sequenceNumber="1">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 
@@ -13,19 +13,23 @@
 
       <unit id="org.eclipse.rap.ui.views" version="0.0.0"/>
 
-      <unit id="org.junit" version="0.0.0"/>
+      <unit id="org.eclipse.xtext.sdk.feature.group" version="0.0.0"/>
 
       <unit id="org.eclipse.nebula.widgets.cdatetime" version="0.0.0"/>
 
-      <repository location="https://download.eclipse.org/eclipse/updates/4.11/R-4.11-201903070500"/>
-      <repository location="https://download.eclipse.org/releases/2019-03"/>
+      <repository location="https://download.eclipse.org/eclipse/updates/4.22-I-builds"/>
+      <repository location="https://download.eclipse.org/releases/2021-12"/>
       <repository location="https://download.eclipse.org/tools/orbit/downloads/latest-R"/>
 
       <repository location="https://www.macromodeling.com/gwt"/>
 
+      <repository location="http://download.itemis.com/updates/releases/2.1.0"/>
+
+      <repository location="https://download.eclipse.org/rt/rap/3.10/R-20190911-1524"/>
+
       <repository location="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
 
-      <repository location="https://download.eclipse.org/nebula/releases/1.0.0"/>
+      <repository location="https://download.eclipse.org/nebula/releases/2.2.0"/>
 
     </location>
   </locations>

@@ -165,7 +165,7 @@
                 <repository>
                   <id>juno</id>
                   <layout>p2</layout>
-                  <url>http://download.eclipse.org/releases/${target-platform}</url>
+                  <url>https://download.eclipse.org/releases/${target-platform}</url>
                 </repository>
               </repositories>
               <dependencies>
@@ -212,7 +212,7 @@
                 <repository>
                   <id>juno</id>
                   <layout>p2</layout>
-                  <url>http://download.eclipse.org/releases/${target-platform}</url>
+                  <url>https://download.eclipse.org/releases/${target-platform}</url>
                 </repository>
               </repositories>
               <dependencies>

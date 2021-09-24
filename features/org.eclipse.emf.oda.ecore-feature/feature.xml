@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf.oda.ecore"
       label="%featureName"
-      version="1.7.0.qualifier"
+      version="1.8.0.qualifier"
       provider-name="%providerName"
       license-feature="org.eclipse.emf.license"
       license-feature-version="2.11.0">
@@ -24,8 +24,8 @@ http://www.eclipse.org/legal/epl-v20.html
    </license>
 
    <url>
-      <update label="%EMFUpdateSiteName" url="http://download.eclipse.org/modeling/emf/emf/builds/"/>
-      <discovery label="%EMFUpdateSiteName" url="http://download.eclipse.org/modeling/emf/emf/builds/"/>
+      <update label="%EMFUpdateSiteName" url="https://download.eclipse.org/modeling/emf/emf/builds/"/>
+      <discovery label="%EMFUpdateSiteName" url="https://download.eclipse.org/modeling/emf/emf/builds/"/>
    </url>
 
    <requires>

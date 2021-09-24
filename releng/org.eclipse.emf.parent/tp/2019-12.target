@@ -17,17 +17,17 @@
 
       <unit id="org.eclipse.nebula.widgets.cdatetime" version="0.0.0"/>
 
-      <repository location="http://download.eclipse.org/eclipse/updates/4.14/R-4.14-201912100610"/>
-      <repository location="http://download.eclipse.org/releases/2019-12"/>
-      <repository location="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
+      <repository location="https://download.eclipse.org/eclipse/updates/4.14/R-4.14-201912100610"/>
+      <repository location="https://download.eclipse.org/releases/2019-12"/>
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/latest-R"/>
 
-      <repository location="http://www.macromodeling.com/gwt"/>
+      <repository location="https://www.macromodeling.com/gwt"/>
 
       <repository location="http://download.itemis.com/updates/releases/2.1.0"/>
 
-      <repository location="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+      <repository location="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
 
-      <repository location="http://download.eclipse.org/nebula/releases/2.2.0"/>
+      <repository location="https://download.eclipse.org/nebula/releases/2.2.0"/>
 
     </location>
   </locations>

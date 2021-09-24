@@ -74,7 +74,7 @@
     </contributions>
     <validationRepositories location="https://download.eclipse.org/eclipse/updates/4.14"/>
     <validationRepositories location="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.20.0"/>
-    <validationRepositories location="http://download.eclipse.org/modeling/emft/mwe/updates/releases/2.11.1"/>
+    <validationRepositories location="https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.11.1"/>
     <validationRepositories location="https://download.eclipse.org/tools/orbit/downloads/latest-R"/>
   </validationSets>
   <configurations architecture="x86_64"/>

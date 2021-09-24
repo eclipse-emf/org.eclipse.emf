@@ -857,7 +857,7 @@ public class URITest
   @Test
   public void testFragmentAppendAndTrim()
   {
-    String base = "http://download.eclipse.org/tools/emf/scripts/home.php";
+    String base = "https://download.eclipse.org/tools/emf/scripts/home.php";
     String fragment1 = "top";
     String fragment2 = "quicknav";
     String fragment3 = "over2";

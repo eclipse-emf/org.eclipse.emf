@@ -402,9 +402,9 @@
     <requirement
         name="org.eclipse.xsd.sdk.feature.group"/>
     <repository
-        url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+        url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
     <repository
-        url="http://download.eclipse.org/ecoretools/updates/0.10/R201006151639"/>
+        url="https://download.eclipse.org/ecoretools/updates/0.10/R201006151639"/>
   </setupTask>
   <setupTask
       xsi:type="setup:VariableTask"
@@ -413,7 +413,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="xtext.latest.release.url"
-      value="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.25.0">
+      value="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.25.0">
     <description>The p2 update site URL for the last Xtext release.</description>
   </setupTask>
   <setupTask
@@ -527,239 +527,239 @@
       <repositoryList
           name="2021-12">
         <repository
-            url="http://download.eclipse.org/releases/2021-12"/>
+            url="https://download.eclipse.org/releases/2021-12"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="https://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+            url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/2.2.0"/>
+            url="https://download.eclipse.org/nebula/releases/2.2.0"/>
       </repositoryList>
       <repositoryList
           name="2021-09">
         <repository
-            url="http://download.eclipse.org/releases/2021-09"/>
+            url="https://download.eclipse.org/releases/2021-09"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="https://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+            url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/2.2.0"/>
+            url="https://download.eclipse.org/nebula/releases/2.2.0"/>
       </repositoryList>
       <repositoryList
           name="2021-06">
         <repository
-            url="http://download.eclipse.org/releases/2021-06"/>
+            url="https://download.eclipse.org/releases/2021-06"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="https://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+            url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/2.2.0"/>
+            url="https://download.eclipse.org/nebula/releases/2.2.0"/>
       </repositoryList>
       <repositoryList
           name="2021-03">
         <repository
-            url="http://download.eclipse.org/releases/2021-03"/>
+            url="https://download.eclipse.org/releases/2021-03"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="https://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+            url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/2.2.0"/>
+            url="https://download.eclipse.org/nebula/releases/2.2.0"/>
       </repositoryList>
       <repositoryList
           name="2020-12">
         <repository
-            url="http://download.eclipse.org/releases/2020-12"/>
+            url="https://download.eclipse.org/releases/2020-12"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="https://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+            url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/2.2.0"/>
+            url="https://download.eclipse.org/nebula/releases/2.2.0"/>
       </repositoryList>
       <repositoryList
           name="2020-09">
         <repository
-            url="http://download.eclipse.org/releases/2020-09"/>
+            url="https://download.eclipse.org/releases/2020-09"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="https://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+            url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/2.2.0"/>
+            url="https://download.eclipse.org/nebula/releases/2.2.0"/>
       </repositoryList>
       <repositoryList
           name="2020-06">
         <repository
-            url="http://download.eclipse.org/releases/2020-06"/>
+            url="https://download.eclipse.org/releases/2020-06"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="https://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+            url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/2.2.0"/>
+            url="https://download.eclipse.org/nebula/releases/2.2.0"/>
       </repositoryList>
       <repositoryList
           name="2020-03">
         <repository
-            url="http://download.eclipse.org/releases/2020-03"/>
+            url="https://download.eclipse.org/releases/2020-03"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="https://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+            url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/2.2.0"/>
+            url="https://download.eclipse.org/nebula/releases/2.2.0"/>
       </repositoryList>
       <repositoryList
           name="2019-12">
         <repository
-            url="http://download.eclipse.org/releases/2019-12"/>
+            url="https://download.eclipse.org/releases/2019-12"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="https://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+            url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/2.2.0"/>
+            url="https://download.eclipse.org/nebula/releases/2.2.0"/>
       </repositoryList>
       <repositoryList
           name="2019-09">
         <repository
-            url="http://download.eclipse.org/releases/2019-09"/>
+            url="https://download.eclipse.org/releases/2019-09"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="https://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+            url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
+            url="https://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="2019-06">
         <repository
-            url="http://download.eclipse.org/releases/2019-06"/>
+            url="https://download.eclipse.org/releases/2019-06"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="https://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+            url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
+            url="https://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="2019-03">
         <repository
-            url="http://download.eclipse.org/releases/2019-03"/>
+            url="https://download.eclipse.org/releases/2019-03"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="https://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+            url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
+            url="https://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="2018-12">
         <repository
-            url="http://download.eclipse.org/releases/2018-12"/>
+            url="https://download.eclipse.org/releases/2018-12"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="https://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+            url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
+            url="https://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="2018-09">
         <repository
-            url="http://download.eclipse.org/releases/2018-09"/>
+            url="https://download.eclipse.org/releases/2018-09"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="https://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+            url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
+            url="https://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="Photon">
         <repository
-            url="http://download.eclipse.org/releases/photon"/>
+            url="https://download.eclipse.org/releases/photon"/>
         <repository
-            url="http://download.eclipse.org/rt/rap/nightly/runtime"/>
+            url="https://download.eclipse.org/rt/rap/nightly/runtime"/>
         <repository
-            url="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+            url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
+            url="https://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="Oxygen">
         <repository
-            url="http://download.eclipse.org/releases/oxygen"/>
+            url="https://download.eclipse.org/releases/oxygen"/>
         <repository
-            url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
+            url="https://download.eclipse.org/tools/orbit/downloads/latest-R"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
+            url="https://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="Neon">
         <repository
-            url="http://download.eclipse.org/releases/neon/201705151400"/>
+            url="https://download.eclipse.org/releases/neon/201705151400"/>
         <repository
-            url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
+            url="https://download.eclipse.org/tools/orbit/downloads/latest-R"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
+            url="https://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="Mars">
         <repository
-            url="http://download.eclipse.org/releases/mars/201602261000"/>
+            url="https://download.eclipse.org/releases/mars/201602261000"/>
         <repository
-            url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
+            url="https://download.eclipse.org/tools/orbit/downloads/latest-R"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
+            url="https://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="Luna">
         <repository
-            url="http://download.eclipse.org/releases/luna/201502271000"/>
+            url="https://download.eclipse.org/releases/luna/201502271000"/>
         <repository
-            url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
+            url="https://download.eclipse.org/tools/orbit/downloads/latest-R"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
+            url="https://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="Kepler">
         <repository
-            url="http://download.eclipse.org/releases/kepler/201402280900"/>
+            url="https://download.eclipse.org/releases/kepler/201402280900"/>
         <repository
-            url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
+            url="https://download.eclipse.org/tools/orbit/downloads/latest-R"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
+            url="https://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="Juno">
         <repository
-            url="http://download.eclipse.org/releases/juno/201303010900"/>
+            url="https://download.eclipse.org/releases/juno/201303010900"/>
         <repository
-            url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
+            url="https://download.eclipse.org/tools/orbit/downloads/latest-R"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
+            url="https://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="Indigo">
         <repository
-            url="http://download.eclipse.org/releases/indigo/201202240900"/>
+            url="https://download.eclipse.org/releases/indigo/201202240900"/>
         <repository
-            url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
+            url="https://download.eclipse.org/tools/orbit/downloads/latest-R"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
+            url="https://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
       <repositoryList
           name="Helios">
         <repository
-            url="http://download.eclipse.org/releases/helios/201102250900"/>
+            url="https://download.eclipse.org/releases/helios/201102250900"/>
         <repository
-            url="http://download.eclipse.org/tools/orbit/downloads/latest-R"/>
+            url="https://download.eclipse.org/tools/orbit/downloads/latest-R"/>
         <repository
-            url="http://download.eclipse.org/nebula/releases/1.4.0"/>
+            url="https://download.eclipse.org/nebula/releases/1.4.0"/>
       </repositoryList>
     </targlet>
   </setupTask>
