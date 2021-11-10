@@ -660,6 +660,15 @@ public final class ColumnViewerInformationControlToolTipSupport
     hoverInformationControlManager.showInformation();
   }
 
+  /**
+   * @see AbstractHoverInformationControlManager#setSizeConstraints(int, int, boolean, boolean)
+   * @since 2.19
+   */
+  public void setSizeConstraints(int widthInChar, int heightInChar, boolean enforceAsMinimalSize, boolean enforceAsMaximalSize)
+  {
+    hoverInformationControlManager.setSizeConstraints(widthInChar, heightInChar, enforceAsMinimalSize, enforceAsMaximalSize);
+  }
+
   public String getStyleSheet()
   {
     if (defaultStyleSheet == null)
