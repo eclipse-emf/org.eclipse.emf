@@ -11,6 +11,7 @@
 package org.eclipse.emf.test.core.ecore;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -18,6 +19,8 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
@@ -35,6 +38,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.change.ChangeFactory;
+import org.eclipse.emf.ecore.change.ChangePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
@@ -376,5 +381,17 @@ public class EcoreTest
 
     boolean equal = equalityHelper.equals(ePackage, EPackage.Registry.INSTANCE.getEPackage(ePackage.getNsURI()));
     assertTrue("The dynamic and static instances of '" + uri + "' should be structurally equivalent", equal);
+  }
+
+  @Test
+  public void testEcoreEMap()
+  {
+    ResourceSet resourceSet = new ResourceSetImpl();
+    Resource resource = resourceSet.getResource(URI.createURI("platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore"), true);
+    EPackage dynamicEcoreEPackage = (EPackage)resource.getContents().get(0);
+    EClass eAnnotationEClass = (EClass)dynamicEcoreEPackage.getEClassifier("EAnnotation");
+    EStructuralFeature  detailsEStructuralFeature= eAnnotationEClass.getEStructuralFeature("details");
+    Map.Entry<?, ?> badMapEntry = (Entry<?, ?>)ChangeFactory.eINSTANCE.create(ChangePackage.Literals.EOBJECT_TO_CHANGES_MAP_ENTRY);
+    assertFalse("The dynamic Map.Entry type should check the dynamic type of the instance.", detailsEStructuralFeature.getEType().isInstance(badMapEntry));
   }
 }

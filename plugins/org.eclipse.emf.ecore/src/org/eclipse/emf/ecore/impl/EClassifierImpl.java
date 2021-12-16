@@ -13,6 +13,7 @@ package org.eclipse.emf.ecore.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
+import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -207,6 +208,10 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
           {
             return object instanceof Long;
           }
+        }
+        else if (instanceClass == Map.Entry.class && object instanceof EObject)
+        {
+          return dynamicIsInstance((EObject)object);
         }
         else
         {
