@@ -16,7 +16,10 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
@@ -96,6 +99,8 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
   protected abstract ResourceLocator [] getDelegateResourceLocators();
 
   private static final URI DOT = URI.createURI(".");
+
+  private static final String PROPERTIES = ".properties";
 
   /*
    * Javadoc copied from interface.
@@ -478,18 +483,50 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
         }
         catch (MissingResourceException exception)
         {
-          // If the bundle can't be found the normal way, try to find it as the base URL.
-          // If that also doesn't work, rethrow the original exception.
-          //
-          try
+          Locale locale = Locale.getDefault();
+          List<String> bundleLocalizations = new ArrayList<String>(5);
+          bundleLocalizations.add(bundleLocalization);
+          String translatedBundleLocalization = bundleLocalization.replace(PROPERTIES, "");
+          String language = locale.getLanguage();
+          if (!"".equals(language))
           {
-            InputStream inputStream =  new URL(baseURL.toString() + bundleLocalization).openStream();
-            bundle = untranslatedResourceBundle = resourceBundle = new PropertyResourceBundle(inputStream);
-            inputStream.close();
+            translatedBundleLocalization += '_' + language;
+            bundleLocalizations.add(translatedBundleLocalization + PROPERTIES);
+            String script = locale.getScript();
+            if (!"".equals(script))
+            {
+              translatedBundleLocalization += '_' + script;
+              bundleLocalizations.add(translatedBundleLocalization + PROPERTIES);
+            }
+            String country = locale.getCountry();
+            if (!"".equals(country))
+            {
+              translatedBundleLocalization += '_' + country;
+              bundleLocalizations.add(translatedBundleLocalization + PROPERTIES);
+              String variant = locale.getVariant();
+              if (!"".equals(variant))
+              {
+                translatedBundleLocalization += '_' + variant;
+                bundleLocalizations.add(translatedBundleLocalization + PROPERTIES);
+              }
+            }
           }
-          catch (IOException ioException)
+          for (int i = bundleLocalizations.size() - 1; i >= 0; i--)
           {
-            // We'll rethrow the original exception, not this one.
+            // If the bundle can't be found the normal way, try to find it as the base URL.
+            // If that also doesn't work, rethrow the original exception.
+            //
+            try
+            {
+              InputStream inputStream = new URL(baseURL.toString() + bundleLocalizations.get(i)).openStream();
+              bundle = resourceBundle = new PropertyResourceBundle(inputStream);
+              inputStream.close();
+              break;
+            }
+            catch (IOException ioException)
+            {
+              // We'll rethrow the original exception, not this one.
+            }
           }
           if (bundle == null)
           {
@@ -502,7 +539,7 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
         String resourceName = baseURL.toString() + bundleLocalization;
         try
         {
-          InputStream inputStream =  new URL(resourceName).openStream();
+          InputStream inputStream = new URL(resourceName).openStream();
           bundle = untranslatedResourceBundle = new PropertyResourceBundle(inputStream);
           inputStream.close();
         }
