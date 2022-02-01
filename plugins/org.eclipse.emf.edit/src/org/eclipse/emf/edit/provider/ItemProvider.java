@@ -367,7 +367,7 @@ public class ItemProvider
 
     public boolean isLabelUpdate()
     {
-      return isContentRefresh;
+      return isLabelUpdate;
     }
   }
 
