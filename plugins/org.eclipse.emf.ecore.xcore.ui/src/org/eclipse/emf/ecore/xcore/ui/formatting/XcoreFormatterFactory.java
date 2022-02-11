@@ -73,7 +73,7 @@ public class XcoreFormatterFactory implements IContentFormatterFactory
                  FormatterRequest request = new FormatterRequest();
                  request.setTextRegionAccess(new NodeModelBasedRegionAccessBuilder().withResource(xtextResource).create());
                  request.addRegion(new TextRegion(region.getOffset(), region.getLength()));
-                 request.setPreferences(new TypedPreferenceValues(configuration));
+                 request.setPreferences(TypedPreferenceValues.castOrWrap(configuration));
                  List<ITextReplacement> edits = formatter.format(request);
                  for (ITextReplacement replacement : edits)
                  {

@@ -464,7 +464,7 @@ public class XcoreExporter extends ModelExporter
                 {
                   FormatterRequest request = new FormatterRequest();
                   request.setTextRegionAccess(new NodeModelBasedRegionAccessBuilder().withResource(outputResource).create());
-                  request.setPreferences(new TypedPreferenceValues(configuration));
+                  request.setPreferences(TypedPreferenceValues.castOrWrap(configuration));
                   request.addRegion(parseResult.getRootNode().getTotalTextRegion());
                   List<ITextReplacement> edits = formatter.format(request);
 

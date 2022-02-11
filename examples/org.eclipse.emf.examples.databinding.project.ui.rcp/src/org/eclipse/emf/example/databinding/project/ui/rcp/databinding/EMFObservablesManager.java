@@ -24,15 +24,6 @@ import org.eclipse.emf.databinding.IEMFObservable;
  */
 public class EMFObservablesManager extends ObservablesManager
 {
-  /**
-   * Executes the specified runnable and adds to this manager all observables created while executing the runnable.
-   */
-  @Override
-  public void runAndCollect(Runnable runnable)
-  {
-    super.runAndCollect(runnable);
-  }
-
   @Override
   public void addObservable(IObservable observable)
   {

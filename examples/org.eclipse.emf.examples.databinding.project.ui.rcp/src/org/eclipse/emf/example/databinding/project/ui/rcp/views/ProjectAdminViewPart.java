@@ -83,6 +83,7 @@ public class ProjectAdminViewPart extends ViewPart implements ISaveablePart2
     memento.putFloat(DIVIDER_KEY, sashForm.getWeights()[0] * 1.f / total);
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public void createPartControl(Composite parent)
   {
