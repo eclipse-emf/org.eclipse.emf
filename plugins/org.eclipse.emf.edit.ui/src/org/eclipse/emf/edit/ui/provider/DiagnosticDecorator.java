@@ -1112,6 +1112,7 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
 
   private static final Map<EditingDomain, LiveValidator> LIVE_VALIDATORS = new HashMap<EditingDomain, LiveValidator>();
 
+  private int limit = getLimit();
   protected DiagnosticAdapter diagnosticAdapter;
   protected EditingDomain editingDomain;
   protected LiveValidator liveValidator;
@@ -1695,6 +1696,10 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
     {
       child = children.get(index);
       buildMoreToolTipText(moreResults, labelProvider, child);
+      if (moreResults.length() > limit)
+      {
+        break;
+      }
     }
     if (moreResults.length() != 0)
     {
@@ -1802,6 +1807,10 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
     {
       child = children.get(index);
       buildMoreToolTipText(result, labelProvider, child);
+      if (result.length() > limit)
+      {
+        break;
+      }
     }
   }
 
@@ -1825,5 +1834,27 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
     }
 
     super.dispose();
+  }
+
+  private static int getLimit()
+  {
+    String property = System.getProperty("org.eclipse.emf.common.util.Diagnostic.limit");
+    if (property != null)
+    {
+      try
+      {
+        // Allow for 100 lines of text per diagnostic.
+        int result = Integer.parseInt(property) + 100;
+        if (result > 0)
+        {
+          return result;
+        }
+      }
+      catch (RuntimeException exception)
+      {
+        //$FALL-THROUGH$
+      }
+    }
+    return 10000;
   }
 }

@@ -190,50 +190,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     try
     {
       new ProgressMonitorDialog(shell).run(true, true, validationRunnable);
-
-      IRunnableWithProgress createMarkersRunnable =
-        new IRunnableWithProgress()
-        {
-          public void run(final IProgressMonitor progressMonitor) throws InvocationTargetException, InterruptedException
-          {
-            try
-            {
-              shell.getDisplay().asyncExec 
-                (new Runnable()
-                 {
-                   public void run()
-                   {
-                     if (progressMonitor.isCanceled())
-                     {
-                       handleDiagnostic(Diagnostic.CANCEL_INSTANCE);
-                     }
-                     else
-                     {
-                       handleDiagnostic(diagnostic[0]);
-                     }
-                   }
-                 });
-            }
-            finally
-            {
-              progressMonitor.done();
-            }
-          }
-        };
-  
-      if (eclipseResourcesUtil != null)
-      {
-        createMarkersRunnable = eclipseResourcesUtil.getWorkspaceModifyOperation(createMarkersRunnable);
-      }
-  
-      try
-      {
-        new ProgressMonitorDialog(shell).run(false, true, createMarkersRunnable);
-      }
-      catch (Exception exception)
-      {
-        EMFEditUIPlugin.INSTANCE.log(exception);
-      }
+      handleDiagnostic(diagnostic[0]);
     }
     catch (Exception exception)
     {
@@ -347,7 +304,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
       };
   }
 
-  protected void handleDiagnostic(Diagnostic diagnostic)
+  protected void handleDiagnostic(final Diagnostic diagnostic)
   {
     int severity = diagnostic.getSeverity();
     String title = null;
@@ -408,9 +365,36 @@ public class ValidateAction extends Action implements ISelectionChangedListener
 
       if (resource != null)
       {
-        for (Diagnostic childDiagnostic : diagnostic.getChildren())
+        final Resource finalResource = resource;
+        IRunnableWithProgress runnable = new IRunnableWithProgress()
         {
-          eclipseResourcesUtil.createMarkers(resource, childDiagnostic);
+          public void run(IProgressMonitor progressMonitor)
+          {
+            int count = 0;
+            int limit = getLimit();
+            for (Diagnostic childDiagnostic : diagnostic.getChildren())
+            {
+              if (progressMonitor.isCanceled() || ++count > limit)
+              {
+                return;
+              }
+              eclipseResourcesUtil.createMarkers(finalResource, childDiagnostic);
+            }
+          }
+        };
+
+        if (eclipseResourcesUtil != null)
+        {
+          runnable = eclipseResourcesUtil.getWorkspaceModifyOperation(runnable);
+        }
+
+        try
+        {
+          new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()).run(false, true, runnable);
+        }
+        catch (Exception exception)
+        {
+          EMFEditUIPlugin.INSTANCE.log(exception);
         }
       }
     }
@@ -521,5 +505,26 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     {
       domain = ((IEditingDomainProvider)workbenchPart).getEditingDomain();
     }
+  }
+  
+  private int getLimit()
+  {
+    String property = System.getProperty("org.eclipse.emf.common.util.Diagnostic.limit");
+    if (property != null)
+    {
+      try
+      {
+        int result = Integer.parseInt(property);
+        if (result > 0)
+        {
+          return result;
+        }
+      }
+      catch (RuntimeException exception)
+      {
+        //$FALL-THROUGH$
+      }
+    }
+    return 10000;
   }
 }

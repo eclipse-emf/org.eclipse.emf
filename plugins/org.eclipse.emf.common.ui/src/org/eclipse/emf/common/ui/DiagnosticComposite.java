@@ -35,6 +35,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 
 /**
@@ -80,14 +81,15 @@ public class DiagnosticComposite extends Composite
     return (diagnostic.getSeverity() & mask) != 0;
   }  
   
+  private int limit = getLimit();
   protected Diagnostic diagnostic;
   protected TextProvider textProvider;
   
-  protected boolean showRootDiagnostic = false;
+  protected boolean showRootDiagnostic;
   protected TreeViewer diagnosticTreeViewer;
   protected Text detailText;
   
-  protected int severityMask = 0;
+  protected int severityMask;
   
   /**
    * @param parent
@@ -336,13 +338,32 @@ public class DiagnosticComposite extends Composite
         if (children == null)
         {
           Diagnostic diagnostic = (Diagnostic)parentElement;
-          List<Diagnostic> childList = new ArrayList<Diagnostic>(diagnostic.getChildren().size());
+          int size = diagnostic.getChildren().size();
+          List<Diagnostic> childList = new ArrayList<Diagnostic>(Math.min(size, limit));
+          int count = 0;
+          int overflow = 0;
           for (Diagnostic child : diagnostic.getChildren())
           {
             if (severityMatches(child, severityMask))
             {
-              childList.add(child);
+              if (++count <= limit)
+              {
+                childList.add(child);
+              } 
+              else 
+              {
+                ++overflow;
+              }
             }
+          }
+          if (overflow != 0 )
+          {
+            childList.add
+              (new BasicDiagnostic
+                (Diagnostic.INFO, CommonUIPlugin.INSTANCE.getSymbolicName(), 
+                 0, 
+                 CommonUIPlugin.INSTANCE.getString("_UI_AdditionalProblems_message", new Object [] { overflow }),
+                 null));
           }
           children = childList.toArray(new Diagnostic[childList.size()]);
           parentToChildrenMap.put(diagnostic, children);
@@ -399,4 +420,25 @@ public class DiagnosticComposite extends Composite
       }        
     };      
   }  
+
+  private int getLimit()
+  {
+    String property = System.getProperty("org.eclipse.emf.common.util.Diagnostic.limit");
+    if (property != null)
+    {
+      try
+      {
+        int result = Integer.parseInt(property);
+        if (result > 0)
+        {
+          return result;
+        }
+      }
+      catch (RuntimeException exception)
+      {
+        //$FALL-THROUGH$
+      }
+    }
+    return 10000;
+  }
 }
