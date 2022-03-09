@@ -620,6 +620,7 @@ public class Generator extends CodeGen
       try
       {
         SAXParserFactory parserFactory= SAXParserFactory.newInstance();
+        parserFactory.setNamespaceAware(true);
         SAXParser parser = parserFactory.newSAXParser();
         CodeFormatterProfileParser handler = new CodeFormatterProfileParser();
         parser.parse(systemID, handler);
