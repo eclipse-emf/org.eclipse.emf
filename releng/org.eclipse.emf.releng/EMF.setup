@@ -389,6 +389,8 @@
         name="org.eclipse.oomph.projectcopy.feature.group"/>
     <requirement
         name="org.eclipse.oomph.workingsets.feature.group"/>
+    <repository
+        url="https://download.eclipse.org/oomph/drops/release/1.23.0"/>
   </setupTask>
   <setupTask
       xsi:type="setup.p2:P2Task"
