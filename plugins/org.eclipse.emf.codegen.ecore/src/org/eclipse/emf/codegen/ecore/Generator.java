@@ -38,6 +38,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.equinox.app.IApplication;
@@ -89,6 +90,7 @@ public class Generator extends CodeGen
   public void printGenerateUsage()
   {
     System.out.println("Usage arguments:");
+    System.out.println("  {-import <project-location>}*");
     System.out.println("  [-projects <project-root-directory>]");
     System.out.println("  [-dynamicTemplates] [-forceOverwrite | -diff]");
     System.out.println("  [-generateSchema] [-nonNLSMarkers]");
@@ -216,7 +218,18 @@ public class Generator extends CodeGen
                   int index = 0;
                   for (; index < arguments.length && arguments[index].startsWith("-"); ++index)
                   {
-                    if (arguments[index].equalsIgnoreCase("-projects"))
+                    if (arguments[index].equalsIgnoreCase("-import"))
+                    {
+                      String projectLocation = new File(arguments[++index]).getAbsoluteFile().getCanonicalPath();
+                      IProjectDescription projectDescription = workspace.loadProjectDescription(new Path(projectLocation + "/.project"));
+                      IProject project = workspace.getRoot().getProject(projectDescription.getName());
+                      if (!project.exists())
+                      {
+                        project.create(projectDescription, new NullProgressMonitor());
+                      }
+                      project.open(new NullProgressMonitor());
+                    }
+                    else if (arguments[index].equalsIgnoreCase("-projects"))
                     {
                       rootLocation = new File(arguments[++index]).getAbsoluteFile().getCanonicalPath();
                     }
