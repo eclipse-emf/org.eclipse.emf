@@ -11,6 +11,6 @@
     </listAttribute>
     <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LAUNCH_CONFIGURATION_BUILD_SCOPE" value="${none}"/>
     <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${maven.build.command}"/>
-    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-DX&#13;&#10;${string_prompt:arguments to modify the arguments used for the Maven build.:-Dversion.emf=2.27}&#13;&#10;--fail-at-end&#13;&#10;clean&#13;&#10;resources:resources&#13;&#10;verify"/>
+    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-DX&#13;&#10;-Dmaven.artifact.threads=16&#13;&#10;-Duser.home=${system_property:user.home}&#13;&#10;${string_prompt:arguments to modify the arguments used for the Maven build.:-Dversion.emf=2.27}&#13;&#10;--fail-at-end&#13;&#10;clean&#13;&#10;resources:resources&#13;&#10;verify"/>
     <stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="${emf.git.clone.location}/releng/org.eclipse.emf.releng/publish"/>
 </launchConfiguration>
