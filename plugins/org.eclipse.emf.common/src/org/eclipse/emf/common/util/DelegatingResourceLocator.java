@@ -492,7 +492,15 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
           {
             translatedBundleLocalization += '_' + language;
             bundleLocalizations.add(translatedBundleLocalization + PROPERTIES);
-            String script = locale.getScript();
+            String script = "";
+            try
+            {
+              script = locale.getScript();
+            }
+            catch (NoSuchMethodError error)
+            {
+              // Ignore that an old runtime (Java 5) doesn't have the getScript method.
+            }
             if (!"".equals(script))
             {
               translatedBundleLocalization += '_' + script;
