@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
@@ -30,6 +31,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAnnotationValidator;
 import org.eclipse.emf.ecore.EAttribute;
@@ -245,7 +247,39 @@ public final class ExtendedMetaDataAnnotationValidator extends BasicEAnnotationV
           }
           else
           {
-            specializedExtendedMetaData = new SpecializedExtendedMetaData(new EPackageRegistryImpl(resourceSet.getPackageRegistry()));
+            final ResourceSet theResourceSet = resourceSet;
+            EPackage.Registry ePackageRegistry = new EPackageRegistryImpl(resourceSet.getPackageRegistry())
+                {
+                  private static final long serialVersionUID = 1L;
+
+                  @Override
+                  public EPackage getEPackage(String nsURI)
+                  {
+                    EPackage result = super.getEPackage(nsURI);
+                    if (result == null)
+                    {
+                      for (TreeIterator<Notifier> allContents = theResourceSet.getAllContents(); allContents.hasNext(); )
+                      {
+                        Notifier content = allContents.next();
+                        if (content instanceof EPackage)
+                        {
+                          EPackage ePackage = (EPackage)content;
+                          String ePackageNsURI = ePackage.getNsURI();
+                          if (ePackageNsURI == null ? nsURI == null : ePackageNsURI.equals(nsURI))
+                          {
+                            return ePackage;
+                          }
+                        }
+                        else if (content instanceof EObject)
+                        {
+                          allContents.prune();
+                        }
+                      }
+                    }
+                    return result;
+                  }
+                };
+            specializedExtendedMetaData = new SpecializedExtendedMetaData(ePackageRegistry);
           }
           EXTENDED_META_DATA_CACHE.put(resourceSet, specializedExtendedMetaData);
         }
