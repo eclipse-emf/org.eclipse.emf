@@ -132,15 +132,22 @@ public abstract class EMFPropertyListener extends AdapterImpl implements INative
           }
           case Notification.SET:
           case Notification.RESOLVE: {
-            ListDiffEntry[] listDiffEntries = new ListDiffEntry [2];
             int pos = msg.getPosition();
+            Object newValue = msg.getNewValue();
             // Looks like a single valued feature
             if (pos == -1)
             {
+              if (newValue == null)
+              {
+                // Looks like the value is removed.
+                diff = Diffs.createListDiff(Diffs.createListDiffEntry(0, false, msg.getOldValue()));
+                break;
+              }
               pos = 0;
             }
+            ListDiffEntry[] listDiffEntries = new ListDiffEntry [2];
             listDiffEntries[0] = Diffs.createListDiffEntry(pos, false, msg.getOldValue());
-            listDiffEntries[1] = Diffs.createListDiffEntry(pos, true, msg.getNewValue());
+            listDiffEntries[1] = Diffs.createListDiffEntry(pos, true, newValue);
             diff = Diffs.createListDiff(listDiffEntries);
             break;
           }
