@@ -65,8 +65,6 @@
       xsi:type="setup.p2:P2Task"
       label="PDE/JDT">
     <requirement
-        name="org.eclipse.pde.api.tools.ee.feature.feature.group"/>
-    <requirement
         name="org.eclipse.pde.feature.group"/>
     <requirement
         name="org.eclipse.jdt.feature.group"/>
