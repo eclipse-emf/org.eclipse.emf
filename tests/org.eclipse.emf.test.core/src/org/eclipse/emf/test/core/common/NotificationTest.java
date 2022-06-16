@@ -274,7 +274,7 @@ public class NotificationTest
     long testNotificationBasePerformance = testNotificationPerformance(baseSize);
     long testNotificationOrderOfMagnitudeLargerPerformance = testNotificationPerformance(10 * baseSize);
     long scaling = testNotificationOrderOfMagnitudeLargerPerformance / testNotificationBasePerformance;
-    assertTrue("Removing many objects should scale linearly so for an order of magnitude large list, it should not take " + scaling + " times longer", scaling < 20);
+    assertTrue("Removing many objects should scale linearly so for an order of magnitude large list, it should not take " + scaling + " times longer", scaling < 30);
   }
 
   private long testNotificationPerformance(int size)
