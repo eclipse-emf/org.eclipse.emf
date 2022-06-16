@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.pde.ui.RuntimeWorkbench">
     <setAttribute key="additional_plugins">
-        <setEntry value="org.objectweb.asm:9.1.0.v20210209-1849:default:true:default:default"/>
+        <setEntry value="org.objectweb.asm:9.2.0.v20210813-1119:default:true:default:default"/>
     </setAttribute>
     <booleanAttribute key="append.args" value="true"/>
     <booleanAttribute key="askclear" value="true"/>
@@ -27,7 +27,7 @@
     <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
-    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dorg.eclipse.emf.examples.generator.validator=false&#13;&#10;-Dxswt.autoScale=225"/>
+    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dorg.eclipse.emf.examples.generator.validator=false&#13;&#10;-Dxswt.autoScale=225&#13;&#10;-Xmx8g"/>
     <stringAttribute key="pde.version" value="3.3"/>
     <stringAttribute key="product" value="org.eclipse.sdk.ide"/>
     <booleanAttribute key="restart" value="true"/>
@@ -38,8 +38,6 @@
         <setEntry value="org.eclipse.ecf.core.feature:default"/>
         <setEntry value="org.eclipse.ecf.core.ssl.feature.source:default"/>
         <setEntry value="org.eclipse.ecf.core.ssl.feature:default"/>
-        <setEntry value="org.eclipse.ecf.filetransfer.httpclient45.feature.source:default"/>
-        <setEntry value="org.eclipse.ecf.filetransfer.httpclient45.feature:default"/>
         <setEntry value="org.eclipse.ecf.filetransfer.ssl.feature.source:default"/>
         <setEntry value="org.eclipse.ecf.filetransfer.ssl.feature:default"/>
         <setEntry value="org.eclipse.egit:default"/>

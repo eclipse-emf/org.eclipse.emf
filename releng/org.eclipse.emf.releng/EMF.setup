@@ -415,13 +415,13 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="xtext.latest.release.url"
-      value="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.26.0">
+      value="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.27.0">
     <description>The p2 update site URL for the last Xtext release.</description>
   </setupTask>
   <setupTask
       xsi:type="setup:VariableTask"
       name="mwe.latest.release.url"
-      value="https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.12.2">
+      value="https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.13.0">
     <description>The p2 update site URL for the last MWE release.</description>
   </setupTask>
   <setupTask
@@ -526,6 +526,17 @@
       <requirement
           name="org.eclipse.equinox.ds"
           optional="true"/>
+      <repositoryList
+          name="2022-09">
+        <repository
+            url="https://download.eclipse.org/releases/2022-09"/>
+        <repository
+            url="https://download.eclipse.org/rt/rap/nightly/runtime"/>
+        <repository
+            url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+        <repository
+            url="https://download.eclipse.org/nebula/releases/2.2.0"/>
+      </repositoryList>
       <repositoryList
           name="2022-06">
         <repository
@@ -1075,6 +1086,8 @@
             name="org.eclipse.sdk.feature.group"/>
         <requirement
             name="com.google.guava"/>
+        <requirement
+            name="org.eclipse.xtext.generator"/>
         <sourceLocator
             rootFolder="${emf.git.clone.location}">
           <predicate
