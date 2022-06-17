@@ -36,6 +36,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.SWTError;
 import org.junit.Test;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
@@ -46,6 +47,23 @@ import org.osgi.framework.FrameworkUtil;
  */
 public class TestValidateAction
 {
+  private static final boolean SWT_ERROR;
+  
+  static
+  {
+    boolean swtError;
+    try
+    {
+      new SWTError("Testing");
+      swtError = false;
+    }
+    catch (Throwable throwable)
+    {
+      swtError = true;
+    }
+    SWT_ERROR = swtError;
+  }
+  
   public static class MyValidateAction extends ValidateAction
   {
     @SuppressWarnings("all")
@@ -80,6 +98,11 @@ public class TestValidateAction
   @Test
   public void testUpdateSelection() throws Exception
   {
+    if (SWT_ERROR)
+    {
+      return;
+    }
+
     MyValidateAction myValidateAction = new MyValidateAction();
 
     {
@@ -179,6 +202,11 @@ public class TestValidateAction
   @Test
   public void testValidateMultipleSelections() throws Exception
   {
+    if (SWT_ERROR)
+    {
+      return;
+    }
+
     // # of problems in ePackage: 3 (name, nsURI, prefix)
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
 

@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.edit.ui.provider.NebulaDatePropertyEditorFactory;
 import org.eclipse.emf.edit.ui.provider.NebulaDatePropertyEditorFactory.ValueConverter;
 import org.eclipse.emf.test.common.TestUtil;
+import org.eclipse.swt.SWTError;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -39,6 +40,17 @@ public class NebulaDatePropertyEditorFactoryValidationTest
 
   static
   {
+    Map<Integer, String> failureCodes = new HashMap<Integer, String>();
+    boolean swtProblem = true;
+    try
+    {
+      new SWTError("Testing");
+      swtProblem = false;
+    }
+    catch (Throwable throwable)
+    {
+    }
+    
     ResourceSet resourceSet = new ResourceSetImpl();
     URI logicalURI = URI.createPlatformPluginURI("platform:/plugin/org.eclipse.emf.test.edit.ui.platform/data/NebulaPropertyEditorFactory.ecore", false);
     URI physicalURI = URI.createFileURI(TestUtil.getPluginDirectory("org.eclipse.emf.test.edit.ui.platform") + "/data/NebulaPropertyEditorFactory.ecore");
@@ -47,23 +59,25 @@ public class NebulaDatePropertyEditorFactoryValidationTest
     Resource ecoreResource = resourceSet.getResource(logicalURI, true);
     NEBULA_PACKAGE = (EPackage)ecoreResource.getContents().get(0);
 
-    Map<Integer, String> failureCodes = new HashMap<Integer, String>();
-    for (Field field : NebulaDatePropertyEditorFactory.class.getDeclaredFields())
+    if (!swtProblem)
     {
-      int modifiers = field.getModifiers();
-      if (field.getType() == int.class && Modifier.isPublic(modifiers) && Modifier.isStatic(modifiers) && Modifier.isStatic(modifiers))
+      for (Field field : NebulaDatePropertyEditorFactory.class.getDeclaredFields())
       {
-        try
+        int modifiers = field.getModifiers();
+        if (field.getType() == int.class && Modifier.isPublic(modifiers) && Modifier.isStatic(modifiers))
         {
-          failureCodes.put(field.getInt(null), field.getName());
-        }
-        catch (Exception exception)
-        {
-          // Ignore
+          try
+          {
+            failureCodes.put(field.getInt(null), field.getName());
+          }
+          catch (Exception exception)
+          {
+            // Ignore
+          }
         }
       }
-
     }
+    
     FAILURE_CODES = failureCodes;
   }
 
@@ -100,6 +114,11 @@ public class NebulaDatePropertyEditorFactoryValidationTest
   @Test
   public void testConversion()
   {
+    if (FAILURE_CODES.isEmpty())
+    {
+      return;
+    }
+
     Date date = new Date();
     for (Class<?> instanceClass : NebulaDatePropertyEditorFactory.SUPPORTED_INSTANCE_CLASSES)
     {
@@ -113,6 +132,11 @@ public class NebulaDatePropertyEditorFactoryValidationTest
 
   private void testDataType(String dataTypeName, String expectedMessageSubstring, int expectedSeverity, int expectedFailureCode)
   {
+    if (FAILURE_CODES.isEmpty())
+    {
+      return;
+    }
+
     EDataType eDataType = (EDataType)NEBULA_PACKAGE.getEClassifier(dataTypeName);
     String propertyEditorFactorySpecification = EcoreUtil.getAnnotation(eDataType, EcoreUtil.GEN_MODEL_ANNOTATION_URI, "propertyEditorFactory");
 
