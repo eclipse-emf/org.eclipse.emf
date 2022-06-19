@@ -32,10 +32,10 @@ import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardSelectionPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.IWorkbench;
@@ -242,8 +242,9 @@ public abstract class ModelConverterDescriptorSelectionPage extends WizardSelect
     Table descriptorTable = new Table(composite, SWT.SINGLE | SWT.FULL_SELECTION | SWT.BORDER);
     {
       GridData data = new GridData();
-      data.widthHint = Display.getCurrent().getBounds().width / 5;
-      data.heightHint = Display.getCurrent().getBounds().height / 3;
+      Rectangle bounds = parent.getMonitor().getBounds();
+      data.widthHint = bounds.width / 5;
+      data.heightHint = bounds.height / 3;
       data.verticalAlignment = SWT.FILL;
       data.horizontalAlignment = SWT.FILL;
       data.grabExcessHorizontalSpace = true;

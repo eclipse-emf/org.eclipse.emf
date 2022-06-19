@@ -41,12 +41,12 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -268,6 +268,8 @@ public class FeatureEditorDialog extends Dialog
     choiceLabelGridData.horizontalAlignment = SWT.FILL;
     choiceLabel.setLayoutData(choiceLabelGridData);
 
+    Rectangle bounds = parent.getMonitor().getBounds();
+    
     // We use multi even for a single line because we want to respond to the enter key.
     //
     int style = multiLine ?
@@ -277,7 +279,7 @@ public class FeatureEditorDialog extends Dialog
     if (choiceText != null)
     {
       GridData choiceTextGridData = new GridData();
-      choiceTextGridData.widthHint = Display.getCurrent().getBounds().width / 5;
+      choiceTextGridData.widthHint = bounds.width / 5;
       choiceTextGridData.verticalAlignment = SWT.BEGINNING;
       choiceTextGridData.horizontalAlignment = SWT.FILL;
       choiceTextGridData.grabExcessHorizontalSpace = true;
@@ -297,8 +299,8 @@ public class FeatureEditorDialog extends Dialog
     if (choiceTable != null)
     {
       GridData choiceTableGridData = new GridData();
-      choiceTableGridData.widthHint = Display.getCurrent().getBounds().width / 5;
-      choiceTableGridData.heightHint = Display.getCurrent().getBounds().height / 3;
+      choiceTableGridData.widthHint = bounds.width / 5;
+      choiceTableGridData.heightHint = bounds.height / 3;
       choiceTableGridData.verticalAlignment = SWT.FILL;
       choiceTableGridData.horizontalAlignment = SWT.FILL;
       choiceTableGridData.grabExcessHorizontalSpace= true;
@@ -420,8 +422,8 @@ public class FeatureEditorDialog extends Dialog
 
     final Table featureTable = new Table(featureComposite, SWT.MULTI | SWT.BORDER);
     GridData featureTableGridData = new GridData();
-    featureTableGridData.widthHint = Display.getCurrent().getBounds().width / 5;
-    featureTableGridData.heightHint = Display.getCurrent().getBounds().height / 3;
+    featureTableGridData.widthHint = bounds.width / 5;
+    featureTableGridData.heightHint = bounds.height / 3;
     featureTableGridData.verticalAlignment = SWT.FILL;
     featureTableGridData.horizontalAlignment = SWT.FILL;
     featureTableGridData.grabExcessHorizontalSpace= true;
