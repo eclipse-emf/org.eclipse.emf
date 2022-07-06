@@ -1627,6 +1627,17 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.31
+   * @generated
+   */
+  public EAttribute getGenPackage_FamilyTreeInitialization()
+  {
+    return (EAttribute)genPackageEClass.getEStructuralFeatures().get(32);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   public EClass getGenClass()
@@ -2583,6 +2594,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genPackageEClass, GEN_PACKAGE__PUBLICATION_LOCATION);
     createEAttribute(genPackageEClass, GEN_PACKAGE__DOCUMENTATION);
     createEAttribute(genPackageEClass, GEN_PACKAGE__LOAD_INITIALIZATION_FILE_EXTENSION);
+    createEAttribute(genPackageEClass, GEN_PACKAGE__FAMILY_TREE_INITIALIZATION);
 
     genClassEClass = createEClass(GEN_CLASS);
     createEAttribute(genClassEClass, GEN_CLASS__PROVIDER);
@@ -2856,6 +2868,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenPackage_PublicationLocation(), theEcorePackage.getEString(), "publicationLocation", null, 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenPackage_Documentation(), theEcorePackage.getEString(), "documentation", null, 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenPackage_LoadInitializationFileExtension(), theEcorePackage.getEString(), "loadInitializationFileExtension", "ecore", 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenPackage_FamilyTreeInitialization(), theEcorePackage.getEBoolean(), "familyTreeInitialization", null, 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(genClassEClass, GenClass.class, "GenClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getGenClass_Provider(), this.getGenProviderKind(), "provider", null, 0, 1, GenClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3009,6 +3022,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF228);
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF229);
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF230);
+    addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF231);
 
     initEEnum(genRuntimePlatformEEnum, GenRuntimePlatform.class, "GenRuntimePlatform");
     addEEnumLiteral(genRuntimePlatformEEnum, GenRuntimePlatform.IDE);
@@ -3045,6 +3059,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2021_12);
     addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2022_03);
     addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2022_06);
+    addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2022_09);
 
     initEEnum(genCodeStyleEEnum, GenCodeStyle.class, "GenCodeStyle");
     addEEnumLiteral(genCodeStyleEEnum, GenCodeStyle.UNNECESSARY_ELSE);

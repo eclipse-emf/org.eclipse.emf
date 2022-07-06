@@ -130,6 +130,7 @@ import org.osgi.framework.Bundle;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getPublicationLocation <em>Publication Location</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getDocumentation <em>Documentation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getLoadInitializationFileExtension <em>Load Initialization File Extension</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isFamilyTreeInitialization <em>Family Tree Initialization</em>}</li>
  * </ul>
  *
  * @generated
@@ -701,6 +702,28 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @ordered
    */
   protected String loadInitializationFileExtension = LOAD_INITIALIZATION_FILE_EXTENSION_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isFamilyTreeInitialization() <em>Family Tree Initialization</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isFamilyTreeInitialization()
+   * @since 2.31
+   * @generated
+   * @ordered
+   */
+  protected static final boolean FAMILY_TREE_INITIALIZATION_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isFamilyTreeInitialization() <em>Family Tree Initialization</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isFamilyTreeInitialization()
+   * @since 2.31
+   * @generated
+   * @ordered
+   */
+  protected boolean familyTreeInitialization = FAMILY_TREE_INITIALIZATION_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -1580,6 +1603,31 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.31
+   * @generated
+   */
+  public boolean isFamilyTreeInitialization()
+  {
+    return familyTreeInitialization;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.31
+   * @generated
+   */
+  public void setFamilyTreeInitialization(boolean newFamilyTreeInitialization)
+  {
+    boolean oldFamilyTreeInitialization = familyTreeInitialization;
+    familyTreeInitialization = newFamilyTreeInitialization;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__FAMILY_TREE_INITIALIZATION, oldFamilyTreeInitialization, familyTreeInitialization));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   @Override
@@ -1710,6 +1758,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return getDocumentation();
       case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION_FILE_EXTENSION:
         return getLoadInitializationFileExtension();
+      case GenModelPackage.GEN_PACKAGE__FAMILY_TREE_INITIALIZATION:
+        return isFamilyTreeInitialization();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -1822,6 +1872,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION_FILE_EXTENSION:
         setLoadInitializationFileExtension((String)newValue);
         return;
+      case GenModelPackage.GEN_PACKAGE__FAMILY_TREE_INITIALIZATION:
+        setFamilyTreeInitialization((Boolean)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -1929,6 +1982,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION_FILE_EXTENSION:
         setLoadInitializationFileExtension(LOAD_INITIALIZATION_FILE_EXTENSION_EDEFAULT);
         return;
+      case GenModelPackage.GEN_PACKAGE__FAMILY_TREE_INITIALIZATION:
+        setFamilyTreeInitialization(FAMILY_TREE_INITIALIZATION_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -2008,6 +2064,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return isSetDocumentation();
       case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION_FILE_EXTENSION:
         return LOAD_INITIALIZATION_FILE_EXTENSION_EDEFAULT == null ? loadInitializationFileExtension != null : !LOAD_INITIALIZATION_FILE_EXTENSION_EDEFAULT.equals(loadInitializationFileExtension);
+      case GenModelPackage.GEN_PACKAGE__FAMILY_TREE_INITIALIZATION:
+        return familyTreeInitialization != FAMILY_TREE_INITIALIZATION_EDEFAULT;
     }
     return super.eIsSet(featureID);
   }
@@ -2073,6 +2131,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     if (documentationESet) result.append(documentation); else result.append("<unset>");
     result.append(", loadInitializationFileExtension: ");
     result.append(loadInitializationFileExtension);
+    result.append(", familyTreeInitialization: ");
+    result.append(familyTreeInitialization);
     result.append(')');
     return result.toString();
   }
@@ -2464,39 +2524,23 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
     else
     {
-      if (dependencyHelper == null)
-      {
-        dependencyHelper = new DependencyHelper();
-      }
-      return dependencyHelper.getSimpleDependencies();
+      return getDependencyHelper().getSimpleDependencies();
     }
   }
 
   public List<GenPackage> getPackageInterDependencies()
   {
-    if (dependencyHelper == null)
-    {
-      dependencyHelper = new DependencyHelper();
-    }
-    return dependencyHelper.getInterDependencies();
+    return getDependencyHelper().getInterDependencies();
   }
 
   public List<GenPackage> getPackageLoadInterDependencies()
   {
-    if (dependencyHelper == null)
-    {
-      dependencyHelper = new DependencyHelper();
-    }
-    return dependencyHelper.getLoadInterDependencies();
+    return getDependencyHelper().getLoadInterDependencies();
   }
 
   public List<GenPackage> getPackageBuildInterDependencies()
   {
-    if (dependencyHelper == null)
-    {
-      dependencyHelper = new DependencyHelper();
-    }
-    return dependencyHelper.getBuildInterDependencies();
+    return getDependencyHelper().getBuildInterDependencies();
   }
 
   public List<GenPackage> getPackageInitializationDependencies()
@@ -2507,12 +2551,13 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
     else
     {
-      if (dependencyHelper == null)
-      {
-        dependencyHelper = new DependencyHelper();
-      }
-      return dependencyHelper.getInitializationDependencies();
+      return getDependencyHelper().getInitializationDependencies();
     }
+  }
+
+  public List<GenPackage> getPackageFamilyTreeDependencies()
+  {
+    return getDependencyHelper().getFamilyTreeDependencies();
   }
 
   public String getPackageInstanceVariable(GenPackage genPackage)
@@ -2520,32 +2565,39 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     if (genPackage == this) return "this";
     if (genPackage.getEcorePackage() == EcorePackage.eINSTANCE) return "ecorePackage";
 
-    if (dependencyHelper == null)
-    {
-      dependencyHelper = new DependencyHelper();
-    }
-    return "the" + dependencyHelper.getUniqueName(genPackage);
+    return "the" + getDependencyHelper().getUniqueName(genPackage);
   }
 
   private DependencyHelper dependencyHelper;
+
+  private DependencyHelper getDependencyHelper()
+  {
+    if (dependencyHelper == null)
+    {
+      dependencyHelper = new DependencyHelper(getGenModel());
+    }
+    return dependencyHelper;
+  }
 
   private class DependencyHelper extends GenBaseImpl.UniqueNameHelper
   {
     private List<GenPackage> simpleDependencies;
     private List<GenPackage> interDependencies;
+    private List<GenPackage> familyTreeDependencies;
     private List<GenPackage> loadInterDependencies;
     private List<GenPackage> buildInterDependencies;
     private List<GenPackage> initializationDependencies;
+    
 
-    public DependencyHelper()
+    public DependencyHelper(GenModel genModel)
     {
-      super(2 * (getGenModel().getGenPackages().size() + getGenModel().getUsedGenPackages().size()));
+      super(2 * (genModel.getGenPackages().size() + genModel.getUsedGenPackages().size()));
 
       add(GenPackageImpl.this);
 
       simpleDependencies = new ArrayList<GenPackage>();
-      List<GenPackage> usedGenPackages = new ArrayList<GenPackage>(getGenModel().getUsedGenPackages());
-      List<GenPackage> genPackages = new UniqueEList<GenPackage>(getGenModel().getGenPackages());
+      List<GenPackage> usedGenPackages = new ArrayList<GenPackage>(genModel.getUsedGenPackages());
+      List<GenPackage> genPackages = new UniqueEList<GenPackage>(genModel.getGenPackages());
 
       // If any reachable used GenPackage's GenModel's used GenPackages has any of this GenPackage's GenModel's GenPackages in its list, 
       // add that GenPackage as if it were a GenPackage of this GenModel.
@@ -2578,11 +2630,60 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
       collectPackages(simpleDependencies, usedGenPackages, 1);
       addAll(simpleDependencies);
-      
+
       interDependencies = new UniqueEList<GenPackage>();
       collectPackages(interDependencies, genPackages, -1);
       interDependencies.remove(GenPackageImpl.this);
       addAll(interDependencies);
+
+      // Get the root GenPackage, including also if it doesn't have classifiers.
+      GenPackage root = GenPackageImpl.this;
+      for (EObject eContainer = root.eContainer(); eContainer != null; eContainer = eContainer.eContainer())
+      {
+        if (eContainer instanceof GenPackage)
+        {
+          root = (GenPackage)eContainer;
+        }
+      }
+
+      // Collect all the GenPackages (with classifier) within the same containment tree as GenPackageImpl.this
+      //
+      familyTreeDependencies = new ArrayList<GenPackage>();
+      collectPackages(familyTreeDependencies, Collections.singletonList(root), -1);
+
+      // Determine if one of the GenPackages is designated as the head of the family.
+      // It makes no sense to try this if there is only a family of one.
+      //
+      GenPackage familyHead = null;
+      if (familyTreeDependencies.size() > 1)
+      {
+        for (GenPackage genPackage : familyTreeDependencies)
+        {
+          if (genPackage.isLoadInitialization())
+          {
+            familyHead = null;
+            break;
+          }
+          else if (genPackage.isFamilyTreeInitialization() && familyHead == null)
+          {
+            familyHead = genPackage;
+          }
+        }
+      }
+
+      if (familyHead == null)
+      {
+        // Don't use the family tree if there is no designated head of the family.
+        //
+        familyTreeDependencies.clear();
+      }
+      else
+      {
+        // Move the head of the family to the beginning of the list.
+        //
+        familyTreeDependencies.remove(familyHead);
+        familyTreeDependencies.add(0, familyHead);
+      }
 
       loadInterDependencies = new UniqueEList<GenPackage>();
       buildInterDependencies = new UniqueEList<GenPackage>();
@@ -2653,13 +2754,13 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         }
       }
 
-      GenPackage xmlType = getGenModel().getXMLTypeGenPackage();
+      GenPackage xmlType = genModel.getXMLTypeGenPackage();
       if (initializationDependencies.contains(xmlType) && !xmlType.getNSURI().equals(getNSURI()))
       {
         simpleDependencies.add(xmlType);
       }
 
-      GenPackage xmlNamespace = getGenModel().getXMLNamespaceGenPackage();
+      GenPackage xmlNamespace = genModel.getXMLNamespaceGenPackage();
       if (initializationDependencies.contains(xmlNamespace))
       {
         simpleDependencies.add(xmlNamespace);
@@ -2721,6 +2822,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     public List<GenPackage> getInitializationDependencies()
     {
       return initializationDependencies;
+    }
+    
+    public List<GenPackage> getFamilyTreeDependencies()
+    {
+      return familyTreeDependencies;
     }
   }
   
@@ -4340,6 +4446,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     {
       setDocumentation(oldGenPackageVersion.getDocumentation());
     }
+
+    setFamilyTreeInitialization(oldGenPackageVersion.isFamilyTreeInitialization());
   }
 
   public boolean reconcile()

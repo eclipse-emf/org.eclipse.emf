@@ -1311,13 +1311,23 @@ public interface GenModelPackage extends EPackage
   int GEN_PACKAGE__LOAD_INITIALIZATION_FILE_EXTENSION = GEN_BASE_FEATURE_COUNT + 31;
 
   /**
+   * The feature id for the '<em><b>Family Tree Initialization</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.31
+   * @generated
+   * @ordered
+   */
+  int GEN_PACKAGE__FAMILY_TREE_INITIALIZATION = GEN_BASE_FEATURE_COUNT + 32;
+
+  /**
    * The number of structural features of the '<em>Gen Package</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 32;
+  int GEN_PACKAGE_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 33;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassifierImpl <em>Gen Classifier</em>}' class.
@@ -3837,6 +3847,18 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenPackage_LoadInitializationFileExtension();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isFamilyTreeInitialization <em>Family Tree Initialization</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Family Tree Initialization</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isFamilyTreeInitialization()
+   * @see #getGenPackage()
+   * @since 2.31
+   * @generated
+   */
+  EAttribute getGenPackage_FamilyTreeInitialization();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass <em>Gen Class</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -5766,6 +5788,15 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_PACKAGE__LOAD_INITIALIZATION_FILE_EXTENSION = eINSTANCE.getGenPackage_LoadInitializationFileExtension();
+
+    /**
+     * The meta object literal for the '<em><b>Family Tree Initialization</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.31
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__FAMILY_TREE_INITIALIZATION = eINSTANCE.getGenPackage_FamilyTreeInitialization();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassImpl <em>Gen Class</em>}' class.

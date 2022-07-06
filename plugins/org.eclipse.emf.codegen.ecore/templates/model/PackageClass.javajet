@@ -18,6 +18,9 @@
 <%String publicStaticFinalFlag = isImplementation ? "public static final " : "";%>
 <%boolean needsAddEOperation = false;%>
 <%boolean needsAddEParameter = false;%>
+<%List<GenPackage> familyTreeDependencies = genPackage.getPackageFamilyTreeDependencies();%>
+<%GenPackage familyHeadGenPackage = familyTreeDependencies.isEmpty() ? null : familyTreeDependencies.get(0);%>
+<%boolean familyMember = familyHeadGenPackage != null && genPackage != familyHeadGenPackage;%>
 <%@ include file="../Header.javajetinc"%>
 <%if (isImplementation && !genModel.isSuppressInterfaces()) {%>
 package <%=genPackage.getClassPackageName()%>;
@@ -294,11 +297,11 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 	 * @see #init()
 	 * @generated
 	 */
-	private <%=genPackage.getPackageClassName()%>()
+	<%if (familyMember) {%>public<%} else {%>private<%}%> <%=genPackage.getPackageClassName()%>()
 	{
 		super(eNS_URI, <%=genPackage.getQualifiedEFactoryInstanceAccessor()%>);
 	}
-
+    <%if (!familyMember) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -306,6 +309,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 	 */
 	private static boolean isInited = false;
 
+    <%}%>
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 *
@@ -322,6 +326,11 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 	 */
 	public static <%=genPackage.getImportedPackageInterfaceName()%> init()
 	{
+   <%if (familyMember) {%>
+		// Initialize the family head to initialize the entire family
+		<%=familyHeadGenPackage.getImportedPackageInterfaceName()%>.eINSTANCE.eClass();
+		return (<%=genPackage.getImportedPackageInterfaceName()%>)<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(<%=genPackage.getImportedPackageInterfaceName()%>.eNS_URI);
+   <%} else {%>
 		if (isInited) return (<%=genPackage.getImportedPackageInterfaceName()%>)<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(<%=genPackage.getImportedPackageInterfaceName()%>.eNS_URI);
 
     <%if (genModel.getRuntimePlatform() == GenRuntimePlatform.GWT) {%>
@@ -344,8 +353,8 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
   <%if (!genPackage.getPackageInterDependencies().isEmpty()) {%>
 		// Obtain or create and register interdependencies
     <%for (ListIterator<GenPackage> i = genPackage.getPackageInterDependencies().listIterator(); i.hasNext(); ) { GenPackage interdep = i.next(); %>
-		<%if (i.previousIndex() == 0) {%>Object <%}%>registeredPackage = <%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(<%=interdep.getImportedPackageInterfaceName()%>.eNS_URI);
-		<%=interdep.getImportedPackageClassName()%> <%=genPackage.getPackageInstanceVariable(interdep)%> = (<%=interdep.getImportedPackageClassName()%>)(registeredPackage instanceof <%=interdep.getImportedPackageClassName()%> ? registeredPackage : <%=interdep.getImportedPackageInterfaceName()%>.eINSTANCE);
+		<%if (i.previousIndex() == 0) {%>Object <%}%>registeredPackage = <%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.<%if (familyTreeDependencies.contains(interdep)) {%>get<%} else {%>getEPackage<%}%>(<%=interdep.getImportedPackageInterfaceName()%>.eNS_URI);
+		<%=interdep.getImportedPackageClassName()%> <%=genPackage.getPackageInstanceVariable(interdep)%> = (<%=interdep.getImportedPackageClassName()%>)(registeredPackage instanceof <%=interdep.getImportedPackageClassName()%> ? registeredPackage : <%if (familyTreeDependencies.contains(interdep)) {%>new <%=interdep.getImportedPackageClassName()%>()<%} else {%><%=interdep.getImportedPackageInterfaceName()%>.eINSTANCE<%}%>);
     <%}%>
 
   <%}%>
@@ -405,6 +414,14 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 			 });
 
   <%}%>
+  <%if (!familyTreeDependencies.isEmpty()) {%>
+		// Freeze and register the family tree packages.
+    <%for (GenPackage familyMemberPackage : familyTreeDependencies.subList(1, familyTreeDependencies.size())) {%>
+		<%=genPackage.getPackageInstanceVariable(familyMemberPackage)%>.freeze();
+		<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.put(<%=familyMemberPackage.getImportedPackageInterfaceName()%>.eNS_URI, <%=genPackage.getPackageInstanceVariable(familyMemberPackage)%>);
+    <%}%>
+
+  <%}%>
   <%if (!genPackage.isEcorePackage()) {%>
 		// Mark meta-data to indicate it can't be changed
 		the<%=genPackage.getBasicPackageName()%>.freeze();
@@ -413,6 +430,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 		// Update the registry and return the package
 		<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.put(<%=genPackage.getImportedPackageInterfaceName()%>.eNS_URI, the<%=genPackage.getBasicPackageName()%>);
 		return the<%=genPackage.getBasicPackageName()%>;
+   <%}%>
 	}
   <%if (genModel.getRuntimePlatform() == GenRuntimePlatform.GWT) {%>
 

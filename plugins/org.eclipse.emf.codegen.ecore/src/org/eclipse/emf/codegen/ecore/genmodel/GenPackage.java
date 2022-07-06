@@ -60,6 +60,7 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getPublicationLocation <em>Publication Location</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getDocumentation <em>Documentation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getLoadInitializationFileExtension <em>Load Initialization File Extension</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isFamilyTreeInitialization <em>Family Tree Initialization</em>}</li>
  * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage()
@@ -774,6 +775,33 @@ public interface GenPackage extends GenBase
    */
   void setLoadInitializationFileExtension(String value);
 
+  /**
+   * Returns the value of the '<em><b>Family Tree Initialization</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * Whether this package's implementation class should directly initialize its entirely family containment tree.
+   * @since 2.31
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>Family Tree Initialization</em>' attribute.
+   * @see #setFamilyTreeInitialization(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_FamilyTreeInitialization()
+   * @model
+   * @generated
+   */
+  boolean isFamilyTreeInitialization();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isFamilyTreeInitialization <em>Family Tree Initialization</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Family Tree Initialization</em>' attribute.
+   * @see #isFamilyTreeInitialization()
+   * @since 2.31
+   * @generated
+   */
+  void setFamilyTreeInitialization(boolean value);
+
   String getInterfacePackageName();
   String getReflectionPackageName();
   String getReflectionClassPackageName();
@@ -887,6 +915,11 @@ public interface GenPackage extends GenBase
   List<GenPackage> getPackageBuildInterDependencies();
   List<GenPackage> getPackageInitializationDependencies();
   String getPackageInstanceVariable(GenPackage genPackage);
+
+  /**
+   * @since 2.31
+   */
+  List<GenPackage> getPackageFamilyTreeDependencies();
 
   /**
    * Returns a list of those nestedGenPackages for which hasClassifiers() is

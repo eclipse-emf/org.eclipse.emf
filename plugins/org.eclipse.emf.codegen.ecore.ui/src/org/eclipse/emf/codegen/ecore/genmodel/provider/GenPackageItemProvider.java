@@ -11,7 +11,9 @@
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -56,8 +58,7 @@ public class GenPackageItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  @Override
-  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
+  public List<IItemPropertyDescriptor> getPropertyDescriptorsGen(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -89,8 +90,31 @@ public class GenPackageItemProvider
       addPublicationLocationPropertyDescriptor(object);
       addDocumentationPropertyDescriptor(object);
       addLoadInitializationFileExtensionPropertyDescriptor(object);
+      addFamilyTreeInitializationPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
+  }
+
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
+  {
+    List<IItemPropertyDescriptor> propertyDescriptors = getPropertyDescriptorsGen(object);
+    GenPackage genPackage = (GenPackage)object;
+    if (!genPackage.isFamilyTreeInitialization() && !(genPackage.eContainer() instanceof GenPackage) && genPackage.getNestedGenPackages().isEmpty())
+    {
+      // Don't show the family try initialization unless there is actually a family tree.
+      propertyDescriptors = new ArrayList<IItemPropertyDescriptor>(propertyDescriptors);
+      for (Iterator<IItemPropertyDescriptor> i = propertyDescriptors.iterator(); i.hasNext();)
+      {
+        IItemPropertyDescriptor itemPropertyDescriptor = i.next();
+        if (itemPropertyDescriptor.getFeature(genPackage) == GenModelPackage.Literals.GEN_PACKAGE__FAMILY_TREE_INITIALIZATION) 
+        {
+          i.remove();
+          break;
+        }
+      }
+    }
+    return propertyDescriptors;
   }
 
   /**
@@ -694,6 +718,30 @@ public class GenPackageItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Family Tree Initialization feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.31
+   * @generated
+   */
+  protected void addFamilyTreeInitializationPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_familyTreeInitialization_feature"),
+         getString("_UI_GenPackage_familyTreeInitialization_description"),
+         GenModelPackage.Literals.GEN_PACKAGE__FAMILY_TREE_INITIALIZATION,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -805,6 +853,7 @@ public class GenPackageItemProvider
       case GenModelPackage.GEN_PACKAGE__PUBLICATION_LOCATION:
       case GenModelPackage.GEN_PACKAGE__DOCUMENTATION:
       case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION_FILE_EXTENSION:
+      case GenModelPackage.GEN_PACKAGE__FAMILY_TREE_INITIALIZATION:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_PACKAGE__GEN_ENUMS:

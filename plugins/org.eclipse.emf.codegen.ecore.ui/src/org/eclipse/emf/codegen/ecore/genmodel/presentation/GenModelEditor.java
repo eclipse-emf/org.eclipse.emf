@@ -840,10 +840,32 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  protected void firePropertyChangeGen(int action)
+  {
+    super.firePropertyChange(action);
+  }
+
   @Override
   protected void firePropertyChange(int action)
   {
-    super.firePropertyChange(action);
+    firePropertyChangeGen(action);
+    if (action == IEditorPart.PROP_DIRTY)
+    {
+      EList<Resource> resources = editingDomain.getResourceSet().getResources();
+      if (!resources.isEmpty())
+      {
+        Resource mainResource = resources.get(0);
+        EList<EObject> contents = mainResource.getContents();
+        if (!contents.isEmpty())
+        {
+          EObject genModel = contents.get(0);
+          if (genModel instanceof GenModel)
+          {
+            ((GenModel)genModel).clearCache();
+          }
+        }
+      }
+    }
   }
 
   /**

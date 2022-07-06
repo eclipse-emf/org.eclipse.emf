@@ -83,6 +83,7 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF228"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF229"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF230"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF231"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="GenModel.ecore#//GenRuntimePlatform">
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimePlatform/IDE"/>
@@ -119,6 +120,7 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2021_12"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2022_03"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2022_06"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2022_09"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="GenModel.ecore#//GenCodeStyle">
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenCodeStyle/UnnecessaryElse"/>
@@ -374,6 +376,8 @@
           propertyMultiLine="true" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/documentation"/>
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="The file extension of the resource used to initialize package meta-data when loading from serialized form (required for large models)"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/loadInitializationFileExtension"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether this package's implementation class should directly initialize its entirely family containment tree"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/familyTreeInitialization"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenClass">
       <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Whether to generate an item provider and which pattern to use"
