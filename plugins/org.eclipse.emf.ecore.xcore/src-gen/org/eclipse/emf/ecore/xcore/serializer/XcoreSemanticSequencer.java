@@ -392,11 +392,13 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	}
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     XAnnotationDirective returns XAnnotationDirective
 	 *
 	 * Constraint:
 	 *     (sourceURI=STRING name=ValidID)
+	 * </pre>
 	 */
 	protected void sequence_XAnnotationDirective(ISerializationContext context, XAnnotationDirective semanticObject) {
 		if (errorAcceptor != null) {
@@ -413,11 +415,13 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     XAnnotation returns XAnnotation
 	 *
 	 * Constraint:
 	 *     (source=[XAnnotationDirective|XQualifiedName] (details+=XStringToStringMapEntry details+=XStringToStringMapEntry*)?)
+	 * </pre>
 	 */
 	protected void sequence_XAnnotation(ISerializationContext context, XAnnotation semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -425,6 +429,7 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     XMember returns XAttribute
 	 *     XAttribute returns XAttribute
@@ -448,6 +453,7 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	 *         defaultValueLiteral=STRING? 
 	 *         (getBody=XBlockExpression | setBody=XBlockExpression | isSetBody=XBlockExpression | unsetBody=XBlockExpression)*
 	 *     )
+	 * </pre>
 	 */
 	protected void sequence_XAttribute(ISerializationContext context, XAttribute semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -455,6 +461,7 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     XBlockExpression returns XBlockExpression
 	 *     XExpression returns XBlockExpression
@@ -489,6 +496,7 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	 *
 	 * Constraint:
 	 *     expressions+=XExpressionOrVarDeclaration*
+	 * </pre>
 	 */
 	protected void sequence_XBlockExpression(ISerializationContext context, XBlockExpression semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -496,6 +504,7 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     XClassifier returns XClass
 	 *     XClass returns XClass
@@ -510,6 +519,7 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	 *         instanceType=JvmTypeReference? 
 	 *         members+=XMember*
 	 *     )
+	 * </pre>
 	 */
 	protected void sequence_XClass(ISerializationContext context, XClass semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -517,6 +527,7 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     XClassifier returns XDataType
 	 *     XDataType returns XDataType
@@ -529,6 +540,7 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	 *         instanceType=JvmTypeReference 
 	 *         (convertBody=XBlockExpression? (serializable?='create' createBody=XBlockExpression)?)+
 	 *     )
+	 * </pre>
 	 */
 	protected void sequence_XDataType(ISerializationContext context, XDataType semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -536,11 +548,13 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     XEnumLiteral returns XEnumLiteral
 	 *
 	 * Constraint:
 	 *     (annotations+=XAnnotation* name=ID literal=STRING? value=SignedInt?)
+	 * </pre>
 	 */
 	protected void sequence_XEnumLiteral(ISerializationContext context, XEnumLiteral semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -548,12 +562,14 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     XClassifier returns XEnum
 	 *     XEnum returns XEnum
 	 *
 	 * Constraint:
 	 *     (annotations+=XAnnotation* name=ID (literals+=XEnumLiteral literals+=XEnumLiteral*)?)
+	 * </pre>
 	 */
 	protected void sequence_XEnum(ISerializationContext context, XEnum semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -561,11 +577,13 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     XGenericType returns XGenericType
 	 *
 	 * Constraint:
 	 *     (type=[GenBase|XQualifiedName] (typeArguments+=XGenericTypeArgument typeArguments+=XGenericTypeArgument*)?)
+	 * </pre>
 	 */
 	protected void sequence_XGenericType(ISerializationContext context, XGenericType semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -573,6 +591,7 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     XGenericTypeArgument returns XGenericType
 	 *
@@ -582,6 +601,7 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	 *         upperBound=XGenericType | 
 	 *         lowerBound=XGenericType
 	 *     )?
+	 * </pre>
 	 */
 	protected void sequence_XGenericType_XGenericWildcardTypeArgument(ISerializationContext context, XGenericType semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -589,11 +609,13 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     XGenericWildcardTypeArgument returns XGenericType
 	 *
 	 * Constraint:
 	 *     (upperBound=XGenericType | lowerBound=XGenericType)?
+	 * </pre>
 	 */
 	protected void sequence_XGenericWildcardTypeArgument(ISerializationContext context, XGenericType semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -601,11 +623,13 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     XImportDirective returns XImportDirective
 	 *
 	 * Constraint:
 	 *     (importedNamespace=QualifiedNameWithWildcard | importedObject=[EObject|QualifiedName])
+	 * </pre>
 	 */
 	protected void sequence_XImportDirective(ISerializationContext context, XImportDirective semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -613,6 +637,7 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     XMember returns XOperation
 	 *     XOperation returns XOperation
@@ -629,6 +654,7 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	 *         (exceptions+=XGenericType exceptions+=XGenericType*)? 
 	 *         body=XBlockExpression?
 	 *     )
+	 * </pre>
 	 */
 	protected void sequence_XOperation(ISerializationContext context, XOperation semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -636,6 +662,7 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     XPackage returns XPackage
 	 *
@@ -647,6 +674,7 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	 *         annotationDirectives+=XAnnotationDirective* 
 	 *         classifiers+=XClassifier*
 	 *     )
+	 * </pre>
 	 */
 	protected void sequence_XPackage(ISerializationContext context, XPackage semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -654,6 +682,7 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     XParameter returns XParameter
 	 *
@@ -665,6 +694,7 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	 *         multiplicity=XMultiplicity? 
 	 *         name=ID
 	 *     )
+	 * </pre>
 	 */
 	protected void sequence_XParameter(ISerializationContext context, XParameter semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -672,6 +702,7 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     XMember returns XReference
 	 *     XReference returns XReference
@@ -703,6 +734,7 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	 *         (keys+=[GenFeature|ValidID] keys+=[GenFeature|ValidID]*)? 
 	 *         (getBody=XBlockExpression | setBody=XBlockExpression | isSetBody=XBlockExpression | unsetBody=XBlockExpression)*
 	 *     )
+	 * </pre>
 	 */
 	protected void sequence_XReference(ISerializationContext context, XReference semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -710,11 +742,13 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     XStringToStringMapEntry returns XStringToStringMapEntry
 	 *
 	 * Constraint:
 	 *     (key=QualifiedName value=STRING)
+	 * </pre>
 	 */
 	protected void sequence_XStringToStringMapEntry(ISerializationContext context, Map.Entry semanticObject) {
 		if (errorAcceptor != null) {
@@ -731,11 +765,13 @@ public class XcoreSemanticSequencer extends XbaseSemanticSequencer {
 	
 	
 	/**
+	 * <pre>
 	 * Contexts:
 	 *     XTypeParameter returns XTypeParameter
 	 *
 	 * Constraint:
 	 *     (annotations+=XAnnotation* name=ID (bounds+=XGenericType bounds+=XGenericType*)?)
+	 * </pre>
 	 */
 	protected void sequence_XTypeParameter(ISerializationContext context, XTypeParameter semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
