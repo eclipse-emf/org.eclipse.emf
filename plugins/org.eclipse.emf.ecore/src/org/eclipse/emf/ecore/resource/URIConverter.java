@@ -373,7 +373,7 @@ public interface URIConverter
     @Override
     public synchronized void reset() throws IOException
     {
-      super.reset();
+      buffer = null;
       reader.reset();
     }
     
@@ -387,7 +387,7 @@ public interface URIConverter
       {
         super(size);
         characters = new char [size];
-        writer = new OutputStreamWriter(this, encoding);
+        writer = encoding == null ? new OutputStreamWriter(this) : new OutputStreamWriter(this, encoding);
       }
       
       public int read() throws IOException
