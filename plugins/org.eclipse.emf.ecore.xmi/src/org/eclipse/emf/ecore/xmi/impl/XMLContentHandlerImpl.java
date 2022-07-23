@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -81,7 +82,20 @@ public class XMLContentHandlerImpl extends ContentHandlerImpl
     defaultLoadOptions.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
     defaultSaveOptions.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
 
-    ExtendedMetaData extendedMetaData = new BasicExtendedMetaData(new EPackageRegistryImpl());
+    ExtendedMetaData extendedMetaData = new BasicExtendedMetaData(new EPackageRegistryImpl())
+      {
+        @Override
+        public synchronized EStructuralFeature demandFeature(String namespace, String name, boolean isElement, boolean isReference)
+        {
+          return super.demandFeature(namespace, name, isElement, isReference);
+        }
+
+        @Override
+        public synchronized EClassifier demandType(String namespace, String name)
+        {
+          return super.demandType(namespace, name);
+        }
+      };
     defaultLoadOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
     defaultSaveOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
 
