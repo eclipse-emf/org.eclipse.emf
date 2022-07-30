@@ -2659,12 +2659,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       {
         for (GenPackage genPackage : familyTreeDependencies)
         {
-          if (genPackage.isLoadInitialization())
-          {
-            familyHead = null;
-            break;
-          }
-          else if (genPackage.isFamilyTreeInitialization() && familyHead == null)
+          if (genPackage.isFamilyTreeInitialization() && familyHead == null)
           {
             familyHead = genPackage;
           }

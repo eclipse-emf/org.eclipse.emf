@@ -11,6 +11,7 @@
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -40,10 +41,13 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl.EObjectOutputStream;
+import org.eclipse.emf.ecore.resource.impl.BinaryResourceImpl.BinaryIO.Version;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
 /**
  * A {@link GeneratorAdapter} for instances of {@link GenPackage}. This contributes the package level artifacts to EMF's
@@ -392,7 +396,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         final String originalPackageNsURI = originalPackage.getNsURI();
 
         ResourceSet outputSet = new ResourceSetImpl();
-        outputSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new EcoreResourceFactoryImpl());
+        outputSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, new ExtendedEcoreResourceFactoryImpl());
         URI targetURI = toPlatformResourceURI(targetFile);        
         Resource outputResource = outputSet.createResource(targetURI);
 
@@ -540,7 +544,14 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         Map<Object, Object> options = new HashMap<Object, Object>();
         options.put(XMLResource.OPTION_URI_HANDLER, uriHandler);
         options.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
-        options.put(Resource.OPTION_LINE_DELIMITER, Resource.OPTION_LINE_DELIMITER_UNSPECIFIED);
+        if ("ebin".equals(outputResource.getURI().fileExtension()))
+        {
+          options.put(XMLResource.OPTION_BINARY, Boolean.TRUE);
+        }
+        else
+        {
+          options.put(Resource.OPTION_LINE_DELIMITER, Resource.OPTION_LINE_DELIMITER_UNSPECIFIED);
+        }
 
         try
         {
@@ -1103,6 +1114,54 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
     else
     {
       monitor.worked(1);
+    }
+  }
+
+  private static class ExtendedEcoreResourceFactoryImpl extends EcoreResourceFactoryImpl
+  {
+    @Override
+    public Resource createResource(URI uri)
+    {
+      XMLResource result = new XMIResourceImpl(uri)
+        {
+          @Override
+          protected boolean useIDs()
+          {
+            return eObjectToIDMap != null || idToEObjectMap != null;
+          }
+
+          @Override
+          protected EObjectOutputStream createEObjectOutputStream(OutputStream outputStream, Map<?, ?> options, Version version, final URIHandler uriHandler) throws IOException
+          {
+            return new EObjectOutputStream(outputStream, options, version)
+              {
+                @Override
+                public void writeURI(URI uri, String fragment) throws IOException
+                {
+                  // We need to ensure that the callback being used for redirecting to the nsURI is invoked also for binary serialization, which relies on the fragment being present.
+                  URI deresolvedURI = deresolve(uri.appendFragment(fragment));
+                  super.writeURI(deresolvedURI, deresolvedURI.fragment());
+                }
+
+                @Override
+                protected URI deresolve(URI uri)
+                {
+                  return uriHandler == null ? super.deresolve(uri) : uriHandler.deresolve(uri);
+                }
+              };
+          }
+        };
+      result.setEncoding("UTF-8");
+
+      if ("genmodel".equals(uri.fileExtension()))
+      {
+        result.getDefaultLoadOptions().put(XMLResource.OPTION_RECORD_UNKNOWN_FEATURE, Boolean.TRUE);
+      }
+
+      result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
+      result.getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, 80);
+      result.getDefaultSaveOptions().put(XMLResource.OPTION_URI_HANDLER, new URIHandlerImpl.PlatformSchemeAware());
+      return result;
     }
   }
 }

@@ -1139,7 +1139,7 @@ int maxGenericTypeAssignment = 0;
 	private boolean isLoaded = false;
 
 	/**
-	 * Laods the package and any sub-packages from their serialized form.
+	 * Loads the package and any sub-packages from their serialized form.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1158,7 +1158,7 @@ int maxGenericTypeAssignment = 0;
 		<%=genModel.getImportedName("org.eclipse.emf.ecore.resource.Resource")%> resource = new <%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl")%>().createResource(uri);
 		try
 		{
-			resource.load(null);
+			resource.load(<%if ("ebin".equals(genPackage.getLoadInitializationFileExtension())) {%><%=genModel.getImportedName("java.util.Collections")%>.singletonMap(<%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource")%>.OPTION_BINARY, Boolean.TRUE)<%} else {%>null<%}%>);
 		}
 		catch (<%=genModel.getImportedName("java.io.IOException")%> exception)
 		{
