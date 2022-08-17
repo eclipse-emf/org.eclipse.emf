@@ -175,20 +175,24 @@ public final class CommonPlugin extends EMFPlugin
     }
   }
 
-  private static final Method COLLATOR_GET_INSTANCE_METHOD;
-  static
+  private static volatile Method collatorGetInstanceMethod;
+  private static volatile boolean collatorGetInstanceMethodInitialized;
+  private static Method getCollatorGetInstanceMethod()
   {
-    Method collatorGetInstanceMethod = null;
-    try
+    if (!collatorGetInstanceMethodInitialized)
     {
-      Class<?> collatorClass = loadClass("com.ibm.icu", "com.ibm.icu.text.Collator");
-      collatorGetInstanceMethod = collatorClass.getMethod("getInstance", Locale.class);
+      try
+      {
+        Class<?> collatorClass = loadClass("com.ibm.icu", "com.ibm.icu.text.Collator");
+        collatorGetInstanceMethod = collatorClass.getMethod("getInstance", Locale.class);
+      }
+      catch (Throwable throwable)
+      {
+        // Assume the class is not available.
+      }
+      collatorGetInstanceMethodInitialized = true;
     }
-    catch (Throwable throwable)
-    {
-      // Assume the class is not available.
-    }
-    COLLATOR_GET_INSTANCE_METHOD = collatorGetInstanceMethod;
+    return collatorGetInstanceMethod;
   }
 
   /**
@@ -209,11 +213,12 @@ public final class CommonPlugin extends EMFPlugin
   @SuppressWarnings("unchecked")
   public Comparator<String> getComparator(Locale locale)
   {
-    if (COLLATOR_GET_INSTANCE_METHOD != null)
+    Method collatorGetInstanceMethod = getCollatorGetInstanceMethod();
+    if (collatorGetInstanceMethod != null)
     {
       try
       {
-        return (Comparator<String>)COLLATOR_GET_INSTANCE_METHOD.invoke(null, locale);
+        return (Comparator<String>)collatorGetInstanceMethod.invoke(null, locale);
       }
       catch (Throwable eception)
       {
