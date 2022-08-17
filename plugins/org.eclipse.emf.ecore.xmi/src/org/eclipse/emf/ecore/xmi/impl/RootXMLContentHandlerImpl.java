@@ -227,7 +227,7 @@ public class RootXMLContentHandlerImpl extends XMLContentHandlerImpl
       if (eObject instanceof XMLTypeDocumentRoot)
       {
         XMLTypeDocumentRoot documentRoot = (XMLTypeDocumentRoot)eObject;
-        EList<EObject> rootContents = documentRoot.eContents();
+        EList<EObject> rootContents = safeEContents(documentRoot);
         String rootElementName = null;
         String rootElementNamespace = null;
         for (EObject root : rootContents)
@@ -241,7 +241,7 @@ public class RootXMLContentHandlerImpl extends XMLContentHandlerImpl
             {
               // Look for the first non-XMI element.
               //
-              for (EObject candidate : root.eContents())
+              for (EObject candidate : safeEContents(root))
               {
                 eContainmentFeature = candidate.eContainmentFeature();
                 if (eContainmentFeature.getEContainingClass() != XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT)

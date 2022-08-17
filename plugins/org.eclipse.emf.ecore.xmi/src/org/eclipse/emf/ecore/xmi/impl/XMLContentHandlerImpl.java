@@ -74,6 +74,7 @@ public class XMLContentHandlerImpl extends ContentHandlerImpl
   private static final XMLParserPool XML_PARSER_POOL = new XMLParserPoolImpl(1, true);
   private static final Map<Object, Object> DEFAULT_SAVE_OPTIONS;
   private static final Map<Object, Object> DEFAULT_LOAD_OPTIONS;
+  private static final ExtendedMetaData EXTENDED_METADATA;
   static
   {
     Map<Object, Object> defaultLoadOptions = new HashMap<Object, Object>();
@@ -82,7 +83,7 @@ public class XMLContentHandlerImpl extends ContentHandlerImpl
     defaultLoadOptions.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
     defaultSaveOptions.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
 
-    ExtendedMetaData extendedMetaData = new BasicExtendedMetaData(new EPackageRegistryImpl())
+    EXTENDED_METADATA = new BasicExtendedMetaData(new EPackageRegistryImpl())
       {
         @Override
         public synchronized EStructuralFeature demandFeature(String namespace, String name, boolean isElement, boolean isReference)
@@ -96,8 +97,8 @@ public class XMLContentHandlerImpl extends ContentHandlerImpl
           return super.demandType(namespace, name);
         }
       };
-    defaultLoadOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
-    defaultSaveOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
+    defaultLoadOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, EXTENDED_METADATA);
+    defaultSaveOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, EXTENDED_METADATA);
 
     XMLOptions xmlOptions = new XMLOptionsImpl();
     xmlOptions.setProcessAnyXML(true);
@@ -240,7 +241,14 @@ public class XMLContentHandlerImpl extends ContentHandlerImpl
     }
     return result;
   }
-  
+
+  EList<EObject> safeEContents(EObject eObject) {
+    synchronized (EXTENDED_METADATA)
+    {
+      return eObject.eContents();
+    }
+  }
+
   public static class XMI extends XMLContentHandlerImpl
   {
     /**
@@ -259,7 +267,7 @@ public class XMLContentHandlerImpl extends ContentHandlerImpl
         if (eObject instanceof XMLTypeDocumentRoot)
         {
           XMLTypeDocumentRoot documentRoot = (XMLTypeDocumentRoot)eObject;
-          EList<EObject> rootContents = documentRoot.eContents();
+          EList<EObject> rootContents = safeEContents(documentRoot);
           if (!rootContents.isEmpty())
           {
             EObject root = rootContents.get(0);
