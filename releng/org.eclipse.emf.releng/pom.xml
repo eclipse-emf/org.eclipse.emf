@@ -58,7 +58,7 @@
               <generate>false</generate>
             </sourceReferences>
             <timestampProvider>jgit</timestampProvider>
-            <jgit.ignore>pom.xml</jgit.ignore>
+            <jgit.ignore>pom.xml .gitignore</jgit.ignore>
             <jgit.dirtyWorkingTree>warning</jgit.dirtyWorkingTree>
           </configuration>
           <dependencies>
