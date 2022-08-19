@@ -200,7 +200,7 @@ public class UpdateSiteGenerator
               destinationArtifactRepository.setProperty(IRepository.PROP_NAME, repositoryName);
               if (destination.startsWith(DOWLOAD_ROOT_FOLDER))
               {
-                String mirrorsURL = "http://www.eclipse.org/downloads/download.php?file=/" + destination.substring(DOWLOAD_ROOT_FOLDER.length());
+                String mirrorsURL = "https://www.eclipse.org/downloads/download.php?file=/" + destination.substring(DOWLOAD_ROOT_FOLDER.length());
                 destinationArtifactRepository.setProperty("p2.mirrorsURL", mirrorsURL);
               }
             }
