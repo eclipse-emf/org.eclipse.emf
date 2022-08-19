@@ -28,10 +28,10 @@ import org.junit.runner.RunWith;
 public class GeneratorTest {
   @Inject
   private ParseHelper<XPackage> parser;
-  
+
   @Inject
   private XcoreGenerator xcoreGenerator;
-  
+
   @Test
   public void testGenerator() {
     try {

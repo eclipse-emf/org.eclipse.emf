@@ -39,10 +39,10 @@ import org.junit.runner.RunWith;
 public class XcoreInterpreterTest {
   @Inject
   private ParseHelper<XPackage> parse;
-  
+
   @Inject
   private ValidationTestHelper validator;
-  
+
   @Test
   public void testInterpretation() {
     try {
@@ -78,7 +78,7 @@ public class XcoreInterpreterTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void testInterpretation_2() {
     try {
@@ -125,7 +125,7 @@ public class XcoreInterpreterTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void testFeatureAccessors() {
     try {
@@ -176,7 +176,7 @@ public class XcoreInterpreterTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void testConversionDelegates() {
     try {
@@ -204,7 +204,7 @@ public class XcoreInterpreterTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void testSettingDelegates() {
     try {
@@ -236,7 +236,7 @@ public class XcoreInterpreterTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void testBooleanSettingDelegates() {
     try {
@@ -269,7 +269,7 @@ public class XcoreInterpreterTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void testInstanceOfAndCast() {
     try {
@@ -311,7 +311,7 @@ public class XcoreInterpreterTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void testEnumJDK14() {
     try {
@@ -373,7 +373,7 @@ public class XcoreInterpreterTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void testEnumJDK50() {
     try {

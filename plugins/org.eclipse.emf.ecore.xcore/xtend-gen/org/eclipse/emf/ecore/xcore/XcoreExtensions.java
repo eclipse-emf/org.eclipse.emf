@@ -30,7 +30,7 @@ public class XcoreExtensions {
     }
     return _switchResult;
   }
-  
+
   public GenTypeParameter getGenTypeParameter(final XGenericType type) {
     GenTypeParameter _switchResult = null;
     GenBase _type = type.getType();
@@ -45,11 +45,11 @@ public class XcoreExtensions {
     }
     return _switchResult;
   }
-  
+
   public static Iterable<EObject> allContentsIterable(final EObject eObject) {
     return IteratorExtensions.<EObject>toIterable(eObject.eAllContents());
   }
-  
+
   public static Iterable<EObject> allContentsIterable(final Resource resource) {
     return IteratorExtensions.<EObject>toIterable(resource.getAllContents());
   }

@@ -60,7 +60,7 @@ public class XcoreGenModelBuilder {
   @Inject
   @Extension
   private XcoreMapper mapper;
-  
+
   public GenModel getGenModel(final XPackage pack) {
     final EPackage ePackage = this.mapper.getMapping(pack).getEPackage();
     final GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
@@ -70,7 +70,7 @@ public class XcoreGenModelBuilder {
     this.buildMap(genModel);
     return genModel;
   }
-  
+
   public void buildMap(final GenModel genModel) {
     Iterable<EObject> _allContentsIterable = XcoreExtensions.allContentsIterable(genModel);
     for (final EObject genElement : _allContentsIterable) {
@@ -179,7 +179,7 @@ public class XcoreGenModelBuilder {
       }
     }
   }
-  
+
   public void initializeUsedGenPackages(final GenModel genModel) {
     final LinkedHashSet<EPackage> referencedEPackages = new LinkedHashSet<EPackage>();
     final List<EPackage> ePackages = new UniqueEList<EPackage>();
@@ -308,7 +308,7 @@ public class XcoreGenModelBuilder {
       }
     }
   }
-  
+
   public GenPackage findLocalGenPackage(final EPackage ePackage) {
     Resource _eResource = ePackage.eResource();
     boolean _tripleNotEquals = (_eResource != null);

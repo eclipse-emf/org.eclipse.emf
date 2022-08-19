@@ -40,14 +40,14 @@ import org.junit.runner.RunWith;
 public class MultiFileTest {
   @Inject
   private XtextResourceSet resourceSet;
-  
+
   @Inject
   private ValidationTestHelper validator;
-  
+
   @Inject
   @Extension
   private XcoreMapper mapper;
-  
+
   @Test
   public void testReferenceBetweenTwoModels() {
     try {
@@ -88,7 +88,7 @@ public class MultiFileTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void testBidirectionalReferenceBetweenTwoModels() {
     try {

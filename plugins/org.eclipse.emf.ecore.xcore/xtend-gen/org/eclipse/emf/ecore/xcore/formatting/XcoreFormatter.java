@@ -134,7 +134,7 @@ public class XcoreFormatter extends XbaseFormatter {
       }
     }
   }
-  
+
   protected void _format(final XPackage xPackage, @Extension final IFormattableDocument format) {
     this.formatAnnotations(xPackage.getAnnotations(), format);
     final Procedure1<IHiddenRegionFormatter> _function = (IHiddenRegionFormatter it) -> {
@@ -191,7 +191,7 @@ public class XcoreFormatter extends XbaseFormatter {
       }
     }
   }
-  
+
   protected void _format(final XEnum xEnum, @Extension final IFormattableDocument format) {
     this.formatAnnotations(xEnum.getAnnotations(), format);
     final Procedure1<IHiddenRegionFormatter> _function = (IHiddenRegionFormatter it) -> {
@@ -213,11 +213,11 @@ public class XcoreFormatter extends XbaseFormatter {
       }
     }
   }
-  
+
   protected void _format(final XEnumLiteral xEnumLiteral, final IFormattableDocument format) {
     this.formatAnnotations(xEnumLiteral.getAnnotations(), format);
   }
-  
+
   protected void _format(final XDataType xDataType, @Extension final IFormattableDocument format) {
     this.formatAnnotations(xDataType.getAnnotations(), format);
     final ISemanticRegion leftAngleBracket = this.textRegionExtensions.regionFor(xDataType).keyword("<");
@@ -239,7 +239,7 @@ public class XcoreFormatter extends XbaseFormatter {
       format.append(format.prepend(this.textRegionExtensions.regionFor(xDataType).keyword(">"), _function_2), _function_3);
     }
   }
-  
+
   protected void _format(final XClass xClass, @Extension final IFormattableDocument format) {
     this.formatAnnotations(xClass.getAnnotations(), format);
     final ISemanticRegion leftAngleBracket = this.textRegionExtensions.regionFor(xClass).keyword("<");
@@ -279,7 +279,7 @@ public class XcoreFormatter extends XbaseFormatter {
       }
     }
   }
-  
+
   protected void _format(final XReference xReference, @Extension final IFormattableDocument format) {
     this.formatAnnotations(xReference.getAnnotations(), format);
     format.<XGenericType>format(xReference.getType());
@@ -299,7 +299,7 @@ public class XcoreFormatter extends XbaseFormatter {
       this.format(get, format);
     }
   }
-  
+
   protected void _format(final XAttribute xAttribute, @Extension final IFormattableDocument format) {
     this.formatAnnotations(xAttribute.getAnnotations(), format);
     format.<XGenericType>format(xAttribute.getType());
@@ -319,7 +319,7 @@ public class XcoreFormatter extends XbaseFormatter {
       this.format(get, format);
     }
   }
-  
+
   protected void _format(final XOperation xOperation, @Extension final IFormattableDocument format) {
     this.formatAnnotations(xOperation.getAnnotations(), format);
     format.<XGenericType>format(xOperation.getType());
@@ -376,7 +376,7 @@ public class XcoreFormatter extends XbaseFormatter {
       this.format(body, format);
     }
   }
-  
+
   protected void _format(final XParameter xParameter, @Extension final IFormattableDocument format) {
     this.formatAnnotations(xParameter.getAnnotations(), format);
     final ISemanticRegion multiplicity = this.textRegionExtensions.regionFor(xParameter).feature(XcorePackage.Literals.XTYPED_ELEMENT__MULTIPLICITY);
@@ -388,7 +388,7 @@ public class XcoreFormatter extends XbaseFormatter {
     }
     format.<XGenericType>format(xParameter.getType());
   }
-  
+
   protected void _format(final XGenericType xGenericType, @Extension final IFormattableDocument format) {
     format.<GenBase>format(xGenericType.getType());
     final ISemanticRegion leftAngleBracket = this.textRegionExtensions.regionFor(xGenericType).keyword("<");
@@ -447,7 +447,7 @@ public class XcoreFormatter extends XbaseFormatter {
       format.append(format.prepend(this.textRegionExtensions.regionFor(xGenericType).keyword("super"), _function_6), _function_7);
     }
   }
-  
+
   protected void _format(final XTypeParameter xTypeParameter, @Extension final IFormattableDocument format) {
     this.formatAnnotations(xTypeParameter.getAnnotations(), format);
     EList<XGenericType> _bounds = xTypeParameter.getBounds();
@@ -467,19 +467,19 @@ public class XcoreFormatter extends XbaseFormatter {
       }
     }
   }
-  
+
   protected void formatAnnotations(final List<XAnnotation> xAnnotations, final IFormattableDocument format) {
     for (final XAnnotation xAnnotation : xAnnotations) {
       this.format(xAnnotation, format);
     }
   }
-  
+
   protected void formatTypeParameters(final List<XTypeParameter> xTypeParameters, final IFormattableDocument format) {
     for (final XTypeParameter xTypeParameter : xTypeParameters) {
       this.format(xTypeParameter, format);
     }
   }
-  
+
   public void format(final Object xAttribute, final IFormattableDocument format) {
     if (xAttribute instanceof XAttribute) {
       _format((XAttribute)xAttribute, format);

@@ -29,11 +29,11 @@ public class XcoreSmokeTest extends AbstractSmokeTest {
   @Inject
   @Extension
   private ParseHelper<EObject> parser;
-  
+
   @Inject
   @Extension
   private ValidationTestHelper validationTestHelper;
-  
+
   /**
    * The models don't neccessarily need to be proper Xcore models.
    */
@@ -82,7 +82,7 @@ public class XcoreSmokeTest extends AbstractSmokeTest {
     _builder.newLine();
     return CollectionLiterals.<String>newArrayList(_builder.toString());
   }
-  
+
   @Override
   public void processModel(final String model) {
     try {
@@ -91,11 +91,11 @@ public class XcoreSmokeTest extends AbstractSmokeTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Override
   public void processModelWithoutResourceSet(final String model) {
   }
-  
+
   @Override
   public LazyLinkingResource createResource(final String string) {
     return null;

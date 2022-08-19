@@ -36,7 +36,7 @@ import org.junit.runner.RunWith;
 public class LinkingTest {
   @Inject
   private ParseHelper<XPackage> parser;
-  
+
   @Test
   public void linkVoidReturnType() {
     try {
@@ -65,7 +65,7 @@ public class LinkingTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void linkQualifiedStringType() {
     try {
@@ -94,7 +94,7 @@ public class LinkingTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void linkInternalDefinedType() {
     try {
@@ -123,7 +123,7 @@ public class LinkingTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void linkFeatureCallType() {
     try {
@@ -154,7 +154,7 @@ public class LinkingTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   public XVariableDeclaration firstVariableDeclaration(final XPackage pack) {
     XVariableDeclaration _xblockexpression = null;
     {

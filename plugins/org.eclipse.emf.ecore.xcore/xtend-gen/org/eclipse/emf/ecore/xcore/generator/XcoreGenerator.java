@@ -61,13 +61,13 @@ public class XcoreGenerator implements IGenerator {
   @Inject
   @Extension
   private XcoreMapper mappings;
-  
+
   @Inject
   private XbaseCompiler compiler;
-  
+
   @Inject
   private Provider<XcoreGeneratorImpl> xcoreGeneratorImplProvider;
-  
+
   public void generateBodyAnnotations(final XPackage pack) {
     final LinkedHashMap<EObject, String> errors = this.getErrors(pack);
     final HashSet<ETypedElement> processed = CollectionLiterals.<ETypedElement>newHashSet();
@@ -156,14 +156,14 @@ public class XcoreGenerator implements IGenerator {
       }
     }
   }
-  
+
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess fsa) {
     EObject _head = IterableExtensions.<EObject>head(resource.getContents());
     this.generateBodyAnnotations(((XPackage) _head));
     this.generateGenModel(IterableExtensions.<GenModel>head(Iterables.<GenModel>filter(resource.getContents(), GenModel.class)), fsa);
   }
-  
+
   public void compile(final EModelElement target, final String key, final ITreeAppendable appendable, final Map<EObject, String> errors, final XBlockExpression body, final JvmTypeReference returnType, final Set<JvmTypeReference> exceptions) {
     try {
       Set<Map.Entry<EObject, String>> _entrySet = errors.entrySet();
@@ -196,7 +196,7 @@ public class XcoreGenerator implements IGenerator {
       }
     }
   }
-  
+
   public LinkedHashMap<EObject, String> getErrors(final XPackage xPackage) {
     final LinkedHashMap<EObject, String> result = Maps.<EObject, String>newLinkedHashMap();
     final Resource resource = xPackage.eResource();
@@ -214,11 +214,11 @@ public class XcoreGenerator implements IGenerator {
     }
     return result;
   }
-  
+
   public XcoreAppendable createAppendable() {
     return new XcoreAppendable();
   }
-  
+
   public String extractBody(final String body) {
     String _xblockexpression = null;
     {
@@ -248,7 +248,7 @@ public class XcoreGenerator implements IGenerator {
     }
     return _xblockexpression;
   }
-  
+
   public Diagnostic generateGenModel(final GenModel genModel, final IFileSystemAccess fsa) {
     Diagnostic _xifexpression = null;
     String _modelDirectory = genModel.getModelDirectory();

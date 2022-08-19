@@ -24,15 +24,15 @@ import org.eclipse.xtext.xbase.ui.labeling.XbaseLabelProvider;
 public class XcoreLabelProvider extends XbaseLabelProvider {
   @Inject
   private IQualifiedNameProvider nameProvider;
-  
+
   @Inject
   private IQualifiedNameConverter nameConverter;
-  
+
   @Inject
   public XcoreLabelProvider(final AdapterFactoryLabelProvider delegate) {
     super(delegate);
   }
-  
+
   @Override
   public String getText(final Object element) {
     final String result = super.getText(element);

@@ -33,7 +33,7 @@ import org.eclipse.xtext.xbase.resource.XbaseResourceDescriptionStrategy;
 public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionStrategy {
   @Inject
   private EcoreResourceDescriptionStrategy ecoreResourceDescriptionStrategy;
-  
+
   @Override
   public boolean createEObjectDescriptions(final EObject it, final IAcceptor<IEObjectDescription> acceptor) {
     boolean _xblockexpression = false;

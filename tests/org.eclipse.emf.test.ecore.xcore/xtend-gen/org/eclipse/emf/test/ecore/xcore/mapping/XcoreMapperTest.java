@@ -35,11 +35,11 @@ import org.junit.runner.RunWith;
 public class XcoreMapperTest {
   @Inject
   private ParseHelper<XPackage> parser;
-  
+
   @Inject
   @Extension
   private XcoreMapper mapper;
-  
+
   @Test
   public void testMapping() {
     try {

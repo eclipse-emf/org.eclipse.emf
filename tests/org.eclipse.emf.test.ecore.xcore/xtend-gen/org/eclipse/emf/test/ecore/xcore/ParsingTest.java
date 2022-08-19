@@ -45,15 +45,15 @@ import org.junit.runner.RunWith;
 public class ParsingTest {
   @Inject
   private ParseHelper<XPackage> parser;
-  
+
   @Inject
   @Extension
   private XcoreExtensions exts;
-  
+
   @Inject
   @Extension
   private ValidationTestHelper vth;
-  
+
   @Test
   public void parseSimpleFile() {
     try {
@@ -63,7 +63,7 @@ public class ParsingTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void testJvmTypes() {
     try {
@@ -86,7 +86,7 @@ public class ParsingTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void testSuperTypeLinking_1() {
     try {
@@ -105,7 +105,7 @@ public class ParsingTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void testSuperTypeLinking_2() {
     try {
@@ -124,7 +124,7 @@ public class ParsingTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void testReferenceToAnnotation() {
     try {
@@ -145,7 +145,7 @@ public class ParsingTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void testReferenceToOpposite() {
     try {
@@ -215,7 +215,7 @@ public class ParsingTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void operationReturnsVoid() {
     try {
@@ -240,7 +240,7 @@ public class ParsingTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void referenceMayNotBeVoid() {
     try {
@@ -263,7 +263,7 @@ public class ParsingTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void stringResolvesToEString() {
     try {
@@ -290,7 +290,7 @@ public class ParsingTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void testEcoreDataTypeAliases() {
     try {
@@ -376,7 +376,7 @@ public class ParsingTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void testEnumMembersAvailable() {
     try {

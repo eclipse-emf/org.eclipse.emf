@@ -25,10 +25,10 @@ import org.junit.runner.RunWith;
 public class XbaseScopingTest {
   @Inject
   private ParseHelper<XPackage> parser;
-  
+
   @Inject
   private ValidationTestHelper validator;
-  
+
   @Test
   public void testLinkToThis() {
     try {
@@ -55,7 +55,7 @@ public class XbaseScopingTest {
       throw Exceptions.sneakyThrow(_e);
     }
   }
-  
+
   @Test
   public void testImports() {
     try {
