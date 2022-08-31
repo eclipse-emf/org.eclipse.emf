@@ -101,6 +101,11 @@ public class POMEnhancer
       modified = true;
     }
 
+    if (model.getDesciption() == null)
+    {
+      model.setDesciption(model.getName());
+    }
+
     if (model.getUrl() == null)
     {
       model.setUrl("https://www.eclipse.org/emf");
