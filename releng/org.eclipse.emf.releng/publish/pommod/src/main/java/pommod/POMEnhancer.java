@@ -153,7 +153,7 @@ public class POMEnhancer
     String groupID = model.getGroupId();
     String artifactID = model.getArtifactId();
     String version = model.getVersion();
-    String description = model.getDescription();
+    String name = model.getName();
 
     boolean exists = exists(groupID, artifactID, version);
 
@@ -175,8 +175,8 @@ public class POMEnhancer
         String pomFileName = path.getFileName().toString();
         Path publishPath = path.getParent().resolve(pomFileName.substring(0, pomFileName.length() - 3) + "publish");
 
-        String javadocWindowTitle = getJavadocWindowTitle(description, version);
-        String javadocFooter = getJavadocFooter(description);
+        String javadocWindowTitle = getJavadocWindowTitle(name, version);
+        String javadocFooter = getJavadocFooter(name);
         savePublish(publishPath.toFile(), javadocWindowTitle, javadocFooter);
       }
 
