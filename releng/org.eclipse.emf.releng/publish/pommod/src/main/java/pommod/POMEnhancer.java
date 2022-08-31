@@ -101,9 +101,9 @@ public class POMEnhancer
       modified = true;
     }
 
-    if (model.getDesciption() == null)
+    if (model.getDescription() == null)
     {
-      model.setDesciption(model.getName());
+      model.setDescription(model.getName());
     }
 
     if (model.getUrl() == null)
