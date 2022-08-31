@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analyzer:Analysis
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:analyzer="https://www.eclipse.org/cbi/p2repo/2021/aggregator/analyzer"
+    aggregation="EMF.aggr#/">
+  <contribution
+      contribution="EMF.aggr#//@validationSets[label='Main']/@contributions[label='EMF%20${version.emf}']"/>
+</analyzer:Analysis>
