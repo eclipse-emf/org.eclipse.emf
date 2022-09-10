@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.pde.ui.RuntimeWorkbench">
     <setAttribute key="additional_plugins">
+        <setEntry value="com.ibm.icu:67.1.0.v20200706-1749:default:true:default:default"/>
         <setEntry value="org.objectweb.asm:9.3.0.v20220409-0157:default:true:default:default"/>
     </setAttribute>
     <booleanAttribute key="append.args" value="true"/>
