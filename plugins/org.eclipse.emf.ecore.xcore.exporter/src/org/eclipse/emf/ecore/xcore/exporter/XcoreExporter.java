@@ -34,6 +34,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
@@ -259,7 +260,7 @@ public class XcoreExporter extends ModelExporter
             //
             for (EAttribute eAttribute : genBase1.eClass().getEAllAttributes())
             {
-              if (!eAttribute.isMany() && genBase1.eIsSet(eAttribute))
+              if (!eAttribute.isMany())
               {
                 Object value1 = genBase1.eGet(eAttribute);
                 Object value2 = genBase2.eGet(eAttribute);
@@ -274,18 +275,29 @@ public class XcoreExporter extends ModelExporter
                   }
                   EcoreUtil.setAnnotation(eModelElement, GenModelPackage.eNS_URI, eAttribute.getName(), EcoreUtil.convertToString(eAttribute.getEAttributeType(), value1));
                 }
-                for (Iterator<EObject> i = genBase1.eContents().iterator(), j = genBase2.eContents().iterator(); i.hasNext() && j.hasNext();)
-                {
-                  EObject content1 = i.next();
-                  EObject content2 = j.next();
-                  if (content1 instanceof GenBase && content2 instanceof GenBase)
-                  {
-                    visit((GenBase)content1, (GenBase)content2);
-                  }
-                }
               }
             }
+
+            for (Iterator<GenBase> i = getContents(genBase1).iterator(), j = getContents(genBase2).iterator(); i.hasNext() && j.hasNext();)
+            {
+              GenBase content1 = i.next();
+              GenBase content2 = j.next();
+              visit((GenBase)content1, (GenBase)content2);
+            }
           }
+        }
+
+        List<GenBase> getContents(EObject eObject)
+        {
+          List<GenBase> result = new ArrayList<GenBase>();
+          for (EObject eContent : eObject.eContents())
+          {
+            if (eContent instanceof GenBase && !(eContent instanceof GenAnnotation))
+            {
+              result.add((GenBase)eContent);
+            }
+          }
+          return result;
         }
       }.visit(inputGenModel, genModel);
 
