@@ -16,8 +16,9 @@ import java.util.List;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.property.value.IValueProperty;
+import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
+import org.eclipse.emf.example.databinding.project.ui.rcp.WidgetProperties;
 import org.eclipse.jface.databinding.swt.IWidgetValueProperty;
-import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -25,14 +26,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
-
 
 /**
  * Helper class which builds a two column form with labels and text-fields
  * @param <P> the value property type
  */
-@SuppressWarnings("deprecation")
 public class FormBuilder<P extends IValueProperty>
 {
   private class Entry

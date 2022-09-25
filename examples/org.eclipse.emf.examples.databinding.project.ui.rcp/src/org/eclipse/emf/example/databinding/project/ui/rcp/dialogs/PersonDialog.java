@@ -20,8 +20,22 @@ import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.databinding.edit.IEMFEditValueProperty;
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
+import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.example.databinding.project.ui.rcp.Activator;
+import org.eclipse.emf.example.databinding.project.ui.rcp.WidgetProperties;
+import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.Base64ToImageConverter;
+import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.EMFObservablesManager;
+import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.FormBuilder;
+import org.eclipse.emf.examples.databinding.project.core.model.project.Person;
+import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage;
 import org.eclipse.jface.databinding.dialog.TitleAreaDialogSupport;
-import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
@@ -37,21 +51,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-
-import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
-import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.databinding.edit.IEMFEditValueProperty;
-import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
-import org.eclipse.emf.edit.command.SetCommand;
-import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.example.databinding.project.ui.rcp.Activator;
-import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.Base64ToImageConverter;
-import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.EMFObservablesManager;
-import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.FormBuilder;
-import org.eclipse.emf.examples.databinding.project.core.model.project.Person;
-import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage;
 
 
 /**

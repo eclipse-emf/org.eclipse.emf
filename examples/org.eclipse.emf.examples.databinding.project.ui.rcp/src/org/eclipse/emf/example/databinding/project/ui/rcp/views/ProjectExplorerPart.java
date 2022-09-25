@@ -31,11 +31,24 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
 import org.eclipse.core.databinding.observable.value.WritableValue;
+import org.eclipse.emf.databinding.EMFProperties;
+import org.eclipse.emf.databinding.FeaturePath;
+import org.eclipse.emf.databinding.IEMFListProperty;
+import org.eclipse.emf.example.databinding.project.ui.rcp.Activator;
+import org.eclipse.emf.example.databinding.project.ui.rcp.ResourceProvider;
+import org.eclipse.emf.example.databinding.project.ui.rcp.ViewerProperties;
+import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.Base64ToImageConverter;
+import org.eclipse.emf.example.databinding.project.ui.rcp.handlers.CreateSublevelProjectHandler;
+import org.eclipse.emf.example.databinding.project.ui.rcp.handlers.CreateToplevelProjectHandler;
+import org.eclipse.emf.examples.databinding.project.core.model.project.CommitterShip;
+import org.eclipse.emf.examples.databinding.project.core.model.project.Foundation;
+import org.eclipse.emf.examples.databinding.project.core.model.project.Person;
+import org.eclipse.emf.examples.databinding.project.core.model.project.Project;
+import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.databinding.viewers.TreeStructureAdvisor;
-import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
@@ -68,25 +81,10 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.services.ISourceProviderService;
 
-import org.eclipse.emf.databinding.EMFProperties;
-import org.eclipse.emf.databinding.FeaturePath;
-import org.eclipse.emf.databinding.IEMFListProperty;
-import org.eclipse.emf.example.databinding.project.ui.rcp.Activator;
-import org.eclipse.emf.example.databinding.project.ui.rcp.ResourceProvider;
-import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.Base64ToImageConverter;
-import org.eclipse.emf.example.databinding.project.ui.rcp.handlers.CreateSublevelProjectHandler;
-import org.eclipse.emf.example.databinding.project.ui.rcp.handlers.CreateToplevelProjectHandler;
-import org.eclipse.emf.examples.databinding.project.core.model.project.CommitterShip;
-import org.eclipse.emf.examples.databinding.project.core.model.project.Foundation;
-import org.eclipse.emf.examples.databinding.project.core.model.project.Person;
-import org.eclipse.emf.examples.databinding.project.core.model.project.Project;
-import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage;
-
 
 /**
  * Part responsible for rendering the project tree
  */
-@SuppressWarnings("deprecation")
 public class ProjectExplorerPart
 {
   private final TreeViewer viewer;

@@ -21,10 +21,18 @@ import org.eclipse.core.databinding.observable.map.IObservableMap;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.property.list.IListProperty;
 import org.eclipse.core.databinding.property.value.IValueProperty;
+import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
+import org.eclipse.emf.databinding.FeaturePath;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.example.databinding.project.ui.rcp.Activator;
+import org.eclipse.emf.example.databinding.project.ui.rcp.WidgetProperties;
+import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.GenericMapCellLabelProvider;
+import org.eclipse.emf.examples.databinding.project.core.model.project.CommitterShip;
+import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -35,20 +43,10 @@ import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.ui.IViewSite;
 
-import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
-import org.eclipse.emf.databinding.FeaturePath;
-import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.example.databinding.project.ui.rcp.Activator;
-import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.GenericMapCellLabelProvider;
-import org.eclipse.emf.examples.databinding.project.core.model.project.CommitterShip;
-import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage;
-
 
 /**
  * Part showing the current committers
  */
-@SuppressWarnings("deprecation")
 public class ProjectCommittersPart
 {
   private static final String END_DATE_PROPERTY = "enddate";

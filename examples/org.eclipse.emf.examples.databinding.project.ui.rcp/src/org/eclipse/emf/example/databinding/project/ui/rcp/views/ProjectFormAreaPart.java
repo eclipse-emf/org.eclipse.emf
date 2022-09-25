@@ -23,8 +23,25 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.emf.databinding.IEMFListProperty;
+import org.eclipse.emf.databinding.IEMFValueProperty;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.RemoveCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.example.databinding.project.ui.rcp.Activator;
+import org.eclipse.emf.example.databinding.project.ui.rcp.NLSMessages;
+import org.eclipse.emf.example.databinding.project.ui.rcp.WidgetProperties;
+import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.FormTextProperty;
+import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.UpdateStrategyFactory;
+import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.Util;
+import org.eclipse.emf.example.databinding.project.ui.rcp.dialogs.PersonFilterDialog;
+import org.eclipse.emf.examples.databinding.project.core.IModelResource;
+import org.eclipse.emf.examples.databinding.project.core.model.project.Person;
+import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage;
 import org.eclipse.jface.databinding.swt.IWidgetValueProperty;
-import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -51,29 +68,10 @@ import org.eclipse.ui.forms.IMessage;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.IEMFListProperty;
-import org.eclipse.emf.databinding.IEMFValueProperty;
-import org.eclipse.emf.databinding.edit.EMFEditProperties;
-import org.eclipse.emf.edit.command.AddCommand;
-import org.eclipse.emf.edit.command.RemoveCommand;
-import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.example.databinding.project.ui.rcp.Activator;
-import org.eclipse.emf.example.databinding.project.ui.rcp.NLSMessages;
-import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.FormTextProperty;
-import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.UpdateStrategyFactory;
-import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.Util;
-import org.eclipse.emf.example.databinding.project.ui.rcp.dialogs.PersonFilterDialog;
-import org.eclipse.emf.examples.databinding.project.core.IModelResource;
-import org.eclipse.emf.examples.databinding.project.core.model.project.Person;
-import org.eclipse.emf.examples.databinding.project.core.model.project.ProjectPackage;
-
 
 /**
  * Part creating the form area
  */
-@SuppressWarnings("deprecation")
 public class ProjectFormAreaPart
 {
   private DataBindingContext ctx;
