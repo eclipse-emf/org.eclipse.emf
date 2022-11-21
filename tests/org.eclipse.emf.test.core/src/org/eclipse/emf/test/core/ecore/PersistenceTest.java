@@ -38,7 +38,9 @@ import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.change.ChangeFactory;
 import org.eclipse.emf.ecore.change.ChangePackage;
+import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.impl.EReferenceImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -327,6 +329,12 @@ public class PersistenceTest
     pack.getEClassifiers().add(person);
     person.setName("Person");
 
+    EAttribute javaClass = EcoreFactory.eINSTANCE.createEAttribute();
+    person.getEStructuralFeatures().add(javaClass);
+    javaClass.setName("javaClass");
+    javaClass.setUnsettable(true);
+    javaClass.setEType(EcorePackage.eINSTANCE.getEJavaClass());
+
     EAttribute birthday = EcoreFactory.eINSTANCE.createEAttribute();
     person.getEStructuralFeatures().add(birthday);
     birthday.setName("birthday");
@@ -336,20 +344,40 @@ public class PersistenceTest
     EObject john = pack.getEFactoryInstance().create(person);
     john.eSet(birthday, new Date(dateValue));
 
+    john.eSet(javaClass, null);
+    assertTrue(john.eIsSet(javaClass));
+
+    ResourceSet resourceSet = new ResourceSetImpl();
+
+    XMIResource ecoreResource = new XMIResourceImpl(URI.createURI("foo.ecore"));
+    ecoreResource.getContents().add(pack);
+
+    resourceSet.getResources().add(ecoreResource);
+
     XMIResource xmiResource = new XMIResourceImpl();
     xmiResource.setURI(URI.createFileURI("foo.xmi"));
     xmiResource.getContents().add(john);
+    resourceSet.getResources().add(xmiResource);
+
+    FeatureChange featureChange = ChangeFactory.eINSTANCE.createFeatureChange(javaClass, null, false);
+    xmiResource.getContents().add(featureChange);
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     xmiResource.save(baos, null);
 
     XMIResource loadedXMIResource = new XMIResourceImpl();
+    resourceSet.getResources().add(loadedXMIResource);
     loadedXMIResource.load(new ByteArrayInputStream(baos.toByteArray()), null);
-    assertEquals(1, loadedXMIResource.getContents().size());
+    assertEquals(2, loadedXMIResource.getContents().size());
 
     EObject loadedJohn = loadedXMIResource.getContents().get(0);
     assertTrue(loadedJohn.eGet(birthday) instanceof Date);
     assertEquals(dateValue, ((Date)loadedJohn.eGet(birthday)).getTime());
+
+    assertTrue(loadedJohn.eIsSet(javaClass));
+
+    FeatureChange loadedFeatureChange = (FeatureChange)loadedXMIResource.getContents().get(1);
+    assertNull(loadedFeatureChange.getValue());
   }
 
   /*

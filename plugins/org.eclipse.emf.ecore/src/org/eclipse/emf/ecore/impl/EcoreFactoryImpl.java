@@ -914,7 +914,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public String convertEJavaClassToString(EDataType metaObject, Object instanceValue)
   {
-    return instanceValue == null ? "" : ((Class<?>)instanceValue).getName();
+    return instanceValue == null ? null : ((Class<?>)instanceValue).getName();
   }
 
   /**
