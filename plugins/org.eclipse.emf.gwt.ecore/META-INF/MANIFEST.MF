@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.gwt.ecore;singleton:=true
-Bundle-Version: 2.14.0.qualifier
+Bundle-Version: 2.15.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
@@ -21,7 +21,7 @@ Export-Package: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xml.type.internal,
  org.eclipse.emf.ecore.xml.type.util,
  org.eclipse.emf.server.ecore.resource
-Require-Bundle: org.eclipse.emf.gwt.common;bundle-version="[2.12.0,3.0.0)";visibility:=reexport
+Require-Bundle: org.eclipse.emf.gwt.common;bundle-version="[2.14.0,3.0.0)";visibility:=reexport
 Eclipse-BuddyPolicy: dependent
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
