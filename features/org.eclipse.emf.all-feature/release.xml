@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <release>
-	<feature name="org.eclipse.emf" version="2.31.0">
+	<feature name="org.eclipse.emf" version="2.32.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<feature name="org.eclipse.emf.common" version="2.27.0"/>
+		<feature name="org.eclipse.emf.common" version="2.28.0"/>
 		<feature name="org.eclipse.emf.common.ui" version="2.19.0"/>
-		<feature name="org.eclipse.emf.ecore" version="2.29.0"/>
+		<feature name="org.eclipse.emf.ecore" version="2.30.0"/>
 		<feature name="org.eclipse.emf.edit" version="2.18.0"/>
 		<feature name="org.eclipse.emf.edit.ui" version="2.24.0"/>
 		<feature name="org.eclipse.emf.ecore.edit" version="2.15.0"/>
 		<feature name="org.eclipse.emf.ecore.editor" version="2.18.0"/>
 		<feature name="org.eclipse.emf.codegen" version="2.23.0"/>
 		<feature name="org.eclipse.emf.codegen.ui" version="2.24.0"/>
-		<feature name="org.eclipse.emf.codegen.ecore" version="2.31.0"/>
-		<feature name="org.eclipse.emf.codegen.ecore.ui" version="2.31.0"/>
+		<feature name="org.eclipse.emf.codegen.ecore" version="2.32.0"/>
+		<feature name="org.eclipse.emf.codegen.ecore.ui" version="2.32.0"/>
 		<feature name="org.eclipse.emf.converter" version="2.18.0"/>
 		<feature name="org.eclipse.emf.databinding" version="1.9.0"/>
 		<feature name="org.eclipse.emf.databinding.edit" version="1.9.0"/>
@@ -22,11 +22,11 @@
 		<feature name="org.eclipse.emf.mapping.ecore.editor" version="2.15.0"/>
 		<plugin name="org.eclipse.emf" version="2.8.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.all" version="2.31.0">
+	<feature name="org.eclipse.emf.all" version="2.32.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<feature name="org.eclipse.emf.sdk" version="2.31.0"/>
-		<feature name="org.eclipse.xsd.sdk" version="2.31.0"/>
-		<feature name="org.eclipse.emf.examples" version="2.21.0"/>
+		<feature name="org.eclipse.emf.sdk" version="2.32.0"/>
+		<feature name="org.eclipse.xsd.sdk" version="2.32.0"/>
+		<feature name="org.eclipse.emf.examples" version="2.22.0"/>
 		<feature name="org.eclipse.xsd.example" version="2.12.0"/>
 		<feature name="org.eclipse.emf.oda.sdk" version="1.10.0"/>
 	</feature>
@@ -34,22 +34,22 @@
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
 		<plugin name="org.eclipse.emf.codegen" version="2.22.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.codegen.ecore" version="2.31.0">
+	<feature name="org.eclipse.emf.codegen.ecore" version="2.32.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<plugin name="org.eclipse.emf.codegen.ecore" version="2.31.0"/>
+		<plugin name="org.eclipse.emf.codegen.ecore" version="2.32.0"/>
 		<plugin name="org.eclipse.emf.ant" version="2.11.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.codegen.ecore.ui" version="2.31.0">
+	<feature name="org.eclipse.emf.codegen.ecore.ui" version="2.32.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<plugin name="org.eclipse.emf.codegen.ecore.ui" version="2.31.0"/>
+		<plugin name="org.eclipse.emf.codegen.ecore.ui" version="2.32.0"/>
 	</feature>
 	<feature name="org.eclipse.emf.codegen.ui" version="2.24.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
 		<plugin name="org.eclipse.emf.codegen.ui" version="2.23.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.common" version="2.27.0">
+	<feature name="org.eclipse.emf.common" version="2.28.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<plugin name="org.eclipse.emf.common" version="2.26.0"/>
+		<plugin name="org.eclipse.emf.common" version="2.27.0"/>
 	</feature>
 	<feature name="org.eclipse.emf.common.ui" version="2.19.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
@@ -72,14 +72,14 @@
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
 		<plugin name="org.eclipse.emf.databinding.edit" version="1.7.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.doc" version="2.29.0">
+	<feature name="org.eclipse.emf.doc" version="2.30.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<plugin name="org.eclipse.emf.doc" version="2.27.0"/>
+		<plugin name="org.eclipse.emf.doc" version="2.28.0"/>
 		<plugin name="org.eclipse.emf.cheatsheets" version="2.8.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.ecore" version="2.29.0">
+	<feature name="org.eclipse.emf.ecore" version="2.30.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<plugin name="org.eclipse.emf.ecore" version="2.28.0"/>
+		<plugin name="org.eclipse.emf.ecore" version="2.29.0"/>
 		<plugin name="org.eclipse.emf.ecore.change" version="2.14.0"/>
 		<plugin name="org.eclipse.emf.ecore.xmi" version="2.17.0"/>
 	</feature>
@@ -100,7 +100,7 @@
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
 		<plugin name="org.eclipse.emf.edit.ui" version="2.22.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.examples" version="2.21.0">
+	<feature name="org.eclipse.emf.examples" version="2.22.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
 		<plugin name="org.eclipse.emf.examples" version="2.8.0"/>
 		<plugin name="org.eclipse.emf.java" version="2.9.0"/>
@@ -115,7 +115,7 @@
 		<plugin name="org.eclipse.emf.examples.jet.article2" version="2.8.0"/>
 		<plugin name="org.eclipse.emf.examples.databinding.project.core" version="1.3.0"/>
 		<plugin name="org.eclipse.emf.examples.databinding.project.core.model" version="1.3.0"/>
-		<plugin name="org.eclipse.emf.examples.databinding.project.ui.rcp" version="1.9.0"/>
+		<plugin name="org.eclipse.emf.examples.databinding.project.ui.rcp" version="1.10.0"/>
 	</feature>
 	<feature name="org.eclipse.emf.license" version="2.11.0"/>
 	<feature name="org.eclipse.emf.mapping" version="2.14.0">
@@ -160,11 +160,11 @@
 		<feature name="org.eclipse.emf.oda.ecore.ui.source" version="0.0.0"/> <!-- UNRESOLVED -->
 	</feature>
 	<feature name="org.eclipse.emf.oda.source" version="0.0.0"/> <!-- UNRESOLVED -->
-	<feature name="org.eclipse.emf.sdk" version="2.31.0">
+	<feature name="org.eclipse.emf.sdk" version="2.32.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<feature name="org.eclipse.emf" version="2.31.0"/>
+		<feature name="org.eclipse.emf" version="2.32.0"/>
 		<feature name="org.eclipse.emf.source" version="0.0.0"/> <!-- UNRESOLVED -->
-		<feature name="org.eclipse.emf.doc" version="2.29.0"/>
+		<feature name="org.eclipse.emf.doc" version="2.30.0"/>
 		<plugin name="org.eclipse.emf.example.installer" version="1.10.0"/>
 	</feature>
 	<feature name="org.eclipse.emf.source" version="0.0.0"/> <!-- UNRESOLVED -->
@@ -172,9 +172,9 @@
 		<feature name="org.eclipse.xsd.license" version="2.12.0" license="true"/>
 		<plugin name="org.eclipse.xsd" version="2.18.0"/>
 	</feature>
-	<feature name="org.eclipse.xsd.doc" version="2.26.0">
+	<feature name="org.eclipse.xsd.doc" version="2.27.0">
 		<feature name="org.eclipse.xsd.license" version="2.12.0" license="true"/>
-		<plugin name="org.eclipse.xsd.doc" version="2.24.0"/>
+		<plugin name="org.eclipse.xsd.doc" version="2.25.0"/>
 		<plugin name="org.eclipse.xsd.cheatsheets" version="2.8.0"/>
 	</feature>
 	<feature name="org.eclipse.xsd.ecore.converter" version="2.13.0">
@@ -211,7 +211,7 @@
 	</feature>
 	<feature name="org.eclipse.xsd.mapping.editor.source" version="0.0.0"/> <!-- UNRESOLVED -->
 	<feature name="org.eclipse.xsd.mapping.source" version="0.0.0"/> <!-- UNRESOLVED -->
-	<feature name="org.eclipse.xsd.sdk" version="2.31.0">
+	<feature name="org.eclipse.xsd.sdk" version="2.32.0">
 		<feature name="org.eclipse.xsd.license" version="2.12.0" license="true"/>
 		<feature name="org.eclipse.xsd" version="2.20.0"/>
 		<feature name="org.eclipse.xsd.source" version="0.0.0"/> <!-- UNRESOLVED -->
@@ -225,7 +225,7 @@
 		<feature name="org.eclipse.xsd.mapping.source" version="0.0.0"/> <!-- UNRESOLVED -->
 		<feature name="org.eclipse.xsd.mapping.editor" version="2.14.0"/>
 		<feature name="org.eclipse.xsd.mapping.editor.source" version="0.0.0"/> <!-- UNRESOLVED -->
-		<feature name="org.eclipse.xsd.doc" version="2.26.0"/>
+		<feature name="org.eclipse.xsd.doc" version="2.27.0"/>
 		<plugin name="org.eclipse.xsd.example.installer" version="1.4.0"/>
 	</feature>
 	<feature name="org.eclipse.xsd.source" version="0.0.0"/> <!-- UNRESOLVED -->
@@ -234,16 +234,16 @@
 	<plugin name="org.eclipse.emf.ant" version="2.11.0"/>
 	<plugin name="org.eclipse.emf.cheatsheets" version="2.8.0"/>
 	<plugin name="org.eclipse.emf.codegen" version="2.22.0"/>
-	<plugin name="org.eclipse.emf.codegen.ecore" version="2.31.0"/>
-	<plugin name="org.eclipse.emf.codegen.ecore.ui" version="2.31.0"/>
+	<plugin name="org.eclipse.emf.codegen.ecore" version="2.32.0"/>
+	<plugin name="org.eclipse.emf.codegen.ecore.ui" version="2.32.0"/>
 	<plugin name="org.eclipse.emf.codegen.ui" version="2.23.0"/>
-	<plugin name="org.eclipse.emf.common" version="2.26.0"/>
+	<plugin name="org.eclipse.emf.common" version="2.27.0"/>
 	<plugin name="org.eclipse.emf.common.ui" version="2.20.0"/>
 	<plugin name="org.eclipse.emf.converter" version="2.11.0"/>
 	<plugin name="org.eclipse.emf.databinding" version="1.6.0"/>
 	<plugin name="org.eclipse.emf.databinding.edit" version="1.7.0"/>
-	<plugin name="org.eclipse.emf.doc" version="2.27.0"/>
-	<plugin name="org.eclipse.emf.ecore" version="2.28.0"/>
+	<plugin name="org.eclipse.emf.doc" version="2.28.0"/>
+	<plugin name="org.eclipse.emf.ecore" version="2.29.0"/>
 	<plugin name="org.eclipse.emf.ecore.change" version="2.14.0"/>
 	<plugin name="org.eclipse.emf.ecore.change.edit" version="2.8.0"/>
 	<plugin name="org.eclipse.emf.ecore.edit" version="2.13.0"/>
@@ -255,7 +255,7 @@
 	<plugin name="org.eclipse.emf.examples" version="2.8.0"/>
 	<plugin name="org.eclipse.emf.examples.databinding.project.core" version="1.3.0"/>
 	<plugin name="org.eclipse.emf.examples.databinding.project.core.model" version="1.3.0"/>
-	<plugin name="org.eclipse.emf.examples.databinding.project.ui.rcp" version="1.9.0"/>
+	<plugin name="org.eclipse.emf.examples.databinding.project.ui.rcp" version="1.10.0"/>
 	<plugin name="org.eclipse.emf.examples.generator.validator" version="1.5.0"/>
 	<plugin name="org.eclipse.emf.examples.jet.article2" version="2.8.0"/>
 	<plugin name="org.eclipse.emf.examples.library" version="2.10.0"/>
@@ -285,7 +285,7 @@
 	<plugin name="org.eclipse.emf.oda.ecore.ui" version="1.5.0"/>
 	<plugin name="org.eclipse.xsd" version="2.18.0"/>
 	<plugin name="org.eclipse.xsd.cheatsheets" version="2.8.0"/>
-	<plugin name="org.eclipse.xsd.doc" version="2.24.0"/>
+	<plugin name="org.eclipse.xsd.doc" version="2.25.0"/>
 	<plugin name="org.eclipse.xsd.ecore.converter" version="2.8.0"/>
 	<plugin name="org.eclipse.xsd.ecore.exporter" version="2.7.0"/>
 	<plugin name="org.eclipse.xsd.ecore.importer" version="2.9.0"/>

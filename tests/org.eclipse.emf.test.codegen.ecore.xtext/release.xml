@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <release>
 	<feature name="org.eclipse.emf.license" version="2.11.0"/>
-	<feature name="org.eclipse.emf.test.ecore.xcore" version="1.21.0">
+	<feature name="org.eclipse.emf.test.ecore.xcore" version="1.22.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
 		<plugin name="org.eclipse.emf.test.codegen.ecore.xtext" version="1.5.0"/>
-		<plugin name="org.eclipse.emf.test.ecore.xcore" version="1.21.0"/>
+		<plugin name="org.eclipse.emf.test.ecore.xcore" version="1.22.0"/>
 	</feature>
 	<plugin name="org.eclipse.emf.test.codegen.ecore.xtext" version="1.5.0"/>
-	<plugin name="org.eclipse.emf.test.ecore.xcore" version="1.21.0"/>
+	<plugin name="org.eclipse.emf.test.ecore.xcore" version="1.22.0"/>
 </release>
