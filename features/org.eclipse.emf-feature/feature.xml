@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf"
       label="%featureName"
-      version="2.32.0.qualifier"
+      version="2.33.0.qualifier"
       provider-name="%providerName"
       license-feature="org.eclipse.emf.license"
       license-feature-version="2.11.0">
