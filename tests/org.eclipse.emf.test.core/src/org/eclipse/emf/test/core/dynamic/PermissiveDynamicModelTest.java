@@ -31,7 +31,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
-import org.eclipse.emf.test.common.EMFTestCommonPlugin;
 import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.core.AllSuites;
 import org.eclipse.emf.test.models.dynamic.Admin;
@@ -55,11 +54,11 @@ public class PermissiveDynamicModelTest
   {
     resourceSet = new ResourceSetImpl();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new XMLResourceFactoryImpl());
-    URI developmentTimeDynamicEcore = URI.createFileURI(
-      TestUtil.getPluginDirectory(EMFTestCommonPlugin.getPlugin().getBundle().getSymbolicName()) + "/models/Dynamic/Dynamic.ecore");
+    URI dynamicExtensionEcoreURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/DynamicExtension.ecore");
+    URI developmentTimeDynamicEcore = URI.createURI("../../org.eclipse.emf.test.common/models/Dynamic/Dynamic.ecore").resolve(dynamicExtensionEcoreURI);
     resourceSet.getPackageRegistry().put(developmentTimeDynamicEcore.toString(), DynamicPackage.eINSTANCE);
     dynamicExtensionPackage = (EPackage)resourceSet.getEObject(
-      URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/DynamicExtension.ecore").appendFragment("/"),
+      dynamicExtensionEcoreURI.appendFragment("/"),
       true);
     EcoreUtil.resolveAll(dynamicExtensionPackage);
     resourceSet.getPackageRegistry().put(dynamicExtensionPackage.getNsURI(), dynamicExtensionPackage);
