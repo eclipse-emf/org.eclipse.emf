@@ -132,4 +132,12 @@
             genModel="models/Reification/Reification.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated Dynamic -->
+      <package
+            uri="http:///org.eclipse.emf.test.models/dynamic"
+            class="org.eclipse.emf.test.models.dynamic.DynamicPackage"
+            genModel="models/Dynamic/Dynamic.genmodel"/>
+   </extension>
+
 </plugin>

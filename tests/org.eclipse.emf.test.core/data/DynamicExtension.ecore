@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="dynamicExtension" nsURI="platform:/resource/org.eclipse.emf.test.common/models/Dynamic/Dynamic.ecore-extension"
+    nsPrefix="dynamic-extension">
+  <eClassifiers xsi:type="ecore:EClass" name="ExtendedProvider" eSuperTypes="../../org.eclipse.emf.test.common/models/Dynamic/Dynamic.ecore#//Provider">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="extendedProviderId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExtendedAdmin" eSuperTypes="../../org.eclipse.emf.test.common/models/Dynamic/Dynamic.ecore#//Admin">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="extendedName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExtendedDetail" eSuperTypes="../../org.eclipse.emf.test.common/models/Dynamic/Dynamic.ecore#//Detail"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Data" eSuperTypes="../../org.eclipse.emf.test.common/models/Dynamic/Dynamic.ecore#//Base"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Mixin1" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataAttribute1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataReferences1" upperBound="-1"
+        eType="#//Data" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Mixin2" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataAttribute2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataReferences2" upperBound="-1"
+        eType="#//Data" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

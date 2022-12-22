@@ -12,7 +12,7 @@
 
   <groupId>org.eclipse.emf</groupId>
   <artifactId>org.eclipse.emf.ecore.xcore.ui</artifactId>
-  <version>1.22.0-SNAPSHOT</version>
+  <version>1.23.0-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 
 </project>

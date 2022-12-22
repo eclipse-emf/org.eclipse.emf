@@ -36,16 +36,106 @@ import org.eclipse.emf.ecore.util.ECrossReferenceEList;
  */
 public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralFeature.Internal.DynamicValueHolder
 {
+  /**
+   * A space compact implementation of the model object '<em><b>EObject</b></em>' that is typically contained by another EObject.
+   * It provides the {@link #eContainer} field which is used by {@link #eInternalContainer()} and {@link #eBasicSetContainer(InternalEObject)}.
+   */
   public static class Container extends MinimalEObjectImpl
   {
+    /**
+     * A space compact implementation of the model object '<em><b>EObject</b></em>' that is typically used as a dynamic base.
+     * It provides the {@link #eClass} field which is used by {@link #eClass()}, {@link #eDynamicClass()}, and {@link #eSetClass(EClass)}.
+     * It also provides the {@link #eSettings} field which is used by {@link #eHasSettings()}, {@link #eBasicSettings()}, and {@link #eBasicSetSettings(Object[])}.
+     */
     public static class Dynamic extends Container
     {
+      /**
+       * A space compact implementation of the model object '<em><b>EObject</b></em>' that is typically used as a dynamic base
+       * where the dynamic EClass's {@link EClass#getEAllStructuralFeatures() features} can be modified via additions and removals at runtime, including the addition or removal of super types.
+       * It provides the {@link #eAllStructuralFeatures} field to {@link #eSettings() record} the features for which there are currently {@link #eSettings} available.
+       * This field is used to {@link #eBasicSettings() reconcile} the settings when they are accessed after a change to the EClass's features.
+       *
+       * @since 2.33
+       */
+      public static class Permissive extends Dynamic
+      {
+        protected EList<EStructuralFeature> eAllStructuralFeatures;
+
+        public Permissive()
+        {
+          super();
+        }
+
+        public Permissive(EClass eClass)
+        {
+          super(eClass);
+        }
+
+        @Override
+        protected Object[] eBasicSettings()
+        {
+          if (eAllStructuralFeatures != null)
+          {
+            EList<EStructuralFeature> newEAllStructuralFeatures = eClass.getEAllStructuralFeatures();
+            if (newEAllStructuralFeatures != eAllStructuralFeatures)
+            {
+              int eStaticFeatureCount = eStaticFeatureCount();
+              int newSize = newEAllStructuralFeatures.size() - eStaticFeatureCount;
+              Object[] newESettings;
+              if (newSize == 0)
+              {
+                newESettings = null;
+              }
+              else
+              {
+                newESettings = new Object [newSize];
+                if (eSettings != null)
+                {
+                  for (int i = 0, oldSize = eAllStructuralFeatures.size() - eStaticFeatureCount; i < oldSize; ++i)
+                  {
+                    EStructuralFeature eStructuralFeature = eAllStructuralFeatures.get(i + eStaticFeatureCount);
+                    int index = newEAllStructuralFeatures.indexOf(eStructuralFeature);
+                    if (index != -1)
+                    {
+                      newESettings[index - eStaticFeatureCount] = eSettings[i];
+                    }
+                  }
+                }
+              }
+
+              eSettings = newESettings;
+              eAllStructuralFeatures = newEAllStructuralFeatures;
+            }
+          }
+
+          return eSettings;
+        }
+
+        @Override
+        protected EStructuralFeature.Internal.DynamicValueHolder eSettings()
+        {
+          if (eSettings == null && eAllStructuralFeatures == null)
+          {
+            eAllStructuralFeatures = eClass.getEAllStructuralFeatures();
+            int size = eAllStructuralFeatures.size() - eStaticFeatureCount();
+            if (size != 0)
+            {
+              eSettings = new Object [size];
+            }
+          }
+
+          return this;
+        }
+      }
+
       public static final class BasicEMapEntry<K, V> extends Dynamic implements BasicEMap.Entry<K, V>
       {
         protected int hash = -1;
+
         protected EStructuralFeature keyFeature;
+
         protected EStructuralFeature valueFeature;
-  
+
         /**
          * Creates a dynamic EObject.
          */
@@ -53,26 +143,26 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralF
         {
           super();
         }
-  
+
         /**
          * Creates a dynamic EObject.
          */
-        public BasicEMapEntry(EClass eClass) 
+        public BasicEMapEntry(EClass eClass)
         {
           super(eClass);
         }
-  
+
         @SuppressWarnings("unchecked")
         public K getKey()
         {
           return (K)eGet(keyFeature);
         }
-  
+
         public void setKey(Object key)
         {
           eSet(keyFeature, key);
         }
-  
+
         public int getHash()
         {
           if (hash == -1)
@@ -82,25 +172,26 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralF
           }
           return hash;
         }
-  
+
         public void setHash(int hash)
         {
           this.hash = hash;
         }
-  
+
         @SuppressWarnings("unchecked")
         public V getValue()
         {
           return (V)eGet(valueFeature);
         }
-  
+
         public V setValue(V value)
         {
-          @SuppressWarnings("unchecked") V result = (V)eGet(valueFeature);
+          @SuppressWarnings("unchecked")
+          V result = (V)eGet(valueFeature);
           eSet(valueFeature, value);
           return result;
         }
-  
+
         @Override
         public void eSetClass(EClass eClass)
         {
@@ -109,71 +200,72 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralF
           valueFeature = eClass.getEStructuralFeature("value");
         }
       }
-  
+
       protected EClass eClass;
+
       protected Object[] eSettings;
-  
+
       public Dynamic()
       {
         super();
       }
-  
+
       public Dynamic(EClass eClass)
       {
         super();
         eSetClass(eClass);
       }
-      
+
       @Override
       public EClass eClass()
       {
         return eClass;
       }
-      
+
       @Override
       protected EClass eDynamicClass()
       {
         return eClass();
       }
-      
+
       @Override
       public void eSetClass(EClass eClass)
       {
         this.eClass = eClass;
       }
-      
+
       @Override
       protected boolean eHasSettings()
       {
         return eSettings != null;
       }
-      
+
       @Override
       protected Object[] eBasicSettings()
       {
         return eSettings;
       }
-      
+
       @Override
       protected void eBasicSetSettings(Object[] settings)
       {
         this.eSettings = settings;
       }
     }
-    
+
     protected InternalEObject eContainer;
 
     public Container()
     {
       super();
     }
-    
+
     @Override
     public InternalEObject eInternalContainer()
     {
       return eContainer;
     }
-    
+
     @Override
     protected void eBasicSetContainer(InternalEObject newContainer)
     {
@@ -378,7 +470,7 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralF
       Object[] result;
       if (fieldCount == 1)
       {
-        result = new Object[2];
+        result = new Object [2];
         int fieldIndex = fieldIndex(field);
         if (fieldIndex == 0)
         {
@@ -393,7 +485,7 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralF
       }
       else
       {
-        result = new Object[fieldCount + 1];
+        result = new Object [fieldCount + 1];
         Object[] oldStorage = (Object[])eStorage;
         for (int bit = CONTAINER, sourceIndex = 0, targetIndex = 0; bit <= RESOURCE; bit <<= 1)
         {
@@ -429,7 +521,7 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralF
       }
       else
       {
-        Object[] result = new Object[fieldCount - 1];
+        Object[] result = new Object [fieldCount - 1];
         for (int bit = CONTAINER, sourceIndex = 0, targetIndex = 0; bit <= RESOURCE; bit <<= 1)
         {
           if (bit == field)
@@ -457,7 +549,7 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralF
       @Override
       protected Object[] newData(int capacity)
       {
-        return new Adapter[capacity];
+        return new Adapter [capacity];
       }
 
       @Override
@@ -510,8 +602,7 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralF
         Adapter adapter = oldAdapter;
         if (eDeliver())
         {
-          Notification notification =
-            new NotificationImpl(Notification.REMOVING_ADAPTER, oldAdapter, null, index)
+          Notification notification = new NotificationImpl(Notification.REMOVING_ADAPTER, oldAdapter, null, index)
             {
               @Override
               public Object getNotifier()
@@ -536,11 +627,11 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralF
         Listener[] listeners = eBasicAdapterListeners();
         if (listeners == null)
         {
-          listeners = new Listener [] { listener };
+          listeners = new Listener []{ listener };
         }
         else
         {
-          Listener[] newListeners = new Listener[listeners.length + 1];
+          Listener[] newListeners = new Listener [listeners.length + 1];
           System.arraycopy(listeners, 0, newListeners, 0, listeners.length);
           newListeners[listeners.length] = listener;
           listeners = newListeners;
@@ -563,12 +654,12 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralF
               }
               else
               {
-                Listener[] newListeners = new Listener[listeners.length - 1];
+                Listener[] newListeners = new Listener [listeners.length - 1];
                 System.arraycopy(listeners, 0, newListeners, 0, i);
                 if (i != newListeners.length)
                 {
                   System.arraycopy(listeners, i + 1, newListeners, i, newListeners.length - i);
-                } 
+                }
                 listeners = newListeners;
               }
               eBasicSetAdapterListeners(listeners);
@@ -680,7 +771,7 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralF
 
   protected void eBasicSetContainerFeatureID(int newContainerFeatureID)
   {
-    eFlags = newContainerFeatureID << 16  | (eFlags & 0x00FF);
+    eFlags = newContainerFeatureID << 16 | (eFlags & 0x00FF);
   }
 
   @Override
@@ -693,7 +784,7 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralF
   @Override
   protected EClass eDynamicClass()
   {
-     return (EClass)getField(CLASS);
+    return (EClass)getField(CLASS);
   }
 
   @Override
@@ -730,7 +821,7 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralF
   {
     if (!eHasSettings())
     {
-      int size =  eClass().getFeatureCount() - eStaticFeatureCount();
+      int size = eClass().getFeatureCount() - eStaticFeatureCount();
       if (size != 0)
       {
         eBasicSetSettings(new Object [size]);

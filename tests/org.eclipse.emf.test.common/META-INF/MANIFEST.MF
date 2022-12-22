@@ -2,14 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.test.common;singleton:=true
-Bundle-Version: 1.10.0.qualifier
+Bundle-Version: 1.11.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)",
- org.eclipse.emf.ecore;bundle-version="[2.24.0,3.0.0)";visibility:=reexport,
- org.eclipse.emf.ecore.xmi;bundle-version="[2.16.0,3.0.0)",
+ org.eclipse.emf.ecore;bundle-version="[2.33.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;bundle-version="[2.17.0,3.0.0)",
  org.eclipse.emf.ecore.edit;bundle-version="[2.13.0,3.0.0)"
 Eclipse-LazyStart: true
 Bundle-Activator: org.eclipse.emf.test.common.EMFTestCommonPlugin
@@ -72,6 +72,9 @@ Export-Package: org.eclipse.emf.test.common,
  org.eclipse.emf.test.models.tree,
  org.eclipse.emf.test.models.tree.impl,
  org.eclipse.emf.test.models.tree.provider,
- org.eclipse.emf.test.models.tree.util
+ org.eclipse.emf.test.models.tree.util,
+ org.eclipse.emf.test.models.dynamic,
+ org.eclipse.emf.test.models.dynamic.impl,
+ org.eclipse.emf.test.models.dynamic.util
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.eclipse.emf.test.common

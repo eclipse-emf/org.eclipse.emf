@@ -55,7 +55,7 @@ import org.junit.Test;
 
 public class SimpleModelTest
 {
-  private EPackage companyPackage;
+  protected EPackage companyPackage;
 
   private EClass employeeClass;
 

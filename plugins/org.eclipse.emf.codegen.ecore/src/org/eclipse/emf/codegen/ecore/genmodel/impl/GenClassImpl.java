@@ -553,10 +553,12 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       {
         String rootExtendsClass = rootGenClass.getGenModel().getRootExtendsClass();
         if ("org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container".equals(rootExtendsClass) ||
-                   "org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container$Dynamic".equals(rootExtendsClass))
+                   "org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container$Dynamic".equals(rootExtendsClass) || 
+                   "org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container$Dynamic$Permissive".equals(rootExtendsClass) )
         {
           genModel.addPseudoImport("org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container");
           genModel.addPseudoImport("org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container.Dynamic");
+          genModel.addPseudoImport("org.eclipse.emf.ecore.impl.MinimalEObjectImpl.Container.Dynamic.Permissive");
         }
         else if (!"org.eclipse.emf.ecore.impl.EObjectImpl".equals(rootExtendsClass))
         {
