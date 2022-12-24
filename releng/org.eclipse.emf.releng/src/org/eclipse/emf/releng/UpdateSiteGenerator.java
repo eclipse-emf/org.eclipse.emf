@@ -108,6 +108,11 @@ public class UpdateSiteGenerator
   private static final String DOWLOAD_ROOT_FOLDER_PROPERTY = System.getProperty("publish.download.root.folder").replace('\\', '/');
 
   /**
+   * The value of {@code publish.download.root.folder} with normalized path segment separators.
+   */
+  private static final boolean RECORD_COMMIT = "true".equals(System.getProperty("publish.record.commit"));
+
+  /**
    * The expected value of the {@link #DOWLOAD_ROOT_FOLDER} on the {@code build.eclipse.org} host.
    */
   public static final String DOWNLOAD_ECLIPSE_ORG_FOLDER = "/home/data/httpd/download.eclipse.org/";
@@ -486,7 +491,7 @@ public class UpdateSiteGenerator
    *
    * @param targetRepository
    */
-  private void xzCompress(String targetRepository)
+  private static void xzCompress(String targetRepository)
   {
     try
     {
@@ -1158,6 +1163,34 @@ public class UpdateSiteGenerator
       getIDs(result, "org.eclipse.emf", COMMIT_ID_PATTERN, VALID_COMMIT_ID_PATTERN, "https://git.eclipse.org/c/emf/org.eclipse.emf.git/commit/?id=");
       getIDs(result, "org.eclipse.xsd", COMMIT_ID_PATTERN, VALID_COMMIT_ID_PATTERN, "https://git.eclipse.org/c/xsd/org.eclipse.xsd.git/commit/?id=");
       getDate();
+      if (RECORD_COMMIT && !result.isEmpty())
+      {
+        IMetadataRepository metadataRepository = getMetadataRepository();
+        String commit = metadataRepository.getProperty("commit");
+        if (commit == null)
+        {
+          for (String value : result.values())
+          {
+            if (commit == null)
+            {
+              commit = value;
+            }
+            else
+            {
+              commit += " " + value;
+            }
+          }
+
+          System.err.println("Recording commits for " + metadataRepository.getLocation());
+          System.err.println("  " + commit);
+
+          if (Boolean.FALSE)
+          {
+            metadataRepository.setProperty("commit", commit);
+            xzCompress(new File(metadataRepository.getLocation()).toString());
+          }
+        }
+      }
       return result;
     }
 
