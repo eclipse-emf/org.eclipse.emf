@@ -1180,11 +1180,8 @@ public class UpdateSiteGenerator
           System.out.println("Recording commits for " + metadataRepository.getLocation());
           System.out.println("  " + commit);
 
-          if (Boolean.FALSE)
-          {
-            metadataRepository.setProperty("commit", commit);
-            xzCompress(new File(metadataRepository.getLocation()).toString());
-          }
+          metadataRepository.setProperty("commit", commit);
+          xzCompress(new File(metadataRepository.getLocation()).toString());
         }
       }
       return result;
