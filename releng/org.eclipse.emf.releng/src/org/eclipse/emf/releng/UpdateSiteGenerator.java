@@ -1164,10 +1164,12 @@ public class UpdateSiteGenerator
       getIDs(result, "org.eclipse.xsd", COMMIT_ID_PATTERN, VALID_COMMIT_ID_PATTERN, "https://git.eclipse.org/c/xsd/org.eclipse.xsd.git/commit/?id=");
       getDate();
       System.out.println("Has commits? " + result);
+      System.out.println("RECORD_COMMIT: " + RECORD_COMMIT);
       if (RECORD_COMMIT && !result.isEmpty())
       {
         IMetadataRepository metadataRepository = getMetadataRepository();
         String commit = metadataRepository.getProperty("commit");
+        System.out.println("Repository commit: " + commit);
         if (commit == null)
         {
           for (String value : result.values())
