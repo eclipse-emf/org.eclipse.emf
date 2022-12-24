@@ -1163,6 +1163,7 @@ public class UpdateSiteGenerator
       getIDs(result, "org.eclipse.emf", COMMIT_ID_PATTERN, VALID_COMMIT_ID_PATTERN, "https://git.eclipse.org/c/emf/org.eclipse.emf.git/commit/?id=");
       getIDs(result, "org.eclipse.xsd", COMMIT_ID_PATTERN, VALID_COMMIT_ID_PATTERN, "https://git.eclipse.org/c/xsd/org.eclipse.xsd.git/commit/?id=");
       getDate();
+      System.out.println("Has commits? " + result);
       if (RECORD_COMMIT && !result.isEmpty())
       {
         IMetadataRepository metadataRepository = getMetadataRepository();
@@ -1181,8 +1182,8 @@ public class UpdateSiteGenerator
             }
           }
 
-          System.err.println("Recording commits for " + metadataRepository.getLocation());
-          System.err.println("  " + commit);
+          System.out.println("Recording commits for " + metadataRepository.getLocation());
+          System.out.println("  " + commit);
 
           if (Boolean.FALSE)
           {
