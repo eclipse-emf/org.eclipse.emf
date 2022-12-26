@@ -28,7 +28,6 @@ import org.eclipse.jface.internal.databinding.swt.ControlLocationProperty;
 import org.eclipse.jface.internal.databinding.swt.ControlSizeProperty;
 import org.eclipse.jface.internal.databinding.swt.ControlVisibleProperty;
 import org.eclipse.jface.internal.databinding.swt.WidgetEditableProperty;
-import org.eclipse.jface.internal.databinding.swt.WidgetEnabledProperty;
 import org.eclipse.jface.internal.databinding.swt.WidgetImageProperty;
 import org.eclipse.jface.internal.databinding.swt.WidgetItemsProperty;
 import org.eclipse.jface.internal.databinding.swt.WidgetMaximumProperty;
@@ -61,11 +60,6 @@ public class WidgetProperties
   public static IWidgetValueProperty editable()
   {
     return new WidgetEditableProperty();
-  }
-
-  public static IWidgetValueProperty enabled()
-  {
-    return new WidgetEnabledProperty();
   }
 
   public static IWidgetValueProperty focused()

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ */
+-->
+<xsd:schema
+  targetNamespace="http://www.example.com/Bad"
+  xmlns:other="http://www.example.com/Other" 
+  xmlns:this="http://www.example.com/Bad" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:import namespace="http://www.example.com/Other" schemaLocation="Other.xsd"/>
+
+    <xsd:group>
+        <xsd:sequence>
+        </xsd:sequence>
+    </xsd:group>
+    <xsd:group name="bad:name">
+        <xsd:sequence>
+        </xsd:sequence>
+    </xsd:group>
+    <xsd:group name="badRef" ref="this:okayGroup">
+        <xsd:sequence>
+        </xsd:sequence>
+    </xsd:group>
+    <xsd:group name="badID" id="id:id">
+        <xsd:sequence>
+        </xsd:sequence>
+    </xsd:group>
+
+    <xsd:group name="badNoContent">
+    </xsd:group>
+
+    <xsd:group name="badContent">
+        <xsd:bad/>
+    </xsd:group>
+
+    <xsd:group name="badCircular">
+        <xsd:sequence>
+           <xsd:group ref="this:badCircular"/>
+        </xsd:sequence>
+    </xsd:group>
+
+    <xsd:group name="okayGroup">
+        <xsd:sequence>
+        </xsd:sequence>
+    </xsd:group>
+
+</xsd:schema>

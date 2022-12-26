@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ */
+-->
+<xsd:schema
+  targetNamespace="http://www.example.com/Bad"
+  xmlns:other="http://www.example.com/Other" 
+  xmlns:this="http://www.example.com/Bad" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:import namespace="http://www.example.com/Other" schemaLocation="Other.xsd"/>
+
+    <xsd:complexType/>
+    <xsd:complexType name="bad:name"/>
+    <xsd:complexType name="badAbstract" abstract="fasle"/>
+    <xsd:complexType name="badBlock" block="resiction"/>
+    <xsd:complexType name="badFinal" final="xtension"/>
+    <xsd:complexType name="badID" id="id:id"/>
+    <xsd:complexType name="badMixed" mixed="fasle"/>
+
+    <xsd:complexType name="badContent">
+        <xsd:bad/>
+    </xsd:complexType>
+
+    <xsd:complexType name="badEmptyComplexContent">
+        <xsd:complexContent>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badComplexContent">
+        <xsd:complexContent>
+            <xsd:bad/>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badAnnotations">
+        <xsd:complexContent>
+           <xsd:extension>
+               <xsd:annotation/>
+               <xsd:annotation/>
+           </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badBase">
+        <xsd:complexContent>
+           <xsd:extension base="badTypeReference">
+           </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badSimpleBaseForComplexContent">
+        <xsd:complexContent>
+           <xsd:extension base="xsd:string">
+           </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badSimpleBaseForRestrictionSimpleContent">
+        <xsd:simpleContent>
+           <xsd:restriction base="xsd:string">
+           </xsd:restriction>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badComplexBaseForRestrictionSimpleContent">
+        <xsd:simpleContent>
+           <xsd:restriction base="this:okayTrivialComplexType">
+           </xsd:restriction>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badWildcardIntersection">
+       <xsd:attributeGroup ref="this:AG"/>
+       <xsd:attributeGroup ref="other:AG"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="badDuplicateIDAttributes">
+       <xsd:attribute name="a"/>
+       <xsd:attribute name="x" type="xsd:ID"/>
+       <xsd:attribute name="a"/>
+       <xsd:attribute name="y" type="xsd:ID"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="badCircularType">
+        <xsd:complexContent>
+           <xsd:restriction base="this:badCircularType">
+           </xsd:restriction>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badFinalExtension">
+        <xsd:complexContent>
+           <xsd:extension base="this:okayFinalTrivialComplexType">
+           </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badComplexExtension">
+        <xsd:complexContent>
+           <xsd:extension base="this:okayComplexTypeSimple">
+             <xsd:sequence>
+                 <xsd:element name="x"/>
+             </xsd:sequence>
+           </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badAttributeType">
+        <xsd:complexContent>
+           <xsd:extension base="this:okayComplexTypeComplex">
+                <xsd:attribute name="a" type="xsd:int"/>
+                <xsd:anyAttribute namespace="http://c.x"/>
+           </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badComplexExtensionMixed" mixed="false">
+        <xsd:complexContent>
+           <xsd:extension base="this:okayComplexTypeComplex">
+           </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badFinalRestriction">
+        <xsd:simpleContent>
+           <xsd:restriction base="this:okayComplexTypeSimple">
+           </xsd:restriction>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badRestrictedAttributeType">
+        <xsd:complexContent>
+           <xsd:restriction base="this:okayComplexTypeComplex">
+               <xsd:attribute name="a" type="xsd:int"/>
+               <xsd:attribute name="b">
+                   <xsd:simpleType>
+                       <xsd:restriction base="xsd:string">
+                           <xsd:pattern value="1*"/>
+                       </xsd:restriction>
+                   </xsd:simpleType>
+               </xsd:attribute>
+               <xsd:attribute ref="other:A"/>
+               <xsd:attribute name="B" type="xsd:int"/>
+               <xsd:anyAttribute namespace="http://c"/>
+           </xsd:restriction>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badSimpleBaseForRestrictionSimpleContent">
+        <xsd:simpleContent>
+           <xsd:restriction base="this:okayComplexTypeSimpleWithAttribute">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:long">
+                       <xsd:pattern value="11"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+                <xsd:attribute name="b" type="xsd:string" use="required"/>
+           </xsd:restriction>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badComplexBaseForRestrictionSimpleContent">
+        <xsd:simpleContent>
+           <xsd:restriction base="this:okayComplexTypeComplex">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:long">
+                       <xsd:pattern value="11"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+                <xsd:attribute name="b" type="xsd:string" use="required"/>
+                <xsd:attribute name="c" type="xsd:string" use="required"/>
+           </xsd:restriction>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badEmptyRestrictionOfSimpleContent">
+        <xsd:complexContent>
+           <xsd:restriction base="this:okayTrivialComplexTypeSimple">
+           </xsd:restriction>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badComplexRestrictionOfSimpleContent">
+        <xsd:complexContent>
+           <xsd:restriction base="this:okayTrivialComplexTypeSimple">
+               <xsd:sequence>
+                 <xsd:element name="e"/>
+               </xsd:sequence>
+           </xsd:restriction>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badMixedRestrictionOfComplexContent" mixed="true">
+        <xsd:complexContent>
+           <xsd:restriction base="this:okayTrivialComplexTypeComplex">
+               <xsd:sequence>
+                 <xsd:element name="e1" nillable="true"/>
+               </xsd:sequence>
+           </xsd:restriction>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badNonRestrictionOfComplexContent">
+        <xsd:complexContent>
+           <xsd:restriction base="this:okayTrivialComplexTypeComplex">
+               <xsd:sequence>
+                 <xsd:element name="e1" nillable="true"/>
+                 <xsd:element name="e2" nillable="true"/>
+                 <xsd:element name="e3" nillable="true"/>
+               </xsd:sequence>
+           </xsd:restriction>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badRestrictionOfComplexContent">
+        <xsd:complexContent>
+           <xsd:restriction base="this:okayTrivialComplexTypeComplex">
+               <xsd:sequence>
+                 <xsd:element name="e2" nillable="true"/>
+               </xsd:sequence>
+           </xsd:restriction>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badNotNillableRestrictionOfComplexContent">
+        <xsd:complexContent>
+           <xsd:restriction base="this:okayTrivialComplexTypeComplex">
+               <xsd:sequence>
+                 <xsd:element name="e1"/>
+                 <xsd:element name="e2" nillable="true"/>
+               </xsd:sequence>
+           </xsd:restriction>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badNotRestrictedFixedComplexTypeComplex">
+        <xsd:complexContent>
+           <xsd:restriction base="this:okayFixedComplexTypeComplex">
+               <xsd:sequence>
+                   <xsd:element name="e" type="xsd:token" fixed="xy"/>
+               </xsd:sequence>
+           </xsd:restriction>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badNotRestrictedTypeComplexTypeComplex">
+        <xsd:complexContent>
+           <xsd:restriction base="this:okayFixedComplexTypeComplex">
+               <xsd:sequence>
+                   <xsd:element name="e" block="substitution" type="xsd:string" fixed="xx"/>
+               </xsd:sequence>
+           </xsd:restriction>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badNotRestrictedBlockComplexTypeComplex">
+        <xsd:complexContent>
+           <xsd:restriction base="this:okayRestrictedComplexTypeComplex">
+               <xsd:sequence>
+                   <xsd:element name="e" type="xsd:token" fixed="xx"/>
+               </xsd:sequence>
+           </xsd:restriction>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badAnySimpleTypeComplexType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:anySimpleType">
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:attributeGroup name="AG">
+        <xsd:anyAttribute namespace="##other"/>
+    </xsd:attributeGroup>
+
+    <xsd:complexType name="okayTrivialComplexType"/>
+
+    <xsd:complexType name="okayFinalTrivialComplexType" final="#all"/>
+
+    <xsd:complexType name="okayTrivialComplexTypeSimple">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:int">
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="okayTrivialComplexTypeComplex">
+       <xsd:sequence>
+         <xsd:element name="e1" nillable="true"/>
+         <xsd:element name="e2" nillable="true"/>
+       </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="okayRestrictionOfComplexContent">
+        <xsd:complexContent>
+           <xsd:restriction base="this:okayTrivialComplexTypeComplex">
+               <xsd:sequence>
+                 <xsd:element name="e1" nillable="true"/>
+                 <xsd:element name="e2" nillable="true"/>
+               </xsd:sequence>
+           </xsd:restriction>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="okayComplexTypeSimple" abstract="true" block="extension" final="restriction" id="x" mixed="true">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:int">
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="okayComplexTypeSimpleWithAttribute">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:int">
+                <xsd:attribute name="a" type="xsd:string"/>
+                <xsd:attribute name="b" type="xsd:string" use="required"/>
+                <xsd:anyAttribute namespace="http://a http://b"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="okayComplexTypeComplex" abstract="true" block="extension" final="" id="x" mixed="true">
+        <xsd:sequence>
+            <xsd:element name="e"/>
+        </xsd:sequence>
+        <xsd:attribute name="a" type="xsd:string"/>
+        <xsd:attribute name="b" type="xsd:string" use="required"/>
+        <xsd:attribute name="c" type="xsd:string" use="required"/>
+        <xsd:anyAttribute namespace="http://a http://b http://www.example.com/Other "/>
+    </xsd:complexType>
+
+    <xsd:complexType name="okayFixedComplexTypeComplex">
+        <xsd:sequence>
+            <xsd:element name="e" type="xsd:token" fixed="xx"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="okayRestrictedComplexTypeComplex">
+        <xsd:complexContent>
+           <xsd:restriction base="this:okayFixedComplexTypeComplex">
+               <xsd:sequence>
+                   <xsd:element name="e" block="substitution" fixed="xx">
+                       <xsd:simpleType>
+                           <xsd:restriction base="xsd:token">
+                               <xsd:pattern value="x*"/>
+                           </xsd:restriction>
+                       </xsd:simpleType>
+                   </xsd:element>
+               </xsd:sequence>
+           </xsd:restriction>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+</xsd:schema>

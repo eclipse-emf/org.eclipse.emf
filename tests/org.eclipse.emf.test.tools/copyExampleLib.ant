@@ -8,7 +8,7 @@
 -->
 <project name="copyExampleLib" basedir="..">
 
-	<property name="examples.path" value="../../org.eclipse.emf/tests/org.eclipse.emf.test.tools/examples" />
+	<property name="examples.path" value="../tests/org.eclipse.emf.test.tools/examples" />
 	<basename file="${build.project}" property="project" />
 
 	<macrodef name="copyExample">

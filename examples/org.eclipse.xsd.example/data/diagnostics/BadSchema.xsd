@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ */
+-->
+<xsd:schema
+  targetNamespace="http://www.example.com/Bad##"
+  xmlns:this="http://www.example.com/Bad##" 
+  xmlns:other="http://www.example.com/Other" 
+  xmlns:notOther="http://www.example.com/NotOther" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  id="id:schema"
+  bad="bad"
+  attributeFormDefault="qalified" 
+  blockDefault="restiction" 
+  elementFormDefault="qalified" 
+  finalDefault="exention"
+  version="1">
+
+    <xsd:annotation/>
+    <xsd:annotation>
+        <xsd:bad/>
+        <xsd:appinfo/>
+        <xsd:documentation/>
+    </xsd:annotation>
+
+    <xsd:import namespace="http://www.example.com/Bad##"/>
+    <xsd:import namespace="http://www.example.com/NotOther" schemaLocation="Other.xsd"/>
+    <xsd:import namespace="http://www.example.com/NotUsed"/>
+    <xsd:import/>
+    
+    <xsd:include/>
+    <xsd:include id="id:include" schemaLocation="BadSchema.xsd"/>
+    <xsd:include schemaLocation="BadSchema.xsd">
+        <xsd:annotation/>
+        <xsd:annotation/>
+    </xsd:include>
+    <xsd:include schemaLocation="Other.xsd"/>
+    <xsd:include schemaLocation="Nothing.xsd"/>
+    <xsd:include schemaLocation="Bad.xsd"/>
+
+    <xsd:redefine/>
+    <xsd:redefine id="id:redefine" schemaLocation="BadSchema.xsd"/>
+    <xsd:redefine schemaLocation="BadSchema.xsd">
+        <xsd:bad/>
+    </xsd:redefine>
+    <xsd:redefine schemaLocation="Other.xsd"/>
+    <xsd:redefine schemaLocation="Nothing.xsd"/>
+    <xsd:redefine schemaLocation="Nothing.xsd">
+        <xsd:complexType name="T">
+            <xsd:complexContent>
+               <xsd:extension base="this:T">
+               </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:redefine>
+
+    <xsd:redefine schemaLocation="Okay.xsd">
+        <xsd:simpleType name="S">
+           <xsd:restriction base="this:S">
+               <xsd:pattern value="..*"/>
+           </xsd:restriction>
+        </xsd:simpleType>
+        <xsd:complexType name="CT">
+           <xsd:complexContent>
+               <xsd:restriction base="this:CT">
+                   <xsd:sequence>
+                       <xsd:element name="bad"/>
+                   </xsd:sequence>
+               </xsd:restriction>
+           </xsd:complexContent>
+        </xsd:complexType>
+        <xsd:group name="G">
+            <xsd:sequence>
+                <xsd:group ref="this:G" minOccurs="0"/>
+                <xsd:group ref="this:G"/>
+            </xsd:sequence>
+        </xsd:group>
+        <xsd:group name="GG">
+            <xsd:sequence>
+            </xsd:sequence>
+        </xsd:group>
+        <xsd:group name="G1">
+            <xsd:sequence>
+                <xsd:element name="bad"/>
+            </xsd:sequence>
+        </xsd:group>
+        <xsd:attributeGroup name="AG">
+            <xsd:attributeGroup ref="this:AG"/>
+            <xsd:attributeGroup ref="this:AG"/>
+        </xsd:attributeGroup>
+        <xsd:attributeGroup name="AGG">
+            <xsd:attributeGroup ref="this:AGG"/>
+        </xsd:attributeGroup>
+        <xsd:attributeGroup name="AG1">
+            <xsd:attribute ref="this:A"/>
+            <xsd:anyAttribute namespace="##other"/>
+        </xsd:attributeGroup>
+        <xsd:simpleType name="ST">
+           <xsd:restriction base="this:ST">
+               <xsd:pattern value="..*"/>
+           </xsd:restriction>
+        </xsd:simpleType>
+        <xsd:group name="G2">
+            <xsd:sequence>
+            </xsd:sequence>
+        </xsd:group>
+    </xsd:redefine>
+
+    <xsd:element name="e"/>
+    <xsd:element name="e"/>
+
+    <xsd:import namespace="http://www.example.com/Other" schemaLocation="Other.xsd"/>
+
+    <xsd:attribute name="a"/>
+    <xsd:attribute name="a"/>
+
+    <xsd:attributeGroup name="ag"/>
+    <xsd:attributeGroup name="ag"/>
+
+    <xsd:group name="g">
+      <xsd:sequence>
+      </xsd:sequence>
+    </xsd:group>
+    <xsd:group name="g">
+      <xsd:sequence>
+      </xsd:sequence>
+    </xsd:group>
+
+    <xsd:complexType name="t"/>
+    <xsd:complexType name="t"/>
+
+    <xsd:notation name="n" public="x"/>
+    <xsd:notation name="n" public="x"/>
+
+    <xsd:element name="e1">
+        <xsd:key name="k"> 
+            <xsd:selector xpath="."/>
+            <xsd:field xpath="."/>
+        </xsd:key>
+    </xsd:element>
+    <xsd:element name="e2">
+        <xsd:key name="k"> 
+            <xsd:selector xpath="."/>
+            <xsd:field xpath="."/>
+        </xsd:key>
+    </xsd:element>
+
+    <xsd:element name="e2" type="notOther:Type"/>
+
+</xsd:schema>
+

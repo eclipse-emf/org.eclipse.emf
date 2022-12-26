@@ -1,4 +1,5 @@
 *.swp
 */*/target/
+*/*/*/target/
 **/.oracle_jre_usage
 .DS_Store

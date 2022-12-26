@@ -12,7 +12,7 @@
 
   <groupId>org.eclipse.emf.features</groupId>
   <artifactId>org.eclipse.emf.oda</artifactId>
-  <version>1.8.0-SNAPSHOT</version>
+  <version>1.9.0-SNAPSHOT</version>
   <packaging>eclipse-feature</packaging>
 
 </project>

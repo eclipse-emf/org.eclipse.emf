@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ */
+-->
+<xsd:schema
+  targetNamespace="http://www.example.com/Bad"
+  xmlns:this="http://www.example.com/Bad" 
+  xmlns:other="http://www.example.com/Other" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:import namespace="http://www.example.com/Other" schemaLocation="Other.xsd"/>
+
+    <xsd:attributeGroup/>
+    <xsd:attributeGroup ref="this:okayAttributeGroup"/>
+    <xsd:attributeGroup name="bad:name"/>
+    <xsd:attributeGroup name="badAttribute" use="optional"/>
+    <xsd:attributeGroup name="badID" id="id:id"/>
+
+    <xsd:attributeGroup name="badContent">
+        <xsd:xattribute/>
+    </xsd:attributeGroup>
+
+    <xsd:attributeGroup name="badAnnotation">
+        <xsd:annotation/>
+        <xsd:annotation/>
+    </xsd:attributeGroup>
+
+    <xsd:attributeGroup name="badAnnotation">
+        <xsd:annotation/>
+        <xsd:attribute name="a"/>
+        <xsd:annotation/>
+    </xsd:attributeGroup>
+
+    <xsd:attributeGroup name="badWildcardIntersection">
+       <xsd:attributeGroup ref="this:AG"/>
+       <xsd:attributeGroup ref="other:AG"/>
+    </xsd:attributeGroup>
+
+    <xsd:attributeGroup name="badCircular">
+       <xsd:attributeGroup ref="this:badCircular"/>
+    </xsd:attributeGroup>
+
+    <xsd:attributeGroup name="badAttributes">
+        <xsd:attribute name="a"/>
+        <xsd:attribute name="a"/>
+        <xsd:attribute name="b" type="xsd:ID"/>
+        <xsd:attribute name="c" type="xsd:ID"/>
+        <xsd:attributeGroup ref="this:badRef"/>
+        <xsd:attributeGroup name="badNested"/>
+    </xsd:attributeGroup>
+
+    <xsd:attributeGroup name="okayAttributeGroup">
+    </xsd:attributeGroup>
+
+    <xsd:attributeGroup name="AG">
+        <xsd:anyAttribute namespace="##other"/>
+    </xsd:attributeGroup>
+
+</xsd:schema>

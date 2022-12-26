@@ -1,0 +1,6 @@
+bin
+bin.tasks
+build.xml
+ant_tasks
+temp.folder
+*.jar

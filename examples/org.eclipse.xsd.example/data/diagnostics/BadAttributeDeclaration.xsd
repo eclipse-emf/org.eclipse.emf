@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ */
+-->
+<xsd:schema
+  targetNamespace="http://www.example.com/Bad"
+  xmlns:this="http://www.example.com/Bad" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:attribute/>
+    <xsd:attribute name="bad:name"/>
+    <xsd:attribute name="badAttribute" use="optional"/>
+    <xsd:attribute name="badFixedAndDefault" type="xsd:string" fixed="x" default="y"/>
+    <xsd:attribute name="badType" type="xsd:badType"/>
+    <xsd:attribute name="badID" id="id:id" type="xsd:string"/>
+    <xsd:attribute name="badAnonymousType" type="xsd:string">
+        <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+                <xsd:pattern value=".*"/>
+            </xsd:restriction>
+        </xsd:simpleType>
+    </xsd:attribute>
+
+    <xsd:attribute name="badContent">
+        <xsd:xsimpleType>
+            <xsd:restriction base="xsd:string"/>
+        </xsd:xsimpleType>
+    </xsd:attribute>
+
+    <xsd:attribute name="badAnnotation">
+        <xsd:annotation/>
+        <xsd:annotation/>
+    </xsd:attribute>
+
+    <xsd:attribute name="badAnnotation">
+        <xsd:annotation/>
+        <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+                <xsd:pattern value=".*"/>
+            </xsd:restriction>
+        </xsd:simpleType>
+        <xsd:annotation/>
+    </xsd:attribute>
+
+    <xsd:attributeGroup name="myAttributeGroup">
+        <xsd:attribute name="badConstraintForID" type="xsd:ID" default="x"/>
+        <xsd:attribute name="badConstraintForDefault" type="xsd:string" default="x" use="required"/>
+        <xsd:attribute name="badConstraintForType" type="xsd:int" default="x"/>
+        <xsd:attribute name="badAttribute" xuse="optional"/>
+        <xsd:attribute name="badUse" use="xoptional"/>
+        <xsd:attribute name="badForm" form="xqualified"/>
+        <xsd:attribute ref="this:badAttributeReference"/>
+        <xsd:attribute ref="this:okayFixedAttribute" name="badNameForReference"/>
+        <xsd:attribute ref="this:okayFixedAttribute" fixed="2"/>
+        <xsd:attribute ref="this:okayFixedAttribute" form="qualified"/>
+        <xsd:attribute ref="this:okayFixedAttribute" type="xsd:String"/>
+        <xsd:attribute ref="this:okayFixedAttribute">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:pattern value=".*"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+    </xsd:attributeGroup>
+
+    <xsd:attribute name="okayFixedAttribute" type="xsd:int" fixed="1"/>
+
+    <xsd:attribute name="okay">
+        <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+                <xsd:pattern value=".*"/>
+            </xsd:restriction>
+        </xsd:simpleType>
+    </xsd:attribute>
+
+    <xsd:attribute name="okayAnnotation">
+        <xsd:annotation/>
+        <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+                <xsd:pattern value=".*"/>
+            </xsd:restriction>
+        </xsd:simpleType>
+    </xsd:attribute>
+
+</xsd:schema>

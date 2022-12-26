@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemaForSchemaContentAnnotation>
+
+<content key='element-header' markup='requires'>
+<div>
+<h1>Schema Content</h1>
+<p>
+The content is color coded to indicate the level of support; the categories are 
+<span class='allows'>allows</span>,
+<span class='requires'>requires</span>,
+<span class='future'>future</span>, and 
+<span class='never'>never</span>.
+
+</p>
+</div>
+</content>
+
+<content key='type-header' markup='requires'>
+<div>
+<h1>Built-in Datatypes</h1>
+<p>
+This represents a summary table the 
+<a target='Part2' href='http://www.w3.org/TR/xmlschema-2/#built-in-datatypes'>hierarchy</a> 
+of built-in datatypes.
+</p>
+<p>
+A <b>very preliminary</b> mapping to Java classes is shown; 
+it is understood that a primitive type will be used intead of the actual class whenever such a primitive type exists.
+</p>
+</div>
+</content>
+
+
+<elementAnnotation key='all' markup='requires'>
+<div>
+This generates unordered content.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='annotation' markup='allows'>
+<div>
+This may influence generation results in undefined ways.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='any' markup='never'>
+<div>
+Arbitrary element content is document centric and is best supported by DOM itself.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='anyAttribute' markup='never'>
+<div>
+Arbitrary attribute content is document centric and is best supported by DOM itself.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='appinfo' markup='allows'>
+<div>
+This may influence generation results in undefined ways.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='attribute' markup='requires'>
+<div>
+This generates simple typed content.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='attributeGroup' markup='requires'>
+<div>
+This contributes attributes to complex content.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='choice' markup='requires'>
+<div>
+This generates a choice of content.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='complexContent' markup='requires'>
+<div>
+This generates content.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='complexContent::extension' markup='requires'>
+<div>
+This contributes additional content.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='complexContent::restriction' markup='requires'>
+<div>
+This restricts previously defined content; this may not fit well with programming language notions.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='complexType' markup='requires'>
+<div>
+This contributes to complex content.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='documentation' markup='allows'>
+<div>
+This may influence generation results in undefined ways.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='element' markup='requires'>
+<div>
+This generates complex typed content.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='enumeration' markup='requires'>
+<div>
+This generates validation checks; it could be used to generate enumerated values.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='field' markup='future'>
+<div>
+It is expected that a future version of the specification will define behavior for this.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='fractionDigits' markup='requires'>
+<div>
+This generates validation checks; it could be used to guide automatic choice of type.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='group' markup='requires'>
+<div>
+This contributes to complex content.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='import' markup='requires'>
+<div>
+This directive makes other namespaces accessible.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='include' markup='requires'>
+<div>
+This directive assembles a decomposed schema.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='key' markup='future'>
+<div>
+It is expected that a future version of the specification will define behavior for this.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='keyref' markup='future'>
+<div>
+It is expected that a future version of the specification will define behavior for this.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='length' markup='requires'>
+<div>
+This generates validation checks.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='list' markup='requires'>
+<div>
+This defines simple content via list derivation.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='maxExclusive' markup='requires'>
+<div>
+This generates validation checks.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='maxInclusive' markup='requires'>
+<div>
+This generates validation checks.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='maxLength' markup='requires'>
+<div>
+This generates validation checks.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='minExclusive' markup='requires'>
+<div>
+This generates validation checks.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='minInclusive' markup='requires'>
+<div>
+This generates validation checks.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='minLength' markup='requires'>
+<div>
+This generates validation checks.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='notation' markup='never'>
+<div>
+Nothing is generated for notations.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='pattern' markup='requires'>
+<div>
+This generates validation checks; a regular expression library will be required by the implementation.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='redefine' markup='future'>
+<div>
+Since redefine is difficult to implement, and is little used,
+it may be ignored by a conforming implementation 
+until a future time when its use becomes common.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='restriction' markup='requires'>
+<div>
+This defines simple type content via restricting derivation.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='schema' markup='requires'>
+<div>
+This generates meaning for a subset of the content.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='selector' markup='future'>
+<div>
+It is expected that a future version of the specification will define behavior for this.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='sequence' markup='requires'>
+<div>
+This generates ordered content.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='simpleContent' markup='requires'>
+<div>
+This contributes to simple content.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='simpleContent::extension' markup='requires'>
+<div>
+This contributes to simple content via extending derivation.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='simpleContent::restriction' markup='requires'>
+<div>
+This defines simple content via restricting derivation; this may not fit well with programming language notions.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='simpleType' markup='requires'>
+<div>
+This defines simple type content.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='totalDigits' markup='requires'>
+<div>
+This generates validation checks.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='union' markup='requires'>
+<div>
+This defines simple type content as a union of member types.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='unique' markup='future'>
+<div>
+It is expected that a future version of the specification will define behavior for this.
+</div>
+</elementAnnotation>
+
+<elementAnnotation key='whiteSpace' markup='requires'>
+<div>
+This generates validation checks.
+</div>
+</elementAnnotation>
+
+
+<!-- Markup for attributes -->
+
+
+<attributeAnnotation key='id' markup='never'>
+<div>
+This is ignored.
+</div>
+</attributeAnnotation>
+
+<attributeAnnotation 
+  key='complexType.abstract complexType.block complexType.final element.abstract element.block element.final element.nillable element.substitutionGroup schema.blockDefault schema.finalDefault'
+  markup='never'>
+<div>
+The concepts of <a target='Part1' href='http://www.w3.org/TR/xmlschema-1#xsi_type'>xsi typing</a> 
+and <a target='Part1' href='http://www.w3.org/TR/xmlschema-1#xsi_nil'>xsi nil</a>
+introduce additional burdens that will be addressed at a future time.
+</div>
+</attributeAnnotation>
+
+<attributeAnnotation key='complexType.mixed complexContent.mixed' markup='never'>
+<div>
+Mixed content is document centric so all complex content is interpretted as element only.
+</div>
+</attributeAnnotation>
+
+
+
+<typeMap schemaType="anySimpleType" javaClass="java.lang.String" />
+<typeMap schemaType="anyType" javaClass="org.w3c.dom.Element" />
+<typeMap schemaType="anyListType" javaClass="java.util.List" />
+<typeMap schemaType="base64Binary" javaClass="java.lang.Byte[]" />
+<typeMap schemaType="boolean" javaClass="java.lang.Boolean" />
+<typeMap schemaType="byte" javaClass="java.lang.Byte" />
+<typeMap schemaType="date" javaClass="java.util.GregorianCalendar" />
+<typeMap schemaType="dateTime" javaClass="java.util.Date" />
+<typeMap schemaType="decimal" javaClass="java.math.BigDecimal" />
+<typeMap schemaType="double" javaClass="java.lang.Double" />
+<typeMap schemaType="float" javaClass="java.lang.Float" />
+<typeMap schemaType="hexBinary" javaClass="java.lang.Byte[]" />
+<typeMap schemaType="int" javaClass="java.lang.Integer" />
+<typeMap schemaType="integer" javaClass="java.math.BigInteger" />
+<typeMap schemaType="long" javaClass="java.lang.Long" />
+<typeMap schemaType="QName" javaClass="java.lang.String[]" />
+<typeMap schemaType="short" javaClass="java.lang.Short" />
+<typeMap schemaType="unsignedByte" javaClass="java.lang.Short" />
+<typeMap schemaType="unsignedInt" javaClass="java.lang.Long" />
+<typeMap schemaType="unsignedShort" javaClass="java.lang.Integer" />
+
+
+<content key='appendix-header' markup='requires'>
+<div>
+<h1>Overview</h1>
+
+This provides an implementation of the XML Schema Standard 
+<a target='Part1' href="http://www.w3.org/TR/xmlschema-1">Part 1</a> and
+<a target='Part2' href="http://www.w3.org/TR/xmlschema-2">Part 2</a>.
+
+<a name="details"/>
+<h2>Abstract XML Schema Components Part 1</h2> 
+
+The abstract XML Schema Components, 
+as described in <a target='Part1' href="http://www.w3.org/TR/xmlschema-1">Part 1</a> of the Standard,
+are related according to this hierarchy:
+<p>
+<img src="ComponentHierarchy.gif" alt="Diagram of the Abstract Schema Component Hierarchy" border="0"/>
+</p>
+
+<p>
+The abstract XML Schema Components have the following defined relations:
+</p>
+<p>
+<img src="ComponentRelations.gif" alt="Diagram of the Abstract Schema Component Relations" border="0"/>
+</p>
+<p>
+This is very similar to the standard non-normative 
+<a target='Part1' href="http://www.w3.org/TR/xmlschema-1/#component-diagram">Schema Components Diagram</a>.
+</p>
+
+<p>
+The abstract XML Schema Components have the following defined attributes:
+</p>
+<p>
+<img src="ComponentAttributes.gif" alt="Diagram of the Abstract Schema Component Attributes" border="0"/>
+</p>
+
+
+<h2>Abstract XML Schema Components Part 2</h2> 
+
+<p>
+The abstract XML Schema Components, 
+as described in <a target='Part2' href="http://www.w3.org/TR/xmlschema-2">Part 2</a> of the Standard,
+are related according to this hierarchy with these defined relations and attributes:
+</p>
+<p>
+<img src="ComponentHierarchyPart2.gif" alt="Diagram of the Abstract Schema Components for Part 2" border="0"/>
+</p>
+
+
+<h2>Abstract XML Schema Annotations</h2> 
+
+The abstract XML Schema Components, 
+as described in <a target='Part1' href="http://www.w3.org/TR/xmlschema-1">Part 1</a> 
+and <a target='Part2' href="http://www.w3.org/TR/xmlschema-2">Part 2</a> of the Standard,
+are annotated as follows:
+<p>
+<img src="Annotations.gif" alt="Diagram of the Abstract Schema Component Annotations" border="0"/>
+</p>
+
+
+<h2>Concrete XML Schema Components</h2> 
+
+<p>
+The set of abstract XML Schema Components is extended to represent that concrete syntax as follows: 
+</p>
+<p>
+<img src="ConcreteComponents.gif" alt="Diagram of the Concrete Schema Components" border="0"/>
+</p>
+
+<p>
+The concrete attributes are represented as follows:
+</p>
+<p>
+<img src="ConcreteAttributes.gif" alt="Diagram of the Concrete Schema Component Attributes" border="0"/>
+</p>
+
+<p>
+The concrete containment relations are represented as follows:
+</p>
+<p>
+<img src="ConcreteContainment.gif" alt="Diagram of the Concrete Containment Relations" border="0"/>
+</p>
+
+<p>
+The following concrete components resolve to abstract components:
+</p>
+<p>
+<img src="ConcreteResolution.gif" alt="Diagram of Concrete Component Resolution" border="0"/>
+</p>
+
+
+<h1>Generator</h1>
+<p>
+The Contents and Build-in Data Types sections 
+are <a target='Extra' href="XSDGenerateHTML.java">generated</a> 
+using the model of the Overview section 
+with the <a target='Part1' href="http://www.w3.org/TR/xmlschema-1#normative-schemaSchema">schema for schema</a>
+and a <a target='Extra' href='SampleMarkup.xml'>markup file</a> as input.
+</p>
+</div>
+</content>
+
+</schemaForSchemaContentAnnotation>

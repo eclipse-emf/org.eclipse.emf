@@ -1,0 +1,958 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=ISO-8859-1">
+<!--
+/**
+ * Copyright (c) 2002-2004 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ */
+-->
+</head>
+<body>
+
+
+<p>
+<a name="package_description"></a>
+This provides an API for the XML Schema Standard 
+<a href="http://www.w3.org/TR/xmlschema-1">Part 1</a> and 
+<a href="http://www.w3.org/TR/xmlschema-2">Part 2</a>; 
+for differences between the <a href="#xsd-version">current version</a> of the API 
+and the previous version of the API, please see the <a href="#xsd-changes">Appendix</a>.
+</p>
+
+<a name="details"><h2>Abstract XML Schema Components Part 1</h2></a>
+
+<p>
+The abstract XML Schema Components, 
+as described in <a href="http://www.w3.org/TR/xmlschema-1">Part 1</a> of the Standard, 
+are related according to this hierarchy: 
+</p>
+
+<p>
+
+<img src="doc-files/ComponentHierarchy.gif" usemap="#ComponentHierarchy" border=0 alt="Diagram of the Abstract Schema Component Hierarchy"></img>
+</p>
+<p>
+In this UML notation,
+each feature (i.e., each relation or attribute) Xyz in a diagram,
+corresponds to a getXyz method in Java for accessing that feature.
+If the feature is many-valued, 
+the getXyz method yields a list,
+which can be modified directly using standard Java List API; 
+otherwise a corresponding setXyz method is available for modification.  
+A relation with a black diamond corresponds to a containment relation; 
+these form the basis for the concrete tree structure of the model.  
+A relation with a white diamond corresponds to a shared psuedo-containment relation; 
+it is used only for documentation purposes 
+since it is not logically different from a relation with no diamond.  
+In general, the white diamond relations represent relations defined directly in the XML Schema specification. 
+They are typically computed from other relations and hence should not be modified directly.
+The exception to this rule are relations involving types, e.g., base-type, member-type, item-type, and element- or attribute-type.  
+</p>
+<p>
+Throughout this Javadoc, 
+the distinction between methods that support the abstract features representing concepts defined in the XML Schema specification
+verses methods that support the concrete features representing the syntactic structure of the XML serialization,
+will be carefully emphasized. 
+The former support read-only analysis whereas the later support editing.
+</p>
+
+<p>
+The abstract XML Schema Components have the following defined relations: 
+</p>
+<p>
+
+<img src="doc-files/ComponentRelations.gif" usemap="#ComponentRelations" border=0 alt="Diagram of the Abstract Schema Component Relations"></img>
+</p>
+
+<p>
+This is very similar to the standard non-normative 
+<a href="http://www.w3.org/TR/xmlschema-1/#component-diagram">Schema Components Diagram</a>. 
+</p>
+
+<p>
+The abstract XML Schema Components have the following defined attributes: 
+</p>
+
+<p>
+
+<img src="doc-files/ComponentAttributes.gif" usemap="#ComponentAttributes" border=0 alt="Diagram of the Abstract Schema Component Attributes"></img>
+</p>
+
+
+<h2>Abstract XML Schema Components Part 2</h2>
+<p>
+The abstract XML Schema Components, 
+as described in <a href="http://www.w3.org/TR/xmlschema-2">Part 2</a> of the Standard, 
+are related according to this hierarchy with these defined relations and attributes: 
+</p>
+<p>
+<img 
+  alt="Diagram of the Abstract Schema Components for Part 2" 
+  src="doc-files/ComponentHierarchyPart2.gif" 
+  border=0 
+  usemap="#ComponentHierarchyPart2"></img>
+</p>
+
+
+<h2>Abstract XML Schema Annotations</h2>
+<p>
+The abstract XML Schema Components, 
+as described in <a href="http://www.w3.org/TR/xmlschema-1">Part 1</a> and <a href="http://www.w3.org/TR/xmlschema-2">Part 2</A> of the Standard, 
+are annotated as follows: 
+</p>
+<p>
+<img 
+  alt="Diagram of the Abstract Schema Component Annotations" 
+  src="doc-files/Annotations.gif" 
+  border=0 
+  usemap="#Annotations"></img>
+</p>
+
+
+<h2>Concrete XML Schema Components</h2>
+<p>
+The set of abstract XML Schema Components is extended to represent the concrete syntax as follows: 
+</p>
+<p>
+
+<img src="doc-files/ConcreteComponents.gif" usemap="#ConcreteComponents" border=0 alt="Diagram of the Concrete Schema Components"></img>
+</p>
+
+<p>
+The concrete attributes are represented as follows: 
+</p>
+<p>
+
+<img src="doc-files/ConcreteAttributes.gif" usemap="#ConcreteAttributes" border=0 alt="Diagram of the Concrete Schema Component Attributes"></img>
+</p>
+
+<p>
+The concrete containment relations are represented as follows: 
+</p>
+<p>
+
+<img src="doc-files/ConcreteContainment.gif" usemap="#ConcreteContainment" border=0 alt="Diagram of the Concrete Containment Relations"></img> 
+</p>
+
+<p>
+The following concrete components resolve to abstract components: 
+</p>
+<p>
+
+
+
+<img src="doc-files/ConcreteResolution.gif" usemap="#ConcreteResolution" border=0 alt="Diagram of Concrete Component Resolution"></img> 
+</p>
+
+<p>
+The following diagnostics are produced by validation: 
+</p>
+<p>
+
+<img src="doc-files/Diagnostics.gif" usemap="#Diagnostics" border=0 alt="Diagram of Concrete Component Diagnostics"></img>
+</p>
+<p>
+The following concrete components have supplemental relations and attributes: 
+</p>
+<p>
+
+<img src="doc-files/ConcreteSupplemental.gif" usemap="#ConcreteSupplemental" border=0 alt="Diagram of Concrete Component Supplemental Relations and Attributes"></img> 
+</p>
+<p>
+
+
+<map name="ComponentHierarchy">
+<area shape=rect coords="236,3,347,38" href="XSDComponent.html">
+<area shape=rect coords="11,81,87,115" href="XSDScope.html">
+<area shape=rect coords="129,80,230,113" href="XSDAnnotation.html">
+<area shape=rect coords="289,82,400,116" href="XSDAttributeUse.html">
+<area shape=rect coords="459,81,532,116" href="XSDTerm.html">
+<area shape=rect coords="569,80,697,115" href="XSDXPathDefinition.html">
+<area shape=rect coords="9,158,100,192" href="XSDSchema.html">
+<area shape=rect coords="109,158,275,192" href="XSDComplexTypeContent.html">
+<area shape=rect coords="292,158,444,195" href="XSDNamedComponent.html">
+<area shape=rect coords="458,158,550,194" href="XSDWildcard.html">
+<area shape=rect coords="568,159,678,191" href="XSDModelGroup.html">
+<area shape=rect coords="81,235,166,270" href="XSDParticle.html">
+<area shape=rect coords="212,235,390,270" href="XSDRedefinableComponent.html">
+<area shape=rect coords="548,236,634,272" href="XSDFeature.html">
+<area shape=rect coords="73,315,196,352" href="XSDTypeDefinition.html">
+<area shape=rect coords="238,316,400,351" href="XSDModelGroupDefinition.html">
+<area shape=rect coords="544,316,698,352" href="XSDElementDeclaration.html">
+<area shape=rect coords="26,392,187,426" href="XSDSimpleTypeDefinition.html">
+<area shape=rect coords="248,389,426,426" href="XSDAttributeGroupDefinition.html">
+<area shape=rect coords="523,386,699,424" href="XSDAttributeDeclaration.html">
+<area shape=rect coords="4,453,207,486" href="XSDComplexTypeDefinition.html">
+<area shape=rect coords="281,455,466,490" href="XSDNotationDeclaration.html">
+<area shape=rect coords="491,454,700,489" href="XSDIdentityConstraintDefinition.html">
+</map>
+
+
+<map name="ComponentRelations">
+<area shape=rect coords="302,6,484,69" href="XSDSchema.html">
+<area shape=rect coords="43,112,194,139" href="XSDElementDeclaration.html">
+<area shape=rect coords="299,110,484,142" href="XSDIdentityConstraintDefinition.html">
+<area shape=rect coords="544,113,700,146" href="XSDModelGroupDefinition.html">
+<area shape=rect coords="48,215,167,245" href="XSDTypeDefinition.html">
+<area shape=rect coords="333,208,455,240" href="XSDXPathDefinition.html">
+<area shape=rect coords="597,208,704,239" href="XSDModelGroup.html">
+<area shape=rect coords="43,277,201,308" href="XSDSimpleTypeDefinition.html">
+<area shape=rect coords="219,277,384,308" href="XSDComplexTypeDefinition.html">
+<area shape=rect coords="493,276,582,307" href="XSDWildcard.html">
+<area shape=rect coords="618,280,700,310" href="XSDParticle.html">
+<area shape=rect coords="319,347,480,382" href="XSDComplexTypeContent.html">
+<area shape=rect coords="629,348,701,382" href="XSDTerm.html">
+<area shape=rect coords="43,412,192,443" href="XSDAttributeDeclaration.html">
+<area shape=rect coords="265,411,374,442" href="XSDAttributeUse.html">
+<area shape=rect coords="486,410,657,445" href="XSDAttributeGroupDefinition.html">
+<area shape=rect coords="11,473,92,507" href="XSDFeature.html">
+<area shape=rect coords="195,473,270,505" href="XSDScope.html">
+<area shape=rect coords="488,473,636,506" href="XSDNotationDeclaration.html">
+<area shape=poly coords="300,30,19,29,19,239,46,239,48,221,30,222,31,53,299,53,300,33,300,30" href="XSDSchema.html#getTypeDefinitions()">
+<area shape=poly coords="484,2,733,4,732,495,638,496,638,484,718,483,715,25,485,26,484,2,484,2" href="XSDSchema.html#getNotationDeclarations()">
+<area shape=poly coords="486,28,715,28,717,436,654,438,657,423,706,420,702,53,485,52,486,25,486,28" href="XSDSchema.html#getAttributeGroupDefinitions()">
+<area shape=poly coords="301,4,3,5,2,434,43,434,43,410,13,409,13,25,300,26,301,4" href="XSDSchema.html#getAttributeDeclarations()">
+<area shape=poly coords="301,58,50,59,50,109,80,110,80,99,195,100,193,83,71,82,72,68,300,71,301,58" href="XSDSchema.html#getElementDeclarations()">
+<area shape=poly coords="487,58,562,60,562,83,697,84,697,101,562,97,563,107,541,107,539,70,485,69,487,58" href="XSDSchema.html#getModelGroupDefinitions()">
+<area shape=poly coords="312,70,314,112,342,110,340,102,500,103,495,84,336,84,335,69,315,69,312,70" href="XSDSchema.html#getIdentityConstraintDefinitions()">
+<area shape=poly coords="197,121,300,120,298,146,344,147,345,159,178,155,180,143,199,143,197,121" href="XSDElementDeclaration.html#getIdentityConstraintDefinitions()">
+<area shape=poly coords="165,143,166,163,317,163,317,177,126,173,126,143,169,144,166,145,165,143" href="XSDElementDeclaration.html#getSubstitutionGroupAffiliation()">
+<area shape=poly coords="119,140,120,180,225,181,224,194,77,187,77,141,120,143,119,140" href="XSDElementDeclaration.html#getSubstitutionGroup()">
+<area shape=poly coords="72,142,70,194,166,198,166,211,52,210,53,189,62,189,61,142,72,142" href="XSDElementDeclaration.html#getTypeDefinition()">
+<area shape=poly coords="170,234,224,236,225,254,103,253,103,269,241,270,240,221,168,221,170,234" href="XSDComplexTypeDefinition.html#getBaseTypeDefinition()">
+<area shape=poly coords="53,310,53,404,77,406,79,380,162,378,161,362,74,357,76,310,53,310" href="XSDAttributeDeclaration.html#getTypeDefinition()">
+<area shape=poly coords="144,312,145,340,122,341,125,357,250,359,247,343,197,339,198,310,146,310,144,312" href="XSDSimpleTypeDefinition.html#getBaseTypeDefinition()">
+<area shape=poly coords="195,411,264,411,265,438,266,448,296,447,296,460,170,456,171,447,204,445,196,413,195,411" href="XSDAttributeUse.html#getAttributeDeclaration()">
+<area shape=poly coords="95,476,190,476,190,503,95,498,95,476" href="XSDFeature.html#getScope()">
+<area shape=poly coords="263,310,264,367,185,367,189,386,266,384,266,408,296,408,292,311,265,312,263,310" href="XSDComplexTypeDefinition.html#getAttributeUses()">
+<area shape=poly coords="325,312,325,325,305,325,306,350,417,348,416,329,345,324,345,311,325,312" href="XSDComplexTypeDefinition.html#getContentType()">
+<area shape=poly coords="377,412,482,414,479,461,375,454,377,412" href="XSDAttributeGroupDefinition.html#getAttributeUses()">
+<area shape=poly coords="382,269,490,269,489,317,453,311,451,297,385,296,382,269" href="XSDComplexTypeDefinition.html#getAttributeWildcard()">
+<area shape=poly coords="516,409,515,339,613,339,610,317,498,312,498,324,473,324,476,335,502,338,500,411,516,409" href="XSDAttributeGroupDefinition.html#getAttributeWildcard()">
+<area shape=poly coords="665,310,665,330,634,330,642,343,669,343,671,350,692,350,690,310,665,310" href="XSDParticle.html#getTerm()">
+<area shape=poly coords="682,276,680,269,705,269,697,255,684,253,682,243,664,241,665,251,610,255,610,271,661,271,666,278,682,276" href="XSDModelGroup.html#getParticles()">
+<area shape=poly coords="683,208,685,192,696,190,691,171,676,170,680,145,660,142,660,168,584,170,587,194,655,194,659,209,683,208" href="XSDModelGroupDefinition.html#getModelGroup()">
+<area shape=poly coords="491,118,521,120,520,162,583,165,578,187,459,177,457,143,492,144,494,117,494,119,491,118" href="XSDIdentityConstraintDefinition.html#getReferencedKey()">
+<area shape=poly coords="434,146,434,182,484,182,486,195,437,194,439,207,414,206,416,198,406,195,408,179,421,177,420,144,434,146" href="XSDIdentityConstraintDefinition.html#getSelector()">
+<area shape=poly coords="368,144,369,179,390,184,389,199,369,198,369,209,348,206,346,199,313,199,314,181,351,178,349,143,370,144,368,144" href="XSDIdentityConstraintDefinition.html#getFields()">
+</map>
+
+
+<map name="ComponentAttributes">
+<area shape=rect coords="8,10,177,30" href="XSDNamedComponent.html">
+<area shape=rect coords="199,7,374,25" href="XSDAttributeUse.html">
+<area shape=rect coords="402,6,600,43" href="XSDIdentityConstraintCategory.html">
+<area shape=rect coords="632,11,803,32" href="XSDXPathDefinition.html">
+<area shape=rect coords="820,10,941,45" href="XSDXPathVariety.html">
+<area shape=rect coords="6,80,97,102" href="XSDSchema.html">
+<area shape=rect coords="3,131,180,153" href="XSDFeature.html">
+<area shape=rect coords="194,126,302,165" href="XSDConstraint.html">
+<area shape=rect coords="323,146,691,167" href="XSDIdentityConstraintDefinition.html">
+<area shape=rect coords="765,143,944,161" href="XSDRedefinableComponent.html">
+<area shape=rect coords="3,256,159,275" href="XSDAttributeDeclaration.html">
+<area shape=rect coords="175,236,623,257" href="XSDElementDeclaration.html">
+<area shape=rect coords="657,220,817,241" href="XSDNotationDeclaration.html">
+<area shape=rect coords="7,335,117,375" href="XSDCompositor.html">
+<area shape=rect coords="147,340,354,376" href="XSDSubstitutionGroupExclusions.html">
+<area shape=rect coords="366,336,544,372" href="XSDDisallowedSubstitutions.html">
+<area shape=rect coords="575,349,736,368" href="XSDModelGroupDefinition.html">
+<area shape=rect coords="768,347,942,369" href="XSDAttributeGroupDefinition.html">
+<area shape=rect coords="686,398,809,419" href="XSDTypeDefinition.html">
+<area shape=rect coords="6,439,198,458" href="XSDModelGroup.html">
+<area shape=rect coords="5,498,170,517" href="XSDParticle.html">
+<area shape=rect coords="218,464,333,502" href="XSDVariety.html">
+<area shape=rect coords="343,480,549,502" href="XSDSimpleTypeDefinition.html">
+<area shape=rect coords="564,481,944,502" href="XSDComplexTypeDefinition.html">
+<area shape=rect coords="6,581,423,601" href="XSDWildcard.html">
+<area shape=rect coords="437,549,544,589" href="XSDSimpleFinal.html">
+<area shape=rect coords="564,601,684,638" href="XSDComplexFinal.html">
+<area shape=rect coords="7,669,227,705" href="XSDNamespaceConstraintCategory.html">
+<area shape=rect coords="237,668,378,708" href="XSDProcessContents.html">
+<area shape=rect coords="439,687,615,727" href="XSDProhibitedSubstitutions.html">
+<area shape=rect coords="626,687,766,726" href="XSDDerivationMethod.html">
+<area shape=rect coords="779,655,943,691" href="XSDContentTypeCategory.html">
+
+<area shape=rect coords="7,601,421,618" href="XSDWildcard.html#getNamespaceConstraintCategory()">
+<area shape=rect coords="6,618,423,632" href="XSDWildcard.html#getNamespaceConstraint()">
+<area shape=rect coords="6,632,423,652" href="XSDWildcard.html#getProcessContents()">
+<area shape=rect coords="440,587,546,603" href="XSDSimpleFinal.html#LIST">
+<area shape=rect coords="438,604,546,620" href="XSDSimpleFinal.html#RESTRICTION">
+<area shape=rect coords="436,622,546,639" href="XSDSimpleFinal.html#UNION">
+<area shape=rect coords="564,638,686,654" href="XSDComplexFinal.html#EXTENSION">
+<area shape=rect coords="564,657,686,674" href="XSDComplexFinal.html#RESTRICTION">
+<area shape=rect coords="8,706,227,721" href="XSDNamespaceConstraintCategory.html#ANY">
+<area shape=rect coords="6,722,228,735" href="XSDNamespaceConstraintCategory.html#NOT">
+<area shape=rect coords="5,736,227,755" href="XSDNamespaceConstraintCategory.html#SET">
+<area shape=rect coords="238,705,374,720" href="XSDProcessContents.html#STRICT">
+<area shape=rect coords="236,721,376,735" href="XSDProcessContents.html#LAX">
+<area shape=rect coords="236,735,377,754" href="XSDProcessContents.html#SKIP">
+<area shape=rect coords="440,723,614,739" href="XSDProhibitedSubstitutions.html#EXTENSION">
+<area shape=rect coords="439,738,614,759" href="XSDProhibitedSubstitutions.html#RESTRICTION">
+<area shape=rect coords="7,30,175,47" href="XSDNamedComponent.html#getName()">
+<area shape=rect coords="6,46,178,66" href="XSDNamedComponent.html#getTargetNamespace()">
+<area shape=rect coords="198,26,372,44" href="XSDAttributeUse.html#isRequired()">
+<area shape=rect coords="199,45,375,58" href="XSDAttributeUse.html#getValue()">
+<area shape=rect coords="199,59,374,80" href="XSDAttributeUse.html#getConstraint()">
+<area shape=rect coords="402,42,600,60" href="XSDIdentityConstraintCategory.html#KEY">
+<area shape=rect coords="404,60,599,76" href="XSDIdentityConstraintCategory.html#KEYREF">
+<area shape=rect coords="403,77,599,97" href="XSDIdentityConstraintCategory.html#UNIQUE">
+<area shape=rect coords="632,30,802,47" href="XSDXPathDefinition.html#getVariety()">
+<area shape=rect coords="632,48,798,64" href="XSDXPathDefinition.html#getValue()">
+<area shape=rect coords="820,46,940,62" href="XSDXPathVariety.html#SELECTOR">
+<area shape=rect coords="818,63,942,80" href="XSDXPathVariety.html#FIELD">
+<area shape=rect coords="5,153,179,169" href="XSDFeature.html#getValue()">
+<area shape=rect coords="3,170,183,189" href="XSDFeature.html#getConstraint()">
+<area shape=rect coords="196,165,304,181" href="XSDConstraint.html#DEFAULT">
+<area shape=rect coords="195,182,305,201" href="XSDConstraint.html#FIXED">
+<area shape=rect coords="325,164,688,186" href="XSDIdentityConstraintDefinition.html#getIdentityConstraintCategory()">
+<area shape=rect coords="176,255,622,271" href="XSDElementDeclaration.html#isNillable()">
+<area shape=rect coords="175,271,625,286" href="XSDElementDeclaration.html#getDisallowedSubstitutions()">
+<area shape=rect coords="174,287,626,302" href="XSDElementDeclaration.html#getSubstitutionGroupExclusions()">
+<area shape=rect coords="175,304,624,321" href="XSDElementDeclaration.html#isAbstract()">
+<area shape=rect coords="657,239,815,258" href="XSDNotationDeclaration.html#getSystemIdentifier()">
+<area shape=rect coords="656,259,815,275" href="XSDNotationDeclaration.html#getPublicIdentifier()">
+<area shape=rect coords="8,372,114,388" href="XSDCompositor.html#ALL">
+<area shape=rect coords="8,389,117,404" href="XSDCompositor.html#CHOICE">
+<area shape=rect coords="6,405,115,423" href="XSDCompositor.html#SEQUENCE">
+<area shape=rect coords="148,375,352,393" href="XSDSubstitutionGroupExclusions.html#EXTENSION">
+<area shape=rect coords="146,395,354,410" href="XSDSubstitutionGroupExclusions.html#RESTRICTION">
+<area shape=rect coords="366,373,544,390" href="XSDDisallowedSubstitutions.html#SUBSTITUTION">
+<area shape=rect coords="365,391,544,405" href="XSDDisallowedSubstitutions.html#EXTENSION">
+<area shape=rect coords="365,405,545,422" href="XSDDisallowedSubstitutions.html#RESTRICTION">
+<area shape=rect coords="7,458,196,479" href="XSDModelGroup.html#getCompositor()">
+<area shape=rect coords="5,517,169,533" href="XSDParticle.html#getMinOccurs()">
+<area shape=rect coords="5,533,169,551" href="XSDParticle.html#getMaxOccurs()">
+<area shape=rect coords="219,500,333,519" href="XSDVariety.html#ATOMIC">
+<area shape=rect coords="217,519,332,533" href="XSDVariety.html#LIST">
+<area shape=rect coords="218,535,336,549" href="XSDVariety.html#UNION">
+<area shape=rect coords="341,501,548,517" href="XSDSimpleTypeDefinition.html#getVariety()">
+<area shape=rect coords="343,518,547,534" href="XSDSimpleTypeDefinition.html#getFinal()">
+<area shape=rect coords="562,502,943,518" href="XSDComplexTypeDefinition.html#getDerivationMethod()">
+<area shape=rect coords="562,519,950,533" href="XSDComplexTypeDefinition.html#getFinal()">
+<area shape=rect coords="562,534,949,551" href="XSDComplexTypeDefinition.html#isAbstract()">
+<area shape=rect coords="561,553,943,567" href="XSDComplexTypeDefinition.html#getContentTypeCategory()">
+<area shape=rect coords="562,568,941,586" href="XSDComplexTypeDefinition.html#getProhibitedSubstitutions()">
+<area shape=rect coords="628,723,766,738" href="XSDDerivationMethod.html#EXTENSION">
+<area shape=rect coords="627,740,767,757" href="XSDDerivationMethod.html#RESTRICTION">
+<area shape=rect coords="778,691,943,709" href="XSDContentTypeCategory.html#EMPTY">
+<area shape=rect coords="778,711,941,723" href="XSDContentTypeCategory.html#SIMPLE">
+<area shape=rect coords="778,724,942,740" href="XSDContentTypeCategory.html#MIXED">
+<area shape=rect coords="777,742,941,759" href="XSDContentTypeCategory.html#ELEMENT_ONLY">
+</map>
+
+
+<map name="ComponentHierarchyPart2">
+<area shape="rect" coords="609,9,717,45" href="XSDVariety.html">
+<area shape="rect" coords="607,115,716,152" href="XSDSimpleFinal.html">
+<area shape="rect" coords="581,403,723,439" href="XSDOrdered.html">
+<area shape="rect" coords="582,511,722,549" href="XSDCardinality.html">
+<area shape="rect" coords="590,604,725,639" href="XSDWhiteSpace.html">
+<area shape="rect" coords="358,10,568,30" href="XSDSimpleTypeDefinition.html">
+<area shape="rect" coords="50,31,157,67" href="XSDComponent.html">
+<area shape="rect" coords="51,98,179,117" href="XSDFacet.html">
+<area shape="rect" coords="6,177,152,199" href="XSDConstrainingFacet.html">
+<area shape="rect" coords="163,177,312,199" href="XSDFundamentalFacet.html">
+<area shape="rect" coords="5,262,113,284" href="XSDFixedFacet.html">
+<area shape="rect" coords="155,265,297,287" href="XSDRepeatableFacet.html">
+<area shape="rect" coords="437,273,560,295" href="XSDBoundedFacet.html">
+<area shape="rect" coords="571,273,702,295" href="XSDOrderedFacet.html">
+<area shape="rect" coords="79,350,231,371" href="XSDEnumerationFacet.html">
+<area shape="rect" coords="244,351,395,371" href="XSDPatternFacet.html">
+<area shape="rect" coords="416,331,539,351" href="XSDNumericFacet.html">
+<area shape="rect" coords="573,330,721,351" href="XSDCardinalityFacet.html">
+<area shape="rect" coords="30,417,126,439" href="XSDMinFacet.html">
+<area shape="rect" coords="151,416,262,438" href="XSDLengthFacet.html">
+<area shape="rect" coords="276,418,433,438" href="XSDWhiteSpaceFacet.html">
+<area shape="rect" coords="456,416,553,438" href="XSDMaxFacet.html">
+<area shape="rect" coords="123,473,258,495" href="XSDMinLengthFacet.html">
+<area shape="rect" coords="316,474,456,495" href="XSDMaxLengthFacet.html">
+<area shape="rect" coords="84,530,225,553" href="XSDMinInclusiveFacet.html">
+<area shape="rect" coords="343,530,490,552" href="XSDMaxInclusiveFacet.html">
+<area shape="rect" coords="34,587,185,607" href="XSDMinExclusiveFacet.html">
+<area shape="rect" coords="376,586,528,607" href="XSDMaxExclusiveFacet.html">
+<area shape="rect" coords="11,653,146,673" href="XSDTotalDigitsFacet.html">
+<area shape="rect" coords="417,654,571,672" href="XSDFractionDigitsFacet.html">
+
+<area shape=rect coords="628,723,766,738" href="XSDDerivationMethod.html#EXTENSION">
+<area shape=poly coords="357,13,20,14,19,146,5,148,6,167,29,177,79,161,80,148,31,147,35,24,356,27,357,13" href="XSDSimpleTypeDefinition.html#getFacets()">
+<area shape=poly coords="355,35,168,36,167,93,179,93,179,61,352,71,356,69,355,35" href="XSDFacet.html#getSimpleTypeDefinition()">
+<area shape=poly coords="356,77,198,78,197,176,218,177,218,130,244,129,243,106,339,106,336,87,356,89,355,79,356,77" href="XSDSimpleTypeDefinition.html#getFundamentalFacets()">
+<area shape=poly coords="352,91,354,126,278,127,280,150,399,148,398,88,354,90,352,91" href="XSDSimpleTypeDefinition.html#getBaseTypeDefinition()">
+<area shape=poly coords="405,89,407,153,309,153,311,168,452,167,453,88,410,89,405,89" href="XSDSimpleTypeDefinition.html#getPrimitiveTypeDefinition()">
+<area shape=poly coords="461,89,461,170,391,172,392,192,515,192,515,88,465,87,465,89,461,89" href="XSDSimpleTypeDefinition.html#getItemTypeDefinition()">
+<area shape=poly coords="524,89,525,194,416,195,419,216,572,218,572,87,524,89" href="XSDSimpleTypeDefinition.html#getMemberTypeDefinitions()">
+<area shape=rect coords="357,30,563,46" href="XSDSimpleTypeDefinition.html#getVariety()">
+<area shape=rect coords="358,46,566,63" href="XSDSimpleTypeDefinition.html#getFinal()">
+<area shape=rect coords="608,44,715,62" href="XSDVariety.html#ATOMIC">
+<area shape=rect coords="608,63,715,77" href="XSDVariety.html#LIST">
+<area shape=rect coords="608,80,715,98" href="XSDVariety.html#UNION">
+<area shape=rect coords="607,152,714,169" href="XSDSimpleFinal.html#LIST">
+<area shape=rect coords="608,170,718,185" href="XSDSimpleFinal.html#RESTRICTION">
+<area shape=rect coords="606,185,717,201" href="XSDSimpleFinal.html#UNION">
+<area shape=rect coords="4,285,111,303" href="XSDFacet.html#isFixed()">
+<area shape=rect coords="438,294,558,314" href="XSDBoundedFacet.html#isValue()">
+<area shape=rect coords="568,295,703,314" href="XSDOrderedFacet.html#getValue()">
+<area shape=rect coords="78,372,230,391" href="XSDEnumerationFacet.html#getValue()">
+<area shape=rect coords="241,371,393,393" href="XSDPatternFacet.html#getValue()">
+<area shape=rect coords="415,349,539,372" href="XSDNumericFacet.html#isValue()">
+<area shape=rect coords="570,351,721,372" href="XSDCardinalityFacet.html#getValue()">
+<area shape=rect coords="28,439,128,459" href="XSDMinFacet.html#getValue()">
+<area shape=rect coords="150,438,260,460" href="XSDLengthFacet.html#getValue()">
+<area shape=rect coords="275,438,433,458" href="XSDWhiteSpaceFacet.html#getValue()">
+<area shape=rect coords="453,439,552,458" href="XSDMaxFacet.html#getValue()">
+<area shape=rect coords="123,496,257,514" href="XSDMinLengthFacet.html#getValue()">
+<area shape=rect coords="316,495,454,515" href="XSDMaxLengthFacet.html#getValue()">
+<area shape=rect coords="8,673,147,692" href="XSDTotalDigitsFacet.html#getValue()">
+<area shape=rect coords="415,675,571,691" href="XSDFractionDigitsFacet.html#getValue()">
+<area shape=rect coords="579,550,722,565" href="XSDCardinality.html#fFINITE">
+<area shape=rect coords="578,567,722,584" href="XSDCardinality.html#COUNTABLY_INFINITE">
+<area shape=rect coords="579,439,722,457" href="XSDOrdered.html#FALSE">
+<area shape=rect coords="578,458,721,474" href="XSDOrdered.html#PARTIAL">
+<area shape=rect coords="580,473,722,490" href="XSDOrdered.html#TOTAL">
+<area shape=rect coords="589,640,724,658" href="XSDWhiteSpace.html#PRESERVE">
+<area shape=rect coords="588,658,725,673" href="XSDWhiteSpace.html#REPLACE">
+<area shape=rect coords="588,674,726,690" href="XSDWhiteSpace.html#COLLAPSE">
+</map>
+
+<map name="Annotations">
+<area shape="rect" coords="14,7,127,42" href="XSDAttributeUse.html">
+<area shape="rect" coords="327,6,415,40" href="XSDSchema.html">
+<area shape="rect" coords="591,6,665,39" href="XSDFacet.html">
+<area shape="rect" coords="13,53,167,86" href="XSDAttributeDeclaration.html">
+<area shape="rect" coords="12,104,188,138" href=" XSDAttributeGroupDefinition.html">
+<area shape="rect" coords="518,77,666,111" href="XSDConstrainingFacet.html">
+<area shape="rect" coords="525,161,668,194" href="XSDRepeatableFacet.html">
+<area shape="rect" coords="545,369,669,403" href="XSDTypeDefinition.html">
+<area shape="rect" coords="506,462,668,496" href="XSDSimpleTypeDefinition.html">
+<area shape="rect" coords="454,530,666,561" href="XSDComplexTypeDefinition.html">
+<area shape="rect" coords="13,156,167,189" href="XSDElementDeclaration.html">
+<area shape="rect" coords="14,206,167,240" href="XSDNotationDeclaration.html">
+<area shape="rect" coords="12,258,137,290" href="XSDXPathDefinition.html">
+<area shape="rect" coords="11,309,118,342" href="XSDModelGroup.html">
+<area shape="rect" coords="10,359,170,393" href="XSDModelGroupDefinition.html">
+<area shape="rect" coords="10,417,203,449" href="XSDIdentityConstraintDefinition.html">
+<area shape="rect" coords="7,472,100,505" href="XSDWildcard.html">
+<area shape="rect" coords="12,523,96,557" href="XSDParticle.html">
+<area shape="rect" coords="265,214,500,387" href="XSDAnnotation.html">
+
+<area shape=poly coords="168,61,267,62,265,47,341,50,342,185,357,186,356,200,339,199,339,214,329,211,327,75,167,76,168,61" href="XSDAttributeDeclaration.html#getAnnotation()">
+<area shape=poly coords="186,101,231,100,233,90,308,92,306,181,324,187,322,206,304,213,293,208,295,118,185,119,186,101" href="XSDAttributeGroupDefinition.html#getAnnotation()">
+<area shape=poly coords="166,166,196,167,198,157,276,156,275,188,291,189,289,203,275,202,274,215,261,213,262,180,166,181,166,166" href="XSDElementDeclaration.html#getAnnotation()">
+<area shape=poly coords="168,217,182,218,186,205,254,207,262,228,253,244,226,242,222,231,166,232,168,217" href="XSDNotationDeclaration.html#getAnnotation()">
+<area shape=poly coords="136,269,180,269,180,258,257,258,260,278,251,296,230,295,224,283,136,282,136,269" href="XSDXPathDefinition.html#getAnnotation()">
+<area shape=poly coords="119,318,173,317,181,304,245,306,262,325,253,344,222,342,216,331,118,331,118,330,119,318" href="XSDModelGroup.html#getAnnotation()">
+<area shape=poly coords="170,369,178,370,186,357,254,360,261,384,251,403,224,401,218,390,168,389,170,369" href="XSDModelGroupDefinition.html#getAnnotation()">
+<area shape=poly coords="200,426,210,414,273,414,276,388,288,389,310,401,314,412,292,423,288,442,202,442,200,426" href="XSDIdentityConstraintDefinition.html#getAnnotation()">
+<area shape=poly coords="99,471,317,460,317,388,337,387,337,397,350,400,351,416,332,421,329,483,98,482,99,471" href="XSDWildcard.html#getAnnotation()">
+<area shape=poly coords="99,489,361,486,361,388,383,388,402,406,380,421,375,506,99,506,99,489" href="XSDWildcard.html#getAnnotations()">
+<area shape=poly coords="452,528,453,417,429,416,433,397,455,400,456,389,475,390,473,424,595,425,593,443,473,444,472,530,452,528" href="XSDComplexTypeDefinition.html#getContentAnnotation()">
+<area shape=poly coords="555,369,555,343,499,343,501,307,582,308,580,370,555,369" href="XSDTypeDefinition.html#getAnnotation()">
+<area shape=poly coords="501,293,598,299,602,369,621,370,621,281,638,280,636,260,498,260,500,295,501,293" href="XSDTypeDefinition.html#getDerivationAnnotation()">
+<area shape=poly coords="653,370,650,239,500,242,501,212,592,210,663,223,664,371,653,370" href="XSDTypeDefinition.html#getAnnotations()">
+<area shape=poly coords="518,172,519,156,561,154,551,137,479,139,479,188,464,190,469,210,495,211,499,180,521,181,518,172" href="XSDRepeatableFacet.html#getAnnotations()">
+<area shape=poly coords="583,31,537,30,538,50,464,50,462,211,447,213,422,198,427,185,450,181,450,11,589,12,583,31" href="XSDFacet.html#getAnnotation()">
+<area shape=poly coords="371,44,373,64,448,63,448,80,372,80,369,185,399,188,400,203,366,214,357,205,356,40,371,44" href="XSDSchema.html#getAnnotations()">
+</map>
+
+<map name="ConcreteComponents">
+<area shape=rect coords="267,12,429,47" href="XSDConcreteComponent.html">
+<area shape=rect coords="28,104,136,137" href="XSDComponent.html">
+<area shape=rect coords="170,103,344,136" href="XSDAttributeGroupContent.html">
+<area shape=rect coords="360,101,495,134" href="XSDSchemaContent.html">
+<area shape=rect coords="520,101,652,135" href="XSDParticleContent.html">
+<area shape=rect coords="25,186,102,220" href="XSDScope.html">
+<area shape=rect coords="135,184,286,220" href="XSDNamedComponent.html">
+<area shape=rect coords="305,185,444,219" href="XSDRedefineContent.html">
+<area shape=rect coords="508,184,647,217" href="XSDSchemaDirective.html">
+<area shape=rect coords="132,277,309,312" href="XSDRedefinableComponent.html">
+<area shape=rect coords="400,272,478,305" href="XSDImport.html">
+<area shape=rect coords="499,270,653,305" href="XSDSchemaCompositor.html">
+<area shape=rect coords="6,352,96,384" href="XSDSchema.html">
+<area shape=rect coords="108,351,385,389" href="XSDAnnotation.html">
+<area shape=rect coords="473,352,554,385" href="XSDInclude.html">
+<area shape=rect coords="567,353,653,386" href="XSDRedefine.html">
+
+<area shape=poly coords="267,25,72,25,72,5,6,6,5,351,20,351,16,48,54,50,69,39,266,34,267,25" href="XSDConcreteComponent.html#getSchema()">
+<area shape=poly coords="265,38,229,39,228,47,143,46,143,64,224,61,228,70,289,72,282,51,264,50,265,38" href="XSDConcreteComponent.html#getRootContainer()">
+<area shape=poly coords="18,388,16,448,3,448,6,469,25,472,695,470,695,193,651,193,651,212,686,211,684,458,141,460,139,449,31,446,32,386,18,388" href="XSDSchemaDirective.html#getResolvedSchema()">
+<area shape=poly coords="53,387,52,423,38,423,38,443,65,445,681,446,681,277,654,280,654,296,670,297,671,435,200,435,195,423,71,420,71,387,53,387" href="XSDSchemaCompositor.html#getIncorporatedSchema()">
+<area shape=poly coords="410,50,411,68,474,71,475,59,543,59,537,43,472,44,472,35,433,34,431,52,410,50" href="XSDConcreteComponent.html#getContainer()">
+<area shape=poly coords="360,388,361,397,336,399,336,419,370,423,621,424,621,387,600,386,602,414,452,411,450,399,377,398,377,387,360,388" href="XSDRedefine.html#getAnnotations()">
+<area shape=poly coords="469,382,418,380,417,395,391,394,385,373,388,350,459,349,471,369,469,382" href="XSDInclude.html#getAnnotation()">
+<area shape=poly coords="400,285,355,285,355,319,336,318,336,336,355,339,364,351,380,339,440,338,438,323,367,322,370,299,398,302,400,285" href="XSDImport.html#getAnnotation()">
+</map>
+
+
+<map name="ConcreteAttributes">
+<area shape=rect coords="6,4,221,25" href="XSDConcreteComponent.html">
+<area shape=rect coords="4,100,138,121" href="XSDSchemaContent.html">
+<area shape=rect coords="212,100,322,122" href="XSDComponent.html">
+<area shape=rect coords="6,181,169,201" href="XSDSchemaDirective.html">
+<area shape=rect coords="232,182,312,203" href="XSDScope.html">
+<area shape=rect coords="357,185,493,205" href="XSDFacet.html">
+<area shape=rect coords="556,184,849,206" href="XSDAnnotation.html">
+<area shape=rect coords="5,283,140,304" href="XSDImport.html">
+<area shape=rect coords="192,244,515,263" href="XSDSchema.html">
+<area shape=rect coords="529,279,680,300" href="XSDNamedComponent.html">
+<area shape=rect coords="793,275,869,296" href="XSDTerm.html">
+<area shape=rect coords="579,344,867,366" href="XSDWildcard.html">
+<area shape=rect coords="6,403,209,423" href="XSDAttributeUse.html">
+<area shape=rect coords="227,411,404,446" href="XSDDisallowedSubstitutions.html">
+<area shape=rect coords="418,427,597,448" href="XSDRedefinableComponent.html">
+<area shape=rect coords="614,428,750,449" href="XSDFeature.html">
+<area shape=rect coords="761,415,869,451" href="XSDForm.html">
+<area shape=rect coords="6,474,168,509" href="XSDAttributeUseCategory.html">
+<area shape=rect coords="191,525,364,561" href="XSDProhibitedSubstitutions.html">
+<area shape=rect coords="411,519,533,541" href="XSDTypeDefinition.html">
+<area shape=rect coords="557,516,868,537" href="XSDElementDeclaration.html">
+<area shape=rect coords="8,577,116,613" href="XSDSimpleFinal.html">
+<area shape=rect coords="164,647,410,668" href="XSDSimpleTypeDefinition.html">
+<area shape=rect coords="444,616,725,637" href="XSDComplexTypeDefinition.html">
+<area shape=rect coords="749,597,870,631" href="XSDComplexFinal.html">
+
+
+<area shape=rect coords="9,616,118,634" href="XSDSimpleFinal.html#LIST">
+<area shape=rect coords="8,635,117,650" href="XSDSimpleFinal.html#RESTRICTION">
+<area shape=rect coords="9,650,117,665" href="XSDSimpleFinal.html#UNION">
+<area shape=rect coords="8,666,116,680" href="XSDSimpleFinal.html#ALL">
+<area shape=rect coords="6,27,221,49" href="XSDConcreteComponent.html#getElement()">
+<area shape=rect coords="6,203,169,222" href="XSDSchemaDirective.html#getSchemaLocation()">
+<area shape=rect coords="358,208,496,228" href="XSDFacet.html#getLexicalValue()">
+<area shape=rect coords="556,207,847,225" href="XSDAnnotation.html#getApplicationInformation()">
+<area shape=rect coords="557,226,849,240" href="XSDAnnotation.html#getUserInformation()">
+<area shape=rect coords="557,241,847,259" href="XSDAnnotation.html#getAttributes()">
+<area shape=rect coords="5,306,140,325" href="XSDImport.html#getNamespace()">
+<area shape=rect coords="579,367,866,387" href="XSDWildcard.html#getLexicalNamespaceConstraint()">
+<area shape=rect coords="6,427,210,445" href="XSDAttributeUse.html#getUse()">
+<area shape=rect coords="5,445,210,462" href="XSDAttributeUse.html#getLexicalValue()">
+<area shape=rect coords="612,448,749,467" href="XSDFeature.html#getForm()">
+<area shape=rect coords="613,467,750,487" href="XSDFeature.html#getLexicalValue()">
+<area shape=rect coords="192,263,514,281" href="XSDSchema.html#getDocument()">
+<area shape=rect coords="192,281,514,298" href="XSDSchema.html#getSchemaLocation()">
+<area shape=rect coords="193,298,514,313" href="XSDSchema.html#getTargetNamespace()">
+<area shape=rect coords="193,313,515,328" href="XSDSchema.html#getAttributeFormDefault()">
+<area shape=rect coords="191,329,517,344" href="XSDSchema.html#getElementFormDefault()">
+<area shape=rect coords="192,345,517,361" href="XSDSchema.html#getFinalDefault()">
+<area shape=rect coords="192,364,516,377" href="XSDSchema.html#getBlockDefault()">
+<area shape=rect coords="193,378,516,396" href="XSDSchema.html#getVersion()">
+<area shape=rect coords="557,537,870,555" href="XSDElementDeclaration.html#getLexicalFinal()">
+<area shape=rect coords="555,555,867,575" href="XSDElementDeclaration.html#getBlock()">
+<area shape=rect coords="163,669,410,689" href="XSDSimpleTypeDefinition.html#getLexicalFinal()">
+<area shape=rect coords="445,638,724,653" href="XSDComplexTypeDefinition.html#getLexicalFinal()">
+<area shape=rect coords="445,654,724,669" href="XSDComplexTypeDefinition.html#getBlock()">
+<area shape=rect coords="445,670,723,687" href="XSDComplexTypeDefinition.html#isMixed()">
+<area shape=rect coords="225,447,401,462" href="XSDDisallowedSubstitutions.html#SUBSTITUTION">
+<area shape=rect coords="225,462,402,479" href="XSDDisallowedSubstitutions.html#EXTENSION">
+<area shape=rect coords="225,479,402,495" href="XSDDisallowedSubstitutions.html#RESTRICTION">
+<area shape=rect coords="226,496,401,514" href="XSDDisallowedSubstitutions.html#ALL">
+<area shape=rect coords="760,452,868,470" href="XSDForm.html#QUALIFIED">
+<area shape=rect coords="762,469,870,488" href="XSDForm.html#UNQUALIFIED">
+<area shape=rect coords="6,511,169,530" href="XSDAttributeUseCategory.html#OPTIONAL">
+<area shape=rect coords="6,531,169,544" href="XSDAttributeUseCategory.html#PROHIBITED">
+<area shape=rect coords="4,545,168,561" href="XSDAttributeUseCategory.html#REQUIRED">
+<area shape=rect coords="189,562,365,580" href="XSDProhibitedSubstitutions.html#EXTENSION">
+<area shape=rect coords="190,581,365,595" href="XSDProhibitedSubstitutions.html#RESTRICTION">
+<area shape=rect coords="190,597,364,612" href="XSDProhibitedSubstitutions.html#ALL">
+<area shape=rect coords="750,635,869,653" href="XSDComplexFinal.html#EXTENSION">
+<area shape=rect coords="751,653,869,668" href="XSDComplexFinal.html#RESTRICTION">
+<area shape=rect coords="747,668,870,684" href="XSDComplexFinal.html#ALL">
+</map>
+
+
+<map name="ConcreteContainment">
+<area shape=rect coords="5,8,170,40" href="XSDParticleContent.html">
+<area shape=rect coords="41,83,115,117" href="XSDTerm.html">
+<area shape=rect coords="171,83,261,117" href="XSDSchema.html">
+<area shape=rect coords="347,82,483,117" href="XSDSchemaContent.html">
+<area shape=rect coords="22,165,132,199" href="XSDModelGroup.html">
+<area shape=rect coords="157,164,368,200" href="XSDElementDeclaration.html">
+<area shape=rect coords="390,165,563,199" href="XSDAttributeGroupContent.html">
+<area shape=rect coords="588,165,726,199" href="XSDRedefineContent.html">
+<area shape=rect coords="771,164,909,200" href="XSDSchemaDirective.html">
+<area shape=rect coords="155,267,348,301" href="XSDIdentityConstraintDefinition.html">
+<area shape=rect coords="393,267,509,304" href="XSDAttributeUse.html">
+<area shape=rect coords="638,233,725,266" href="XSDRedefine.html">
+<area shape=rect coords="758,229,913,266" href="XSDSchemaCompositor.html">
+<area shape=rect coords="625,296,750,332" href="XSDTypeDefinition.html">
+<area shape=rect coords="773,298,928,332" href="XSDNotationDeclaration.html">
+<area shape=rect coords="82,354,175,390" href="XSDWildcard.html">
+<area shape=rect coords="204,355,330,390" href="XSDXPathDefinition.html">
+<area shape=rect coords="369,354,523,390" href="XSDAttributeDeclaration.html">
+<area shape=rect coords="538,354,714,389" href="XSDAttributeGroupDefinition.html">
+<area shape=rect coords="752,354,939,389" href="XSDModelGroupDefinition.html">
+<area shape=rect coords="153,440,319,477" href="XSDComplexTypeContent.html">
+<area shape=rect coords="5,522,89,557" href="XSDParticle.html">
+<area shape=rect coords="323,523,485,558" href="XSDSimpleTypeDefinition.html">
+<area shape=rect coords="587,523,736,558" href="XSDConstrainingFacet.html">
+<area shape=rect coords="759,522,932,558" href="XSDComplexTypeDefinition.html">
+
+<area shape=poly coords="15,40,22,52,69,52,67,66,15,66,16,520,3,521,6,65,1,55,8,37,15,40" href="XSDParticle.html#getContent()">
+<area shape=poly coords="28,199,27,520,42,519,66,501,66,490,98,487,97,473,41,471,37,441,44,199,28,199" href="XSDModelGroup.html#getContents()">
+<area shape=poly coords="53,199,52,434,41,434,42,447,120,447,120,438,131,432,140,435,377,432,420,435,875,435,875,388,859,388,860,424,725,428,714,424,376,426,132,426,71,425,70,197,53,199" href="XSDModelGroupDefinition.html#getModelGroup()">
+<area shape=poly coords="125,390,129,427,127,453,124,579,98,581,101,611,840,610,836,556,820,559,818,601,801,599,294,600,291,581,141,579,133,428,140,389,125,390" href="XSDComplexTypeDefinition.html#getAttributeWildcardContent()">
+<area shape=poly coords="161,197,161,267,182,264,201,258,201,243,348,243,345,226,178,223,178,197,161,197" href="XSDElementDeclaration.html#getIdentityConstraintDefinitions()">
+<area shape=poly coords="261,88,304,90,304,79,336,81,348,99,337,121,278,120,260,106,261,88" href="XSDSchema.html#getContents()">
+<area shape=poly coords="211,302,208,319,170,320,169,342,210,341,218,353,234,342,257,341,254,317,230,315,227,301,211,302" href="XSDIdentityConstraintDefinition.html#getFields()">
+<area shape=poly coords="279,300,275,316,264,316,264,337,284,352,307,345,349,341,349,321,300,319,293,302,279,300" href="XSDIdentityConstraintDefinition.html#getSelector()">
+<area shape=poly coords="151,389,146,404,150,423,352,423,357,420,381,421,394,423,611,424,611,389,595,388,595,412,384,412,377,418,351,417,345,396,166,396,160,385,151,389" href="XSDAttributeGroupDefinition.html#getAttributeWildcardContent()">
+<area shape=poly coords="302,476,300,559,252,560,251,579,299,579,302,596,313,599,803,598,803,558,787,558,787,585,496,588,448,591,341,589,342,571,318,569,316,475,302,476" href="XSDComplexTypeDefinition.html#getContent()">
+<area shape=poly coords="349,199,355,418,353,459,377,456,390,459,559,465,575,481,731,478,728,431,730,416,731,330,714,330,718,353,722,427,721,445,711,435,686,434,678,449,383,448,376,452,361,448,360,418,362,405,365,197,349,199" href="XSDElementDeclaration.html#getAnonymousTypeDefinition()">
+<area shape=poly coords="370,387,372,420,373,449,371,475,345,476,346,493,369,497,371,522,387,522,389,492,550,492,545,473,388,474,376,453,382,432,376,419,387,388,372,388,370,387" href="XSDAttributeDeclaration.html#getAnonymousTypeDefinition()">
+<area shape=poly coords="396,559,398,590,453,589,454,585,517,579,516,564,460,563,456,558,446,557,396,559" href="XSDSimpleTypeDefinition.html#getContents()">
+<area shape=poly coords="487,539,494,557,585,561,586,527,575,514,546,512,531,528,487,527,487,539" href="XSDSimpleTypeDefinition.html#getFacetContents()">
+<area shape=poly coords="409,304,408,313,394,315,395,334,415,351,434,347,441,335,486,335,486,319,430,319,427,302,409,304" href="XSDAttributeUse.html#getContent()">
+<area shape=poly coords="548,198,545,209,482,209,488,227,546,228,548,352,568,353,566,227,589,228,588,205,567,205,563,198,548,198" href="XSDAttributeGroupDefinition.html#getContents()">
+<area shape=poly coords="551,163,544,150,543,99,667,101,675,113,956,114,957,535,933,539,932,523,946,521,945,126,588,132,564,151,562,164,551,163" href="XSDComplexTypeDefinition.html#getAttributeContents()">
+<area shape=poly coords="669,200,666,205,644,205,640,221,666,221,673,230,689,226,748,221,750,202,688,201,682,196,669,200" href="XSDRedefine.html#getContents()">
+</map>
+
+
+<map name="ConcreteResolution">
+<area shape=rect coords="474,23,634,57" href="XSDSimpleTypeDefinition.html">
+<area shape=rect coords="454,182,657,212" href="XSDComplexTypeDefinition.html">
+<area shape=rect coords="496,110,573,144" href="XSDFacet.html">
+<area shape=rect coords="441,281,526,312" href="XSDParticle.html">
+<area shape=rect coords="565,278,658,313" href="XSDWildcard.html">
+<area shape=rect coords="134,69,250,162" href="XSDSchema.html">
+<area shape=rect coords="124,228,272,264" href="XSDSchemaDirective.html">
+<area shape=rect coords="120,295,278,328" href="XSDSchemaCompositor.html">
+<area shape=rect coords="10,354,167,389" href="XSDAttributeDeclaration.html">
+<area shape=rect coords="231,357,406,390" href="XSDAttributeGroupDefinition.html">
+<area shape=rect coords="9,468,164,502" href="XSDElementDeclaration.html">
+<area shape=rect coords="244,469,407,499" href="XSDModelGroupDefinition.html">
+
+<area shape=poly coords="153,68,153,20,93,16,89,2,7,3,4,24,4,82,131,82,130,67,116,58,113,47,96,48,94,69,15,66,15,31,140,33,140,67,153,68" href="XSDSchema.html#getRootVersion()">
+<area shape=poly coords="140,166,140,185,12,183,10,138,88,142,97,156,122,156,133,137,130,103,2,101,0,127,0,200,158,200,159,167,140,166" href="XSDSchema.html#getIncorporatedVersions()">
+<area shape=poly coords="165,67,166,17,122,13,122,1,255,1,254,18,214,18,216,68,165,67" href="XSDSchema.html#getSchemaForSchema()">
+<area shape=poly coords="222,68,223,23,260,22,307,16,309,8,411,7,414,92,248,90,247,68,258,50,285,53,285,73,393,73,394,37,236,35,235,68,222,68" href="XSDSchema.html#getOriginalVersion()">
+<area shape=poly coords="245,110,258,94,390,95,397,102,413,108,413,319,277,320,278,304,398,304,398,122,293,119,286,137,257,134,246,117,245,110" href="XSDSchemaCompositor.html#getIncorporatedSchema()">
+<area shape=poly coords="184,166,182,199,166,198,165,216,196,227,211,219,333,217,333,195,213,196,207,168,184,166" href="XSDSchema.html#getReferencingDirectives()">
+<area shape=poly coords="271,237,366,235,364,166,303,164,287,178,252,178,243,151,256,138,377,135,388,156,385,256,268,258,271,237" href="XSDSchemaDirective.html#getResolvedSchema()">
+<area shape=poly coords="38,393,39,420,9,428,10,446,185,448,184,433,96,427,89,391,38,393" href="XSDAttributeDeclaration.html#getResolvedAttributeDeclaration()">
+<area shape=poly coords="259,392,255,427,209,429,206,452,409,453,409,431,306,427,308,391,259,392" href="XSDAttributeGroupDefinition.html#getResolvedAttributeGroupDefinition()">
+<area shape=poly coords="36,505,36,540,6,540,8,559,190,562,187,542,90,537,90,505,36,505" href="XSDElementDeclaration.html#getResolvedElementDeclaration()">
+<area shape=poly coords="267,504,263,539,219,541,220,562,413,562,407,540,323,539,321,504,267,504" href="XSDModelGroupDefinition.html#getResolvedModelGroupDefinition()">
+<area shape=poly coords="511,58,511,80,492,80,493,102,527,111,539,102,641,101,641,83,540,79,538,56,511,58" href="XSDSimpleTypeDefinition.html#getSyntheticFacets()">
+<area shape=poly coords="461,216,461,246,431,250,434,269,471,280,483,270,481,250,587,249,586,228,484,228,479,214,461,216" href="XSDComplexTypeDefinition.html#getSyntheticParticle()">
+<area shape=poly coords="628,216,626,255,516,256,517,273,622,273,638,280,649,272,673,273,672,252,644,252,644,215,628,216" href="XSDComplexTypeDefinition.html#getSyntheticWildcard()">
+<area shape=poly coords="630,315,621,336,512,335,510,365,406,363,407,379,644,379,647,354,668,353,666,332,644,315,630,315" href="XSDAttributeGroupDefinition.html#getSyntheticWildcard()">
+</map>
+
+
+<map name="Diagnostics">
+<area shape=rect coords="8,6,95,29" href="XSDSchema.html">
+<area shape=rect coords="165,8,394,29" href="XSDConcreteComponent.html">
+<area shape=rect coords="9,117,216,133" href="XSDDiagnostic.html">
+<area shape=rect coords="249,146,395,183" href="XSDDiagnosticSeverity.html">
+
+
+<area shape=poly coords="28,46,26,83,6,85,7,101,35,116,55,108,138,107,136,88,50,85,47,45,28,46" href="XSDSchema.html#getAllDiagnostics()">
+<area shape=poly coords="200,46,201,84,181,86,184,102,209,115,223,107,300,104,294,87,221,85,219,46,200,46" href="XSDConcreteComponent.html#getDiagnostics()">
+<area shape=poly coords="218,123,331,122,330,73,252,73,247,58,326,58,336,45,353,52,373,56,373,72,344,75,343,136,218,138,218,123" href="XSDDiagnostic.html#getComponents()">
+<area shape=rect coords="8,137,217,155" href="XSDDiagnostic.html#getSeverity()">
+<area shape=rect coords="8,155,219,170" href="XSDDiagnostic.html#getMessage()">
+<area shape=rect coords="8,171,219,186" href="XSDDiagnostic.html#getLocationURI()">
+<area shape=rect coords="9,186,218,201" href="XSDDiagnostic.html#getLine()">
+<area shape=rect coords="9,201,218,218" href="XSDDiagnostic.html#getColumn()">
+<area shape=rect coords="9,219,217,234" href="XSDDiagnostic.html#getNode()">
+<area shape=rect coords="9,234,216,251" href="XSDDiagnostic.html#getAnnotationURI()">
+<area shape=rect coords="250,182,397,201" href="XSDDiagnosticSeverity.html#FATAL">
+<area shape=rect coords="250,200,397,217" href="XSDDiagnosticSeverity.html#ERROR">
+<area shape=rect coords="250,217,397,233" href="XSDDiagnosticSeverity.html#WARNING">
+<area shape=rect coords="249,233,396,249" href="XSDDiagnosticSeverity.html#INFORMATION">
+</map>
+
+
+<map name="ConcreteSupplemental">
+<area shape=rect coords="7,6,165,27" href="XSDConcreteComponent.html">
+<area shape=rect coords="699,9,808,33" href="XSDDiagnostic.html">
+<area shape=rect coords="314,40,463,62" href="XSDNamedComponent.html">
+<area shape=rect coords="9,84,186,105" href="XSDRedefinableComponent.html">
+<area shape=rect coords="633,87,809,108" href="XSDFeature.html">
+<area shape=rect coords="8,173,268,192" href="XSDModelGroupDefinition.html">
+<area shape=rect coords="317,174,460,194" href="XSDTypeDefinition.html">
+<area shape=rect coords="562,183,808,206" href="XSDElementDeclaration.html">
+<area shape=rect coords="7,233,278,255" href="XSDAttributeGroupDefinition.html">
+<area shape=rect coords="535,253,795,274" href="XSDAttributeDeclaration.html">
+<area shape=rect coords="8,316,92,337" href="XSDParticle.html">
+<area shape=rect coords="206,341,376,363" href="XSDComplexTypeDefinition.html">
+<area shape=rect coords="665,306,809,328" href="XSDFacet.html">
+<area shape=rect coords="9,367,136,388" href="XSDNumericFacet.html">
+<area shape=rect coords="7,419,128,439" href="XSDOrderedFacet.html">
+<area shape=rect coords="293,408,483,428" href="XSDSimpleTypeDefinition.html">
+<area shape=rect coords="685,378,810,399" href="XSDBoundedFacet.html">
+<area shape=rect coords="676,428,809,449" href="XSDCardinalityFacet.html">
+<area shape=rect coords="4,470,138,490" href="XSDMinFacet.html">
+<area shape=rect coords="675,482,808,503" href="XSDMaxFacet.html">
+<area shape=rect coords="3,543,159,565" href="XSDMinInclusiveFacet.html">
+<area shape=rect coords="665,552,811,574" href="XSDMaxInclusiveFacet.html">
+<area shape=rect coords="4,595,159,615" href="XSDMinExclusiveFacet.html">
+<area shape=rect coords="656,604,807,624" href="XSDMaxExclusiveFacet.html">
+<area shape=rect coords="3,644,148,665" href="XSDEnumerationFacet.html">
+<area shape=rect coords="696,656,810,674" href="XSDPatternFacet.html">
+<area shape=rect coords="5,701,117,721" href="XSDLengthFacet.html">
+<area shape=rect coords="665,706,808,727" href="XSDWhiteSpaceFacet.html">
+<area shape=rect coords="6,759,137,778" href="XSDMinLengthFacet.html">
+<area shape=rect coords="667,760,806,783" href="XSDMaxLengthFacet.html">
+<area shape=rect coords="5,807,137,828" href="XSDTotalDigitsFacet.html">
+<area shape=rect coords="655,813,809,834" href="XSDFractionDigitsFacet.html">
+
+
+<area shape=rect coords="7,104,185,124" href="XSDRedefinableComponent.html#isCircular()">
+<area shape=rect coords="313,61,462,78" href="XSDNamedComponent.html#getAliasName()">
+<area shape=rect coords="314,79,461,94" href="XSDNamedComponent.html#getURI()">
+<area shape=rect coords="313,94,462,111" href="XSDNamedComponent.html#getAliasURI()">
+<area shape=rect coords="313,112,463,128" href="XSDNamedComponent.html#getQName()">
+<area shape=rect coords="632,108,811,124" href="XSDFeature.html#isGlobal()">
+<area shape=rect coords="632,123,810,144" href="XSDFeature.html#isFeatureReference()">
+<area shape=rect coords="6,194,268,212" href="XSDModelGroupDefinition.html#isModelGroupDefinitionReference()">
+<area shape=rect coords="5,255,279,274" href="XSDAttributeGroupDefinition.html#isAttributeGroupDefinitionReference()">
+<area shape=rect coords="561,207,811,225" href="XSDElementDeclaration.html#isElementDeclarationReference()">
+<area shape=rect coords="562,225,811,240" href="XSDElementDeclaration.html#isCircular()">
+<area shape=rect coords="544,275,795,294" href="XSDAttributeDeclaration.html#isAttributeDeclarationReference()">
+<area shape=rect coords="664,328,808,345" href="XSDFacet.html#getFacetName()">
+<area shape=rect coords="663,345,810,363" href="XSDFacet.html#getEffectiveValue()">
+<area shape=rect coords="293,429,482,448" href="XSDSimpleTypeDefinition.html#getValidFacets()">
+<area shape=rect coords="2,492,136,508" href="XSDMinFacet.html#isInclusive()">
+<area shape=rect coords="3,508,136,528" href="XSDMinFacet.html#isExclusive()">
+<area shape=rect coords="675,502,808,520" href="XSDMaxFacet.html#isInclusive()">
+<area shape=rect coords="675,521,805,539" href="XSDMaxFacet.html#isExclusive()">
+<area shape=poly coords="161,604,173,590,319,590,321,449,333,450,331,620,159,622,161,604" href="XSDSimpleTypeDefinition.html#getMinExclusiveFacet()">
+<area shape=poly coords="650,612,620,588,446,586,447,449,435,449,438,623,654,627,650,612" href="XSDSimpleTypeDefinition.html#getMaxExclusiveFacet()">
+<area shape=poly coords="149,645,171,630,322,631,339,647,338,653,149,656,149,645" href="XSDSimpleTypeDefinition.html#getEnumerationFacets()">
+<area shape=poly coords="149,662,156,656,345,657,346,684,148,685,149,662" href="XSDSimpleTypeDefinition.html#getEffectiveEnumerationFacet()">
+<area shape=poly coords="691,653,635,644,633,636,492,633,431,652,431,663,693,663,691,653" href="XSDSimpleTypeDefinition.html#getPatternFacets()">
+<area shape=poly coords="692,678,677,666,425,665,424,688,692,690,692,678" href="XSDSimpleTypeDefinition.html#getEffectivePatternFacet()">
+<area shape=poly coords="118,705,134,689,320,690,351,705,350,714,117,715,118,705" href="XSDSimpleTypeDefinition.html#getLengthFacet()">
+<area shape=poly coords="118,725,134,715,358,717,358,737,117,741,118,725" href="XSDSimpleTypeDefinition.html#getEffectiveLengthFacet()">
+<area shape=poly coords="662,704,657,688,474,689,420,706,421,717,479,715,661,717,662,704" href="XSDSimpleTypeDefinition.html#getWhiteSpaceFacet()">
+<area shape=poly coords="662,731,645,718,426,720,413,721,415,743,662,742,662,731" href="XSDSimpleTypeDefinition.html#getEffectiveWhiteSpaceFacet()">
+<area shape=poly coords="137,758,151,742,350,744,370,746,368,767,135,771,137,758" href="XSDSimpleTypeDefinition.html#getMinLengthFacet()">
+<area shape=poly coords="136,779,152,770,381,771,380,799,138,797,136,779" href="XSDSimpleTypeDefinition.html#getEffectiveMinLengthFacet()">
+<area shape=poly coords="165,14,185,4,201,4,206,15,703,14,704,25,297,26,294,39,169,35,167,23,165,14" href="XSDDiagnostic.html#getPrimaryComponent()">
+<area shape=poly coords="628,86,493,92,496,114,631,125,628,86" href="XSDFeature.html#getResolvedFeature()">
+<area shape=poly coords="631,132,372,134,366,142,367,154,382,174,401,163,443,160,439,145,448,141,630,143,631,132" href="XSDFeature.html#getType()">
+<area shape=poly coords="459,176,530,175,526,195,491,199,491,232,458,231,459,176" href="XSDTypeDefinition.html#getBaseType()">
+<area shape=poly coords="460,240,525,240,526,251,497,263,495,291,459,293,460,240" href="XSDTypeDefinition.html#getRootType()">
+<area shape=poly coords="313,284,50,286,48,308,85,315,186,316,193,304,316,302,313,284" href="XSDTypeDefinition.html#getComplexType()">
+<area shape=poly coords="415,305,415,333,400,333,400,356,422,355,422,405,435,405,435,350,517,352,514,333,439,329,440,304,415,305" href="XSDTypeDefinition.html#getSimpleType()">
+<area shape=poly coords="331,304,330,314,216,313,218,335,330,334,340,340,350,340,356,330,355,304,331,304" href="XSDComplexTypeDefinition.html#getRootTypeDefinition()">
+<area shape=poly coords="438,407,440,358,561,360,561,375,477,380,478,407,438,407" href="XSDSimpleTypeDefinition.html#getRootTypeDefinition()">
+<area shape=poly coords="292,401,255,393,248,385,146,383,135,404,136,415,291,415,292,401" href="XSDSimpleTypeDefinition.html#getNumericFacet()">
+<area shape=poly coords="291,429,251,427,246,419,150,419,125,429,128,447,292,447,291,429" href="XSDSimpleTypeDefinition.html#getOrderedFacet()">
+<area shape=poly coords="481,405,535,392,665,391,682,406,679,421,661,415,483,418,481,405" href="XSDSimpleTypeDefinition.html#getBoundedFacet()">
+<area shape=poly coords="482,430,534,421,663,420,674,440,670,448,483,448,482,430" href="XSDSimpleTypeDefinition.html#getCardinalityFacet()">
+<area shape=poly coords="138,490,152,468,266,470,299,490,297,499,138,499,138,490" href="XSDSimpleTypeDefinition.html#getMinFacet()">
+<area shape=poly coords="138,514,152,500,305,502,304,526,138,526,138,514" href="XSDSimpleTypeDefinition.html#getEffectiveMinFacet()">
+<area shape=poly coords="472,494,516,480,658,475,674,494,671,506,637,502,472,502,472,494" href="XSDSimpleTypeDefinition.html#getMaxFacet()">
+<area shape=poly coords="673,521,657,506,603,506,464,507,464,530,673,532,673,521" href="XSDSimpleTypeDefinition.html#getEffectiveMaxFacet()">
+<area shape=poly coords="159,557,167,542,308,544,308,448,320,450,318,568,159,572,159,557" href="XSDSimpleTypeDefinition.html#getMinInclusiveFacet()">
+<area shape=poly coords="661,562,645,542,459,540,462,450,446,449,452,569,459,575,662,578,661,562" href="XSDSimpleTypeDefinition.html#getMaxInclusiveFacet()">
+<area shape=poly coords="666,758,639,744,461,743,409,758,411,768,664,772,666,758" href="XSDSimpleTypeDefinition.html#getMaxLengthFacet()">
+<area shape=poly coords="665,788,643,775,425,774,404,773,405,798,666,803,665,788" href="XSDSimpleTypeDefinition.html#getEffectiveMaxLengthFacet()">
+<area shape=poly coords="139,810,159,802,335,801,386,816,385,826,137,826,139,810" href="XSDSimpleTypeDefinition.html#getTotalDigitsFacet()">
+<area shape=poly coords="138,833,154,828,393,830,392,850,138,851,138,833" href="XSDSimpleTypeDefinition.html#getEffectiveTotalDigitsFacet()">
+<area shape=poly coords="651,819,638,805,444,804,397,820,399,830,440,829,653,828,651,819" href="XSDSimpleTypeDefinition.html#getFractionDigitsFacet()">
+<area shape=poly coords="653,838,639,829,419,832,395,834,394,851,653,855,653,838" href="XSDSimpleTypeDefinition.html#getEffectiveFractionDigitsFacet()">
+
+</map>
+
+
+<h2><a name="xsd-changes">XSD API Changes</a></h2>
+
+<p>
+An earlier version of this API was incorporated into Websphere Studio Workbench v2.0 beta,
+in which the package names were called <code>com.ibm.etools.xsd</code>.
+</p>
+<p>
+This older version of the API was generated using more complex rules than this current version.
+As a result, the newer version has significantly fewer (redundant) methods.  
+</p>
+
+<h3>No Boolean Getter or Setter</h3>
+<p>
+All methods of the form:
+<pre>
+ Boolean getXyz()
+ void setXyz(Boolean)
+</pre>
+are removed.  Use this form instead:
+<pre>
+ boolean isXyz();
+ void setXyz(boolean);
+</pre>
+</p>
+
+
+<h3>No Wrapper-type Getter or Setter</h3>
+<p>
+All methods of the form:
+<pre>
+ Integer getXyz();
+ void setXyz(Integer);
+ int getXyzValue();
+</pre>
+are removed.  Use this form instead:
+<pre>
+ int getXyz(int);
+ void setXyz(int);
+</pre>
+</p>
+
+<h3>No IsSet Tester for Null-pointer Test</h3>
+<p>
+All methods of the form
+<pre>
+  Abc isSetXyz()
+</pre>
+where
+<pre>
+  getXyz() != null
+</pre>
+yields the same answer, have been removed. Use a null test instead.
+</p>
+
+
+<h3>Type-safe Enumerations</h3>
+<p>
+Enumerations are now implemented using Java type-safe enums, rather than using EEnumLiteral.
+As a result, this set of methods:
+<pre>
+ Integer getXyz();
+ String getXyzString();
+ int getXyzValue();
+ EEnumLiteral getXyzLiteral();
+ void setXyz(Integer);
+ void setXyz(String);
+ void setXyz(int);
+ void setXyz(EEnumLiteral);
+</pre>
+is reduced to 
+<pre>
+  Abc getXyz();
+  void setXyz(Abc);
+</pre>
+where Abc is the type-same enumeration. 
+Rather than accessing the literal like this:
+<pre>
+  EEnumLiteral XSDPackage.getAbc__EnumeratorGhi();
+</pre>
+you can access the literal like this:
+<pre>
+  Abc.ENUMERATOR_GHI_LITERAL
+</pre>
+The name and int value are accessible like this:
+<pre>
+  Abc.ENUMERATOR_GHI_LITERAL.getName()
+  Abc.ENUMERATOR_GHI_LITERAL.getValue()
+</pre>
+And conversion from String or int is supported like this:
+<pre>
+  Abc.get(Abc.ENUMERATOR_GHI_LITERAL.getName())
+  Abc.get(Abc.ENUMERATOR_GHI_LITERAL.getValue())
+</pre>
+<p>
+
+<h2><a name="emf-changes">EMF API Changes</a></h2>
+
+<p>
+Naturally there have been many changes within EMF itself.  
+Below are described the most significant changes that will impact the XSD client.
+</p>
+
+<h3>Package and Factory Access</h3>
+<p>
+Rather than accessing a package or factory like this:
+<pre>
+  XSDPackage xsdPackage = (XSDPackage)RefRegister.getPackage(XSDPackage.packageURI);
+  XSDFactory xsdFactory = xsdPackage.getXSDFactory();
+</pre>
+you can access it like this:
+<pre>
+  XSDPackage.eINSTANCE;
+  XSDFactory.eINSTANCE;
+</pre>
+<p>
+
+
+<h3>Resources</h3>
+
+<p>
+Rather than registering the resource factory like this:
+<pre>
+  ResourceFactoryRegister.registerExtension("xsd", new XSDResourceFactoryImpl());
+</pre>
+you can register it like this:
+<pre>
+  Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xsd", new XSDResourceFactoryImpl());
+</pre>
+You can also do this directly on just a resource set now too:
+<pre>
+  ResourceSet resourceSet = new ResourceSetImpl();
+  resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xsd", new XSDResourceFactoryImpl());
+</pre>
+A resource is loaded like this:
+<pre>
+  XSDResourceImpl xsdSchemaResource = 
+    (XSDResourceImpl)resourceSet.getResource(URI.createDeviceURI(xsdSchemaURI), true);
+</pre>
+<p>
+
+
+<h3>URI Reference Removed to use EMF URI Fragment</h3>
+
+<p>
+The URIReference for XSDComponet and XSDDiagnostic have been removed.
+The function is subsumbed by the EMF concept of a URI Fragment Path.
+
+
+<h3>Owner Removed to use Containment</h3>
+
+<p>
+The concept of ownership has been eliminated in favor of "transient" containment.
+This ensures that absolutely every valid component is contained by a schema.
+The relations 
+<a href="XSDConcreteComponent.html#getDiagnostics()">XSDConcreteComponent.getDiagnostics()</a>,
+<a href="XSDSimpleTypeDefinition.html#getFundamentalFacets()">XSDSimpleTypeDefinition.getFundamentalFacets()</a>, 
+and <a href="XSDSchema.html#getIncorporatedVersions()">XSDSchema.getIncorporatedVersions()</a>,
+are now black diamond, 
+and <a href="XSDDiagnostic.html">XSDDiagnostic</a> 
+extends <a href="XSDConcreteComponent.html">XSDConcreteComponent</a>.
+The new relations 
+<a href="XSDSimpleTypeDefinition.html#getSyntheticFacets()">XSDSimpleTypeDefinition.getSyntheticFacets()</a>,
+<a href="XSDComplexTypeDefinition.html#getSyntheticParticle()">XSDComplexTypeDefinition.getSyntheticParticle()</a>,
+<a href="XSDAttributeGroupDefinition.html#getSyntheticWildcard()">XSDAttributeGroupDefinition.getSyntheticWildcard()</a>, 
+and <a href="XSDComplexTypeDefinition.html#getSyntheticWildcard()">XSDComplexTypeDefiniton.getSyntheticWildcard()</a>
+are defined to contain the synthesized components that were formerly only just owned.
+None of these relations should be modified by the client.
+
+
+<h2><a name="xsd-version">XSD Version</a></h2>
+<p>
+First version, August 1, 2002, donated by IBM Corporation.
+<ul>
+<li>
+Ed Merks merks@ca.ibm.com,  
+</li>
+<li>
+Bob Schloss rschloss@us.ibm.com,
+</li>
+<li>
+Shane Curcuru shane_curcuru@us.ibm.com,
+</li>
+<li>
+and others.
+</li>
+</ul>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ */
+-->
+<xsd:schema xmlns:this="http://www.example.com/Bad" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.com/Bad">
+
+    <xsd:simpleType name="badBoolean">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#boolean">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction> 
+            <xsd:simpleType>
+                <xsd:list itemType="xsd:boolean"/> 
+            </xsd:simpleType>
+            <xsd:enumeration value="true false"/>
+            <xsd:enumeration value="bad"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badBase64Binary">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#base64Binary">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:base64Binary">
+            <xsd:enumeration value="Aa11"/>
+            <xsd:enumeration value="Aa1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badDecimal">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#decimal">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+            <xsd:enumeration value="1.0"/>
+            <xsd:enumeration value="bad"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badDouble">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#double">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:double">
+            <xsd:enumeration value="1.0"/>
+            <xsd:enumeration value="bad"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badFloat">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#float">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:float">
+            <xsd:enumeration value="1.0"/>
+            <xsd:enumeration value="bad"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badHexBinary">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#hexBinary">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:hexBinary">
+            <xsd:enumeration value="fa"/>
+            <xsd:enumeration value="ha"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badDuration">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#duration">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:duration">
+            <xsd:enumeration value="P-1347M"/>
+            <xsd:enumeration value="P1347Y"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badDate">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#date">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:date">
+            <xsd:enumeration value="1999-10-32"/>
+            <xsd:enumeration value="1999-10-26"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badTime">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#time">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:time">
+            <xsd:enumeration value="13:20:00-25:00"/>
+            <xsd:enumeration value="13:20:00-05:00"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badDateTime">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#dateTime">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:dateTime">
+            <xsd:enumeration value="1999-05-31T13:20:00-25:00"/>
+            <xsd:enumeration value="1999-05-31T13:20:00-05:00"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badGYear">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#gYear">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:gYear">
+            <xsd:enumeration value="199x"/>
+            <xsd:enumeration value="1999"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badGMonth">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#gMonth">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:gMonth">
+            <xsd:enumeration value="--13--"/>
+            <xsd:enumeration value="--12--"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badGYearMonth">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#gYearMonth">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:gYearMonth">
+            <xsd:enumeration value="1999-13"/>
+            <xsd:enumeration value="1999-12"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badGDay">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#gDay">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:gDay">
+            <xsd:enumeration value="---32"/>
+            <xsd:enumeration value="---31"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badGMonthDay">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#gMonthDay">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:gMonthDay">
+            <xsd:enumeration value="--10-32"/>
+            <xsd:enumeration value="--10-31"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badAnyURI">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#anyURI">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:anyURI">
+            <xsd:enumeration value=":##:"/>
+            <xsd:enumeration value="."/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badQName">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#QName">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:QName">
+            <xsd:enumeration value="xsd::string"/>
+            <xsd:enumeration value="xsd:string"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badNOTATION">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#NOTATION">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:NOTATION">
+            <xsd:enumeration value="Notation:Bad:"/>
+            <xsd:enumeration value="NotationGood"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="okayString">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#string">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="a"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>

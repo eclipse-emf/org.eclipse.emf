@@ -12,7 +12,7 @@
 
   <groupId>org.eclipse.emf</groupId>
   <artifactId>org.eclipse.emf.examples.databinding.project.ui.rcp</artifactId>
-  <version>1.10.0-SNAPSHOT</version>
+  <version>1.11.0-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 
 </project>

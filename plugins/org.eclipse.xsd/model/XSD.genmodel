@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.xsd/src" editDirectory="" editorDirectory=""
+    modelPluginID="org.eclipse.xsd" runtimeJar="true" modelName="XSD" updateClasspath="false"
+    featureMapWrapperClass="" testsDirectory="" booleanFlagsField="eFlags" booleanFlagsReservedBits="8"
+    importerID="org.eclipse.emf.importer.rose" complianceLevel="5.0" language="en"
+    packedEnums="true">
+  <foreignModel>XSD.mdl</foreignModel>
+  <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
+  <foreignModel>../..</foreignModel>
+  <genPackages prefix="XSD" basePackage="org.eclipse" disposableProviderFactory="true"
+      contentTypeIdentifier="org.eclipse.xsd" ecorePackage="XSD.ecore#/">
+    <genEnums ecoreEnum="XSD.ecore#//XSDAttributeUseCategory">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDAttributeUseCategory/optional"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDAttributeUseCategory/prohibited"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDAttributeUseCategory/required"/>
+    </genEnums>
+    <genEnums ecoreEnum="XSD.ecore#//XSDCardinality">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDCardinality/finite"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDCardinality/countablyInfinite"/>
+    </genEnums>
+    <genEnums ecoreEnum="XSD.ecore#//XSDComplexFinal">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDComplexFinal/extension"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDComplexFinal/restriction"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDComplexFinal/all"/>
+    </genEnums>
+    <genEnums ecoreEnum="XSD.ecore#//XSDCompositor">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDCompositor/all"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDCompositor/choice"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDCompositor/sequence"/>
+    </genEnums>
+    <genEnums ecoreEnum="XSD.ecore#//XSDConstraint">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDConstraint/default"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDConstraint/fixed"/>
+    </genEnums>
+    <genEnums ecoreEnum="XSD.ecore#//XSDContentTypeCategory">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDContentTypeCategory/empty"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDContentTypeCategory/simple"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDContentTypeCategory/mixed"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDContentTypeCategory/elementOnly"/>
+    </genEnums>
+    <genEnums ecoreEnum="XSD.ecore#//XSDDerivationMethod">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDerivationMethod/extension"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDerivationMethod/restriction"/>
+    </genEnums>
+    <genEnums ecoreEnum="XSD.ecore#//XSDDiagnosticSeverity">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDiagnosticSeverity/fatal"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDiagnosticSeverity/error"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDiagnosticSeverity/warning"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDiagnosticSeverity/information"/>
+    </genEnums>
+    <genEnums ecoreEnum="XSD.ecore#//XSDDisallowedSubstitutions">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDisallowedSubstitutions/substitution"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDisallowedSubstitutions/extension"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDisallowedSubstitutions/restriction"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDisallowedSubstitutions/all"/>
+    </genEnums>
+    <genEnums ecoreEnum="XSD.ecore#//XSDForm">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDForm/qualified"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDForm/unqualified"/>
+    </genEnums>
+    <genEnums ecoreEnum="XSD.ecore#//XSDIdentityConstraintCategory">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDIdentityConstraintCategory/key"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDIdentityConstraintCategory/keyref"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDIdentityConstraintCategory/unique"/>
+    </genEnums>
+    <genEnums ecoreEnum="XSD.ecore#//XSDNamespaceConstraintCategory">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDNamespaceConstraintCategory/any"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDNamespaceConstraintCategory/not"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDNamespaceConstraintCategory/set"/>
+    </genEnums>
+    <genEnums ecoreEnum="XSD.ecore#//XSDOrdered">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDOrdered/false"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDOrdered/partial"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDOrdered/total"/>
+    </genEnums>
+    <genEnums ecoreEnum="XSD.ecore#//XSDProcessContents">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDProcessContents/strict"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDProcessContents/lax"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDProcessContents/skip"/>
+    </genEnums>
+    <genEnums ecoreEnum="XSD.ecore#//XSDProhibitedSubstitutions">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDProhibitedSubstitutions/extension"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDProhibitedSubstitutions/restriction"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDProhibitedSubstitutions/all"/>
+    </genEnums>
+    <genEnums ecoreEnum="XSD.ecore#//XSDSimpleFinal">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDSimpleFinal/list"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDSimpleFinal/restriction"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDSimpleFinal/union"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDSimpleFinal/all"/>
+    </genEnums>
+    <genEnums ecoreEnum="XSD.ecore#//XSDSubstitutionGroupExclusions">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDSubstitutionGroupExclusions/extension"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDSubstitutionGroupExclusions/restriction"/>
+    </genEnums>
+    <genEnums ecoreEnum="XSD.ecore#//XSDVariety">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDVariety/atomic"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDVariety/list"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDVariety/union"/>
+    </genEnums>
+    <genEnums ecoreEnum="XSD.ecore#//XSDWhiteSpace">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDWhiteSpace/preserve"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDWhiteSpace/replace"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDWhiteSpace/collapse"/>
+    </genEnums>
+    <genEnums ecoreEnum="XSD.ecore#//XSDXPathVariety">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDXPathVariety/selector"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDXPathVariety/field"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="XSD.ecore#//DOMAttr"/>
+    <genDataTypes ecoreDataType="XSD.ecore#//DOMDocument"/>
+    <genDataTypes ecoreDataType="XSD.ecore#//DOMElement"/>
+    <genDataTypes ecoreDataType="XSD.ecore#//DOMNode"/>
+    <genDataTypes ecoreDataType="XSD.ecore#//Value"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDAnnotation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAnnotation/applicationInformation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAnnotation/userInformation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAnnotation/attributes"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDAttributeDeclaration">
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAttributeDeclaration/attributeDeclarationReference"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeDeclaration/annotation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeDeclaration/anonymousTypeDefinition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeDeclaration/typeDefinition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeDeclaration/resolvedAttributeDeclaration"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDAttributeGroupContent"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDAttributeGroupDefinition">
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAttributeGroupDefinition/attributeGroupDefinitionReference"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeGroupDefinition/annotation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeGroupDefinition/contents"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeGroupDefinition/attributeUses"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeGroupDefinition/attributeWildcardContent"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeGroupDefinition/attributeWildcard"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeGroupDefinition/resolvedAttributeGroupDefinition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeGroupDefinition/syntheticWildcard"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDAttributeUse">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAttributeUse/required"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAttributeUse/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAttributeUse/constraint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAttributeUse/use"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAttributeUse/lexicalValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeUse/attributeDeclaration"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeUse/content"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDBoundedFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDBoundedFacet/value"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDCardinalityFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDCardinalityFacet/value"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDComplexTypeContent"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDComplexTypeDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDComplexTypeDefinition/derivationMethod"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDComplexTypeDefinition/final"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDComplexTypeDefinition/abstract"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDComplexTypeDefinition/contentTypeCategory"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDComplexTypeDefinition/prohibitedSubstitutions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDComplexTypeDefinition/lexicalFinal"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDComplexTypeDefinition/block"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDComplexTypeDefinition/mixed"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/contentAnnotation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/baseTypeDefinition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/content"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/contentType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/attributeUses"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/attributeContents"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/attributeWildcard"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/attributeWildcardContent"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/rootTypeDefinition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/syntheticParticle"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/syntheticWildcard"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDComponent"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDConcreteComponent">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDConcreteComponent/element"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDConcreteComponent/container"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDConcreteComponent/rootContainer"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDConcreteComponent/schema"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDConcreteComponent/diagnostics"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDConstrainingFacet"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDDiagnostic">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDDiagnostic/severity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDDiagnostic/message"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDDiagnostic/locationURI"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDDiagnostic/line"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDDiagnostic/column"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDDiagnostic/node"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDDiagnostic/annotationURI"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDDiagnostic/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDDiagnostic/substitutions"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDDiagnostic/components"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDDiagnostic/primaryComponent"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDElementDeclaration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDElementDeclaration/nillable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDElementDeclaration/disallowedSubstitutions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDElementDeclaration/substitutionGroupExclusions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDElementDeclaration/abstract"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDElementDeclaration/lexicalFinal"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDElementDeclaration/block"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDElementDeclaration/elementDeclarationReference"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDElementDeclaration/circular"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDElementDeclaration/annotation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDElementDeclaration/anonymousTypeDefinition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDElementDeclaration/typeDefinition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDElementDeclaration/identityConstraintDefinitions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDElementDeclaration/resolvedElementDeclaration"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDElementDeclaration/substitutionGroupAffiliation"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDElementDeclaration/substitutionGroup"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDEnumerationFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDEnumerationFacet/value"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFacet/lexicalValue"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFacet/facetName"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFacet/effectiveValue"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDFacet/annotation"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDFacet/simpleTypeDefinition"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDFeature">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFeature/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFeature/constraint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFeature/form"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFeature/lexicalValue"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFeature/global"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFeature/featureReference"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDFeature/scope"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDFeature/resolvedFeature"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDFeature/type"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDFixedFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFixedFacet/fixed"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDFractionDigitsFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFractionDigitsFacet/value"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDFundamentalFacet"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDIdentityConstraintDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDIdentityConstraintDefinition/identityConstraintCategory"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDIdentityConstraintDefinition/annotation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDIdentityConstraintDefinition/referencedKey"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDIdentityConstraintDefinition/selector"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDIdentityConstraintDefinition/fields"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDImport">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDImport/namespace"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDImport/annotation"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDInclude">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDInclude/annotation"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDLengthFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDLengthFacet/value"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDMaxExclusiveFacet"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDMaxFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDMaxFacet/value"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDMaxFacet/inclusive"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDMaxFacet/exclusive"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDMaxInclusiveFacet"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDMaxLengthFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDMaxLengthFacet/value"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDMinExclusiveFacet"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDMinFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDMinFacet/value"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDMinFacet/inclusive"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDMinFacet/exclusive"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDMinInclusiveFacet"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDMinLengthFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDMinLengthFacet/value"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDModelGroup">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDModelGroup/compositor"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDModelGroup/annotation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDModelGroup/contents"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDModelGroup/particles"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDModelGroupDefinition">
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDModelGroupDefinition/modelGroupDefinitionReference"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDModelGroupDefinition/annotation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDModelGroupDefinition/modelGroup"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDModelGroupDefinition/resolvedModelGroupDefinition"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDNamedComponent">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDNamedComponent/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDNamedComponent/targetNamespace"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDNamedComponent/aliasName"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDNamedComponent/uRI"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDNamedComponent/aliasURI"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDNamedComponent/qName"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDNotationDeclaration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDNotationDeclaration/systemIdentifier"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDNotationDeclaration/publicIdentifier"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDNotationDeclaration/annotation"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDNumericFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDNumericFacet/value"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDOrderedFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDOrderedFacet/value"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDParticle">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDParticle/minOccurs"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDParticle/maxOccurs"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDParticle/content"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDParticle/term"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDParticleContent"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDPatternFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDPatternFacet/value"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDRedefinableComponent">
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDRedefinableComponent/circular"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDRedefineContent"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDRedefine">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDRedefine/annotations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDRedefine/contents"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDRepeatableFacet">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDRepeatableFacet/annotations"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDSchema">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSchema/document"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSchema/schemaLocation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSchema/targetNamespace"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSchema/attributeFormDefault"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSchema/elementFormDefault"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSchema/finalDefault"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSchema/blockDefault"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSchema/version"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/contents"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/elementDeclarations"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/attributeDeclarations"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/attributeGroupDefinitions"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/typeDefinitions"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/modelGroupDefinitions"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/identityConstraintDefinitions"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/notationDeclarations"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/annotations"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/allDiagnostics"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/referencingDirectives"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/rootVersion"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/originalVersion"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/incorporatedVersions"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/schemaForSchema"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDSchemaCompositor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchemaCompositor/incorporatedSchema"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDSchemaContent"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDSchemaDirective">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSchemaDirective/schemaLocation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchemaDirective/resolvedSchema"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDScope"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDSimpleTypeDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSimpleTypeDefinition/variety"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSimpleTypeDefinition/final"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSimpleTypeDefinition/lexicalFinal"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSimpleTypeDefinition/validFacets"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/contents"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/facetContents"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/facets"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/memberTypeDefinitions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/fundamentalFacets"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/baseTypeDefinition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/primitiveTypeDefinition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/itemTypeDefinition"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/rootTypeDefinition"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/minFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/maxFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/maxInclusiveFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/minInclusiveFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/minExclusiveFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/maxExclusiveFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/lengthFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/whiteSpaceFacet"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/enumerationFacets"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/patternFacets"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/cardinalityFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/numericFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/maxLengthFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/minLengthFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/totalDigitsFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/fractionDigitsFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/orderedFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/boundedFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectiveMaxFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectiveWhiteSpaceFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectiveMaxLengthFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectiveFractionDigitsFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectivePatternFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectiveEnumerationFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectiveTotalDigitsFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectiveMinLengthFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectiveLengthFacet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectiveMinFacet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/syntheticFacets"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDTerm"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDTotalDigitsFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDTotalDigitsFacet/value"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDTypeDefinition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDTypeDefinition/annotation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDTypeDefinition/derivationAnnotation"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDTypeDefinition/annotations"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDTypeDefinition/rootType"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDTypeDefinition/baseType"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDTypeDefinition/simpleType"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDTypeDefinition/complexType"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDWhiteSpaceFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDWhiteSpaceFacet/value"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDWildcard">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDWildcard/namespaceConstraintCategory"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDWildcard/namespaceConstraint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDWildcard/processContents"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDWildcard/lexicalNamespaceConstraint"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDWildcard/annotation"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDWildcard/annotations"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDXPathDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDXPathDefinition/variety"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDXPathDefinition/value"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDXPathDefinition/annotation"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

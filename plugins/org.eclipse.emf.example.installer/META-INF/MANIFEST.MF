@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.emf.example.installer;singleton:=true
 Bundle-Version: 1.11.0.qualifier
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.emf.common.ui;bundle-version="[2.20.0,3.0.0)",
+Require-Bundle: org.eclipse.emf.common.ui;bundle-version="[2.21.0,3.0.0)",
  org.eclipse.emf.ecore;bundle-version="[2.33.0,3.0.0)"
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy

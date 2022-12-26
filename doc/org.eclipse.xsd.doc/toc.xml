@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="XSD Developer Guide">
+	<topic label="Programmer&apos;s Guide">
+		<topic label="Diagrams and Animations" href="references/diagrams/diagrams.html"/>
+	</topic>
+	<topic label="Online Docs">
+		<topic label="FAQ" href="http://wiki.eclipse.org/MDT-XSD-FAQ" target="_blank"/>
+	</topic>
+</toc>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+  <extension id="XSD2GenModel" point="org.eclipse.core.runtime.applications">
+    <application>
+      <run class="org.eclipse.xsd.ecore.importer.XSDImporterApplication" />
+    </application>
+  </extension>
+
+  <extension point="org.eclipse.emf.importer.modelImporterDescriptors">
+    <modelImporterDescriptor id="org.eclipse.xsd.ecore.importer" name="%_UI_XSDImporter_label" icon="icons/full/obj16/XSDModelFile.gif" extensions="xsd,wsdl" description="%_UI_XSDModelImporter_description" wizard="org.eclipse.xsd.ecore.importer.ui.XSDImporterWizard" />
+  </extension>
+
+  <extension point="org.eclipse.ant.core.extraClasspathEntries">
+    <extraClasspathEntry library="ant_tasks/xsd.ecore.importer.tasks.jar" />
+  </extension>
+
+  <extension point="org.eclipse.ant.core.antTasks">
+    <antTask library="ant_tasks/xsd.ecore.importer.tasks.jar" name="emf.XSD2Java" headless="true" class="org.eclipse.xsd.ecore.importer.taskdefs.XSDGeneratorTask" />
+  </extension>
+</plugin>

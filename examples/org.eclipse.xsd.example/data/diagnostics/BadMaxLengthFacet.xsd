@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ */
+-->
+<xsd:schema
+  targetNamespace="http://www.example.com/Bad"
+  xmlns:this="http://www.example.com/Bad" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:simpleType name="badFacetForType" >
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cos-applicable-facets">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+            <xsd:maxLength value="0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMaxLengthFacetRepeat">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#maxLength-value">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="0"/>
+            <xsd:maxLength value="0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMaxLengthFacetExtraAttribute">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#maxLength-value">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="0" bad="bad"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMaxLengthFacetMissingValue">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#maxLength-value">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMaxLengthFacetValue">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#maxLength-value">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="-1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMaxLengthFacetFixed">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#maxLength-fixed">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="0" fixed="bad"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMaxLengthFacetRestriction">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#maxLength-valid-restriction">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:maxLength value="2"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:maxLength value="3"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMaxLengthFacetRestrictionFixed">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#dc-maxLength">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:maxLength value="2" fixed="true"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:maxLength value="1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMaxLengthFacetAppliedToString">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-maxLength-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:maxLength value="3"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="abcd"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMaxLengthFacetAppliedToList">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-maxLength-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction>
+                    <xsd:simpleType>
+                        <xsd:list itemType="xsd:string"/>
+                    </xsd:simpleType>
+                    <xsd:maxLength value="3"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="a b c d"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMaxLengthFacetAppliedToBase64">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-maxLength-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:base64Binary">
+                    <xsd:maxLength value="9"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="Aa11Bb22Cc33Dd44"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMaxLengthFacetAppliedToHexBinary">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-maxLength-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:hexBinary">
+                    <xsd:maxLength value="3"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="a1b2c3d4"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>

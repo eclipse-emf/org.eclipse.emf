@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ */
+-->
+<xsd:schema
+  targetNamespace="http://www.example.com/Bad"
+  xmlns:this="http://www.example.com/Bad" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="badKeys">
+        <xsd:complexType>
+            <xsd:choice>
+                <xsd:element name="x"/>
+            </xsd:choice>
+        </xsd:complexType>
+        <xsd:key/>
+        <xsd:key name="badKeyAttribute" x="x"/>
+        <xsd:key name="badKeyID" id="id:badKeyID"/>
+        <xsd:key name="badKeyAnnotation">
+            <xsd:annotation/>
+            <xsd:annotation/>
+        </xsd:key>
+        <xsd:key name="badKeyNoField">
+            <xsd:selector/>
+        </xsd:key>
+        <xsd:key name="badKeyEmptySelectorAndField">
+            <xsd:selector x="x"/>
+            <xsd:field x="x"/>
+        </xsd:key>
+        <xsd:key name="badKeyXPaths">
+            <xsd:selector xpath="1"/>
+            <xsd:field xpath="2"/>
+        </xsd:key>
+        <xsd:key name="badKeySelectorFieldContents">
+            <xsd:selector xpath="x">
+                <xsd:annotation/>
+                <xsd:annotation/>
+            </xsd:selector> 
+            <xsd:field xpath=".">
+                <xsd:annotation/>
+                <xsd:annotation/>
+            </xsd:field> 
+        </xsd:key>
+    </xsd:element>
+
+    <xsd:element name="badUniques">
+        <xsd:complexType>
+            <xsd:choice>
+                <xsd:element name="x"/>
+            </xsd:choice>
+        </xsd:complexType>
+        <xsd:unique/>
+        <xsd:unique name="badUniqueAttribute" x="x"/>
+        <xsd:unique name="badUniqueID" id="id:badUniqueID"/>
+        <xsd:unique name="badUniqueAnnotation">
+            <xsd:annotation/>
+            <xsd:annotation/>
+        </xsd:unique>
+        <xsd:unique name="badUniqueNoField">
+            <xsd:selector/>
+        </xsd:unique>
+        <xsd:unique name="badUniqueEmptySelectorAndField">
+            <xsd:selector x="x"/>
+            <xsd:field x="x"/>
+        </xsd:unique>
+        <xsd:unique name="badUniqueXPaths">
+            <xsd:selector xpath="1"/>
+            <xsd:field xpath="2"/>
+        </xsd:unique>
+        <xsd:unique name="badUniqueSelectorFieldContents">
+            <xsd:selector xpath="x">
+                <xsd:annotation/>
+                <xsd:annotation/>
+            </xsd:selector> 
+            <xsd:field xpath=".">
+                <xsd:annotation/>
+                <xsd:annotation/>
+            </xsd:field> 
+        </xsd:unique>
+    </xsd:element>
+
+    <xsd:element name="badKeyRefs">
+        <xsd:complexType>
+            <xsd:choice>
+                <xsd:element name="x"/>
+            </xsd:choice>
+        </xsd:complexType>
+        <xsd:keyref/>
+        <xsd:keyref name="badKeyRefAttribute" refer="this:badKeyAttribute" x="x"/>
+        <xsd:keyref name="badKeyRefID" refer="this:badKeyID" id="id:badKeyRefID"/>
+        <xsd:keyref name="badKeyRefAnnotation" refer="this:badKeyAnnotation" >
+            <xsd:annotation/>
+            <xsd:annotation/>
+        </xsd:keyref>
+        <xsd:keyref name="badKeyRefNoField" refer="this:badKeyNoField">
+            <xsd:selector/>
+        </xsd:keyref>
+        <xsd:keyref name="badKeyRefEmptySelectorAndField" refer="this:badKeyEmptySelectorAndField">
+            <xsd:selector x="x"/>
+            <xsd:field x="x"/>
+        </xsd:keyref>
+        <xsd:keyref name="badKeyRefXPaths" refer="this:badKeyXPaths">
+            <xsd:selector xpath="1"/>
+            <xsd:field xpath="2"/>
+        </xsd:keyref>
+        <xsd:keyref name="badKeyRefSelectorFieldContents" refer="this:badKeySelectorFieldContents">
+            <xsd:selector xpath="x">
+                <xsd:annotation/>
+                <xsd:annotation/>
+            </xsd:selector> 
+            <xsd:field xpath=".">
+                <xsd:annotation/>
+                <xsd:annotation/>
+            </xsd:field> 
+            <xsd:field xpath=".">
+                <xsd:annotation/>
+            </xsd:field> 
+        </xsd:keyref>
+    </xsd:element>
+
+</xsd:schema>

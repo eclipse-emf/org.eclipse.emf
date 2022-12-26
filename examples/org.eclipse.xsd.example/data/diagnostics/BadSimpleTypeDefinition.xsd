@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ */
+-->
+<xsd:schema
+  targetNamespace="http://www.example.com/Bad"
+  xmlns:this="http://www.example.com/Bad" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:simpleType/>
+    <xsd:simpleType name="badContent" id="id:id">
+        <xsd:bad/>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badList">
+        <xsd:list id="id:list"/>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badListContent" final="xtension">
+        <xsd:list>
+            <xsd:bad/>
+        </xsd:list>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badListBaseForContents">
+        <xsd:list itemType="xsd:int">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:int">
+                    <xsd:pattern value="1.*1"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:list>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badUnion">
+        <xsd:union id="id:union"/>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badUnionContent">
+        <xsd:union>
+            <xsd:bad/>
+        </xsd:union>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badRestriction">
+        <xsd:restriction id="id:restriction"/>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badRestrictionContent">
+        <xsd:restriction>
+            <xsd:bad/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badRestrictionBaseForContents">
+        <xsd:restriction base="xsd:int">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:int">
+                    <xsd:pattern value="1.*1"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badDuplicateFacets">
+        <xsd:restriction base="xsd:int">
+            <xsd:maxExclusive value="10"/>
+            <xsd:maxExclusive value="10"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badListEmpty" >
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cos-list-of-atomic">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:list>
+        </xsd:list>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badListOfList" >
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cos-list-of-atomic">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:list>
+            <xsd:simpleType>
+                <xsd:list itemType="xsd:string">
+                </xsd:list>
+            </xsd:simpleType>
+        </xsd:list>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badUnionCircular" >
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cos-list-of-atomic">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:list>
+            <xsd:simpleType>
+                <xsd:union memberTypes="xsd:string this:badUnionCircular">
+                </xsd:union>
+            </xsd:simpleType>
+        </xsd:list>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badAtomicCircular" >
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cos-list-of-atomic">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="this:badAtomicCircular">
+            <xsd:pattern value="(ab)*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badListCircular" >
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cos-list-of-atomic">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:list>
+            <xsd:simpleType>
+                <xsd:union memberTypes="xsd:string this:badListCircular">
+                </xsd:union>
+            </xsd:simpleType>
+        </xsd:list>
+    </xsd:simpleType>
+
+    <xsd:complexType name="badSimpleComplexType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:int" id="xx:xx">
+                <xsd:pattern value="1*"/>
+                <xsd:attribute name="a"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="badOtherSimpleComplexType">
+        <xsd:simpleContent>
+            <xsd:restriction base="this:badSimpleComplexType" id="xx:xx">
+                <xsd:pattern value="1*">
+                    <xsd:annotation/>
+                    <xsd:annotation/>
+                </xsd:pattern>
+                <xsd:attribute name="a"/>
+            </xsd:restriction>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:simpleType name="badAnySimpleTypeAtomic">
+        <xsd:restriction base="xsd:anySimpleType">
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badAnySimpleTypeList">
+        <xsd:list itemType="xsd:anySimpleType">
+        </xsd:list>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badAnySimpleTypeUnion">
+        <xsd:union memberTypes="xsd:anySimpleType">
+        </xsd:union>
+    </xsd:simpleType>
+
+</xsd:schema>

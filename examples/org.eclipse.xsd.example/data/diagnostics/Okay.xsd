@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ */
+-->
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="E" type="CT"/>
+
+    <xsd:group name="G">
+        <xsd:sequence>
+            <xsd:element ref="E"/>
+        </xsd:sequence>
+    </xsd:group>
+
+    <xsd:attribute name="A" type="ST"/>
+
+    <xsd:simpleType name="ST">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value=".*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:attributeGroup name="AG">
+        <xsd:attribute ref="A"/>
+        <xsd:anyAttribute namespace="##other"/>
+    </xsd:attributeGroup>
+
+    <xsd:complexType name="CT">
+        <xsd:group ref="G"/>
+        <xsd:attributeGroup ref="AG"/>
+    </xsd:complexType>
+
+    <xsd:group name="G1">
+        <xsd:sequence>
+            <xsd:element ref="E"/>
+        </xsd:sequence>
+    </xsd:group>
+
+    <xsd:group name="G2">
+        <xsd:sequence>
+            <xsd:element ref="E"/>
+        </xsd:sequence>
+    </xsd:group>
+
+    <xsd:attributeGroup name="AG1">
+        <xsd:attribute ref="A" use="required"/>
+        <xsd:anyAttribute namespace="##other"/>
+    </xsd:attributeGroup>
+
+</xsd:schema>

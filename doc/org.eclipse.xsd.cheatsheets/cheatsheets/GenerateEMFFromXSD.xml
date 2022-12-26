@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cheatsheet title="Generating an EMF Model from XML Schema">
+
+  <intro href="/org.eclipse.emf.doc/tutorials/xlibmod/xlibmod.html">
+    <description>
+      This cheat sheet is a step-by-step description of how to generate an EMF
+      model and editor from an XML Schema.
+    </description>
+  </intro>
+
+  <item title="Set up the environment">
+  	<description>
+  	  Your environment must be set up before you can perform the steps in this cheat sheet.
+  	</description>
+
+    <subitem
+      label="Create an &quot;EMF Cheatsheet Data&quot; project in your workspace with the example &quot;library.xsd&quot; file."
+      skip="true">
+      <action
+        pluginId="org.eclipse.emf.cheatsheets"
+        class="org.eclipse.emf.cheatsheets.actions.CopyFileFromPluginAction"
+        param1="EMF Cheatsheet Data"
+        param2=""
+        param3="org.eclipse.xsd.cheatsheets/archive/xsd/library.xsd" 
+        translate="" />
+    </subitem>
+
+    <subitem
+      when="true" 
+      label="Delete or rename the following projects if they exist in your workspace: &quot;library.xsd&quot;, &quot;library.xsd.edit&quot;, &quot;library.xsd.editor&quot;."
+      skip="true" />
+  </item>
+
+  <item
+    title="Import the model from XML Schema"
+    href="/org.eclipse.emf.doc/tutorials/xlibmod/xlibmod.html#step1"
+    dialog="true"
+    skip="true">
+    <description>
+      First, you must create a new &quot;library.xsd&quot; EMF project in your workspace, importing
+      the schema to create the EMF model.
+    </description>
+
+    <subitem label="Select &quot;File &gt; New &gt; Project...&quot;. Expand &quot;Eclipse Modeling Framework&quot; and select &quot;EMF Project&quot;. Then, click &quot;Next&quot;." skip="true">
+      	<action
+          pluginId="org.eclipse.emf.cheatsheets"
+          class="org.eclipse.emf.cheatsheets.actions.OpenEMFProjectWizardAction"
+          param1="library.xsd"
+          param2="org.eclipse.xsd.ecore.importer" 
+          translate="" />
+    </subitem>
+    <subitem label="Enter &quot;library.xsd&quot; as the project name, then click &quot;Next&quot;." skip="false" />
+    <subitem label="Select &quot;XML Schema&quot;, then click &quot;Next&quot;." skip="false" />
+    <subitem label="Click &quot;Browse Workspace...&quot;, and expand &quot;EMF Cheatsheet Data&quot; to select &quot;library.xsd&quot;. Then click &quot;Next&quot;." skip="false" />
+    <subitem label="Select the package &quot;org.eclipse.example.library&quot;, then click &quot;Finish&quot;." skip="false" />
+  </item>
+
+  <item
+    title="Generate the code"
+    href="/org.eclipse.emf.doc/tutorials/xlibmod/xlibmod.html#step2"
+    dialog="true"
+    skip="true">
+    <description>
+      Generate the code to implement the model and an editor for it. The generator is automatically opened on completion of the wizard in the previous step.
+    </description>
+
+    <repeated-subitem values="Model,Edit,Editor">
+      <subitem label="In the generator, right click on &quot;Library&quot; and select &quot;Generate ${this} Code&quot;." />
+    </repeated-subitem>
+    <subitem label="If automatic building has been disabled, select &quot;Project &gt; Build All&quot; to compile the generated code." skip="true">
+      <action
+        pluginId="org.eclipse.emf.cheatsheets"
+        class="org.eclipse.emf.cheatsheets.actions.BuildAllProjectsAction" />
+    </subitem>
+  </item>
+
+  <item
+    title="Run the generated editor"
+    href="/org.eclipse.emf.doc/tutorials/xlibmod/xlibmod.html#step4"
+    dialog="true"
+    skip="true">
+    <description>
+      Now, you are set to run the generated editor and create a new library instance.
+    </description>
+    <onCompletion>
+      Congratulations! You have succesfully created an EMF model from an XML Schema, generated the code, and created an instance of the model.
+    </onCompletion> 
+
+    <subitem label="Select the &quot;library.xsd&quot; project in the package explorer and invoke the &quot;Run &gt; Run As &gt; Eclipse Application&quot; menu item. This starts a runtime instance of Eclipse with the newly generated plug-ins available." />
+    <subitem label="In the runtime instance, create a new general project called &quot;librarytest&quot;." />
+    <subitem label="Right click &quot;librarytest&quot; and select &quot;New &gt; Other...&quot;." />
+    <subitem label="Expand &quot;Example EMF Model Creation Wizards&quot; and select &quot;Library Model&quot;. Then, click &quot;Next&quot;." />
+    <subitem label="Enter &quot;My.library&quot; as the file name, then click &quot;Next&quot;." />
+    <subitem label="Select &quot;Library&quot;; as the model object, then click &quot;Finish&quot;." />
+    <subitem label="The generated library editor is opened. Expand &quot;platform:/resource/librarytest/My.library&quot;. Right click &quot;Library&quot; and select &quot;New Child &gt; Writer&quot; to create a writer object in the library." />
+    <subitem label="Create additional writers and books in the library, and edit the objects' properties in the properties view." />
+    <subitem label="Select &quot;File > Save&quot; to save the instance." />
+  </item>
+</cheatsheet>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ */
+-->
+<xsd:schema
+  targetNamespace="http://www.example.com/Bad"
+  xmlns:this="http://www.example.com/Bad" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:simpleType name="badFacetForType" >
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cos-applicable-facets">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+            <xsd:length value="0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badLengthFacetRepeat">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#length-value">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:length value="0"/>
+            <xsd:length value="0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badLengthFacetExtraAttribute">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#length-value">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:length value="0" bad="bad"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badLengthFacetMissingValue">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#length-value">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:length/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badLengthFacetValue">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#length-value">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:length value="-1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badLengthFacetFixed">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#length-fixed">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:length value="0" fixed="bad"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badLengthFacetWithMinLengthOrMaxLength">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#length-minLength-maxLength">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="2"/>
+            <xsd:length value="2"/>
+            <xsd:maxLength value="2"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badLengthFacetRestriction">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#length-valid-restriction">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:length value="2"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:length value="3"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badLengthFacetRestrictionFixed">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#dc-length">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:length value="2" fixed="true"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:length value="3"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
+    <xsd:simpleType name="badLengthFacetAppliedToString">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-length-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:length value="3"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="abcd"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badLengthFacetAppliedToList">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-length-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction>
+                    <xsd:simpleType>
+                        <xsd:list itemType="xsd:string"/>
+                    </xsd:simpleType>
+                    <xsd:length value="3"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="a b c d"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badLengthFacetAppliedToBase64">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-length-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:base64Binary">
+                    <xsd:length value="9"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="Aa11Bb22Cc33Dd44"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badLengthFacetAppliedToHexBinary">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-length-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:hexBinary">
+                    <xsd:length value="3"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="a1b2c3d4"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>

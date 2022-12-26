@@ -98,23 +98,23 @@
     <module>../../../plugins/org.eclipse.emf.rap.common.ui</module>
     <module>../../../plugins/org.eclipse.emf.rap.edit.ui</module>
 
-    <module>../../../../org.eclipse.xsd/examples/org.eclipse.xsd.example</module>
+    <module>../../../examples/org.eclipse.xsd.example</module>
 
-    <module>../../../../org.eclipse.xsd/plugins/org.eclipse.emf.mapping.xsd2ecore</module>
-    <module>../../../../org.eclipse.xsd/plugins/org.eclipse.emf.mapping.xsd2ecore.editor</module>
-    <module>../../../../org.eclipse.xsd/plugins/org.eclipse.xsd</module>
-    <module>../../../../org.eclipse.xsd/plugins/org.eclipse.xsd.ecore.converter</module>
-    <module>../../../../org.eclipse.xsd/plugins/org.eclipse.xsd.ecore.exporter</module>
-    <module>../../../../org.eclipse.xsd/plugins/org.eclipse.xsd.ecore.importer</module>
-    <module>../../../../org.eclipse.xsd/plugins/org.eclipse.xsd.edit</module>
-    <module>../../../../org.eclipse.xsd/plugins/org.eclipse.xsd.editor</module>
-    <module>../../../../org.eclipse.xsd/plugins/org.eclipse.xsd.mapping</module>
-    <module>../../../../org.eclipse.xsd/plugins/org.eclipse.xsd.mapping.editor</module>
+    <module>../../../plugins/org.eclipse.emf.mapping.xsd2ecore</module>
+    <module>../../../plugins/org.eclipse.emf.mapping.xsd2ecore.editor</module>
+    <module>../../../plugins/org.eclipse.xsd</module>
+    <module>../../../plugins/org.eclipse.xsd.ecore.converter</module>
+    <module>../../../plugins/org.eclipse.xsd.ecore.exporter</module>
+    <module>../../../plugins/org.eclipse.xsd.ecore.importer</module>
+    <module>../../../plugins/org.eclipse.xsd.edit</module>
+    <module>../../../plugins/org.eclipse.xsd.editor</module>
+    <module>../../../plugins/org.eclipse.xsd.mapping</module>
+    <module>../../../plugins/org.eclipse.xsd.mapping.editor</module>
 
-    <module>../../../../org.eclipse.xsd/plugins/org.eclipse.xsd.example.installer</module>
+    <module>../../../plugins/org.eclipse.xsd.example.installer</module>
 
-    <module>../../../../org.eclipse.xsd/doc/org.eclipse.xsd.cheatsheets</module>
-    <module>../../../../org.eclipse.xsd/doc/org.eclipse.xsd.doc</module>
+    <module>../../../doc/org.eclipse.xsd.cheatsheets</module>
+    <module>../../../doc/org.eclipse.xsd.doc</module>
 
   </modules>
 
@@ -236,28 +236,15 @@
     </profile>
 
     <profile>
-      <id>pack-and-sign</id>
+      <id>eclipse-sign</id>
       <activation>
         <property>
-          <name>PACK_AND_SIGN</name>
+          <name>ECLIPSE_SIGN</name>
           <value>true</value>
         </property>
       </activation>
       <build>
         <plugins>
-          <plugin>
-            <groupId>org.eclipse.tycho.extras</groupId>
-            <artifactId>tycho-pack200a-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>pack200-normalize</id>
-                <goals>
-                  <goal>normalize</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-
           <plugin>
             <groupId>org.eclipse.cbi.maven.plugins</groupId>
             <artifactId>eclipse-jarsigner-plugin</artifactId>
@@ -266,19 +253,6 @@
                 <id>sign</id>
                 <goals>
                   <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-
-          <plugin>
-            <groupId>org.eclipse.tycho.extras</groupId>
-            <artifactId>tycho-pack200b-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>pack200-pack</id>
-                <goals>
-                  <goal>pack</goal>
                 </goals>
               </execution>
             </executions>

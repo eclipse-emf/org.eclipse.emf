@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.xsd; singleton:=true
+Bundle-Version: 2.19.0.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: org.eclipse.xsd.XSDPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.eclipse.xsd,
+ org.eclipse.xsd.ecore,
+ org.eclipse.xsd.impl,
+ org.eclipse.xsd.impl.type,
+ org.eclipse.xsd.util
+Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)";resolution:=optional;x-installation:=greedy,
+ org.eclipse.emf.ecore;bundle-version="[2.33.0,3.0.0)";visibility:=reexport
+Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
+Automatic-Module-Name: org.eclipse.xsd

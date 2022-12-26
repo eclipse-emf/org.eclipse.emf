@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ */
+-->
+<xsd:schema
+  targetNamespace="http://www.example.com/Other"
+  xmlns:this="http://www.example.com/Other" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="E"/>
+
+    <xsd:attribute name="A"/>
+
+    <xsd:attributeGroup name="AG">
+        <xsd:anyAttribute namespace="##other"/>
+    </xsd:attributeGroup>
+
+</xsd:schema>

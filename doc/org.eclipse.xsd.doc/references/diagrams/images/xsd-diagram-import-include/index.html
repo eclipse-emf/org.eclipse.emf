@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta HTTP-EQUIV=CONTENT-TYPE CONTENT="text/html; charset=utf-8">
+<title>How abstract components are created when reading a schema – an animation in 12 slides    -- schemas that use &lt;include&gt; and &lt;import&gt;</title>
+</head>
+<body>
+<center>
+<h2><a href="siframes.html">Click here to start</a></h2>
+</center>
+<center><table width=90%><TR>
+<td valign=top align=left width=50%>
+<h3><u>Table of contents</u></h3><p align=left>How abstract components are created when reading a schema – an animation in 12 slides    -- schemas that use &lt;include&gt; and &lt;import&gt;</p>
+<p align=left>Parse of a top level schema document. </p>
+<p align=left>Parse of s1 &lt;xs:schema targetNamespace=“t1”&gt;</p>
+<p align=left>Parse of s1 &lt;xs:include schemaLocation=“s3.xsd”&gt;</p>
+<p align=left>Parse of s3 &lt;xs:schema targetNamespace=“t1”&gt;</p>
+<p align=left>Parse of s3 &lt;xs:element name=“t1e2” type=“xs:string”/&gt;</p>
+<p align=left>Parse of s3 &lt;/xs:schema&gt;</p>
+<p align=left>Parse of s1 &lt;xs:import namespace=“t2”              schemaLocation=“s2.xsd”/&gt;</p>
+<p align=left>Parse of s2 &lt;xs:schema targetNamespace=“t2”/&gt;</p>
+<p align=left>Parse of s2 &lt;xs:element name=“t2e1” type=../&gt;</p>
+<p align=left>Parse of s2 &lt;/xs:schema&gt;</p>
+<p align=left>Parse of s1 &lt;xs:element name=“t1e1”../&gt;</p>
+<p align=left>Parse of s1 &lt;/xs:schema&gt;</p>
+</td>
+<td valign=top width=50%>
+<p><strong>Homepage:</strong> <a href="http://eclipse.org/emf">http://eclipse.org/emf</a> </p>
+</td></tr></table></center>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ */
+-->
+<xsd:schema
+  targetNamespace="http://www.example.com/Bad"
+  xmlns:this="http://www.example.com/Bad" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:simpleType name="badFacetForType" >
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cos-applicable-facets">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minInclusive value="0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinInclusiveFacetRepeat">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#minInclusive-value">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+            <xsd:minInclusive value="0"/>
+            <xsd:minInclusive value="0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinInclusiveFacetExtraAttribute">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#minInclusive-value">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+            <xsd:minInclusive value="0" bad="bad"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinInclusiveFacetMissingValue">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#minInclusive-value">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+            <xsd:minInclusive/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinInclusiveFacetValue">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#minInclusive-value">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+            <xsd:minInclusive value="a"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinInclusiveFacetFixed">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#minInclusive-fixed">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+            <xsd:minInclusive value="0" fixed="bad"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinInclusiveFacetRestriction">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#minInclusive-valid-restriction">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:decimal">
+                    <xsd:minInclusive value="2"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:minInclusive value="1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
+    <xsd:simpleType name="badMinInclusiveFacetRestrictionFixed">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#dc-minInclusive">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:decimal">
+                    <xsd:minInclusive value="2" fixed="true"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:minInclusive value="3"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinInclusiveFacetAppliedToDecimal">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minInclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:decimal">
+                    <xsd:minInclusive value="3"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="2"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinInclusiveFacetAppliedToDouble">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minInclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:double">
+                    <xsd:minInclusive value="3.0"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="2.9"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinInclusiveFacetAppliedToFloat">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minInclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:float">
+                    <xsd:minInclusive value="3.0"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="2.9"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinInclusiveFacetAppliedToDuration">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minInclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:duration">
+                    <xsd:minInclusive value="P2D"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="P1D"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinInclusiveFacetAppliedToDate">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minInclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:date">
+                    <xsd:minInclusive value="1999-10-26"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="1999-10-25"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinInclusiveFacetAppliedToTime">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minInclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:time">
+                    <xsd:minInclusive value="13:20:00-05:00"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="13:20:00-04:59"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinInclusiveFacetAppliedToDateTime">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minInclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:dateTime">
+                    <xsd:minInclusive value="1999-05-31T13:20:00-05:00"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="1999-05-31T13:20:00-04:59"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinInclusiveFacetAppliedToGYear">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minInclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:gYear">
+                    <xsd:minInclusive value="1999"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="1998"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinInclusiveFacetAppliedToGMonth">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minInclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:gMonth">
+                    <xsd:minInclusive value="--12--"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="--11--"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinInclusiveFacetAppliedToGYearMonth">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minInclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:gYearMonth">
+                    <xsd:minInclusive value="1999-12"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="1999-11"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinInclusiveFacetAppliedToGDay">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minInclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:gDay">
+                    <xsd:minInclusive value="---31"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="---30"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinInclusiveFacetAppliedToGMonthDay">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minInclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:gMonthDay">
+                    <xsd:minInclusive value="--10-31"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="--10-30"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+</xsd:schema>

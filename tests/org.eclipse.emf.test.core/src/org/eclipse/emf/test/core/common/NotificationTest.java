@@ -10,6 +10,7 @@
  */
 package org.eclipse.emf.test.core.common;
 
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -37,26 +38,32 @@ import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.junit.Test;
 
+
 /**
  * @since 2.2.1
  */
 public class NotificationTest
 {
+  static
+  {
+    EcorePackage.eINSTANCE.getEClass();
+  }
+
   @Test
   public void testMergeRemoveNotifications() throws Exception
   {
     Resource resource = new ResourceImpl();
-    resource.getContents().add(EcoreFactory.eINSTANCE.createEAnnotation());    //0
-    resource.getContents().add(EcoreFactory.eINSTANCE.createEAttribute());     //1
-    resource.getContents().add(EcoreFactory.eINSTANCE.createEClass());         //2
-    resource.getContents().add(EcoreFactory.eINSTANCE.createEDataType());      //3
-    resource.getContents().add(EcoreFactory.eINSTANCE.createEEnum());          //4
-    resource.getContents().add(EcoreFactory.eINSTANCE.createEEnumLiteral());   //5
-    resource.getContents().add(EcoreFactory.eINSTANCE.createEFactory());       //6
-    resource.getContents().add(EcoreFactory.eINSTANCE.createEObject());        //7
-    resource.getContents().add(EcoreFactory.eINSTANCE.createEOperation());     //8
-    resource.getContents().add(EcoreFactory.eINSTANCE.createEPackage());       //9
-    resource.getContents().add(EcoreFactory.eINSTANCE.createEParameter());     //10
+    resource.getContents().add(EcoreFactory.eINSTANCE.createEAnnotation()); //0
+    resource.getContents().add(EcoreFactory.eINSTANCE.createEAttribute()); //1
+    resource.getContents().add(EcoreFactory.eINSTANCE.createEClass()); //2
+    resource.getContents().add(EcoreFactory.eINSTANCE.createEDataType()); //3
+    resource.getContents().add(EcoreFactory.eINSTANCE.createEEnum()); //4
+    resource.getContents().add(EcoreFactory.eINSTANCE.createEEnumLiteral()); //5
+    resource.getContents().add(EcoreFactory.eINSTANCE.createEFactory()); //6
+    resource.getContents().add(EcoreFactory.eINSTANCE.createEObject()); //7
+    resource.getContents().add(EcoreFactory.eINSTANCE.createEOperation()); //8
+    resource.getContents().add(EcoreFactory.eINSTANCE.createEPackage()); //9
+    resource.getContents().add(EcoreFactory.eINSTANCE.createEParameter()); //10
 
     List<EObject> initialContents = new ArrayList<EObject>(resource.getContents());
 
@@ -155,10 +162,10 @@ public class NotificationTest
     myAdapter.mergedNotification = null;
 
     // Remove items from the ends
-    removedObjects.add(resource.getContents().remove(resource.getContents().size()-1));
+    removedObjects.add(resource.getContents().remove(resource.getContents().size() - 1));
     removedObjects.add(resource.getContents().remove(0));
     removedObjects.add(resource.getContents().remove(0));
-    removedObjects.add(resource.getContents().remove(resource.getContents().size()-1));
+    removedObjects.add(resource.getContents().remove(resource.getContents().size() - 1));
     removeNotificationMergeCheck(removedObjects, initialContents, myAdapter.mergedNotification);
 
     // *** Reset
@@ -187,9 +194,9 @@ public class NotificationTest
     assertEquals(removedItems.size(), oldValue.size());
     assertEquals(removedItems.size(), newValue.length);
 
-    for (int i=0; i < removedItems.size(); i++)
+    for (int i = 0; i < removedItems.size(); i++)
     {
-      assertTrue(removedItems.contains(oldValue.get(i)) );
+      assertTrue(removedItems.contains(oldValue.get(i)));
       assertEquals(oldValue.get(i), initialContents.get(newValue[i]));
     }
   }
@@ -215,29 +222,38 @@ public class NotificationTest
     EStructuralFeature upperBound = EcorePackage.Literals.ETYPED_ELEMENT__UPPER_BOUND;
     int upperBoundInt = EcorePackage.ETYPED_ELEMENT__UPPER_BOUND;
 
-    NotificationResult[] expected = new NotificationResult[]
-      {
-        new NotificationResult(c, Notification.ADD, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, null, a1, false, false, false, 0),
-        new NotificationResult(c, Notification.ADD_MANY, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, null, Arrays.asList(a2, a3, a4, a5), true, false, false, 1),
-        new NotificationResult(c, Notification.REMOVE, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, a2, null, true, false, false, 1),
-        new NotificationResult(c, Notification.REMOVE_MANY, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, Arrays.asList(a3, a4), new int[] { 1, 2 }, true, false, false, 1),
-        new NotificationResult(c, Notification.MOVE, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, 1, a5, true, false, false, 0),
-        new NotificationResult(c, Notification.MOVE, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, 0, a5, true, true, false, 0),
-        new NotificationResult(c, Notification.SET, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, a5, a2, true, false, false, 0),
-        new NotificationResult(c, Notification.SET, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, a2, a2, true, true, false, 0),
-        new NotificationResult(a1, Notification.SET, EAttribute.class, nameInt, name, "a1", "a1", true, true, false, -1),
-        new NotificationResult(a1, Notification.SET, EAttribute.class, nameInt, name, "a1", null, true, false, true, -1),
-        new NotificationResult(a1, Notification.SET, EAttribute.class, nameInt, name, null, null, false, true, true, -1),
-        new NotificationResult(a1, Notification.SET, EAttribute.class, upperBoundInt, upperBound, 1, 1, false, true, true, -1),
-        new NotificationResult(a1, Notification.SET, EAttribute.class, upperBoundInt, upperBound, 1, -1, false, false, false, -1),
-        new NotificationResult(a1, Notification.SET, EAttribute.class, upperBoundInt, upperBound, -1, -1, true, true, false, -1)
-      };
+    NotificationResult[] expected = new NotificationResult []{
+      new NotificationResult(c, Notification.ADD, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, null, a1, false, false, false, 0),
+      new NotificationResult(c, Notification.ADD_MANY, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, null, Arrays.asList(a2, a3, a4, a5), true, false, false, 1),
+      new NotificationResult(c, Notification.REMOVE, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, a2, null, true, false, false, 1),
+      new NotificationResult(
+        c,
+        Notification.REMOVE_MANY,
+        EClass.class,
+        eStructuralFeaturesInt,
+        eStructuralFeatures,
+        Arrays.asList(a3, a4),
+        new int []{ 1, 2 },
+        true,
+        false,
+        false,
+        1),
+      new NotificationResult(c, Notification.MOVE, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, 1, a5, true, false, false, 0),
+      new NotificationResult(c, Notification.MOVE, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, 0, a5, true, true, false, 0),
+      new NotificationResult(c, Notification.SET, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, a5, a2, true, false, false, 0),
+      new NotificationResult(c, Notification.SET, EClass.class, eStructuralFeaturesInt, eStructuralFeatures, a2, a2, true, true, false, 0),
+      new NotificationResult(a1, Notification.SET, EAttribute.class, nameInt, name, "a1", "a1", true, true, false, -1),
+      new NotificationResult(a1, Notification.SET, EAttribute.class, nameInt, name, "a1", null, true, false, true, -1),
+      new NotificationResult(a1, Notification.SET, EAttribute.class, nameInt, name, null, null, false, true, true, -1),
+      new NotificationResult(a1, Notification.SET, EAttribute.class, upperBoundInt, upperBound, 1, 1, false, true, true, -1),
+      new NotificationResult(a1, Notification.SET, EAttribute.class, upperBoundInt, upperBound, 1, -1, false, false, false, -1),
+      new NotificationResult(a1, Notification.SET, EAttribute.class, upperBoundInt, upperBound, -1, -1, true, true, false, -1) };
     NotificationTester tester = new NotificationTester(expected);
 
     c.eAdapters().add(tester);
     c.getEStructuralFeatures().add(a1);
     c.getEStructuralFeatures().addAll(Arrays.asList(a2, a3, a4, a5));
-    c.getEStructuralFeatures().addAll(Collections.<EStructuralFeature>emptyList()); // noop
+    c.getEStructuralFeatures().addAll(Collections.<EStructuralFeature> emptyList()); // noop
     c.getEStructuralFeatures().remove(1);
     c.getEStructuralFeatures().remove(a6); // noop
     c.getEStructuralFeatures().removeAll(Arrays.asList(a3, a4));
@@ -299,22 +315,42 @@ public class NotificationTest
     return end - start;
   }
 
-
   class NotificationResult
   {
     public Notifier notifier;
+
     public int eventType;
+
     public Class<?> expectedClass;
+
     public int featureID;
+
     public Object feature;
+
     public Object oldValue;
+
     public Object newValue;
+
     public boolean wasSet;
+
     public boolean touch;
+
     public boolean reset;
+
     public int position;
 
-    public NotificationResult(Notifier notifier, int eventType, Class<?> expectedClass, int featureID, Object feature, Object oldValue, Object newValue, boolean wasSet, boolean touch, boolean reset, int position)
+    public NotificationResult(
+      Notifier notifier,
+      int eventType,
+      Class<?> expectedClass,
+      int featureID,
+      Object feature,
+      Object oldValue,
+      Object newValue,
+      boolean wasSet,
+      boolean touch,
+      boolean reset,
+      int position)
     {
       this.notifier = notifier;
       this.eventType = eventType;
@@ -365,6 +401,7 @@ public class NotificationTest
   class NotificationTester extends AdapterImpl
   {
     NotificationResult[] expected;
+
     int notificationCount = 0;
 
     public NotificationTester(NotificationResult[] expected)

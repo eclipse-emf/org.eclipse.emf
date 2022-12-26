@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ */
+-->
+<xsd:schema
+  targetNamespace="http://www.example.com/Bad"
+  xmlns:this="http://www.example.com/Bad" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element/>
+    <xsd:element name="bad:name"/>
+    <xsd:element name="badAbstract" abstract="fasle"/>
+    <xsd:element name="badNillable" nillable="fasle"/>
+    <xsd:element name="badFinal" final="fasle"/>
+    <xsd:element name="badBlock" block="something"/>
+    <xsd:element name="badAttribute" form="qualified"/>
+    <xsd:element name="badFixedAndDefault" type="xsd:string" fixed="x" default="y"/>
+    <xsd:element name="badType" type="xsd:badType"/>
+    <xsd:element name="badID" id="id:id" type="xsd:string"/>
+    <xsd:element name="badAnonymousType" type="xsd:string">
+        <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+                <xsd:pattern value=".*"/>
+            </xsd:restriction>
+        </xsd:simpleType>
+    </xsd:element>
+
+    <xsd:element name="badContent">
+        <xsd:xsimpleType>
+            <xsd:restriction base="xsd:string"/>
+        </xsd:xsimpleType>
+    </xsd:element>
+
+    <xsd:element name="badAnnotation">
+        <xsd:annotation/>
+        <xsd:annotation/>
+    </xsd:element>
+
+    <xsd:element name="badAnnotation">
+        <xsd:annotation/>
+        <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+                <xsd:pattern value=".*"/>
+            </xsd:restriction>
+        </xsd:simpleType>
+        <xsd:annotation/>
+    </xsd:element>
+
+    <xsd:element name="badSubstitutionGroupReference" substitutionGroup="this:badElementReference"/>
+
+    <xsd:group name="myModelGroup">
+        <xsd:sequence>
+            <xsd:element name="badConstraintForID" type="xsd:ID" default="x"/>
+            <xsd:element name="badConstraintForDefault" type="xsd:string" default="x" use="required"/>
+            <xsd:element name="badConstraintForSimpleType" type="xsd:int" default="x"/>
+            <xsd:element name="badConstraintForComplexSimpleType" default="2">
+                <xsd:complexType>
+                    <xsd:simpleContent>
+                        <xsd:restriction base="xsd:int">
+                            <xsd:pattern value="1*"/>
+                        </xsd:restriction>
+                    </xsd:simpleContent>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="badAttribute" xuse="optional"/>
+            <xsd:element name="badUse" use="xoptional"/>
+            <xsd:element name="badForm" form="xqualified"/>
+            <xsd:element name="badMaxOccurs" maxOccurs="unbinded"/>
+            <xsd:element name="badMinOccurs" minOccurs="-1"/>
+            <xsd:element ref="this:badElementReference"/>
+            <xsd:element ref="this:okayFixedAttribute" name="badNameForReference"/>
+            <xsd:element ref="this:okayFixedAttribute" nillable="true"/>
+            <xsd:element ref="this:okayFixedAttribute" default="1"/>
+            <xsd:element ref="this:okayFixedAttribute" fixed="1"/>
+            <xsd:element ref="this:okayFixedAttribute" block=""/>
+            <xsd:element ref="this:okayFixedAttribute" form="qualified"/>
+            <xsd:element ref="this:okayFixedAttribute" type="xsd:String"/>
+            <xsd:element ref="this:okayFixedAttribute">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:pattern value=".*"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="okayComplexComplex" default="2">
+                <xsd:complexType>
+                    <xsd:sequence>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:group>
+
+    <xsd:element name="badSimpleRestriction" substitutionGroup="this:okayNoRestriction">
+        <xsd:simpleType>
+            <xsd:restriction base="xsd:int">
+                <xsd:pattern value="1"/>
+            </xsd:restriction>
+        </xsd:simpleType>
+    </xsd:element>
+
+    <xsd:element name="badComplexRestriction" substitutionGroup="this:okayNoRestriction">
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:restriction base="xsd:int">
+                    <xsd:pattern value="1"/>
+                </xsd:restriction>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="badUnionRestriction" substitutionGroup="this:okayUnion">
+        <xsd:simpleType>
+            <xsd:restriction base="xsd:float">
+                <xsd:pattern value="1.0"/>
+            </xsd:restriction>
+        </xsd:simpleType>
+    </xsd:element>
+
+    <xsd:element name="okayFixedAttribute" type="xsd:int" fixed="1"/>
+
+    <xsd:element name="okayNoRestriction" final="restriction" type="xsd:int"/>
+
+    <xsd:element name="okaySimple">
+        <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+                <xsd:pattern value=".*"/>
+            </xsd:restriction>
+        </xsd:simpleType>
+    </xsd:element>
+
+    <xsd:element name="okayUnion">
+        <xsd:simpleType>
+            <xsd:union memberTypes="xsd:string xsd:int"/>
+        </xsd:simpleType>
+    </xsd:element>
+
+    <xsd:element name="okayUnionRestriction" substitutionGroup="this:okayUnion">
+        <xsd:simpleType>
+            <xsd:restriction base="xsd:int">
+                <xsd:pattern value="1"/>
+            </xsd:restriction>
+        </xsd:simpleType>
+    </xsd:element>
+
+    <xsd:element name="okayComplexSimple">
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:restriction base="xsd:string">
+                    <xsd:pattern value=".*"/>
+                </xsd:restriction>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="okayComplexComplex" default="x">
+        <xsd:complexType mixed="true">
+            <xsd:choice>
+                <xsd:element name="x"/>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="okayAnnotation">
+        <xsd:annotation/>
+        <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+                <xsd:pattern value=".*"/>
+            </xsd:restriction>
+        </xsd:simpleType>
+    </xsd:element>
+
+</xsd:schema>

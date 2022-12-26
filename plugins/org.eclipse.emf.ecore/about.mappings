@@ -2,4 +2,4 @@
 # contains fill-ins for about.properties
 
 0=${build.id}
-1=${emf.commit.id}
+1=${commit.id}

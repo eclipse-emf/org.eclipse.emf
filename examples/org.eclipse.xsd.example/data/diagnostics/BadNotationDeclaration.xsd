@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ */
+-->
+<xsd:schema
+  targetNamespace="http://www.example.com/Bad"
+  xmlns:this="http://www.example.com/Bad" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:notation/>
+    <xsd:notation name="badNoPublic"/>
+    <xsd:notation name="bad:name" public="x"/>
+    <xsd:notation name="badAttribute" x="optional" public="x"/>
+    <xsd:notation name="badID" id="id:id" public="x"/>
+
+    <xsd:notation name="badContent" public="x">
+        <xsd:bad/>
+    </xsd:notation>
+
+    <xsd:notation name="badAnnotation" public="x">
+        <xsd:annotation/>
+        <xsd:annotation/>
+    </xsd:notation>
+
+    <xsd:notation name="badAnnotation" public="##" system="##"/>
+
+</xsd:schema>

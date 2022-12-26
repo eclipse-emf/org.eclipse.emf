@@ -12,7 +12,10 @@ enable viewing and command-based editing of the model, and a basic editor.
 Models can be specified using annotated Java, XML documents, or modeling tools
 like Rational Rose, then imported into EMF. Most important of all, EMF provides
 the foundation for interoperability with other EMF-based tools and applications.
-For more detailed information see the EMF Overviews and Project Plan.
+
+Eclipse XSD is a library that provides an API for manipulating the components of
+an XML Schema as described by the W3C XML Schema specifications, as well as an
+API for manipulating the DOM-accessible representation of XML.
 
 * https://www.eclipse.org/modeling/emf/
 * https://projects.eclipse.org/projects/modeling.emf.emf
@@ -36,7 +39,7 @@ This project uses Bugzilla to track ongoing development and issues.
 Be sure to search for existing bugs before you create another one. Remember that
 contributions are always welcome!
 
-This project is built, along with XSD, using Maven/Tycho.
+This project is built using Maven/Tycho.
 Instructions for setting up a development environment and for replicating the build locally are provided here:
 
 * https://ci.eclipse.org/emf/

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.example.eclipse.org/Library2"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:lib1="http://www.example.eclipse.org/Library1"
+    xmlns:lib2="http://www.example.eclipse.org/Library2"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    
+    <xsd:import namespace="http://www.example.eclipse.org/Library1" 
+                schemaLocation="libraryPart1.xsd"/>
+  
+  <xsd:complexType name="Library">
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+          name="writers" type="lib1:Writer"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+          name="books" type="lib1:Book"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

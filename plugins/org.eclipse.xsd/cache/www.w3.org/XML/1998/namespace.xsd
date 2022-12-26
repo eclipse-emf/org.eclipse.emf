@@ -1,0 +1,60 @@
+<?xml version='1.0'?>
+<schema targetNamespace="http://www.w3.org/XML/1998/namespace" xmlns="http://www.w3.org/2001/XMLSchema">
+
+ <annotation>
+  <documentation>
+   See http://www.w3.org/XML/1998/namespace.html and
+   http://www.w3.org/TR/REC-xml for information about this namespace.
+  </documentation>
+ </annotation>
+
+ <annotation>
+  <documentation>This schema defines attributes and an attribute group
+        suitable for use by
+        schemas wishing to allow xml:lang, xml:space or xml:base attributes
+        on elements they define.
+
+        To enable this, such a schema must first declare the XML
+        namespace, and then import this schema
+        for the XML namespace, e.g. as follows:
+        &lt;schema . . . xmlns:xml="http://www.w3.org/XML/1998/namespace">
+         . . .
+         &lt;import namespace="http://www.w3.org/XML/1998/namespace"
+                    schemaLocation="http://www.w3.org/2000/10/xml.xsd"/>
+
+        Subsequently, qualified reference to any of the attributes
+        or the group defined below will have the desired effect, e.g.
+
+        &lt;type . . .>
+         . . .
+         &lt;attributeGroup ref="xml:specialAttrs"/>
+ 
+         will define a type which will schema-validate a instance
+         element with any of those attributes</documentation>
+ </annotation>
+
+ <attribute name="lang" type="language">
+  <annotation>
+   <documentation>In due course, we should install the relevant ISO 2- and 3-letter
+         codes as the enumerated possible values . . .</documentation>
+  </annotation>
+ </attribute>
+
+ <attribute name="space" default="preserve">
+  <simpleType>
+   <restriction base="NCName">
+    <enumeration value="default"/>
+    <enumeration value="preserve"/>
+   </restriction>
+  </simpleType>
+ </attribute>
+
+ <attribute name="base" type="anyURI"/>
+
+ <attributeGroup name="specialAttrs">
+  <attribute ref="xml:lang"/>
+  <attribute ref="xml:space"/>
+  <attribute ref="xml:base"/>
+ </attributeGroup>
+
+</schema>

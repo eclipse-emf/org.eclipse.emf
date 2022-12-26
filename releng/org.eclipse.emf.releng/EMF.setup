@@ -840,7 +840,9 @@
     <setupTask
         xsi:type="setup.targlets:TargletTask">
       <targlet
-          name="EMF Core">
+          name="EMF/XSD Core">
+        <requirement
+            name="org.eclipse.emf.git.plain.project"/>
         <requirement
             name="org.eclipse.emf.all.feature.group"/>
         <requirement
@@ -853,8 +855,24 @@
             name="org.eclipse.emf.releng.plain.project"/>
         <requirement
             name="org.eclipse.emf.site.plain.project"/>
+        <requirement
+            name="org.eclipse.xsd.sdk.feature.group"/>
+        <requirement
+            name="org.eclipse.xsd.example.feature.group"/>
         <sourceLocator
-            rootFolder="${emf.git.clone.location}"/>
+            rootFolder="${emf.git.clone.location}"
+            locateNestedProjects="true">
+          <predicate
+              xsi:type="predicates:NotPredicate">
+            <operand
+                xsi:type="predicates:OrPredicate">
+              <operand
+                  xsi:type="predicates:RepositoryPredicate"
+                  project="org.eclipse.emf"
+                  relativePathPattern="plugins/org.eclipse.emf.example.installer/examples/.*|plugins/org.eclipse.xsd.example.installer/examples/.*"/>
+            </operand>
+          </predicate>
+        </sourceLocator>
       </targlet>
     </setupTask>
     <setupTask
@@ -874,7 +892,7 @@
               xsi:type="predicates:NotPredicate">
             <operand
                 xsi:type="predicates:NamePredicate"
-                pattern=".*\.xcore.*|.*\.xtext.*|.*\.gwt.*|.*\.rap.*"/>
+                pattern=".*\.xcore.*|.*\.xtext.*|.*\.gwt.*|.*\.rap.*|.*\.xsd.*"/>
           </operand>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
@@ -970,7 +988,7 @@
               xsi:type="predicates:NotPredicate">
             <operand
                 xsi:type="predicates:NamePredicate"
-                pattern=".*\.xcore.*|.*\.xtext.*|.*\.gwt.*|.*\.rap.*"/>
+                pattern=".*\.xcore.*|.*\.xtext.*|.*\.gwt.*|.*\.rap.*|.*\.xsd.*"/>
           </operand>
           <operand
               xsi:type="workingsets:ExclusionPredicate"
@@ -989,7 +1007,7 @@
               project="org.eclipse.emf"/>
           <operand
               xsi:type="predicates:NamePredicate"
-              pattern="org\.eclipse\.emf\.releng.*|org\.eclipse\.emf\.parent|org\.eclipse\.emf\.site"/>
+              pattern="org\.eclipse\.emf\.releng.*|org\.eclipse\.emf\.parent|org\.eclipse\.emf\.site|org\.eclipse\.emf\.git"/>
         </predicate>
       </workingSet>
       <workingSet
@@ -1020,6 +1038,75 @@
           <operand
               xsi:type="predicates:NamePredicate"
               pattern="org\.eclipse\.emf\.oda.*"/>
+        </predicate>
+      </workingSet>
+      <workingSet
+          name="XSD">
+        <predicate
+            xsi:type="predicates:AndPredicate">
+          <operand
+              xsi:type="predicates:RepositoryPredicate"
+              project="org.eclipse.xsd"/>
+          <operand
+              xsi:type="predicates:NaturePredicate"
+              nature="org.eclipse.pde.PluginNature"/>
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern=".*\.xsd.*"/>
+          <operand
+              xsi:type="workingsets:ExclusionPredicate"
+              excludedWorkingSet="//'workingsets.core'/@workingSets[name='XSD%20Examples']"/>
+        </predicate>
+      </workingSet>
+      <workingSet
+          name="XSD Examples">
+        <predicate
+            xsi:type="predicates:AndPredicate">
+          <operand
+              xsi:type="predicates:RepositoryPredicate"
+              project="org.eclipse.xsd"/>
+          <operand
+              xsi:type="predicates:NaturePredicate"
+              nature="org.eclipse.pde.PluginNature"/>
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern="org\.eclipse\.xsd\.example.*"/>
+        </predicate>
+      </workingSet>
+      <workingSet
+          name="XSD Documentation">
+        <predicate
+            xsi:type="predicates:AndPredicate">
+          <operand
+              xsi:type="predicates:RepositoryPredicate"
+              project="org.eclipse.xsd"/>
+          <operand
+              xsi:type="predicates:NaturePredicate"
+              nature="org.eclipse.pde.PluginNature"/>
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern="org\.eclipse\.xsd\.doc|org\.eclipse\.xsd\.cheatsheets"/>
+        </predicate>
+      </workingSet>
+      <workingSet
+          name="XSD Features">
+        <predicate
+            xsi:type="predicates:AndPredicate">
+          <operand
+              xsi:type="predicates:RepositoryPredicate"
+              project="org.eclipse.xsd"/>
+          <operand
+              xsi:type="predicates:NaturePredicate"
+              nature="org.eclipse.pde.FeatureNature"/>
+          <operand
+              xsi:type="workingsets:ExclusionPredicate"
+              excludedWorkingSet="//'workingsets.core'/@workingSets[name='EMF%20ODA%20Features']"/>
+          <operand
+              xsi:type="workingsets:ExclusionPredicate"
+              excludedWorkingSet="//'workingsets.core'/@workingSets[name='EMF%20Releng']"/>
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern=".*\.xsd.*"/>
         </predicate>
       </workingSet>
     </setupTask>
@@ -1111,15 +1198,29 @@
         <requirement
             name="org.eclipse.xtext.generator"/>
         <sourceLocator
-            rootFolder="${emf.git.clone.location}">
+            rootFolder="${emf.git.clone.location}"
+            locateNestedProjects="true">
           <predicate
-              xsi:type="predicates:NamePredicate"
-              pattern=".*\.xcore.*|.*\.xtext.*"/>
+              xsi:type="predicates:AndPredicate">
+            <operand
+                xsi:type="predicates:NamePredicate"
+                pattern=".*\.xcore.*|.*\.xtext.*"/>
+            <operand
+                xsi:type="predicates:NotPredicate">
+              <operand
+                  xsi:type="predicates:OrPredicate">
+                <operand
+                    xsi:type="predicates:RepositoryPredicate"
+                    project="org.eclipse.emf"
+                    relativePathPattern="plugins/org.eclipse.emf.example.installer/examples/.*|plugins/org.eclipse.xsd.example.installer/examples/.*"/>
+              </operand>
+            </operand>
+          </predicate>
         </sourceLocator>
         <repositoryList
             name="Xtext">
           <repository
-              url="http://download.itemis.com/updates/releases/2.1.0"/>
+              url="https://download.itemis.com/updates/releases/2.1.0"/>
           <repository
               url="${xtext.latest.release.url}"/>
           <repository
@@ -1209,7 +1310,19 @@
         <requirement
             name="com.google.gwt.eclipse.sdkbundle"/>
         <sourceLocator
-            rootFolder="${emf.git.clone.location}"/>
+            rootFolder="${emf.git.clone.location}"
+            locateNestedProjects="true">
+          <predicate
+              xsi:type="predicates:NotPredicate">
+            <operand
+                xsi:type="predicates:OrPredicate">
+              <operand
+                  xsi:type="predicates:RepositoryPredicate"
+                  project="org.eclipse.emf"
+                  relativePathPattern="plugins/org.eclipse.emf.example.installer/examples/.*|plugins/org.eclipse.xsd.example.installer/examples/.*"/>
+            </operand>
+          </predicate>
+        </sourceLocator>
         <repositoryList
             name="GWT">
           <repository
@@ -1283,10 +1396,24 @@
             name="org.eclipse.rap.sdk.feature.feature.group"
             optional="true"/>
         <sourceLocator
-            rootFolder="${emf.git.clone.location}">
+            rootFolder="${emf.git.clone.location}"
+            locateNestedProjects="true">
           <predicate
-              xsi:type="predicates:NamePredicate"
-              pattern=".*\.rap.*"/>
+              xsi:type="predicates:AndPredicate">
+            <operand
+                xsi:type="predicates:NamePredicate"
+                pattern=".*\.rap.*"/>
+            <operand
+                xsi:type="predicates:NotPredicate">
+              <operand
+                  xsi:type="predicates:OrPredicate">
+                <operand
+                    xsi:type="predicates:RepositoryPredicate"
+                    project="org.eclipse.emf"
+                    relativePathPattern="plugins/org.eclipse.emf.example.installer/examples/.*|plugins/org.eclipse.xsd.example.installer/examples/.*"/>
+              </operand>
+            </operand>
+          </predicate>
         </sourceLocator>
       </targlet>
     </setupTask>

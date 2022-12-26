@@ -7,7 +7,7 @@ This content is produced and maintained by the Eclipse EMF project.
 
 ## Trademarks
 
-Eclipse EMF, EMF, and Ecore are trademarks of the Eclipse Foundation.
+Eclipse EMF, EMF, and Ecore as well as Eclipse XSD and XSD, are trademarks of the Eclipse Foundation.
 
 ## Copyright
 
@@ -28,22 +28,6 @@ SPDX-License-Identifier: EPL-2.0
 The project maintains the following source code repositories:
 
 * http://git.eclipse.org/c/emf/org.eclipse.emf.git
-
-## Third-party Content
-
-This project leverages the following third party content.
-
-Google Web Toolkit GWT User Library (2.0.3)
-
-* License: Apache License, 2.0
-
-Tomcat (3.2.4)
-
-* License: Apache Software License 1.1
-
-Xerces (2.11.0)
-
-* License: Apache License, 2.0, W3C
 
 ## Cryptography
 

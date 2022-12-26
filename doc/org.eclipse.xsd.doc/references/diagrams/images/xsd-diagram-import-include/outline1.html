@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta HTTP-EQUIV=CONTENT-TYPE CONTENT="text/html; charset=utf-8">
+<title>How abstract components are created when reading a schema – an animation in 12 slides    -- schemas that use &lt;include&gt; and &lt;import&gt;</title>
+</head>
+<body>
+<p align=left><a href="JavaScript:parent.NavigateAbs(0)">How abstract components are created when reading a schema – an animation in 12 slides
+   -- schemas that use &lt;include&gt; and &lt;import&gt;</a><br><ul></ul><li><b>July 26, 2002 5:00pm</b>
+</p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(1)">Parse of a top level schema document. </a><br><ul><li><b>&lt;xs:schema targetNamespace=“t1“ xmlns:xs=“http://www.w3.org/2001/XMLSchema”&gt;</b>
+<li><b>   &lt;xs:include schemaLocation=“s3.xsd”/&gt;</b>
+<li><b>   &lt;xs:import namespace=“t2” schemaLocation=“s2.xsd”/&gt;</b>
+<li><b>   &lt;xs:element name=“t1e1” type=“xs:string”/&gt;</b>
+<li><b>&lt;/xs:schema&gt;</b>
+<li><b></b>
+<li><b>s2.xsd:</b>
+<li><b>&lt;xs:schema targetNamespace=“t2” xmlns:xs=“http://www.w3.org/2001/XMLSchema”&gt;</b>
+<li><b>  &lt;xs:element name=“t2e1” type=“xs:string”/&gt;</b>
+<li><b>&lt;/xs:schema&gt;</b>
+<li><b></b>
+<li><b>s3.xsd:</b>
+<li><b>&lt;xs:schema targetNamespace=“t1” xmlns:xs=“http://www.w3.org/2001/XMLSchema”&gt;</b>
+<li><b>  &lt;xs:element name=“t1e2” type=“xs:string”/&gt;</b>
+<li><b>&lt;/xs:schema&gt;</b>
+</ul></p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(2)">Parse of s1 &lt;xs:schema targetNamespace=“t1”&gt;</a><br></p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(3)">Parse of s1 &lt;xs:include schemaLocation=“s3.xsd”&gt;</a><br></p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(4)">Parse of s3 &lt;xs:schema targetNamespace=“t1”&gt;</a><br></p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(5)">Parse of s3 &lt;xs:element name=“t1e2” type=“xs:string”/&gt;</a><br></p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(6)">Parse of s3 &lt;/xs:schema&gt;</a><br></p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(7)">Parse of s1 &lt;xs:import namespace=“t2”
+             schemaLocation=“s2.xsd”/&gt;</a><br></p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(8)">Parse of s2 &lt;xs:schema targetNamespace=“t2”/&gt;</a><br></p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(9)">Parse of s2 &lt;xs:element name=“t2e1” type=../&gt;</a><br></p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(10)">Parse of s2 &lt;/xs:schema&gt;</a><br></p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(11)">Parse of s1 &lt;xs:element name=“t1e1”../&gt;</a><br></p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(12)">Parse of s1 &lt;/xs:schema&gt;</a><br></p>
+</body>
+</html>

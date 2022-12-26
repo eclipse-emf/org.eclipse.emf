@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+  <extension id="XSDMainExample" point="org.eclipse.core.runtime.applications">
+    <application>
+      <run class="org.eclipse.xsd.example.XSDMainExample$Runnable" />
+    </application>
+  </extension>
+
+  <extension id="XSDGenerateHTML" point="org.eclipse.core.runtime.applications">
+    <application>
+      <run class="org.eclipse.xsd.example.XSDGenerateHTML" />
+    </application>
+  </extension>
+</plugin>

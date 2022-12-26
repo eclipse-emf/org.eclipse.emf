@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="codegen" basedir="..">
+  <dirname property="antfile.dir" file="${ant.file}"/>
+    
+  <!-- Global properties -->
+	<property name="main.directory" location="${antfile.dir}/.."/>
+	<property name="ouput.directory" location="${antfile.dir}/.."/>
+	<property name="source.directory" value="src"/>
+	<property name="genJDKLevel" value="5.0"/>
+	
+	<target name="codegen">
+
+	  <!-- A macrodef makes it easier to generate code for multiple models in one script. -->
+		<macrodef name="xsd2Java">
+			<attribute name="modelName"/>
+			<element name="settings"/>
+			<sequential>
+				<emf.XSD2Java
+					model="${main.directory}/model/@{modelName}.xsd"
+					genModel="${ouput.directory}/emf/@{modelName}.genmodel"
+					modelProject="${ouput.directory}"
+					modelProjectFragmentPath="${source.directory}"
+					copyright="This is my code."
+					jdkLevel="${genJDKLevel}">
+					<settings/>
+				</emf.XSD2Java>
+			</sequential>
+		</macrodef>
+
+		<!-- Generating the code for the library model -->
+		<xsd2Java modelName="library">
+			<settings>
+				<arg line="-packages http://www.example.eclipse.org/Library"/>
+				<arg line="-packageMap http://www.example.eclipse.org/Library org.examples.library"/>
+			</settings>
+		</xsd2Java>
+		
+	</target>
+</project>

@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ */
+-->
+<xsd:schema
+  targetNamespace="http://www.example.com/Bad"
+  xmlns:this="http://www.example.com/Bad" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:simpleType name="badFacetForType" >
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cos-applicable-facets">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minExclusive value="0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetRepeat">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#minExclusive-value">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+            <xsd:minExclusive value="0"/>
+            <xsd:minExclusive value="0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetRepeat">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#minExclusive-value">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+            <xsd:minInclusive value="1"/>
+            <xsd:minExclusive value="0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetExtraAttribute">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#minExclusive-value">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+            <xsd:minExclusive value="0" bad="bad"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetMissingValue">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#minExclusive-value">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+            <xsd:minExclusive/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetValue">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#minExclusive-value">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+            <xsd:minExclusive value="a"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetFixed">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#minExclusive-fixed">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+            <xsd:minExclusive value="0" fixed="bad"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetRestriction">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#minExclusive-valid-restriction">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:decimal">
+                    <xsd:minExclusive value="2"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:minExclusive value="1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetRestrictionWithBaseMaxExclusive">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#minExclusive-valid-restriction">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:decimal">
+                    <xsd:maxExclusive value="2"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:minExclusive value="2"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetRestrictionWithMaxInclusive">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#minExclusive-valid-restriction">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+            <xsd:maxInclusive value="2"/>
+            <xsd:minExclusive value="2"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetRestrictionWithMaxExclusive">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#minExclusive-valid-restriction">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+            <xsd:maxExclusive value="2"/>
+            <xsd:minExclusive value="2.001"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetRestrictionFixed">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#dc-minExclusive">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:decimal">
+                    <xsd:minExclusive value="2" fixed="true"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:minExclusive value="3"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToDecimal">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:decimal">
+                    <xsd:minExclusive value="3"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="3"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToDouble">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-maxExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:double">
+                    <xsd:maxExclusive value="3.0"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="3.0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToFloat">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-maxExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:float">
+                    <xsd:maxExclusive value="3.0"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="3.0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToDuration">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-maxExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:duration">
+                    <xsd:maxExclusive value="P1D"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="P1D"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToDate">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-maxExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:date">
+                    <xsd:maxExclusive value="1999-10-26"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="1999-10-26"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToTime">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-maxExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:time">
+                    <xsd:maxExclusive value="13:20:00-05:00"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="13:20:00-05:00"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToDateTime">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-maxExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:dateTime">
+                    <xsd:maxExclusive value="1999-05-31T13:20:00-05:00"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="1999-05-31T13:20:00-05:00"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToGYear">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-maxExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:gYear">
+                    <xsd:maxExclusive value="1999"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="1999"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToGMonth">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-maxExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:gMonth">
+                    <xsd:maxExclusive value="--12--"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="--12--"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToGYearMonth">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-maxExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:gYearMonth">
+                    <xsd:maxExclusive value="1999-12"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="1999-12"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToGDay">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-maxExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:gDay">
+                    <xsd:maxExclusive value="---31"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="---31"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToGMonthDay">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-maxExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:gMonthDay">
+                    <xsd:maxExclusive value="--10-31"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="--10-31"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToDouble">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:double">
+                    <xsd:minExclusive value="3.0"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="3.0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToFloat">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:float">
+                    <xsd:minExclusive value="3.0"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="3.0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToDuration">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:duration">
+                    <xsd:minExclusive value="P1D"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="P1D"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToDate">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:date">
+                    <xsd:minExclusive value="1999-10-26"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="1999-10-26"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToTime">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:time">
+                    <xsd:minExclusive value="13:20:00-05:00"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="13:20:00-05:00"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToDateTime">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:dateTime">
+                    <xsd:minExclusive value="1999-05-31T13:20:00-05:00"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="1999-05-31T13:20:00-05:00"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToGYear">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:gYear">
+                    <xsd:minExclusive value="1999"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="1999"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToGMonth">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:gMonth">
+                    <xsd:minExclusive value="--12--"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="--12--"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToGYearMonth">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:gYearMonth">
+                    <xsd:minExclusive value="1999-12"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="1999-12"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToGDay">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:gDay">
+                    <xsd:minExclusive value="---31"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="---31"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="badMinExclusiveFacetAppliedToGMonthDay">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#cvc-minExclusive-valid">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:gMonthDay">
+                    <xsd:minExclusive value="--10-31"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:enumeration value="--10-31"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="okayMinExclusiveFacetRestrictionWithMaxExclusive">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#minExclusive-valid-restriction">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:decimal">
+            <xsd:maxExclusive value="2"/>
+            <xsd:minExclusive value="2"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="okayMinExclusiveFacetRestriction">
+        <xsd:annotation>
+            <xsd:documentation source="http://www.w3.org/TR/xmlschema-2/#minExclusive-valid-restriction">
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:decimal">
+                    <xsd:minExclusive value="2"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:minExclusive value="2"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

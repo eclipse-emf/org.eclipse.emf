@@ -4,6 +4,6 @@
     <stringAttribute key="org.eclipse.debug.ui.ATTR_CONSOLE_ENCODING" value="UTF-8"/>
     <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LAUNCH_CONFIGURATION_BUILD_SCOPE" value="${none}"/>
     <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${maven.build.java.home}/bin/java.exe"/>
-    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-Duser.home=${system_property:user.home}&#13;&#10;-jar releng/org.eclipse.emf.releng/publish/pommod/target/pommod.jar -dir releng/org.eclipse.emf.releng/publish/target/repository/final&#13;&#10;${string_prompt:arguments to modify the arguments used for the pommod.:-dryRun}"/>
+    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-Duser.home=${system_property:user.home}&#13;&#10;-jar releng/org.eclipse.emf.releng/publish/pommod/target/pommod.jar&#13;&#10;-dir releng/org.eclipse.emf.releng/publish/target/repository/final&#13;&#10;${string_prompt:arguments to modify the arguments used for the pommod.:-dryRun}"/>
     <stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="${emf.git.clone.location}"/>
 </launchConfiguration>

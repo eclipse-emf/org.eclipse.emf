@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ */
+-->
+<xsd:schema
+  targetNamespace="http://www.example.com/Bad"
+  xmlns:this="http://www.example.com/Bad" 
+  xmlns:other="http://www.example.com/Other" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:import namespace="http://www.example.com/Other" schemaLocation="Other.xsd"/>
+
+    <xsd:attributeGroup name="badAttributeWildcardAttribute">
+        <xsd:anyAttribute xnamespace="http://www.example.com/Other"/>
+    </xsd:attributeGroup>
+
+    <xsd:attributeGroup name="badAttributeWildcardID">
+        <xsd:anyAttribute id="id:id"/>
+    </xsd:attributeGroup>
+
+    <xsd:attributeGroup name="badAttributeWildcardAnnotation">
+        <xsd:anyAttribute>
+            <xsd:annotation/>
+            <xsd:annotation/>
+        </xsd:anyAttribute>
+    </xsd:attributeGroup>
+
+    <xsd:attributeGroup name="badAttributeWildcardProcessContents">
+        <xsd:anyAttribute processContents="lex"/>
+    </xsd:attributeGroup>
+
+    <xsd:attributeGroup name="badAttributeWildcardNamespace">
+        <xsd:anyAttribute namespace="http://www.example.com/##"/>
+    </xsd:attributeGroup>
+
+    <xsd:group name="badElementWildcardAttribute">
+        <xsd:sequence>
+            <xsd:any xnamespace="http://www.example.com/Other"/>
+        </xsd:sequence>
+    </xsd:group>
+
+    <xsd:group name="badElementWildcardID">
+        <xsd:sequence>
+            <xsd:any id="id:id"/>
+        </xsd:sequence>
+    </xsd:group>
+
+    <xsd:group name="badElementWildcardAnnotation">
+        <xsd:sequence>
+            <xsd:any>
+                <xsd:annotation/>
+                <xsd:annotation/>
+            </xsd:any>
+        </xsd:sequence>
+    </xsd:group>
+
+    <xsd:group name="badElementWildcardProcessContents">
+        <xsd:sequence>
+            <xsd:any processContents="lex"/>
+        </xsd:sequence>
+    </xsd:group>
+
+    <xsd:group name="badElementWildcardNamespace">
+        <xsd:sequence>
+            <xsd:any namespace="http://www.example.com/##"/>
+        </xsd:sequence>
+    </xsd:group>
+
+    <xsd:attributeGroup name="okayAttributeWildcard">
+        <xsd:anyAttribute namespace="http://www.example.com/Other"/>
+    </xsd:attributeGroup>
+
+    <xsd:group name="okayElementWildcard">
+        <xsd:sequence>
+            <xsd:any namespace="http://www.example.com/Other"/>
+        </xsd:sequence>
+    </xsd:group>
+
+</xsd:schema>

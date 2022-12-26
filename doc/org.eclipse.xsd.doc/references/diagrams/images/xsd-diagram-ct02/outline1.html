@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta HTTP-EQUIV=CONTENT-TYPE CONTENT="text/html; charset=utf-8">
+<title>How abstract components are created when reading a schema – an animation in 9 slides    -- complexType</title>
+</head>
+<body>
+<p align=left><a href="JavaScript:parent.NavigateAbs(0)">How abstract components are created when reading a schema – an animation in 9 slides
+   -- complexType</a><br><ul></ul><li><b>July 26, 2002 5:00pm</b>
+</p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(1)">Parse of a complexType definition and construction of the abstract schema components. </a><br><ul><li><b> &lt;xs:complexType name=&quot;ct02&quot;&gt;</b>
+<li><b>   &lt;xs:sequence&gt;</b>
+<li><b>     &lt;xs:element ref=&quot;refed&quot;/&gt;   </b>
+<li><b>     &lt;xs:sequence minOccurs=&quot;0&quot; maxOccurs=&quot;3&quot;&gt;</b>
+<li><b>        &lt;xs:element name=&quot;e1&quot; type=&quot;xs:string&quot;/&gt;</b>
+<li><b>        &lt;xs:element name=&quot;e2&quot; type=&quot;xs:string&quot;/&gt;</b>
+<li><b>     &lt;/xs:sequence&gt;</b>
+<li><b>   &lt;/xs:sequence&gt;</b>
+<li><b> &lt;/xs:complexType&gt;</b>
+<li><b></b>
+<li><b>And elsewhere there is a global element declaration with the name “refed”</b>
+</ul></p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(2)">Parse of &lt;xs:complexType name=“ct02”&gt;</a><br></p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(3)">Parse of &lt;xs:sequence&gt;</a><br></p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(4)">Parse of &lt;xs:element ref=“refed”/&gt; 1</a><br></p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(5)">Parse of &lt;xs:element ref=“refed”/&gt; 2</a><br></p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(6)">Parse of &lt;xs:sequence minOccurs=“0” maxOccurs=“3”/&gt;</a><br></p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(7)">Parse of &lt;xs:element name=“e1” type=“xs:string”/&gt;</a><br></p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(8)">Parse of &lt;xs:element name=“e2” type=“xs:string”/&gt;</a><br></p>
+<p align=left><a href="JavaScript:parent.NavigateAbs(9)">Parse of       &lt;/xs:complexType&gt;</a><br></p>
+</body>
+</html>

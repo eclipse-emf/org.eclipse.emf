@@ -12,7 +12,7 @@
 
   <groupId>org.eclipse.emf.features</groupId>
   <artifactId>org.eclipse.emf.rap.edit.ui</artifactId>
-  <version>2.14.0-SNAPSHOT</version>
+  <version>2.15.0-SNAPSHOT</version>
   <packaging>eclipse-feature</packaging>
 
 </project>

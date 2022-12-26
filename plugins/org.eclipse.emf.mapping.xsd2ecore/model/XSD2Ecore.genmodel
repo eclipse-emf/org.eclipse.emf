@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.mapping.xsd2ecore/src"
+    creationCommands="false" editDirectory="/org.eclipse.emf.mapping.xsd2ecore/src"
+    editorDirectory="" modelPluginID="org.eclipse.emf.mapping.xsd2ecore" runtimeJar="true"
+    modelName="XSD2Ecore" editPluginClass="org.eclipse.emf.mapping.xsd2ecore.XSD2EcorePlugin"
+    updateClasspath="false" testsDirectory="" importerID="org.eclipse.emf.importer.rose"
+    complianceLevel="5.0" language="en" usedGenPackages="../../org.eclipse.emf.mapping/model/Mapping.genmodel#//mapping ../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+  <foreignModel>XSD2Ecore.mdl</foreignModel>
+  <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
+  <foreignModel>../..</foreignModel>
+  <genPackages prefix="XSD2Ecore" basePackage="org.eclipse.emf.mapping" resource="XMI"
+      disposableProviderFactory="true" generateModelWizard="false" contentTypeIdentifier="org.eclipse.emf.mapping.xsd2ecore"
+      ecorePackage="XSD2Ecore.ecore#/">
+    <genClasses image="false" ecoreClass="XSD2Ecore.ecore#//XSD2EcoreMappingRoot"/>
+  </genPackages>
+</genmodel:GenModel>

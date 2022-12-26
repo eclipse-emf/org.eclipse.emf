@@ -25,7 +25,7 @@
 
       <repository location="https://www.macromodeling.com/gwt"/>
 
-      <repository location="http://download.itemis.com/updates/releases/2.1.0"/>
+      <repository location="https://download.itemis.com/updates/releases/2.1.0"/>
 
       <repository location="https://download.eclipse.org/rt/rap/3.10/R-20190911-1524"/>
 
