@@ -9,6 +9,8 @@ package org.eclipse.emf.test.core.dynamic;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,6 +37,7 @@ import org.eclipse.emf.test.common.TestUtil;
 import org.eclipse.emf.test.core.AllSuites;
 import org.eclipse.emf.test.models.dynamic.Admin;
 import org.eclipse.emf.test.models.dynamic.Detail;
+import org.eclipse.emf.test.models.dynamic.DynamicFactory;
 import org.eclipse.emf.test.models.dynamic.DynamicPackage;
 import org.eclipse.emf.test.models.dynamic.Provider;
 import org.junit.After;
@@ -57,9 +60,7 @@ public class PermissiveDynamicModelTest
     URI dynamicExtensionEcoreURI = URI.createFileURI(TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/DynamicExtension.ecore");
     URI developmentTimeDynamicEcore = URI.createURI("../../org.eclipse.emf.test.common/models/Dynamic/Dynamic.ecore").resolve(dynamicExtensionEcoreURI);
     resourceSet.getPackageRegistry().put(developmentTimeDynamicEcore.toString(), DynamicPackage.eINSTANCE);
-    dynamicExtensionPackage = (EPackage)resourceSet.getEObject(
-      dynamicExtensionEcoreURI.appendFragment("/"),
-      true);
+    dynamicExtensionPackage = (EPackage)resourceSet.getEObject(dynamicExtensionEcoreURI.appendFragment("/"), true);
     EcoreUtil.resolveAll(dynamicExtensionPackage);
     resourceSet.getPackageRegistry().put(dynamicExtensionPackage.getNsURI(), dynamicExtensionPackage);
   }
@@ -69,6 +70,16 @@ public class PermissiveDynamicModelTest
   {
     resourceSet = null;
     dynamicExtensionPackage = null;
+  }
+
+  @Test
+  public void testNonDynamicUseage()
+  {
+    Admin admin = DynamicFactory.eINSTANCE.createAdmin();
+    assertNotNull(admin.eClass());
+    admin.eSet(DynamicPackage.Literals.ADMIN__NAME, "admin");
+    assertTrue(admin.eIsSet(DynamicPackage.Literals.ADMIN__NAME));
+    assertEquals("admin", admin.eGet(DynamicPackage.Literals.ADMIN__NAME));
   }
 
   @Test

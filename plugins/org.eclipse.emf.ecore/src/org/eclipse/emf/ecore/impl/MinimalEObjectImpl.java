@@ -219,7 +219,7 @@ public class MinimalEObjectImpl extends BasicEObjectImpl implements EStructuralF
       @Override
       public EClass eClass()
       {
-        return eClass;
+        return eClass == null ? eStaticClass() : eClass;
       }
 
       @Override
