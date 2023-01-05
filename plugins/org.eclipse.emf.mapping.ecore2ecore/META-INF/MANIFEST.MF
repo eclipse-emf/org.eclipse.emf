@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.mapping.ecore2ecore;singleton:=true
-Bundle-Version: 2.11.0.qualifier
+Bundle-Version: 2.12.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.emf.mapping.ecore2ecore.Ecore2EcorePlugin$Implementation$Activator
 Bundle-Vendor: %providerName
@@ -13,11 +13,11 @@ Export-Package: org.eclipse.emf.mapping.ecore2ecore,
  org.eclipse.emf.mapping.ecore2ecore.provider,
  org.eclipse.emf.mapping.ecore2ecore.util
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)";resolution:=optional;x-installation:=greedy,
- org.eclipse.emf.ecore;bundle-version="[2.15.0,3.0.0)";visibility:=reexport,
- org.eclipse.emf.ecore.edit;bundle-version="[2.11.0,3.0.0)";visibility:=reexport,
- org.eclipse.emf.ecore.xmi;bundle-version="[2.15.0,3.0.0)";visibility:=reexport,
- org.eclipse.emf.mapping;bundle-version="[2.11.0,3.0.0)";visibility:=reexport,
- org.eclipse.emf.edit;bundle-version="[2.14.0,3.0.0)";visibility:=reexport
+ org.eclipse.emf.ecore;bundle-version="[2.33.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.ecore.edit;bundle-version="[2.14.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;bundle-version="[2.18.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.mapping;bundle-version="[2.13.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.edit;bundle-version="[2.18.0,3.0.0)";visibility:=reexport
 Import-Package: org.osgi.framework;version="[1.5.0,2.0.0)"
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
