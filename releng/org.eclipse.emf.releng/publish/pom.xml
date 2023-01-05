@@ -5,8 +5,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <version.tycho>2.7.3</version.tycho>
-    <version.emf>2.22</version.emf>
+    <version.tycho>2.7.5</version.tycho>
+    <version.emf>2.33</version.emf>
     <p2.emf>https://download.eclipse.org/modeling/emf/emf/builds/release/${version.emf}</p2.emf>
   </properties>
 
