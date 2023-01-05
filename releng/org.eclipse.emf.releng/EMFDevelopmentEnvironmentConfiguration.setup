@@ -21,7 +21,7 @@
       label="EMF Development Environment Installation">
     <productVersion
         href="index:/org.eclipse.setup#//@productCatalogs[name='org.eclipse.products']/@products[name='epp.package.committers']/@versions[name='latest']"/>
-    <description>The EMF development environment installation provides the full development environment for working with EMF and XSD.</description>
+    <description>The EMF development environment installation provides the full development environment for working with EMF.</description>
   </installation>
   <workspace
       name="emf.development.environment.workspace"
@@ -38,9 +38,7 @@
         href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']/@projects[name='emf']/@projects[name='rap']/@streams[name='master']"/>
     <stream
         href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']/@projects[name='emf']/@projects[name='xcore']/@streams[name='master']"/>
-    <stream
-        href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']/@projects[name='xsd']/@streams[name='master']"/>
-    <description>The EMF/XSD development environment workspace includes the Core, RAP, GWT, Xcore, ODA, Releng, and XSD.</description>
+    <description>The EMF development environment workspace includes the Core, RAP, GWT, Xcore, ODA, Releng, and XSD.</description>
   </workspace>
   <description>
     &lt;p>
@@ -49,13 +47,10 @@
     to produce &lt;a href=&quot;https://download.eclipse.org/modeling/emf/emf/builds/&quot;>EMF's update sites&lt;/a>.
     &lt;/p>
     &lt;p>
-    Like the build job and update sites, 
-    this environment also includes the &lt;a href=&quot;https://www.eclipse.org/modeling/mdt/?project=xsd&quot;>XML Schema Definition&lt;/a> project, i.e., XSD.
-    As such, all the source projects from &lt;a href=&quot;http://git.eclipse.org/c/emf/org.eclipse.emf.git&quot;>EMF's Git Repository&lt;/a>
-    and the &lt;a href=&quot;http://git.eclipse.org/c/xsd/org.eclipse.xsd.git&quot; target=&quot;emf_git&quot;>XSD Git Repository&lt;/a>
+    All the source projects from &lt;a href=&quot;http://git.eclipse.org/c/emf/org.eclipse.emf.git&quot;>EMF's Git Repository&lt;/a>
     are available, organized into working sets, and ready for contribution.
     &lt;/p>
-    &lt;/p>
+    &lt;p>
     Please &lt;a href=&quot;https://wiki.eclipse.org/Eclipse_Platform_SDK_Provisioning&quot;>read the analgous tutorial instructions&lt;/a> for the Eclispe Platform SDK's configuration for more details.
     &lt;/p>
   </description>
