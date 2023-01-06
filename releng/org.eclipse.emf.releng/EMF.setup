@@ -104,7 +104,19 @@
           key="/instance/org.eclipse.lsp4e//org.eclipse.wildwebdeveloper.xml/org.eclipse.wildwebdeveloper.xsd">
         <value>record</value>
       </detail>
+      <detail
+          key="/instance/org.eclipse.core.resources/missingNatureMarkerSeverity">
+        <value>record</value>
+      </detail>
     </annotation>
+    <setupTask
+        xsi:type="setup:CompoundTask"
+        name="org.eclipse.core.resources">
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.core.resources/missingNatureMarkerSeverity"
+          value="-1"/>
+    </setupTask>
     <setupTask
         xsi:type="setup:CompoundTask"
         name="org.eclipse.jdt.core">
