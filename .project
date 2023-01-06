@@ -10,12 +10,12 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1671959598310</id>
+			<id>1672990139861</id>
 			<name></name>
 			<type>30</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-projectRelativePath-matches-false-true-.*/.*</arguments>
+				<arguments>1.0-projectRelativePath-matches-false-true-[^.].*/.*</arguments>
 			</matcher>
 		</filter>
 	</filteredResources>
