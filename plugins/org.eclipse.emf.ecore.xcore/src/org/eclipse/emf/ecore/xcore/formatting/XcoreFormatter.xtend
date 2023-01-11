@@ -22,6 +22,9 @@ import org.eclipse.emf.ecore.xcore.XParameter
 import org.eclipse.emf.ecore.xcore.XReference
 import org.eclipse.emf.ecore.xcore.XTypeParameter
 import org.eclipse.xtext.formatting2.IFormattableDocument
+import org.eclipse.xtext.formatting2.regionaccess.IEObjectRegion
+import org.eclipse.xtext.formatting2.regionaccess.ISemanticRegionFinder
+import org.eclipse.xtext.formatting2.regionaccess.ISemanticRegionsFinder
 import org.eclipse.xtext.xbase.formatting2.XbaseFormatter
 
 import static org.eclipse.emf.ecore.xcore.XcorePackage.Literals.*
@@ -30,25 +33,25 @@ class XcoreFormatter extends XbaseFormatter
 {
   def dispatch void format(XAnnotation xAnnotation, extension IFormattableDocument format)
   {
-    xAnnotation.regionFor.keyword('@').append[noSpace]
+    xAnnotation.regionFor2.keyword('@').append[noSpace]
 
-    val parentheses = xAnnotation.regionFor.keywordPairs('(', ')').head
+    val parentheses = xAnnotation.regionFor2.keywordPairs('(', ')').head
     if (parentheses === null)
     {
-       xAnnotation.regionFor.feature(XANNOTATION__SOURCE).append[newLine]
+      xAnnotation.regionFor2.feature(XANNOTATION__SOURCE).append[newLine]
     }
     else
     {
       parentheses.interior[indent]
-      xAnnotation.regionFor.keyword('(').prepend[noSpace].append[noSpace]
-      xAnnotation.regionFor.keyword(')').prepend[noSpace].append[newLine]
+      xAnnotation.regionFor2.keyword('(').prepend[noSpace].append[noSpace]
+      xAnnotation.regionFor2.keyword(')').prepend[noSpace].append[newLine]
 
       for (entry : xAnnotation.details)
       {
         val detail = entry as EObject
-        detail.regionFor.keyword('=').prepend[noSpace].append[noSpace]
-  
-        val comma = detail.immediatelyFollowing.keyword(',')
+        detail.regionFor2.keyword('=').prepend[noSpace].append[noSpace]
+
+        val comma = detail.immediatelyFollowing2.keyword(',')
         if (comma !== null)
         {
           comma.prepend[noSpace].append[oneSpace].append[autowrap]
@@ -61,8 +64,8 @@ class XcoreFormatter extends XbaseFormatter
   {
     formatAnnotations(xPackage.annotations, format)
 
-    xPackage.regionFor.keyword('package').prepend[noSpace]
-    xPackage.regionFor.feature(XNAMED_ELEMENT__NAME).prepend[oneSpace]
+    xPackage.regionFor2.keyword('package').prepend[noSpace]
+    xPackage.regionFor2.feature(XNAMED_ELEMENT__NAME).prepend[oneSpace]
 
     val xImportDirectives = xPackage.importDirectives
     if (!xImportDirectives.empty)
@@ -71,24 +74,26 @@ class XcoreFormatter extends XbaseFormatter
       val last = xImportDirectives.last
       for (xImportDirective : xImportDirectives)
       {
-        xImportDirective.regionFor.keyword('import').prepend[newLines = if (xImportDirective == first) 2 else 1]
+        xImportDirective.regionFor2.keyword('import').prepend [
+          newLines = if (xImportDirective == first) 2 else 1
+        ]
         xImportDirective.format(format)
         if (xImportDirective == last)
         {
-          xImportDirective.regionForEObject.allSemanticRegions.last.append[newLines = 2]
+          xImportDirective.regionForEObject2.allSemanticRegions.last.append[newLines = 2]
         }
       }
     }
     else
     {
-      xPackage.regionFor.feature(XNAMED_ELEMENT__NAME).append[newLines = 2]
+      xPackage.regionFor2.feature(XNAMED_ELEMENT__NAME).append[newLines = 2]
     }
 
     val xClassifiers = xPackage.classifiers
     for (xClassifier : xClassifiers)
     {
       xClassifier.format(format)
-      xClassifier.regionForEObject.allSemanticRegions.head.prepend[newLines = 2]
+      xClassifier.regionForEObject2.allSemanticRegions.head.prepend[newLines = 2]
     }
   }
 
@@ -96,13 +101,12 @@ class XcoreFormatter extends XbaseFormatter
   {
     formatAnnotations(xEnum.annotations, format)
 
-    xEnum.regionFor.keywordPairs('{', '}').head.interior[indent]
-    xEnum.regionFor.keyword('{').append[newLine] // }
-
+    xEnum.regionFor2.keywordPairs('{', '}').head.interior[indent]
+    xEnum.regionFor2.keyword('{').append[newLine] // }
     for (xEnumLiteral : xEnum.literals)
     {
       xEnumLiteral.format(format)
-      xEnumLiteral.regionForEObject.allSemanticRegions.last.append[newLine]
+      xEnumLiteral.regionForEObject2.allSemanticRegions.last.append[newLine]
     }
   }
 
@@ -115,12 +119,12 @@ class XcoreFormatter extends XbaseFormatter
   {
     formatAnnotations(xDataType.annotations, format)
 
-    val leftAngleBracket = xDataType.regionFor.keyword('<')
+    val leftAngleBracket = xDataType.regionFor2.keyword('<')
     if (leftAngleBracket !== null)
     {
       leftAngleBracket.prepend[noSpace].append[noSpace]
       formatTypeParameters(xDataType.typeParameters, format)
-      xDataType.regionFor.keyword('>').prepend[noSpace].append[oneSpace];
+      xDataType.regionFor2.keyword('>').prepend[noSpace].append[oneSpace];
     }
   }
 
@@ -128,21 +132,20 @@ class XcoreFormatter extends XbaseFormatter
   {
     formatAnnotations(xClass.annotations, format)
 
-    val leftAngleBracket = xClass.regionFor.keyword('<')
+    val leftAngleBracket = xClass.regionFor2.keyword('<')
     if (leftAngleBracket !== null)
     {
       leftAngleBracket.prepend[noSpace].append[noSpace]
       formatTypeParameters(xClass.typeParameters, format)
-      xClass.regionFor.keyword('>').prepend[noSpace].append[oneSpace];
+      xClass.regionFor2.keyword('>').prepend[noSpace].append[oneSpace];
     }
 
-    xClass.regionFor.keywordPairs('{', '}').head.interior[indent]
-    xClass.regionFor.keyword('{').append[newLine] // }
-
+    xClass.regionFor2.keywordPairs('{', '}').head.interior[indent]
+    xClass.regionFor2.keyword('{').append[newLine] // }
     for (xMember : xClass.members)
     {
       xMember.format(format)
-      xMember.regionForEObject.allSemanticRegions.last.append[newLine]
+      xMember.regionForEObject2.allSemanticRegions.last.append[newLine]
     }
   }
 
@@ -152,7 +155,7 @@ class XcoreFormatter extends XbaseFormatter
 
     xReference.type.format
 
-    val multiplicity = xReference.regionFor.feature(XTYPED_ELEMENT__MULTIPLICITY)
+    val multiplicity = xReference.regionFor2.feature(XTYPED_ELEMENT__MULTIPLICITY)
     if (multiplicity !== null)
     {
       multiplicity.prepend[noSpace]
@@ -161,7 +164,7 @@ class XcoreFormatter extends XbaseFormatter
     val get = xReference.getBody
     if (get !== null)
     {
-      get.regionFor.keyword('{').prepend[oneSpace] // }
+      get.regionFor2.keyword('{').prepend[oneSpace] // }
       get.format(format)
     }
   }
@@ -172,7 +175,7 @@ class XcoreFormatter extends XbaseFormatter
 
     xAttribute.type.format
 
-    val multiplicity = xAttribute.regionFor.feature(XTYPED_ELEMENT__MULTIPLICITY)
+    val multiplicity = xAttribute.regionFor2.feature(XTYPED_ELEMENT__MULTIPLICITY)
     if (multiplicity !== null)
     {
       multiplicity.prepend[noSpace]
@@ -181,7 +184,7 @@ class XcoreFormatter extends XbaseFormatter
     val get = xAttribute.getBody
     if (get !== null)
     {
-      get.regionFor.keyword('{').prepend[oneSpace] // }
+      get.regionFor2.keyword('{').prepend[oneSpace] // }
       get.format(format)
     }
   }
@@ -192,26 +195,26 @@ class XcoreFormatter extends XbaseFormatter
 
     xOperation.type.format
 
-    val multiplicity = xOperation.regionFor.feature(XTYPED_ELEMENT__MULTIPLICITY)
+    val multiplicity = xOperation.regionFor2.feature(XTYPED_ELEMENT__MULTIPLICITY)
     if (multiplicity !== null)
     {
       multiplicity.prepend[noSpace]
     }
 
-    val leftAngleBracket = xOperation.regionFor.keyword('<')
+    val leftAngleBracket = xOperation.regionFor2.keyword('<')
     if (leftAngleBracket !== null)
     {
       leftAngleBracket.prepend[oneSpace].append[noSpace]
       formatTypeParameters(xOperation.typeParameters, format)
-      xOperation.regionFor.keyword('>').prepend[noSpace].append[oneSpace];
+      xOperation.regionFor2.keyword('>').prepend[noSpace].append[oneSpace];
     }
 
-    xOperation.regionFor.keyword('(').prepend[noSpace].append[noSpace]
+    xOperation.regionFor2.keyword('(').prepend[noSpace].append[noSpace]
 
     val xParameters = xOperation.parameters
     if (!xParameters.empty)
     {
-      xOperation.regionFor.keyword(')').prepend[noSpace]
+      xOperation.regionFor2.keyword(')').prepend[noSpace]
 
       for (xParameter : xParameters)
       {
@@ -222,7 +225,7 @@ class XcoreFormatter extends XbaseFormatter
     val body = xOperation.body
     if (body !== null)
     {
-      body.regionFor.keyword('{').prepend[oneSpace] // }
+      body.regionFor2.keyword('{').prepend[oneSpace] // }
       body.format(format)
     }
   }
@@ -231,7 +234,7 @@ class XcoreFormatter extends XbaseFormatter
   {
     formatAnnotations(xParameter.annotations, format)
 
-    val multiplicity = xParameter.regionFor.feature(XTYPED_ELEMENT__MULTIPLICITY)
+    val multiplicity = xParameter.regionFor2.feature(XTYPED_ELEMENT__MULTIPLICITY)
     if (multiplicity !== null)
     {
       multiplicity.prepend[noSpace]
@@ -243,35 +246,35 @@ class XcoreFormatter extends XbaseFormatter
   def protected dispatch void format(XGenericType xGenericType, extension IFormattableDocument format)
   {
     xGenericType.type.format
-    val leftAngleBracket = xGenericType.regionFor.keyword('<')
+    val leftAngleBracket = xGenericType.regionFor2.keyword('<')
     if (leftAngleBracket !== null)
     {
       leftAngleBracket.prepend[noSpace].append[noSpace]
       for (XGenericType typeArgument : xGenericType.typeArguments)
       {
         typeArgument.format
-        val comma = typeArgument.immediatelyFollowing.keyword(',')
+        val comma = typeArgument.immediatelyFollowing2.keyword(',')
         if (comma !== null)
         {
           comma.prepend[noSpace].append[oneSpace]
         }
       }
 
-      xGenericType.regionFor.keyword('>').prepend[noSpace].append[noSpace]
+      xGenericType.regionFor2.keyword('>').prepend[noSpace].append[noSpace]
     }
 
     val upperBound = xGenericType.upperBound
     if (upperBound !== null)
     {
       upperBound.format
-      xGenericType.regionFor.keyword('extends').prepend[oneSpace].append[oneSpace]
+      xGenericType.regionFor2.keyword('extends').prepend[oneSpace].append[oneSpace]
     }
 
     val lowerBound = xGenericType.lowerBound
     if (lowerBound !== null)
     {
       lowerBound.format
-      xGenericType.regionFor.keyword('super').prepend[oneSpace].append[oneSpace]
+      xGenericType.regionFor2.keyword('super').prepend[oneSpace].append[oneSpace]
     }
   }
 
@@ -281,7 +284,7 @@ class XcoreFormatter extends XbaseFormatter
     for (XGenericType bound : xTypeParameter.bounds)
     {
       bound.format
-      val ampersand = bound.immediatelyFollowing.keyword('&')
+      val ampersand = bound.immediatelyFollowing2.keyword('&')
       if (ampersand !== null)
       {
         ampersand.prepend[oneSpace].append[oneSpace]
@@ -303,5 +306,20 @@ class XcoreFormatter extends XbaseFormatter
     {
       format(xTypeParameter, format)
     }
+  }
+
+  def private ISemanticRegionFinder immediatelyFollowing2(EObject semanticElement)
+  {
+    return textRegionExtensions.immediatelyFollowing(semanticElement);
+  }
+
+  def private ISemanticRegionsFinder regionFor2(EObject semanticElement)
+  {
+    return textRegionExtensions.regionFor(semanticElement);
+  }
+
+  def private IEObjectRegion regionForEObject2(EObject semanticElement)
+  {
+    return textRegionExtensions.regionForEObject(semanticElement);
   }
 }
