@@ -161,6 +161,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
   {
     super(EMFEditUIPlugin.INSTANCE.getString("_UI_Validate_menu_item"));
     setDescription(EMFEditUIPlugin.INSTANCE.getString("_UI_Validate_simple_description"));
+    setEnabled(false);
   }
 
   @Override
