@@ -114,11 +114,6 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
             escape = false;
             break;
           }
-          case '\003':
-          {
-            escape = true;
-            break;
-          }
           case ' ':
           {
             result.append("&#160;");
@@ -140,6 +135,10 @@ public class DiagnosticDecorator extends CellLabelProvider implements ILabelDeco
             break;
           }
         }
+      }
+      else if (character == '\003')
+      {
+        escape = true;
       }
       else
       {
