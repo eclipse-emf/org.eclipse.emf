@@ -3,3 +3,4 @@
 */*/*/target/
 **/.oracle_jre_usage
 .DS_Store
+**/.tycho-consumer-pom.xml

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
@@ -40,13 +41,17 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.change.ChangeFactory;
 import org.eclipse.emf.ecore.change.ChangePackage;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.EqualityHelper;
 import org.junit.Test;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.Version;
 
 public class EcoreTest
 {
@@ -393,5 +398,24 @@ public class EcoreTest
     EStructuralFeature  detailsEStructuralFeature= eAnnotationEClass.getEStructuralFeature("details");
     Map.Entry<?, ?> badMapEntry = (Entry<?, ?>)ChangeFactory.eINSTANCE.create(ChangePackage.Literals.EOBJECT_TO_CHANGES_MAP_ENTRY);
     assertFalse("The dynamic Map.Entry type should check the dynamic type of the instance.", detailsEStructuralFeature.getEType().isInstance(badMapEntry));
+  }
+
+  @Test
+  public void testProvideCapabilityRegistration()
+  {
+    if (FrameworkUtil.getBundle(Platform.class).getVersion().compareTo(Version.parseVersion("3.26.100")) >=0)
+    {
+      Map<String, URI> ePackageNsURIToGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap(true);
+      assertTrue(
+        "The nsURI registered by Provide-Capability in the org.eclipse.emf.test.common's MANIFEST.MF should be available",
+        ePackageNsURIToGenModelLocationMap.containsKey("http:///org.eclipse.emf.test.models/provide-capability"));
+      ExtensibleURIConverterImpl uriConverter = new ExtensibleURIConverterImpl();
+      Map<URI, URI> uriMap = uriConverter.getURIMap();
+      uriMap.putAll(EcorePlugin.computePlatformURIMap(true));
+      URI uri = ePackageNsURIToGenModelLocationMap.get("http:///org.eclipse.emf.test.models/provide-capability");
+      assertTrue(
+        "The nsURI registered by Provide-Capability in the org.eclipse.emf.test.common's MANIFEST.MF should refer to an existing GenModel: '" + uri + "'",
+        uriConverter.exists(uri, null));
+    }
   }
 }

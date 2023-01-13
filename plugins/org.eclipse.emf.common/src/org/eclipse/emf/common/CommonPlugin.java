@@ -32,8 +32,10 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.osgi.service.resolver.BundleDescription;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
+import org.osgi.resource.Capability;
 
 
 /**
@@ -484,12 +486,14 @@ public final class CommonPlugin extends EMFPlugin
     @Override
     public String toString()
     {
-      return "" + name + "attributes= " + attributes + " children=" + children;
+      return "" + name + " attributes= " + attributes + " children=" + children;
     }
   }
 
   private static class PDEHelper
   {
+    private static final String ECORE_GENERATED_PACKAGE = "org.eclipse.emf.ecore.generated_package";
+
     private static final Method PLUGIN_MODEL_BASE_GET_BUNDLE_DESCRIPTION_METHOD;
 
     private static final Method PLUGIN_MODEL_BASE_GET_UNDERLYING_RESOURCE_METHOD;
@@ -503,8 +507,6 @@ public final class CommonPlugin extends EMFPlugin
     private static final Method PLUGIN_MODEL_BASE_GET_EXTENSIONS_METHOD;
 
     private static final Method PLUGIN_REGISTRY_GET_ACTIVE_MODELS_METHOD;
-
-    private static final Method BUNDLE_DESCRIPTION_GET_SYMBOLIC_NAME_METHOD;
 
     private static final Method EXTENSIONS_GET_EXTENSIONS_METHOD;
 
@@ -531,7 +533,6 @@ public final class CommonPlugin extends EMFPlugin
       Method pluginModelBaseGetInstallLocationMethod = null;
       Method pluginModelBaseGetExtensionsMethod = null;
       Method pluginRegistryGetActiveModelsMethod = null;
-      Method bundleDescriptionGetSymbolicNameMethod = null;
       Method extensionsGetExtensionsMethod = null;
       Method pluginExtensionGetPointMethod = null;
       Method pluginExtensionGetChildrenMethod = null;
@@ -552,8 +553,6 @@ public final class CommonPlugin extends EMFPlugin
         pluginModelBaseGetExtensionsMethod = pluginModelBaseClass.getMethod("getExtensions");
         Class<?> pluginRegistryClass = CommonPlugin.loadClass("org.eclipse.pde.core", "org.eclipse.pde.core.plugin.PluginRegistry");
         pluginRegistryGetActiveModelsMethod = pluginRegistryClass.getMethod("getActiveModels", boolean.class);
-        Class<?> bundleDescriptionClass = CommonPlugin.loadClass("org.eclipse.pde.core", "org.eclipse.osgi.service.resolver.BundleDescription");
-        bundleDescriptionGetSymbolicNameMethod = bundleDescriptionClass.getMethod("getSymbolicName");
         Class<?> extensionsClass = CommonPlugin.loadClass("org.eclipse.pde.core", "org.eclipse.pde.core.plugin.IExtensions");
         extensionsGetExtensionsMethod = extensionsClass.getMethod("getExtensions");
         Class<?> pluginExtensionClass = CommonPlugin.loadClass("org.eclipse.pde.core", "org.eclipse.pde.core.plugin.IPluginExtension");
@@ -578,7 +577,6 @@ public final class CommonPlugin extends EMFPlugin
       PLUGIN_MODEL_BASE_GET_INSTALL_LOCATION_METHOD = pluginModelBaseGetInstallLocationMethod;
       PLUGIN_MODEL_BASE_GET_EXTENSIONS_METHOD = pluginModelBaseGetExtensionsMethod;
       PLUGIN_REGISTRY_GET_ACTIVE_MODELS_METHOD = pluginRegistryGetActiveModelsMethod;
-      BUNDLE_DESCRIPTION_GET_SYMBOLIC_NAME_METHOD = bundleDescriptionGetSymbolicNameMethod;
       EXTENSIONS_GET_EXTENSIONS_METHOD = extensionsGetExtensionsMethod;
       PLUGIN_EXTENSION_GET_POINT_METHOD = pluginExtensionGetPointMethod;
       PLUGIN_EXTENSION_GET_CHILDREN_METHOD = pluginExtensionGetChildrenMethod;
@@ -604,164 +602,107 @@ public final class CommonPlugin extends EMFPlugin
 
     private static Map<String, URI> computeTargetPlatformBundleMappings()
     {
-      Map<String, URI> result = new TreeMap<String, URI>();
-
-      // Iterate over all the active models in the workspace and target platform.
-      //
-      // IPluginModelBase[] activeModels = PluginRegistry.getActiveModels(false);
-      //
-      Object[] activeModels = invoke(null, PLUGIN_REGISTRY_GET_ACTIVE_MODELS_METHOD, Boolean.FALSE);
-      for (Object activeModel : activeModels)
-      {
-        // Determine the symbolic name, underlying resource, if any, and the install location.
-        //
-        // BundleDescription bundleDescription = activeModel.getBundleDescription();
-        // String symbolicName = bundleDescription.getSymbolicName();
-        // IResource underlyingResource = activeModel.getUnderlyingResource();
-        // String installLocation = activeModel.getInstallLocation();
-        //
-        Object bundleDescription = invoke(activeModel, PLUGIN_MODEL_BASE_GET_BUNDLE_DESCRIPTION_METHOD);
-        String symbolicName = (String)invoke(bundleDescription, BUNDLE_DESCRIPTION_GET_SYMBOLIC_NAME_METHOD);
-        Object underlyingResource = invoke(activeModel, PLUGIN_MODEL_BASE_GET_UNDERLYING_RESOURCE_METHOD);
-        String installLocation = (String)invoke(activeModel, PLUGIN_MODEL_BASE_GET_INSTALL_LOCATION_METHOD);
-
-        // The URI for the location is determined from the underlying resource or the install location, with preference to the former if available.
-        //
-        URI location;
-        if (underlyingResource != null)
+      final Map<String, URI> result = new TreeMap<String, URI>();
+      new ActiveModelVisitor()
         {
-          // If there is an underlying resource, use the platform resource URI referencing the project in the workspace as the location.
-          // underlyingResource.getProject()
-          //
-          Object project = invoke(underlyingResource, RESOURCE_GET_PROJECT_METHOD);
-          IPath fullPath = invoke(project, RESOURCE_GET_FULL_PATH_METHOD);
-          location = URI.createPlatformResourceURI(fullPath.toString(), true);
-        }
-        else if (installLocation != null)
-        {
-          // Otherwise, the install location in the file system is used...
-          //
-          File file = new File(installLocation);
-          if (file.isDirectory())
+          @Override
+          void visitActiveModel(Object activeModel, BundleDescription bundleDescription, URI location)
           {
-            // If the file is a directory, create a file URI for that directory.
-            //
-            location = URI.createFileURI(installLocation);
+            String symbolicName = bundleDescription.getSymbolicName();
+            if (symbolicName != null && location != null)
+            {
+              result.put(symbolicName, location);
+            }
           }
-          else
-          {
-            // Otherwise, the location must be an archive, create an archive URI for the file URI of the jar.
-            //
-            location = URI.createURI("archive:" + URI.createFileURI(installLocation) + "!/");
-          }
-        }
-        else
-        {
-          location = null;
-        }
-
-        if (symbolicName != null && location != null)
-        {
-          result.put(symbolicName, location);
-        }
-      }
-
+        };
       return result;
     }
 
-    private static Map<String, List<ElementRecord>> computeModels(Set<String> extensionPoints)
+    private static Map<String, List<ElementRecord>> computeModels(final Set<String> extensionPoints)
     {
-      Map<String, List<ElementRecord>> result = new TreeMap<String, List<ElementRecord>>();
-
-      // Iterate over all the active models in the workspace and target platform.
-      //
-      // IPluginModelBase[] activeModels = PluginRegistry.getActiveModels(false);
-      //
-      Object[] activeModels = invoke(null, PLUGIN_REGISTRY_GET_ACTIVE_MODELS_METHOD, Boolean.FALSE);
-      for (Object activeModel : activeModels)
-      {
-        // Iterate over the plugin's extensions...
-        //
-        // IExtensions extensions = activeModel.getExtensions();
-        // IPluginExtension[] pluginExtensions = extensions.getExtensions();
-        //
-        Object extensions = invoke(activeModel, PLUGIN_MODEL_BASE_GET_EXTENSIONS_METHOD);
-        Object[] pluginExtensions = invoke(extensions, EXTENSIONS_GET_EXTENSIONS_METHOD);
-        for (Object pluginExtension : pluginExtensions)
+      final Map<String, List<ElementRecord>> result = new TreeMap<String, List<ElementRecord>>();
+      new ActiveModelVisitor()
         {
-          // String point = pluginExtension.getPoint();
-          //
-          String point = invoke(pluginExtension, PLUGIN_EXTENSION_GET_POINT_METHOD);
-
-          // Process all or the specified extension pointers.
-          //
-          if (extensionPoints == null || extensionPoints.isEmpty() || extensionPoints.contains(point))
+          @Override
+          void visitActiveModel(Object activeModel, BundleDescription bundleDescription, URI location)
           {
-            // Determine the symbolic name, underlying resource, if any, and the install location.
-            //
-            // BundleDescription bundleDescription = activeModel.getBundleDescription();
-            // String symbolicName = bundleDescription.getSymbolicName();
-            // IResource underlyingResource = activeModel.getUnderlyingResource();
-            // String installLocation = activeModel.getInstallLocation();
-            //
-            Object bundleDescription = invoke(activeModel, PLUGIN_MODEL_BASE_GET_BUNDLE_DESCRIPTION_METHOD);
-            String symbolicName = (String)invoke(bundleDescription, BUNDLE_DESCRIPTION_GET_SYMBOLIC_NAME_METHOD);
-            Object underlyingResource = invoke(activeModel, PLUGIN_MODEL_BASE_GET_UNDERLYING_RESOURCE_METHOD);
-            String installLocation = (String)invoke(activeModel, PLUGIN_MODEL_BASE_GET_INSTALL_LOCATION_METHOD);
+            String symbolicName = bundleDescription.getSymbolicName();
 
-            // The URI for the location is determined from the underlying resource or the install location, with preference to the former if available.
+            // Iterate over the plugin's extensions...
             //
-            URI location;
-            if (underlyingResource != null)
+            // IExtensions extensions = activeModel.getExtensions();
+            // IPluginExtension[] pluginExtensions = extensions.getExtensions();
+            //
+            Object extensions = invoke(activeModel, PLUGIN_MODEL_BASE_GET_EXTENSIONS_METHOD);
+            Object[] pluginExtensions = invoke(extensions, EXTENSIONS_GET_EXTENSIONS_METHOD);
+            if (pluginExtensions.length == 0)
             {
-              // If there is an underlying resource, use the platform resource URI referencing the project in the workspace as the location.
-              // underlyingResource.getProject()
-              //
-              Object project = invoke(underlyingResource, RESOURCE_GET_PROJECT_METHOD);
-              IPath fullPath = invoke(project, RESOURCE_GET_FULL_PATH_METHOD);
-              location = URI.createPlatformResourceURI(fullPath.toString(), true);
-            }
-            else if (installLocation != null)
-            {
-              // Otherwise, the install location in the file system is used...
-              //
-              File file = new File(installLocation);
-              if (file.isDirectory())
+              if (extensionPoints != null && extensionPoints.contains(ECORE_GENERATED_PACKAGE))
               {
-                // If the file is a directory, create a file URI for that directory.
-                //
-                location = URI.createFileURI(installLocation);
-              }
-              else
-              {
-                // Otherwise, the location must be an archive, create an archive URI for the file URI of the jar.
-                //
-                location = URI.createURI("archive:" + URI.createFileURI(installLocation) + "!/");
+                List<Capability> capabilities = bundleDescription.getCapabilities(ECORE_GENERATED_PACKAGE);
+                if (!capabilities.isEmpty())
+                {
+                  ElementRecord extensionRecord = new ElementRecord("extension");
+                  recordExtensionAttributes(extensionRecord, ECORE_GENERATED_PACKAGE, symbolicName, location);
+
+                  for (Capability capability : capabilities)
+                  {
+                    ElementRecord elementRecord = new ElementRecord("package");
+                    Map<String, Object> attributes = capability.getAttributes();
+                    elementRecord.attributes.put("uri", "" + attributes.get("uri"));
+                    elementRecord.attributes.put("class", "" + attributes.get("class"));
+                    elementRecord.attributes.put("genModel", "" + attributes.get("genModel"));
+
+                    extensionRecord.children.add(elementRecord);
+                  }
+
+                  List<ElementRecord> elementRecords = getElementRecords(ECORE_GENERATED_PACKAGE);
+                  elementRecords.add(extensionRecord);
+                }
               }
             }
             else
             {
-              location = null;
-            }
+              for (Object pluginExtension : pluginExtensions)
+              {
+                // String point = pluginExtension.getPoint();
+                //
+                String point = invoke(pluginExtension, PLUGIN_EXTENSION_GET_POINT_METHOD);
 
-            List<ElementRecord> elementRecords = result.get(point);
-            if (elementRecords == null)
-            {
-              elementRecords = new ArrayList<ElementRecord>();
-              result.put(point, elementRecords);
+                // Process all or the specified extension points.
+                //
+                if (extensionPoints == null || extensionPoints.isEmpty() || extensionPoints.contains(point))
+                {
+                  ElementRecord elementRecord = visitElement(pluginExtension);
+                  recordExtensionAttributes(elementRecord, point, symbolicName, location);
+                  List<ElementRecord> elementRecords = getElementRecords(point);
+                  elementRecords.add(elementRecord);
+                }
+              }
             }
+          }
 
-            ElementRecord elementRecord = visitElement(pluginExtension);
+          private void recordExtensionAttributes(ElementRecord elementRecord, String point, String symbolicName, URI location)
+          {
             if (location != null)
             {
               elementRecord.attributes.put("point", point);
               elementRecord.attributes.put("symbolicName", symbolicName);
               elementRecord.attributes.put("location", location.toString());
             }
-            elementRecords.add(elementRecord);
           }
-        }
-      }
+
+          private List<ElementRecord> getElementRecords(String point)
+          {
+            List<ElementRecord> elementRecords = result.get(point);
+            if (elementRecords == null)
+            {
+              elementRecords = new ArrayList<ElementRecord>();
+              result.put(point, elementRecords);
+            }
+            return elementRecords;
+          }
+        };
 
       // dump(result);
       return result;
@@ -823,6 +764,68 @@ public final class CommonPlugin extends EMFPlugin
       }
 
       return elementRecord;
+    }
+
+    private static abstract class ActiveModelVisitor
+    {
+      public ActiveModelVisitor() {
+        // Iterate over all the active models in the workspace and target platform.
+        //
+        // IPluginModelBase[] activeModels = PluginRegistry.getActiveModels(false);
+        //
+        Object[] activeModels = invoke(null, PLUGIN_REGISTRY_GET_ACTIVE_MODELS_METHOD, Boolean.FALSE);
+        for (Object activeModel : activeModels)
+        {
+          // Determine the symbolic name, underlying resource, if any, and the install location.
+          //
+          // BundleDescription bundleDescription = activeModel.getBundleDescription();
+          // IResource underlyingResource = activeModel.getUnderlyingResource();
+          // String installLocation = activeModel.getInstallLocation();
+          //
+          BundleDescription bundleDescription = invoke(activeModel, PLUGIN_MODEL_BASE_GET_BUNDLE_DESCRIPTION_METHOD);
+          Object underlyingResource = invoke(activeModel, PLUGIN_MODEL_BASE_GET_UNDERLYING_RESOURCE_METHOD);
+          String installLocation = (String)invoke(activeModel, PLUGIN_MODEL_BASE_GET_INSTALL_LOCATION_METHOD);
+
+          // The URI for the location is determined from the underlying resource or the install location, with preference to the former if available.
+          //
+          URI location;
+          if (underlyingResource != null)
+          {
+            // If there is an underlying resource, use the platform resource URI referencing the project in the workspace as the location.
+            // underlyingResource.getProject()
+            //
+            Object project = invoke(underlyingResource, RESOURCE_GET_PROJECT_METHOD);
+            IPath fullPath = invoke(project, RESOURCE_GET_FULL_PATH_METHOD);
+            location = URI.createPlatformResourceURI(fullPath.toString(), true);
+          }
+          else if (installLocation != null)
+          {
+            // Otherwise, the install location in the file system is used...
+            //
+            File file = new File(installLocation);
+            if (file.isDirectory())
+            {
+              // If the file is a directory, create a file URI for that directory.
+              //
+              location = URI.createFileURI(installLocation);
+            }
+            else
+            {
+              // Otherwise, the location must be an archive, create an archive URI for the file URI of the jar.
+              //
+              location = URI.createURI("archive:" + URI.createFileURI(installLocation) + "!/");
+            }
+          }
+          else
+          {
+            location = null;
+          }
+
+          visitActiveModel(activeModel, bundleDescription, location);
+        }
+      }
+
+      abstract void visitActiveModel(Object activeModel, BundleDescription bundleDescription, URI location);
     }
 
 //    private static void dump(Map<String, List<ElementRecord>> data)
