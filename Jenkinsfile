@@ -57,10 +57,7 @@ pipeline {
         'neon',
         'mars',
         'luna',
-        'kepler',
-        'juno',
-        'indigo',
-        'helios'
+        'kepler'
       ],
       description: '''
         Choose the named target platform against which to compile and test.
