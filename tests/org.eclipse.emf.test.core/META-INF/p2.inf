@@ -1,2 +1,2 @@
-requires.1.name = org.eclipse.equinox.core.sdk.feature.group
+requires.1.name = org.eclipse.sdk.feature.group
 requires.1.namespace = org.eclipse.equinox.p2.iu

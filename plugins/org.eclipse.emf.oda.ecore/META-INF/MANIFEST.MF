@@ -11,7 +11,7 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.oda.ecore,
  org.eclipse.emf.oda.ecore.impl,
  org.eclipse.emf.oda.ecore.util
-Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)",
+Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.datatools.connectivity.oda;bundle-version="[3.3.0,4.0.0)",
  org.eclipse.datatools.connectivity.oda.profile;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.emf.ecore;bundle-version="[2.33.0,3.0.0)";visibility:=reexport

@@ -403,7 +403,7 @@ public class EcoreTest
   @Test
   public void testProvideCapabilityRegistration()
   {
-    if (FrameworkUtil.getBundle(Platform.class).getVersion().compareTo(Version.parseVersion("3.26.100")) >=0)
+    if (FrameworkUtil.getBundle(Platform.class).getVersion().compareTo(Version.parseVersion("3.17.100")) >=0)
     {
       Map<String, URI> ePackageNsURIToGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap(true);
       assertTrue(

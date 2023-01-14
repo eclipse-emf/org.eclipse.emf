@@ -13,7 +13,7 @@ Export-Package: org.eclipse.emf.ant,
  org.eclipse.emf.ant.taskdefs.codegen,
  org.eclipse.emf.ant.taskdefs.codegen.ecore,
  org.eclipse.emf.ant.util
-Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)",
+Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.apache.ant;bundle-version="[1.7.0,2.0.0)",
  org.eclipse.ant.core;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.emf.common;bundle-version="[2.28.0,3.0.0)",

@@ -11,7 +11,7 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.ecore.change,
  org.eclipse.emf.ecore.change.impl,
  org.eclipse.emf.ecore.change.util
-Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)";resolution:=optional;x-installation:=greedy,
+Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)";resolution:=optional;x-installation:=greedy,
  org.eclipse.emf.ecore;bundle-version="[2.33.0,3.0.0)";visibility:=reexport
 Import-Package: org.osgi.framework;version="[1.5.0,2.0.0)"
 Eclipse-LazyStart: true

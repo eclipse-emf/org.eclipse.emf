@@ -774,54 +774,57 @@ public final class CommonPlugin extends EMFPlugin
         // IPluginModelBase[] activeModels = PluginRegistry.getActiveModels(false);
         //
         Object[] activeModels = invoke(null, PLUGIN_REGISTRY_GET_ACTIVE_MODELS_METHOD, Boolean.FALSE);
-        for (Object activeModel : activeModels)
+        if (activeModels != null)
         {
-          // Determine the symbolic name, underlying resource, if any, and the install location.
-          //
-          // BundleDescription bundleDescription = activeModel.getBundleDescription();
-          // IResource underlyingResource = activeModel.getUnderlyingResource();
-          // String installLocation = activeModel.getInstallLocation();
-          //
-          BundleDescription bundleDescription = invoke(activeModel, PLUGIN_MODEL_BASE_GET_BUNDLE_DESCRIPTION_METHOD);
-          Object underlyingResource = invoke(activeModel, PLUGIN_MODEL_BASE_GET_UNDERLYING_RESOURCE_METHOD);
-          String installLocation = (String)invoke(activeModel, PLUGIN_MODEL_BASE_GET_INSTALL_LOCATION_METHOD);
-
-          // The URI for the location is determined from the underlying resource or the install location, with preference to the former if available.
-          //
-          URI location;
-          if (underlyingResource != null)
+          for (Object activeModel : activeModels)
           {
-            // If there is an underlying resource, use the platform resource URI referencing the project in the workspace as the location.
-            // underlyingResource.getProject()
+            // Determine the symbolic name, underlying resource, if any, and the install location.
             //
-            Object project = invoke(underlyingResource, RESOURCE_GET_PROJECT_METHOD);
-            IPath fullPath = invoke(project, RESOURCE_GET_FULL_PATH_METHOD);
-            location = URI.createPlatformResourceURI(fullPath.toString(), true);
-          }
-          else if (installLocation != null)
-          {
-            // Otherwise, the install location in the file system is used...
+            // BundleDescription bundleDescription = activeModel.getBundleDescription();
+            // IResource underlyingResource = activeModel.getUnderlyingResource();
+            // String installLocation = activeModel.getInstallLocation();
             //
-            File file = new File(installLocation);
-            if (file.isDirectory())
+            BundleDescription bundleDescription = invoke(activeModel, PLUGIN_MODEL_BASE_GET_BUNDLE_DESCRIPTION_METHOD);
+            Object underlyingResource = invoke(activeModel, PLUGIN_MODEL_BASE_GET_UNDERLYING_RESOURCE_METHOD);
+            String installLocation = (String)invoke(activeModel, PLUGIN_MODEL_BASE_GET_INSTALL_LOCATION_METHOD);
+  
+            // The URI for the location is determined from the underlying resource or the install location, with preference to the former if available.
+            //
+            URI location;
+            if (underlyingResource != null)
             {
-              // If the file is a directory, create a file URI for that directory.
+              // If there is an underlying resource, use the platform resource URI referencing the project in the workspace as the location.
+              // underlyingResource.getProject()
               //
-              location = URI.createFileURI(installLocation);
+              Object project = invoke(underlyingResource, RESOURCE_GET_PROJECT_METHOD);
+              IPath fullPath = invoke(project, RESOURCE_GET_FULL_PATH_METHOD);
+              location = URI.createPlatformResourceURI(fullPath.toString(), true);
+            }
+            else if (installLocation != null)
+            {
+              // Otherwise, the install location in the file system is used...
+              //
+              File file = new File(installLocation);
+              if (file.isDirectory())
+              {
+                // If the file is a directory, create a file URI for that directory.
+                //
+                location = URI.createFileURI(installLocation);
+              }
+              else
+              {
+                // Otherwise, the location must be an archive, create an archive URI for the file URI of the jar.
+                //
+                location = URI.createURI("archive:" + URI.createFileURI(installLocation) + "!/");
+              }
             }
             else
             {
-              // Otherwise, the location must be an archive, create an archive URI for the file URI of the jar.
-              //
-              location = URI.createURI("archive:" + URI.createFileURI(installLocation) + "!/");
+              location = null;
             }
+  
+            visitActiveModel(activeModel, bundleDescription, location);
           }
-          else
-          {
-            location = null;
-          }
-
-          visitActiveModel(activeModel, bundleDescription, location);
         }
       }
 

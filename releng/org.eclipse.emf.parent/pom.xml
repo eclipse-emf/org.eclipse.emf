@@ -168,12 +168,6 @@
                 <version>1.0.0-SNAPSHOT</version>
                 <classifier>${target-platform}</classifier>
               </artifact>
-              <artifact>
-                <groupId>org.eclipse.emf</groupId>
-                <artifactId>org.eclipse.emf.tp</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
-                <classifier>${target-platform}.osgi</classifier>
-              </artifact>
             </target>
             <!--executionEnvironmentDefault>JavaSE-${javaVersion}</executionEnvironmentDefault -->
             <includePackedArtifacts>true</includePackedArtifacts>

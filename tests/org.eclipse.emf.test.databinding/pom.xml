@@ -12,7 +12,7 @@
 
   <groupId>org.eclipse.emf</groupId>
   <artifactId>org.eclipse.emf.test.databinding</artifactId>
-  <version>1.6.0-SNAPSHOT</version>
+  <version>1.7.0-SNAPSHOT</version>
   <packaging>eclipse-test-plugin</packaging>
 
 </project>

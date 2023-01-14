@@ -12,15 +12,15 @@ Export-Package: org.eclipse.emf.mapping.ecore2xml.action,
  org.eclipse.emf.mapping.ecore2xml.presentation,
  org.eclipse.emf.mapping.ecore2xml.provider,
  org.eclipse.emf.mapping.ecore2xml.ui
-Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.6.0,4.0.0)",
- org.eclipse.core.resources;bundle-version="[3.6.0,4.0.0)";visibility:=reexport,
+Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
+ org.eclipse.core.resources;bundle-version="[3.8.0,4.0.0)";visibility:=reexport,
  org.eclipse.emf.mapping.ecore2xml;bundle-version="[2.12.0,3.0.0)";visibility:=reexport,
  org.eclipse.emf.edit;bundle-version="[2.18.0,3.0.0)";visibility:=reexport,
  org.eclipse.emf.ecore;bundle-version="[2.33.0,3.0.0)";visibility:=reexport,
  org.eclipse.emf.ecore.edit;bundle-version="[2.14.0,3.0.0)";visibility:=reexport,
  org.eclipse.emf.ecore.xmi;bundle-version="[2.18.0,3.0.0)";visibility:=reexport,
  org.eclipse.emf.edit.ui;bundle-version="[2.23.0,3.0.0)";visibility:=reexport,
- org.eclipse.ui.ide;bundle-version="[3.6.0,4.0.0)";visibility:=reexport,
+ org.eclipse.ui.ide;bundle-version="[3.9.0,4.0.0)";visibility:=reexport,
  org.eclipse.emf.mapping.ecore2ecore;bundle-version="[2.12.0,3.0.0)";visibility:=reexport
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy

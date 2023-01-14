@@ -5,7 +5,6 @@
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 
       <unit id="org.eclipse.sdk.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.equinox.core.sdk.feature.group" version="0.0.0"/>
 
       <unit id="com.google.appengine.eclipse.sdkbundle" version="0.0.0"/>
       <unit id="com.google.gwt.eclipse.sdkbundle" version="0.0.0"/>
