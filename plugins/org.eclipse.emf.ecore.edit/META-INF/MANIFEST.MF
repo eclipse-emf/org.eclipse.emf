@@ -8,8 +8,8 @@ Bundle-Activator: org.eclipse.emf.ecore.provider.EcoreEditPlugin$Implementation$
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.emf.ecore.provider,
- org.eclipse.emf.ecore.provider.annotation
+Export-Package: org.eclipse.emf.ecore.provider;version="2.14.0",
+ org.eclipse.emf.ecore.provider.annotation;version="2.14.0"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)";resolution:=optional;x-installation:=greedy,
  org.eclipse.emf.ecore;bundle-version="[2.33.0,3.0.0)";visibility:=reexport,
  org.eclipse.emf.edit;bundle-version="[2.18.0,3.0.0)";visibility:=reexport

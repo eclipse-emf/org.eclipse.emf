@@ -108,6 +108,14 @@
           key="/instance/org.eclipse.core.resources/missingNatureMarkerSeverity">
         <value>record</value>
       </detail>
+      <detail
+          key="/instance/org.eclipse.pde/compilers.p.missing-version-export-package">
+        <value>record</value>
+      </detail>
+      <detail
+          key="/instance/org.eclipse.pde/compilers.p.missing-version-require-bundle">
+        <value>record</value>
+      </detail>
     </annotation>
     <setupTask
         xsi:type="setup:CompoundTask"
@@ -276,6 +284,14 @@
           xsi:type="setup:PreferenceTask"
           key="/instance/org.eclipse.pde/compilers.p.exec-env-too-low"
           value="2"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.pde/compilers.p.missing-version-export-package"
+          value="1"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.pde/compilers.p.missing-version-require-bundle"
+          value="1"/>
     </setupTask>
     <setupTask
         xsi:type="setup:CompoundTask"

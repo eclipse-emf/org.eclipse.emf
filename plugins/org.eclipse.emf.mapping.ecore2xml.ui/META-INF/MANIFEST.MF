@@ -8,10 +8,10 @@ Bundle-Activator: org.eclipse.emf.mapping.ecore2xml.ui.Ecore2XMLUIPlugin$Impleme
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.emf.mapping.ecore2xml.action,
- org.eclipse.emf.mapping.ecore2xml.presentation,
- org.eclipse.emf.mapping.ecore2xml.provider,
- org.eclipse.emf.mapping.ecore2xml.ui
+Export-Package: org.eclipse.emf.mapping.ecore2xml.action;version="2.13.0",
+ org.eclipse.emf.mapping.ecore2xml.presentation;version="2.13.0",
+ org.eclipse.emf.mapping.ecore2xml.provider;version="2.13.0",
+ org.eclipse.emf.mapping.ecore2xml.ui;version="2.13.0"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.core.resources;bundle-version="[3.8.0,4.0.0)";visibility:=reexport,
  org.eclipse.emf.mapping.ecore2xml;bundle-version="[2.12.0,3.0.0)";visibility:=reexport,

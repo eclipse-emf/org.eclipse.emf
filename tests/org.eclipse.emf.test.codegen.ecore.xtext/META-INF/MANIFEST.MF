@@ -4,11 +4,11 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.test.codegen.ecore.xtext
-Bundle-Version: 1.5.0.qualifier
+Bundle-Version: 1.6.0.qualifier
 Require-Bundle: org.junit;bundle-version="[4.12.0,5.0.0)",
  org.eclipse.xtext;bundle-version="[2.18.0,3.0.0)",
- org.eclipse.emf.codegen.ecore.xtext;bundle-version="[1.5.0,2.0.0)",
- org.eclipse.emf.codegen.ecore;bundle-version="[2.23.0,3.0.0)"
+ org.eclipse.emf.codegen.ecore.xtext;bundle-version="[1.7.0,2.0.0)",
+ org.eclipse.emf.codegen.ecore;bundle-version="[2.33.0,3.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: org.eclipse.emf.test.codegen.ecore.xtext
-Export-Package: org.eclipse.emf.test.codegen.ecore.xtext
+Export-Package: org.eclipse.emf.test.codegen.ecore.xtext;version="1.6.0"

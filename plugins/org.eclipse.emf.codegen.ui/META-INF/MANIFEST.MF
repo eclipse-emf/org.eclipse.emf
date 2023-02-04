@@ -8,8 +8,8 @@ Bundle-Activator: org.eclipse.emf.codegen.presentation.CodeGenUIPlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.emf.codegen.action,
- org.eclipse.emf.codegen.presentation
+Export-Package: org.eclipse.emf.codegen.action;version="2.24.0",
+ org.eclipse.emf.codegen.presentation;version="2.24.0"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.emf.codegen;bundle-version="[2.23.0,3.0.0)",
  org.eclipse.core.resources;bundle-version="[3.8.0,4.0.0)",

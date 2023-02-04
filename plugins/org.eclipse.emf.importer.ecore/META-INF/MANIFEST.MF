@@ -8,9 +8,9 @@ Bundle-Activator: org.eclipse.emf.importer.ecore.EcoreImporterPlugin$Implementat
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.emf.importer.ecore,
- org.eclipse.emf.importer.ecore.taskdefs,
- org.eclipse.emf.importer.ecore.ui
+Export-Package: org.eclipse.emf.importer.ecore;version="2.11.0",
+ org.eclipse.emf.importer.ecore.taskdefs;version="2.11.0",
+ org.eclipse.emf.importer.ecore.ui;version="2.11.0"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.core.resources;bundle-version="[3.8.0,4.0.0)",
  org.eclipse.emf.importer;bundle-version="[2.13.0,3.0.0)",

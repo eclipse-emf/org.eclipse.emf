@@ -7,10 +7,10 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.emf.test.databinding,
- org.eclipse.emf.test.databinding.emfdb,
- org.eclipse.emf.test.databinding.emfdb.impl,
- org.eclipse.emf.test.databinding.emfdb.util
+Export-Package: org.eclipse.emf.test.databinding;version="1.7.0",
+ org.eclipse.emf.test.databinding.emfdb;version="1.7.0",
+ org.eclipse.emf.test.databinding.emfdb.impl;version="1.7.0",
+ org.eclipse.emf.test.databinding.emfdb.util;version="1.7.0"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.emf.ecore;bundle-version="[2.33.0,3.0.0)";visibility:=reexport,
  org.junit;bundle-version="[4.12.0,5.0.0)",

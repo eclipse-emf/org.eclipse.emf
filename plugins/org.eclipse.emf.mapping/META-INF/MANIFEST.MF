@@ -8,12 +8,12 @@ Bundle-Activator: org.eclipse.emf.mapping.MappingPlugin$Implementation$Activator
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.emf.mapping,
- org.eclipse.emf.mapping.command,
- org.eclipse.emf.mapping.domain,
- org.eclipse.emf.mapping.impl,
- org.eclipse.emf.mapping.provider,
- org.eclipse.emf.mapping.util
+Export-Package: org.eclipse.emf.mapping;version="2.13.0",
+ org.eclipse.emf.mapping.command;version="2.13.0",
+ org.eclipse.emf.mapping.domain;version="2.13.0",
+ org.eclipse.emf.mapping.impl;version="2.13.0",
+ org.eclipse.emf.mapping.provider;version="2.13.0",
+ org.eclipse.emf.mapping.util;version="2.13.0"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)";resolution:=optional;x-installation:=greedy,
  org.eclipse.emf.ecore;bundle-version="[2.33.0,3.0.0)";visibility:=reexport,
  org.eclipse.emf.edit;bundle-version="[2.18.0,3.0.0)";visibility:=reexport,

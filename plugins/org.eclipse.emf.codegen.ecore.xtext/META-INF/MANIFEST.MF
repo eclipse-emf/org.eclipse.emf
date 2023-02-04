@@ -10,6 +10,6 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-Name: %pluginName
 Import-Package: org.apache.log4j;version="[1.2.0,2.0.0)"
-Export-Package: org.eclipse.emf.codegen.ecore.xtext
+Export-Package: org.eclipse.emf.codegen.ecore.xtext;version="1.7.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: org.eclipse.emf.codegen.ecore.xtext

@@ -8,8 +8,8 @@ Bundle-Activator: org.eclipse.emf.ecore.xcore.exporter.XcoreExporterPlugin$Imple
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: org.eclipse.emf.ecore.xcore.exporter,
- org.eclipse.emf.ecore.xcore.exporter.ui
+Export-Package: org.eclipse.emf.ecore.xcore.exporter;version="1.13.0",
+ org.eclipse.emf.ecore.xcore.exporter.ui;version="1.13.0"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.emf.exporter;bundle-version="[2.11.0,3.0.0)",
  org.eclipse.emf.codegen.ecore.ui;bundle-version="[2.33.0,3.0.0)";resolution:=optional,

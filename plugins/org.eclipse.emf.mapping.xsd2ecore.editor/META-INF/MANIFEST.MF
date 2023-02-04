@@ -8,7 +8,7 @@ Bundle-Activator: org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreEditor
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.emf.mapping.xsd2ecore.presentation
+Export-Package: org.eclipse.emf.mapping.xsd2ecore.presentation;version="2.10.0"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.emf.mapping.ui;bundle-version="[2.11.0,3.0.0)";visibility:=reexport,
  org.eclipse.emf.mapping.xsd2ecore;bundle-version="[2.10.0,3.0.0)";visibility:=reexport,

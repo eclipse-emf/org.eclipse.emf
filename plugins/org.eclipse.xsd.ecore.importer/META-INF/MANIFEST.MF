@@ -8,9 +8,9 @@ Bundle-Activator: org.eclipse.xsd.ecore.importer.XSDImporterPlugin$Implementatio
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.xsd.ecore.importer,
- org.eclipse.xsd.ecore.importer.taskdefs,
- org.eclipse.xsd.ecore.importer.ui
+Export-Package: org.eclipse.xsd.ecore.importer;version="2.10.0",
+ org.eclipse.xsd.ecore.importer.taskdefs;version="2.10.0",
+ org.eclipse.xsd.ecore.importer.ui;version="2.10.0"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.core.resources;bundle-version="[3.8.0,4.0.0)",
  org.eclipse.xsd;bundle-version="[2.19.0,3.0.0)",

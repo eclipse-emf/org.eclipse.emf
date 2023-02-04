@@ -7,12 +7,12 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.emf.test.xml,
- org.eclipse.emf.test.xml.encoding,
- org.eclipse.emf.test.xml.rss,
- org.eclipse.emf.test.xml.xmi,
- org.eclipse.emf.test.xml.xsd,
- org.eclipse.emf.test.xml.xsdecore
+Export-Package: org.eclipse.emf.test.xml;version="2.15.0",
+ org.eclipse.emf.test.xml.encoding;version="2.15.0",
+ org.eclipse.emf.test.xml.rss;version="2.15.0",
+ org.eclipse.emf.test.xml.xmi;version="2.15.0",
+ org.eclipse.emf.test.xml.xsd;version="2.15.0",
+ org.eclipse.emf.test.xml.xsdecore;version="2.15.0"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.core.resources;bundle-version="[3.8.0,4.0.0)",
  org.eclipse.emf.ecore;bundle-version="[2.33.0,3.0.0)",

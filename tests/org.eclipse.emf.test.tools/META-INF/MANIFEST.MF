@@ -7,13 +7,13 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.emf.test.tools,
- org.eclipse.emf.test.tools.ant,
- org.eclipse.emf.test.tools.codegen,
- org.eclipse.emf.test.tools.converter,
- org.eclipse.emf.test.tools.importer,
- org.eclipse.emf.test.tools.merger,
- org.eclipse.emf.test.tools.merger.facade
+Export-Package: org.eclipse.emf.test.tools;version="2.19.0",
+ org.eclipse.emf.test.tools.ant;version="2.19.0",
+ org.eclipse.emf.test.tools.codegen;version="2.19.0",
+ org.eclipse.emf.test.tools.converter;version="2.19.0",
+ org.eclipse.emf.test.tools.importer;version="2.19.0",
+ org.eclipse.emf.test.tools.merger;version="2.19.0",
+ org.eclipse.emf.test.tools.merger.facade;version="2.19.0"
 Require-Bundle: org.apache.ant;bundle-version="[1.7.0,2.0.0)",
  org.eclipse.ant.core;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",

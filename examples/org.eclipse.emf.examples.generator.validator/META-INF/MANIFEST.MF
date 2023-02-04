@@ -13,6 +13,6 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.105.0,4.0.0)",
  org.eclipse.emf.codegen.ecore;bundle-version="[2.33.0,3.0.0)"
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.emf.examples.generator.validator,
- org.eclipse.emf.examples.generator.validator.templates.model
+Export-Package: org.eclipse.emf.examples.generator.validator;version="1.6.0",
+ org.eclipse.emf.examples.generator.validator.templates.model;version="1.6.0"
 Automatic-Module-Name: org.eclipse.emf.examples.generator.validator

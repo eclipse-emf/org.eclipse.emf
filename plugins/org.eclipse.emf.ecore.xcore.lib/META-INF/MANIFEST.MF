@@ -11,5 +11,5 @@ Require-Bundle: org.eclipse.emf.ecore;bundle-version="[2.33.0,3.0.0)";resolution
  org.eclipse.emf.common;bundle-version="[2.28.0,3.0.0)",
  org.eclipse.xtext.xbase.lib;bundle-version="[2.18.0,3.0.0)"
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.emf.ecore.xcore.lib
+Export-Package: org.eclipse.emf.ecore.xcore.lib;version="1.7.0"
 Automatic-Module-Name: org.eclipse.emf.ecore.xcore.lib
