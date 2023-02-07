@@ -121,6 +121,8 @@ import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 
@@ -130,9 +132,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -900,6 +906,7 @@ public class EcoreEditor
         {
           resourceToReadOnlyMap = new HashMap<Resource, Boolean>();
         }
+
         @Override
         public boolean isReadOnly(Resource resource)
         {
@@ -918,6 +925,17 @@ public class EcoreEditor
                  "genmodel".equals(uri.fileExtension()) ||
                  uri.isPlatformResource() && !resourceSet.getURIConverter().normalize(uri).isPlatformResource() ||
                  uri.isPlatformPlugin();
+            if (!result)
+            {
+              for (Object value : resourceSet.getPackageRegistry().values())
+              {
+                if (value instanceof EObject && ((EObject)value).eResource() == resource)
+                {
+                  result = true;
+                  break;
+                }
+              }
+            }
             if (resourceToReadOnlyMap != null)
             {
               resourceToReadOnlyMap.put(resource, result);
@@ -1195,13 +1213,15 @@ public class EcoreEditor
     boolean isReflective = getActionBarContributor() instanceof EcoreActionBarContributor.Reflective;
     
     final ResourceSet resourceSet = editingDomain.getResourceSet();
-    final EPackage.Registry packageRegistry = resourceSet.getPackageRegistry();
     resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap(true));
 
     resourceSet.getLoadOptions().put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
 
     if (isReflective)
-    {
+    { 
+      final EPackage.Registry packageRegistry = new DynamicLoadingEPackageRegistryImpl(resourceSet);
+      resourceSet.setPackageRegistry(packageRegistry);
+ 
       // If we're in the reflective editor, set up an option to handle missing packages.
       //
       final EPackage genModelEPackage = packageRegistry.getEPackage("http://www.eclipse.org/emf/2002/GenModel");
@@ -1277,7 +1297,7 @@ public class EcoreEditor
     if (!resourceSet.getResources().isEmpty())
     {
       Resource resource = resourceSet.getResources().get(0);
-      if (isReflective && resource instanceof XMLResource)
+      if (isReflective && resource instanceof XMLResource  && EcoreUtil.getObjectByType(resource.getContents(), EcorePackage.Literals.EPACKAGE) == null)
       {
         ((XMLResource)resource).getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, 10);
       }
@@ -2131,5 +2151,128 @@ public class EcoreEditor
   protected boolean showOutlineView()
   {
     return false;
+  }
+
+  /**
+   * A package registry implementation that locates and loads registered models based on references via the model's nsURI.
+   */
+  private static class DynamicLoadingEPackageRegistryImpl extends EPackageRegistryImpl
+  {
+    private static final long serialVersionUID = 1L;
+
+    private final Map<String, EPackage> ePackageNsURItoEPackageMap = new HashMap<String, EPackage>();
+
+    private final EList<Resource> editorResources;
+
+    private final ResourceSet modelResourceSet;
+
+    private Map<String, URI> ePackageNsURItoGenModelLocationMap;
+
+    public DynamicLoadingEPackageRegistryImpl(ResourceSet editorResourceSet)
+    {
+      super(EPackage.Registry.INSTANCE);
+      editorResources = editorResourceSet.getResources();
+      modelResourceSet = new ResourceSetImpl();
+      modelResourceSet.getURIConverter().getURIMap().putAll(editorResourceSet.getURIConverter().getURIMap());
+    }
+
+    @Override
+    public EPackage getEPackage(String nsURI)
+    {
+      EPackage ePackage = super.getEPackage(nsURI);
+      if (ePackage == null)
+      {
+        ePackage = ePackageNsURItoEPackageMap.get(nsURI);
+      }
+
+      if (ePackage == null)
+      {
+        if (ePackageNsURItoGenModelLocationMap == null)
+        {
+          ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap(true);
+        }
+
+        URI location = ePackageNsURItoGenModelLocationMap.get(nsURI);
+        if (location != null)
+        {
+          EList<Resource> modelResources = modelResourceSet.getResources();
+          if (modelResources.isEmpty())
+          {
+            // To support Xcore resources, we need a resource with a URI that helps determine the containing project.
+            //
+            modelResourceSet.createResource(editorResources.get(0).getURI());
+          }
+
+          try
+          {
+            // Load the model location in this separate model resource set and resolve all proxies to ensure that any referenced Ecore models are loaded.
+            Resource modelResource = modelResourceSet.getResource(location, true);
+            EcoreUtil.resolveAll(modelResource);
+
+            // Look for an EPackage in all the resources.
+            //
+            EPackage.Registry packageRegistry = modelResourceSet.getPackageRegistry();
+            for (Resource resource : modelResources)
+            {
+              for (TreeIterator<?> i = new EcoreUtil.ContentTreeIterator<Object>(resource.getContents())
+                {
+                  private static final long serialVersionUID = 1L;
+
+                  @Override
+                  protected Iterator<? extends EObject> getEObjectChildren(EObject eObject)
+                  {
+                    return eObject instanceof EPackage ? ((EPackage)eObject).getESubpackages().iterator() : Collections.<EObject> emptyList().iterator();
+                  }
+                };i.hasNext();)
+              {
+                Object content = i.next();
+                if (content instanceof EPackage)
+                {
+                  // Register the nsUR of each EPackage in the model resource set's package registry, and in our ePackageNsURItoEPackageMap,
+                  // but only if it's not already registered there.
+                  //
+                  EPackage candidate = (EPackage)content;
+                  String candidateNsURI = candidate.getNsURI();
+                  if (super.getEPackage(candidateNsURI) == null)
+                  {
+                    put(candidateNsURI, candidate);
+                    packageRegistry.put(candidateNsURI, candidate);
+                    ePackageNsURItoEPackageMap.put(candidateNsURI, candidate);
+
+                    // Also register the resource's actual URI in the package registry and change the resource's URI to the nsURI.
+                    // This ensures that the resource can still be found via the original URI and even if the resource is moved to the editor's resource set.
+                    //
+                    Resource candidateResource = candidate.eResource();
+                    if (candidateResource != null)
+                    {
+                      packageRegistry.put(candidateResource.getURI().toString(), candidate);
+                      candidateResource.setURI(URI.createURI(candidateNsURI));
+                    }
+                  }
+                }
+              }
+            }
+
+            ePackage = ePackageNsURItoEPackageMap.get(nsURI);
+            if (ePackage != null)
+            {
+              Resource ePackageResource = ePackage.eResource();
+              if (ePackageResource != null && !editorResources.contains(ePackageResource))
+              {
+                // Move the resource to the editor's resource set so that it's visible.
+                //
+                editorResources.add(ePackageResource);
+              }
+            }
+          }
+          catch (RuntimeException exception)
+          {
+            EcoreEditorPlugin.INSTANCE.log(exception);
+          }
+        }
+      }
+
+      return ePackage;
+    }
   }
 }
