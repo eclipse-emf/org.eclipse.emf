@@ -494,6 +494,8 @@ public final class CommonPlugin extends EMFPlugin
   {
     private static final String ECORE_GENERATED_PACKAGE = "org.eclipse.emf.ecore.generated_package";
 
+    private static final String ECORE_DYNAMIC_PACKAGE = "org.eclipse.emf.ecore.dynamic_package";
+
     private static final Method PLUGIN_MODEL_BASE_GET_BUNDLE_DESCRIPTION_METHOD;
 
     private static final Method PLUGIN_MODEL_BASE_GET_UNDERLYING_RESOURCE_METHOD;
@@ -637,27 +639,52 @@ public final class CommonPlugin extends EMFPlugin
             Object[] pluginExtensions = invoke(extensions, EXTENSIONS_GET_EXTENSIONS_METHOD);
             if (pluginExtensions.length == 0)
             {
-              if (extensionPoints != null && extensionPoints.contains(ECORE_GENERATED_PACKAGE))
+              if (extensionPoints != null)
               {
-                List<Capability> capabilities = bundleDescription.getCapabilities(ECORE_GENERATED_PACKAGE);
-                if (!capabilities.isEmpty())
+                if (extensionPoints.contains(ECORE_GENERATED_PACKAGE))
                 {
-                  ElementRecord extensionRecord = new ElementRecord("extension");
-                  recordExtensionAttributes(extensionRecord, ECORE_GENERATED_PACKAGE, symbolicName, location);
-
-                  for (Capability capability : capabilities)
+                  List<Capability> capabilities = bundleDescription.getCapabilities(ECORE_GENERATED_PACKAGE);
+                  if (!capabilities.isEmpty())
                   {
-                    ElementRecord elementRecord = new ElementRecord("package");
-                    Map<String, Object> attributes = capability.getAttributes();
-                    elementRecord.attributes.put("uri", "" + attributes.get("uri"));
-                    elementRecord.attributes.put("class", "" + attributes.get("class"));
-                    elementRecord.attributes.put("genModel", "" + attributes.get("genModel"));
+                    ElementRecord extensionRecord = new ElementRecord("extension");
+                    recordExtensionAttributes(extensionRecord, ECORE_GENERATED_PACKAGE, symbolicName, location);
 
-                    extensionRecord.children.add(elementRecord);
+                    for (Capability capability : capabilities)
+                    {
+                      ElementRecord elementRecord = new ElementRecord("package");
+                      Map<String, Object> attributes = capability.getAttributes();
+                      elementRecord.attributes.put("uri", "" + attributes.get("uri"));
+                      elementRecord.attributes.put("class", "" + attributes.get("class"));
+                      elementRecord.attributes.put("genModel", "" + attributes.get("genModel"));
+
+                      extensionRecord.children.add(elementRecord);
+                    }
+
+                    List<ElementRecord> elementRecords = getElementRecords(ECORE_GENERATED_PACKAGE);
+                    elementRecords.add(extensionRecord);
                   }
+                }
+                if (extensionPoints.contains(ECORE_DYNAMIC_PACKAGE))
+                {
+                  List<Capability> capabilities = bundleDescription.getCapabilities(ECORE_DYNAMIC_PACKAGE);
+                  if (!capabilities.isEmpty())
+                  {
+                    ElementRecord extensionRecord = new ElementRecord("extension");
+                    recordExtensionAttributes(extensionRecord, ECORE_DYNAMIC_PACKAGE, symbolicName, location);
 
-                  List<ElementRecord> elementRecords = getElementRecords(ECORE_GENERATED_PACKAGE);
-                  elementRecords.add(extensionRecord);
+                    for (Capability capability : capabilities)
+                    {
+                      ElementRecord elementRecord = new ElementRecord("resource");
+                      Map<String, Object> attributes = capability.getAttributes();
+                      elementRecord.attributes.put("uri", "" + attributes.get("uri"));
+                      elementRecord.attributes.put("location", "" + attributes.get("location"));
+
+                      extensionRecord.children.add(elementRecord);
+                    }
+
+                    List<ElementRecord> elementRecords = getElementRecords(ECORE_DYNAMIC_PACKAGE);
+                    elementRecords.add(extensionRecord);
+                  }
                 }
               }
             }
