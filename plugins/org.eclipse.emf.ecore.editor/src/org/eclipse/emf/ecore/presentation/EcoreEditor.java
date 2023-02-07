@@ -2245,8 +2245,12 @@ public class EcoreEditor
                     Resource candidateResource = candidate.eResource();
                     if (candidateResource != null)
                     {
-                      packageRegistry.put(candidateResource.getURI().toString(), candidate);
-                      candidateResource.setURI(URI.createURI(candidateNsURI));
+                      String uri = candidateResource.getURI().toString();
+                      if (!packageRegistry.containsKey(uri))
+                      {
+                        packageRegistry.put(uri, candidate);
+                        candidateResource.setURI(URI.createURI(candidateNsURI));
+                      }
                     }
                   }
                 }
