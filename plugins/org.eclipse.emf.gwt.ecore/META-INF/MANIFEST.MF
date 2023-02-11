@@ -23,6 +23,5 @@ Export-Package: org.eclipse.emf.ecore;version="2.16.0",
  org.eclipse.emf.server.ecore.resource;version="2.16.0"
 Require-Bundle: org.eclipse.emf.gwt.common;bundle-version="[2.15.0,3.0.0)";visibility:=reexport
 Eclipse-BuddyPolicy: dependent
-Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.eclipse.emf.gwt.ecore

@@ -12,6 +12,5 @@ Export-Package: org.eclipse.emf.examples.extlibrary;version="2.11.0",
  org.eclipse.emf.examples.extlibrary.util;version="2.11.0"
 Require-Bundle: org.eclipse.emf.ecore;bundle-version="[2.33.0,3.0.0)";visibility:=reexport,
  org.eclipse.emf.ecore.xmi;bundle-version="[2.18.0,3.0.0)";visibility:=reexport
-Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.eclipse.emf.examples.library

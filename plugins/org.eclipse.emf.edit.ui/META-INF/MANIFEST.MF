@@ -24,6 +24,5 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.ui.ide;bundle-version="[3.9.0,4.0.0)";resolution:=optional,
  org.eclipse.jface.text;bundle-version="[3.8.0,4.0.0)";resolution:=optional,
  org.eclipse.nebula.widgets.cdatetime;bundle-version="[1.0.0,2.0.0)";resolution:=optional;x-installation:=greedy
-Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.eclipse.emf.edit.ui

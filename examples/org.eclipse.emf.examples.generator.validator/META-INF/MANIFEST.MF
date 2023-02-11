@@ -11,7 +11,6 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: org.eclipse.ui;bundle-version="[3.105.0,4.0.0)",
  org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.emf.codegen.ecore;bundle-version="[2.33.0,3.0.0)"
-Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.emf.examples.generator.validator;version="1.6.0",
  org.eclipse.emf.examples.generator.validator.templates.model;version="1.6.0"

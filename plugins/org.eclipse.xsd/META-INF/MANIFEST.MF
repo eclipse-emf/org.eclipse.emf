@@ -16,6 +16,5 @@ Export-Package: org.eclipse.xsd;version="2.19.0",
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)";resolution:=optional;x-installation:=greedy,
  org.eclipse.emf.ecore;bundle-version="[2.33.0,3.0.0)";visibility:=reexport
 Provide-Capability: org.eclipse.emf.ecore.generated_package;uri="http://www.eclipse.org/xsd/2002/XSD";class=org.eclipse.xsd.XSDPackage;genModel="model/XSD.genmodel"
-Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.eclipse.xsd

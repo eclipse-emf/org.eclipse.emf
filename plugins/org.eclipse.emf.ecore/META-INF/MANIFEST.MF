@@ -39,6 +39,5 @@ Import-Package: javax.crypto,
  org.xml.sax,
  org.xml.sax.helpers
 Eclipse-BuddyPolicy: dependent
-Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.eclipse.emf.ecore

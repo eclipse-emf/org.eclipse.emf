@@ -11,7 +11,6 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.emf.ecore;bundle-version="[2.33.0,3.0.0)";visibility:=reexport,
  org.eclipse.emf.ecore.xmi;bundle-version="[2.18.0,3.0.0)",
  org.eclipse.emf.ecore.edit;bundle-version="[2.14.0,3.0.0)"
-Eclipse-LazyStart: true
 Bundle-Activator: org.eclipse.emf.test.common.EMFTestCommonPlugin
 Export-Package: org.eclipse.emf.test.common;version="1.11.0",
  org.eclipse.emf.test.common.reification;version="1.11.0",

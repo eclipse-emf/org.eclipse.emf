@@ -7,5 +7,4 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.emf.common.ui;bundle-version="[2.21.0,3.0.0)",
  org.eclipse.xsd;bundle-version="[2.19.0,3.0.0)"
-Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy

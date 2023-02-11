@@ -22,6 +22,5 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)";resoluti
  org.eclipse.emf.ecore;bundle-version="[2.33.0,3.0.0)";visibility:=reexport,
  org.eclipse.emf.ecore.change;bundle-version="[2.15.0,3.0.0)";resolution:=optional;visibility:=reexport;x-installation:=greedy
 Import-Package: org.osgi.framework;version="[1.5.0,2.0.0)"
-Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.eclipse.emf.edit
