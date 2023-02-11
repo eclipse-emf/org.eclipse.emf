@@ -120,6 +120,8 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
         return createGenEclipsePlatformVersionFromString(eDataType, initialValue);
       case GenModelPackage.GEN_CODE_STYLE:
         return createGenCodeStyleFromString(eDataType, initialValue);
+      case GenModelPackage.GEN_OS_GI_STYLE:
+        return createGenOSGiStyleFromString(eDataType, initialValue);
       case GenModelPackage.PATH:
         return createPathFromString(eDataType, initialValue);
       case GenModelPackage.PROPERTY_EDITOR_FACTORY:
@@ -159,6 +161,8 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
         return convertGenEclipsePlatformVersionToString(eDataType, instanceValue);
       case GenModelPackage.GEN_CODE_STYLE:
         return convertGenCodeStyleToString(eDataType, instanceValue);
+      case GenModelPackage.GEN_OS_GI_STYLE:
+        return convertGenOSGiStyleToString(eDataType, instanceValue);
       case GenModelPackage.PATH:
         return convertPathToString(eDataType, instanceValue);
       case GenModelPackage.PROPERTY_EDITOR_FACTORY:
@@ -509,6 +513,30 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * @generated
    */
   public String convertGenCodeStyleToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.33
+   * @generated
+   */
+  public GenOSGiStyle createGenOSGiStyleFromString(EDataType eDataType, String initialValue)
+  {
+    GenOSGiStyle result = GenOSGiStyle.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.33
+   * @generated
+   */
+  public String convertGenOSGiStyleToString(EDataType eDataType, Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
   }

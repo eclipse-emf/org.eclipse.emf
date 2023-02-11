@@ -993,13 +993,23 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__CODE_STYLE = GEN_BASE_FEATURE_COUNT + 94;
 
   /**
+   * The feature id for the '<em><b>OS Gi Style</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.33
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__OS_GI_STYLE = GEN_BASE_FEATURE_COUNT + 95;
+
+  /**
    * The number of structural features of the '<em>Gen Model</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 95;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 96;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -2394,6 +2404,17 @@ public interface GenModelPackage extends EPackage
   int GEN_CODE_STYLE = 23;
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenOSGiStyle <em>Gen OS Gi Style</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenOSGiStyle
+   * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenOSGiStyle()
+   * @since 2.33
+   * @generated
+   */
+  int GEN_OS_GI_STYLE = 24;
+
+  /**
    * The meta object id for the '<em>Path</em>' data type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2402,7 +2423,7 @@ public interface GenModelPackage extends EPackage
    * @since 2.14
    * @generated
    */
-  int PATH = 24;
+  int PATH = 25;
 
 
   /**
@@ -2414,7 +2435,7 @@ public interface GenModelPackage extends EPackage
    * @since 2.14
    * @generated
    */
-  int PROPERTY_EDITOR_FACTORY = 25;
+  int PROPERTY_EDITOR_FACTORY = 26;
 
 
   /**
@@ -3481,6 +3502,18 @@ public interface GenModelPackage extends EPackage
    * @generated
    */
   EAttribute getGenModel_CodeStyle();
+
+  /**
+   * Returns the meta object for the attribute list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getOSGiStyle <em>OS Gi Style</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>OS Gi Style</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getOSGiStyle()
+   * @see #getGenModel()
+   * @since 2.33
+   * @generated
+   */
+  EAttribute getGenModel_OSGiStyle();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage <em>Gen Package</em>}'.
@@ -4690,6 +4723,17 @@ public interface GenModelPackage extends EPackage
   EEnum getGenCodeStyle();
 
   /**
+   * Returns the meta object for enum '{@link org.eclipse.emf.codegen.ecore.genmodel.GenOSGiStyle <em>Gen OS Gi Style</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for enum '<em>Gen OS Gi Style</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenOSGiStyle
+   * @since 2.33
+   * @generated
+   */
+  EEnum getGenOSGiStyle();
+
+  /**
    * Returns the meta object for data type '{@link java.lang.String <em>Path</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -5520,6 +5564,15 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_MODEL__CODE_STYLE = eINSTANCE.getGenModel_CodeStyle();
+
+    /**
+     * The meta object literal for the '<em><b>OS Gi Style</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @since 2.33
+     * @generated
+     */
+    EAttribute GEN_MODEL__OS_GI_STYLE = eINSTANCE.getGenModel_OSGiStyle();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -6466,6 +6519,17 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EEnum GEN_CODE_STYLE = eINSTANCE.getGenCodeStyle();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenOSGiStyle <em>Gen OS Gi Style</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.GenOSGiStyle
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenOSGiStyle()
+     * @since 2.33
+     * @generated
+     */
+    EEnum GEN_OS_GI_STYLE = eINSTANCE.getGenOSGiStyle();
 
     /**
      * The meta object literal for the '<em>Path</em>' data type.

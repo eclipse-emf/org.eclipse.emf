@@ -183,6 +183,12 @@
         <details key="documentation" value="@since 2.19"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="oSGiStyle" upperBound="-1"
+        eType="#//GenOSGiStyle">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.33"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenPackage" eSuperTypes="#//GenBase">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -837,5 +843,11 @@
     <eLiterals name="SwitchMissingDefaultCase" value="1"/>
     <eLiterals name="UnnecessaryAssignmentBeforeReturn" value="2"/>
     <eLiterals name="UnnecessaryDeprecatedMethod" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="GenOSGiStyle">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="@since 2.33"/>
+    </eAnnotations>
+    <eLiterals name="ProvideCapabilityGeneratedPackage"/>
   </eClassifiers>
 </ecore:EPackage>

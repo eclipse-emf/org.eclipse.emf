@@ -131,7 +131,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link ChangePackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -146,7 +146,8 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     if (isInited) return (ChangePackage)EPackage.Registry.INSTANCE.getEPackage(ChangePackage.eNS_URI);
 
     // Obtain or create and register package
-    ChangePackageImpl theChangePackage = (ChangePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ChangePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ChangePackageImpl());
+    Object registeredChangePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    ChangePackageImpl theChangePackage = registeredChangePackage instanceof ChangePackageImpl ? (ChangePackageImpl)registeredChangePackage : new ChangePackageImpl();
 
     isInited = true;
 
@@ -162,7 +163,6 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     // Mark meta-data to indicate it can't be changed
     theChangePackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(ChangePackage.eNS_URI, theChangePackage);
     return theChangePackage;

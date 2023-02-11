@@ -47,7 +47,7 @@ public interface ChangeDescription extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Object Changes</em>' map.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getChangeDescription_ObjectChanges()
-   * @model mapType="org.eclipse.emf.ecore.change.EObjectToChangesMapEntry<org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.change.FeatureChange>"
+   * @model mapType="org.eclipse.emf.ecore.change.EObjectToChangesMapEntry&lt;org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.change.FeatureChange&gt;"
    * @generated
    */
   EMap<EObject, EList<FeatureChange>> getObjectChanges();

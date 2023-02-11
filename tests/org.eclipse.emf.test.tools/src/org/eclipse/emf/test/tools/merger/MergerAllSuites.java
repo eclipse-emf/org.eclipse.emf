@@ -22,6 +22,7 @@ import org.junit.runners.Suite;
     DeprecatedJMergerTest.class,
     JMergerJDOMTest.class,
     JMergerASTTest.class,
+    ManifestMergerTest.class,
   })
 public class MergerAllSuites
 {

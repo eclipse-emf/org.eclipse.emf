@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.emf.codegen.ecore; singleton:=true
+Bundle-SymbolicName: org.eclipse.emf.codegen.ecore;singleton:=true
 Bundle-Version: 2.33.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin$Implementation
@@ -27,6 +27,7 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.emf.codegen;bundle-version="[2.23.0,3.0.0)";visibility:=reexport,
  org.eclipse.emf.ecore.xmi;bundle-version="[2.18.0,3.0.0)",
  org.eclipse.text;bundle-version="[3.5.0,4.0.0)"
+Provide-Capability: org.eclipse.emf.ecore.generated_package;uri="http://www.eclipse.org/emf/2002/GenModel";class=org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;genModel="model/GenModel.genmodel"
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.eclipse.emf.codegen.ecore

@@ -94,4 +94,5 @@
       <genFeatures createChild="true" ecoreFeature="ecore:EAttribute XMLType.ecore#//XMLTypeDocumentRoot/text"/>
     </genClasses>
   </genPackages>
+  <oSGiStyle>ProvideCapabilityGeneratedPackage</oSGiStyle>
 </genmodel:GenModel>

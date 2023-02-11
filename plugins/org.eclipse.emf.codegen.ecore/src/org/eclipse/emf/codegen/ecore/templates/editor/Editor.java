@@ -1490,7 +1490,7 @@ public class Editor
     stringBuffer.append(TEXT_326);
     if (genModel.isRevertAction()) {
     stringBuffer.append(TEXT_327);
-    if (genModel.useClassOverrideAnnotation()) {
+    if (genModel.useInterfaceOverrideAnnotation()) {
     stringBuffer.append(TEXT_178);
     }
     stringBuffer.append(TEXT_328);

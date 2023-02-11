@@ -139,6 +139,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isCollapseAllAction <em>Collapse All Action</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isRevertAction <em>Revert Action</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getCodeStyle <em>Code Style</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getOSGiStyle <em>OS Gi Style</em>}</li>
  * </ul>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel()
@@ -2528,6 +2529,23 @@ public interface GenModel extends GenBase
    */
   EList<GenCodeStyle> getCodeStyle();
 
+  /**
+   * Returns the value of the '<em><b>OS Gi Style</b></em>' attribute list.
+   * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenOSGiStyle}.
+   * The literals are from the enumeration {@link org.eclipse.emf.codegen.ecore.genmodel.GenOSGiStyle}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.33
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>OS Gi Style</em>' attribute list.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenOSGiStyle
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_OSGiStyle()
+   * @model
+   * @generated
+   */
+  EList<GenOSGiStyle> getOSGiStyle();
+
   EList<GenPackage> getStaticGenPackages();
 
   void initialize(Collection<? extends EPackage> ePackages);
@@ -3359,5 +3377,10 @@ public interface GenModel extends GenBase
    * @since 2.14
    */
   String getTestsBundleVendorName();
+
+  /**
+   * @since 2.33
+   */
+  List<String> getModelProvideCapabilities();
 
 }

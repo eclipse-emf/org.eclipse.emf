@@ -350,4 +350,5 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Ecore.ecore#//ETypeParameter/eBounds"/>
     </genClasses>
   </genPackages>
+  <oSGiStyle>ProvideCapabilityGeneratedPackage</oSGiStyle>
 </genmodel:GenModel>

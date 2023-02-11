@@ -27,6 +27,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenOSGiStyle;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
@@ -228,6 +229,14 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @generated
    */
   private EEnum genCodeStyleEEnum = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.33
+   * @generated
+   */
+  private EEnum genOSGiStyleEEnum = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -1290,6 +1299,17 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
   public EAttribute getGenModel_CodeStyle()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(94);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.33
+   * @generated
+   */
+  public EAttribute getGenModel_OSGiStyle()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(95);
   }
 
   /**
@@ -2415,6 +2435,17 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.33
+   * @generated
+   */
+  public EEnum getGenOSGiStyle()
+  {
+    return genOSGiStyleEEnum;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @since 2.14
    * @generated
    */
@@ -2560,6 +2591,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genModelEClass, GEN_MODEL__COLLAPSE_ALL_ACTION);
     createEAttribute(genModelEClass, GEN_MODEL__REVERT_ACTION);
     createEAttribute(genModelEClass, GEN_MODEL__CODE_STYLE);
+    createEAttribute(genModelEClass, GEN_MODEL__OS_GI_STYLE);
 
     genPackageEClass = createEClass(GEN_PACKAGE);
     createEAttribute(genPackageEClass, GEN_PACKAGE__PREFIX);
@@ -2685,6 +2717,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     genDecorationEEnum = createEEnum(GEN_DECORATION);
     genEclipsePlatformVersionEEnum = createEEnum(GEN_ECLIPSE_PLATFORM_VERSION);
     genCodeStyleEEnum = createEEnum(GEN_CODE_STYLE);
+    genOSGiStyleEEnum = createEEnum(GEN_OS_GI_STYLE);
 
     // Create data types
     pathEDataType = createEDataType(PATH);
@@ -2834,6 +2867,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenModel_CollapseAllAction(), ecorePackage.getEBoolean(), "collapseAllAction", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_RevertAction(), ecorePackage.getEBoolean(), "revertAction", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_CodeStyle(), this.getGenCodeStyle(), "codeStyle", null, 0, -1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_OSGiStyle(), this.getGenOSGiStyle(), "oSGiStyle", null, 0, -1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(genPackageEClass, GenPackage.class, "GenPackage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getGenPackage_Prefix(), ecorePackage.getEString(), "prefix", null, 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3071,6 +3105,9 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genCodeStyleEEnum, GenCodeStyle.SWITCH_MISSING_DEFAULT_CASE);
     addEEnumLiteral(genCodeStyleEEnum, GenCodeStyle.UNNECESSARY_ASSIGNMENT_BEFORE_RETURN);
     addEEnumLiteral(genCodeStyleEEnum, GenCodeStyle.UNNECESSARY_DEPRECATED_METHOD);
+
+    initEEnum(genOSGiStyleEEnum, GenOSGiStyle.class, "GenOSGiStyle");
+    addEEnumLiteral(genOSGiStyleEEnum, GenOSGiStyle.PROVIDE_CAPABILITY_GENERATED_PACKAGE);
 
     // Initialize data types
     initEDataType(pathEDataType, String.class, "Path", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

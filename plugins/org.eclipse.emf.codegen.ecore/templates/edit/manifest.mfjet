@@ -24,18 +24,8 @@ Bundle-Activator: <%=genModel.getQualifiedEditPluginClassName()%>$Implementation
 <%}%>
 Bundle-Vendor: <%=genModel.getEditBundleVendorKey()%>
 Bundle-Localization: <%=genModel.getEditBundleLocalization()%>
-<%if (genModel.getComplianceLevel() == GenJDKLevel.JDK50_LITERAL) {%>
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
-<%} else if (genModel.getComplianceLevel() == GenJDKLevel.JDK60_LITERAL) {%>
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-<%} else if (genModel.getComplianceLevel() == GenJDKLevel.JDK70_LITERAL) {%>
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-<%} else if (genModel.getComplianceLevel() == GenJDKLevel.JDK80_LITERAL) {%>
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-<%} else if (genModel.getComplianceLevel() == GenJDKLevel.JDK90_LITERAL) {%>
-Bundle-RequiredExecutionEnvironment: JavaSE-9
-<%} else if (genModel.getComplianceLevel() == GenJDKLevel.JDK100_LITERAL) {%>
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+<%if (genModel.getComplianceLevel().ordinal() >= GenJDKLevel.JDK50_LITERAL.ordinal()) {%>
+Bundle-RequiredExecutionEnvironment: <%=genModel.getComplianceLevel().getExecutionEnvironment()%>
 <%}%>
 <%Iterator<String> packagesIterator = genModel.getEditQualifiedPackageNames().iterator(); if (packagesIterator.hasNext()) { String pack = packagesIterator.next();%>
 Export-Package: <%=pack%><%while(packagesIterator.hasNext()) { pack = packagesIterator.next();%>,

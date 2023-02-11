@@ -133,6 +133,9 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenCodeStyle/UnnecessaryAssignmentBeforeReturn"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenCodeStyle/UnnecessaryDeprecatedMethod"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="GenModel.ecore#//GenOSGiStyle">
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenOSGiStyle/ProvideCapabilityGeneratedPackage"/>
+    </genEnums>
     <genDataTypes ecoreDataType="GenModel.ecore#//Path"/>
     <genDataTypes ecoreDataType="GenModel.ecore#//PropertyEditorFactory"/>
     <genClasses ecoreClass="GenModel.ecore#//GenModel">
@@ -321,6 +324,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/revertAction"/>
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="A set of style options that affect the code style of generated method bodies"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/codeStyle"/>
+      <genFeatures createChild="false" propertyCategory="All" propertyDescription="A set of style options that affect OSGi-related artifacts, such as headers in the MANIFEST.MF"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/oSGiStyle"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenPackage">
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="The prefix for names of several packaged-related classes, including package, factory, switch, and adapter factory"
@@ -504,4 +509,5 @@
           propertyMultiLine="true" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenTypeParameter/documentation"/>
     </genClasses>
   </genPackages>
+  <oSGiStyle>ProvideCapabilityGeneratedPackage</oSGiStyle>
 </genmodel:GenModel>

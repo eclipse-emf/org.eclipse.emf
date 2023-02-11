@@ -287,6 +287,8 @@ public class GenModelValidator extends EObjectValidator
         return validateGenEclipsePlatformVersion((GenEclipsePlatformVersion)value, diagnostics, context);
       case GenModelPackage.GEN_CODE_STYLE:
         return validateGenCodeStyle((GenCodeStyle)value, diagnostics, context);
+      case GenModelPackage.GEN_OS_GI_STYLE:
+        return validateGenOSGiStyle((GenOSGiStyle)value, diagnostics, context);
       case GenModelPackage.PATH:
         return validatePath((String)value, diagnostics, context);
       case GenModelPackage.PROPERTY_EDITOR_FACTORY:
@@ -591,6 +593,17 @@ public class GenModelValidator extends EObjectValidator
    * @generated
    */
   public boolean validateGenCodeStyle(GenCodeStyle genCodeStyle, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    return true;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @since 2.33
+   * @generated
+   */
+  public boolean validateGenOSGiStyle(GenOSGiStyle genOSGiStyle, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }

@@ -636,6 +636,41 @@ public enum GenJDKLevel implements Enumerator
   }
 
   /**
+   * Returns the corresponding OSGi Bundle-RequiredExecutionEnvironment value
+   * @since 2.33
+   */
+  public String getExecutionEnvironment()
+  {
+    switch (this)
+    {
+      case JDK14_LITERAL:
+      {
+        return "J2SE-1.4";
+      }
+      case JDK50_LITERAL:
+      {
+        return "J2SE-1.5";
+      }
+      case JDK60_LITERAL:
+      {
+        return "JavaSE-1.6";
+      }
+      case JDK70_LITERAL:
+      {
+        return "JavaSE-1.7";
+      }
+      case JDK80_LITERAL:
+      {
+        return "JavaSE-1.8";
+      }
+      default:
+      {
+        return "JavaSE-" + (ordinal() - JDK90_LITERAL.ordinal() + 9);
+      }
+    }
+  }
+
+  /**
    * Returns the literal value of the enumerator, which is its string representation.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

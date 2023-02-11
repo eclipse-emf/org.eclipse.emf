@@ -86,4 +86,5 @@
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference Change.ecore#//FeatureMapEntry/referenceValue"/>
     </genClasses>
   </genPackages>
+  <oSGiStyle>ProvideCapabilityGeneratedPackage</oSGiStyle>
 </genmodel:GenModel>

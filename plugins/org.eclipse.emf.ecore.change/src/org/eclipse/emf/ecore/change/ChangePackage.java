@@ -879,7 +879,7 @@ public interface ChangePackage extends EPackage{
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>EObject To URI Map</em>'.
    * @see java.util.Map
-   * @model instanceClass="java.util.Map<org.eclipse.emf.ecore.EObject, org.eclipse.emf.common.util.URI>" serializeable="false"
+   * @model instanceClass="java.util.Map&lt;org.eclipse.emf.ecore.EObject, org.eclipse.emf.common.util.URI&gt;" serializeable="false"
    * @generated
    */
   EDataType getEObjectToURIMap();

@@ -58,6 +58,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenOSGiStyle;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
@@ -227,6 +228,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isCollapseAllAction <em>Collapse All Action</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isRevertAction <em>Revert Action</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getCodeStyle <em>Code Style</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getOSGiStyle <em>OS Gi Style</em>}</li>
  * </ul>
  *
  * @generated
@@ -2107,6 +2109,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected EList<GenCodeStyle> codeStyle;
+
+  /**
+   * The cached value of the '{@link #getOSGiStyle() <em>OS Gi Style</em>}' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getOSGiStyle()
+   * @since 2.33
+   * @generated
+   * @ordered
+   */
+  protected EList<GenOSGiStyle> oSGiStyle;
 
   protected boolean validateModel = false;
 
@@ -7154,6 +7167,21 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @since 2.33
+   * @generated
+   */
+  public EList<GenOSGiStyle> getOSGiStyle()
+  {
+    if (oSGiStyle == null)
+    {
+      oSGiStyle = new EDataTypeUniqueEList<GenOSGiStyle>(GenOSGiStyle.class, this, GenModelPackage.GEN_MODEL__OS_GI_STYLE);
+    }
+    return oSGiStyle;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   @SuppressWarnings("unchecked")
@@ -7384,6 +7412,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isRevertAction();
       case GenModelPackage.GEN_MODEL__CODE_STYLE:
         return getCodeStyle();
+      case GenModelPackage.GEN_MODEL__OS_GI_STYLE:
+        return getOSGiStyle();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -7694,6 +7724,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         getCodeStyle().clear();
         getCodeStyle().addAll((Collection<? extends GenCodeStyle>)newValue);
         return;
+      case GenModelPackage.GEN_MODEL__OS_GI_STYLE:
+        getOSGiStyle().clear();
+        getOSGiStyle().addAll((Collection<? extends GenOSGiStyle>)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -7993,6 +8027,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__CODE_STYLE:
         getCodeStyle().clear();
         return;
+      case GenModelPackage.GEN_MODEL__OS_GI_STYLE:
+        getOSGiStyle().clear();
+        return;
     }
     super.eUnset(featureID);
   }
@@ -8198,6 +8235,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return revertAction != REVERT_ACTION_EDEFAULT;
       case GenModelPackage.GEN_MODEL__CODE_STYLE:
         return codeStyle != null && !codeStyle.isEmpty();
+      case GenModelPackage.GEN_MODEL__OS_GI_STYLE:
+        return oSGiStyle != null && !oSGiStyle.isEmpty();
     }
     return super.eIsSet(featureID);
   }
@@ -8393,6 +8432,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(revertAction);
     result.append(", codeStyle: ");
     result.append(codeStyle);
+    result.append(", oSGiStyle: ");
+    result.append(oSGiStyle);
     result.append(')');
     return result.toString();
   }
@@ -9217,8 +9258,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
     result.addAll(getEffectiveModelPluginIDs());
 
-    TreeIterator<GenPackage> genPackagesIterator =
-      new AbstractTreeIterator<GenPackage>(getGenPackages(), false)
+    TreeIterator<GenPackage> genPackagesIterator = new AbstractTreeIterator<GenPackage>(getGenPackages(), false)
       {
         private static final long serialVersionUID = 1L;
 
@@ -9262,8 +9302,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           (EList<String>)getTestsQualifiedPackageNames() :
           new UniqueEList<String>();
 
-    TreeIterator<GenPackage> genPackagesIterator =
-      new AbstractTreeIterator<GenPackage>(getGenPackages(), false)
+    TreeIterator<GenPackage> genPackagesIterator = new AbstractTreeIterator<GenPackage>(getGenPackages(), false)
       {
         private static final long serialVersionUID = 1L;
 
@@ -9889,7 +9928,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         for (Iterator<EObject> j = ePackage.eAllContents(); j.hasNext();)
         {
           EObject eObject = j.next();
-          for (Iterator<EObject> k = eObject.eCrossReferences().iterator(); k.hasNext(); )
+          for (Iterator<EObject> k = eObject.eCrossReferences().iterator(); k.hasNext();)
           {
             EObject o = k.next();
             if (o instanceof EClassifier)
@@ -10466,8 +10505,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         packageNames[i] = allGenPackagesWithClassifiers.get(i).getQualifiedPackageName().split(".");
       }
       int count = 0;
-      LOOP:
-      for (; packageNames[0].length > count; ++count)
+      LOOP: for (; packageNames[0].length > count; ++count)
       {
         String segment = packageNames[0][count];
         for (int i = 1; i < size; ++i)
@@ -10558,7 +10596,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     int prefixLength = getRootPackageName().length();
     for (String editQualifiedPackageName : getEditQualifiedPackageNames())
     {
-      result.add(editQualifiedPackageName.length() == prefixLength ? ""  : editQualifiedPackageName.substring(prefixLength + 1));
+      result.add(editQualifiedPackageName.length() == prefixLength ? "" : editQualifiedPackageName.substring(prefixLength + 1));
     }
     return result;
   }
@@ -11216,6 +11254,18 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public String getTestsBundleVendorName()
   {
     return getTranslatedBundleManifestKey(getTestsProjectDirectory(), "Bundle-Vendor", getModelBundleVendorName());
+  }
+
+  public List<String> getModelProvideCapabilities()
+  {
+    List<String> result = new ArrayList<String>();
+    for (GenPackage genPackage : getAllGenPackagesWithClassifiers())
+    {
+      result.add("org.eclipse.emf.ecore.generated_package;uri=\"" + genPackage.getNSURI() + //
+        "\";class=" + genPackage.getQualifiedPackageInterfaceName() + //
+        ";genModel=\"" + getRelativeGenModelLocation() + "\"");
+    }
+    return result;
   }
 
   /**

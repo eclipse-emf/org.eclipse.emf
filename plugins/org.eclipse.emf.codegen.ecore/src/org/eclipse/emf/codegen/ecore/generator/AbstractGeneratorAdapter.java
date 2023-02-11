@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -69,7 +70,6 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.osgi.util.ManifestElement;
 import org.eclipse.text.edits.TextEdit;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
@@ -102,7 +102,6 @@ import org.eclipse.emf.ecore.resource.impl.ContentHandlerImpl;
 import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 import org.eclipse.emf.ecore.resource.impl.PlatformResourceURIHandlerImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
-import org.osgi.framework.BundleException;
 
 /**
  * A base <code>GeneratorAdapter</code> implementation. This base provides support for
@@ -1082,6 +1081,51 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       return name.hashCode();
     }
 
+    /**
+     * @since 2.33
+     */
+    public int getMatchingElement(Element element)
+    {
+      if ("Provide-Capability".equals(name))
+      {
+        if (element.valueComponents.contains("org.eclipse.emf.ecore.generated_package"))
+        {
+          int index = getMatchingElement(element, "uri");
+          if (index == -1)
+          {
+            index = getMatchingElement(element, "class");
+          }
+          return index;
+        }
+        return -1;
+      }
+      return elements.indexOf(element);
+    }
+
+    /**
+     * @since 2.33
+     */
+    protected int getMatchingElement(Element element, String attributeKey)
+    {
+      Element.Attribute attribute = element.getAttribute(attributeKey);
+      if (attribute != null)
+      {
+        for (int i = 0, size = elements.size(); i < size; i++)
+        {
+          Element otherElement = elements.get(i);
+          if (otherElement.equals(element))
+          {
+            Element.Attribute otherAttribute = otherElement.getAttribute(attributeKey);
+            if (otherAttribute != null && otherAttribute.value.equals(attribute.value))
+            {
+              return i;
+            }
+          }
+        }
+      }
+      return -1;
+    }
+
     protected final static class Element
     {
       public Set<String> valueComponents = new LinkedHashSet<String>();
@@ -1133,6 +1177,21 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       public String toString()
       {
         return toString("");
+      }
+
+      /**
+       * @since 2.33
+       */
+      public Attribute getAttribute(String key)
+      {
+        for (Attribute attribute : attributes)
+        {
+          if (key.equals(attribute.key))
+          {
+            return attribute;
+          }
+        }
+        return null;
       }
 
       protected static final class Directive
@@ -1230,13 +1289,26 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
 
     private static String quote(String value)
     {
+      boolean hasLetter = false;
+      boolean needsQuote = false;
       for (int i = 0, length = value.length(); i < length; i++)
       {
         char c = value.charAt(i);
-        if (!Character.isLetter(c) && c != '_' && c != '-' && c != '.')
+        boolean isLetter = Character.isLetter(c);
+        if (!isLetter && !Character.isDigit(c) && c != '_' && c != '-' && c != '.')
         {
-          return '"' + value + '"';
+          needsQuote = true;
+          break;
         }
+        if (isLetter)
+        {
+          hasLetter = true;
+        }
+      }
+
+      if (!hasLetter || needsQuote)
+      {
+          return '"' + value.replace("\\",  "\\\\").replace("\"", "\\\"") + '"';
       }
 
       return value;
@@ -1329,12 +1401,9 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
           //
           attribute.value = value.toString();
 
-          // If we're running in Eclipse, compute the structured OSGi manifest element information from the value.
+          // Compute the structured OSGi manifest element information from the value.
           //
-          if (EMFPlugin.IS_ECLIPSE_RUNNING)
-          {
-            attribute.elements = EclipseHelper.getElements(attribute.name, attribute.value);
-          }
+          attribute.elements = ManifestElement.getElements(attribute.name, attribute.value);
         }
         else
         {
@@ -1372,7 +1441,8 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         // The Bundle-Name, Bundle-Vendor, and Bundle-Localization are all preserved anyway because the generator find the old values,
         // and for the first two, if they are not already externalized, the name in the MANIFEST.MF will be externalized and referenced with a key.
         //
-        if ("Bundle-Name".equals(oldAttributeData.name) ||
+        if ("Bundle-RequiredExecutionEnvironment".equals(oldAttributeData.name) ||
+              "Bundle-Name".equals(oldAttributeData.name) ||
               "Bundle-Vendor".equals(oldAttributeData.name) ||
               "Bundle-Localization".equals(oldAttributeData.name) ||
               "Bundle-SymbolicName".equals(oldAttributeData.name) ||
@@ -1393,7 +1463,8 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         else if ("Export-Package".equals(oldAttributeData.name) ||
                    "Import-Package".equals(oldAttributeData.name) ||
                    "Require-Bundle".equals(oldAttributeData.name) ||
-                   "Require-Package".equals(oldAttributeData.name))
+                   "Require-Package".equals(oldAttributeData.name) ||
+                   "Provide-Capability".equals(oldAttributeData.name))
         {
           // If the new one has structured content...
           //
@@ -1413,7 +1484,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
               for (int j = 0, elementSize = newAttributeData.elements.size(); j < elementSize; ++j)
               {
                 AttributeData.Element element = newAttributeData.elements.get(j);
-                int elementIndex = oldAttributeData.elements.indexOf(element);
+                int elementIndex = oldAttributeData.getMatchingElement(element);
                 if (elementIndex != -1)
                 {
                   AttributeData.Element oldElement = oldAttributeData.elements.get(elementIndex);
@@ -1512,7 +1583,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
                   //
                   for (int k = j - 1; k >= 0; --k)
                   {
-                    int targetIndex = oldAttributeData.elements.indexOf(newAttributeData.elements.get(k));
+                    int targetIndex = oldAttributeData.getMatchingElement(newAttributeData.elements.get(k));
                     if (targetIndex != -1)
                     {
                       oldAttributeData.elements.add(targetIndex + 1, element);
@@ -1524,7 +1595,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
                   //
                   for (int k = j + 1; k < elementSize; ++k)
                   {
-                    int targetIndex = oldAttributeData.elements.indexOf(newAttributeData.elements.get(k));
+                    int targetIndex = oldAttributeData.getMatchingElement(newAttributeData.elements.get(k));
                     if (targetIndex != -1)
                     {
                      oldAttributeData.elements.add(targetIndex, element);
@@ -2992,26 +3063,262 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
 
       return result[0];
     }
+  }
 
-  public static final Set<String> OSGI_ATTRIBUTES = 
-    new HashSet<String>
-     (Arrays.asList
-        (new String[] 
-         {
-           "Bundle-ManifestVersion",
-           "Bundle-SymbolicName",
-           "Bundle-Version",
-           "Bundle-Localization",
-           "Bundle-Name",
-           "Bundle-Vendor",
-           "Bundle-ClassPath",
-           "Bundle-Activator",
-           "Bundle-ActivationPolicy",
-           "Bundle-RequiredExecutionEnvironment",
-           "Require-Bundle",
-           "Import-Package",
-           "Export-Package"
-         }));
+  /**
+   * Copied from {@link org.eclipse.osgi.util.ManifestElement}
+   *
+   * Copyright (c) 2003, 2016 IBM Corporation and others.
+   *
+   * This program and the accompanying materials
+   * are made available under the terms of the Eclipse Public License 2.0
+   * which accompanies this distribution, and is available at
+   * https://www.eclipse.org/legal/epl-2.0/
+   *
+   * SPDX-License-Identifier: EPL-2.0
+   *
+   * Contributors:
+   *     IBM Corporation - initial API and implementation
+   */
+  private static class ManifestElement
+  {
+    private static final Set<String> OSGI_ATTRIBUTES = new HashSet<String>(
+      Arrays.asList(
+        new String []{
+          "Bundle-ManifestVersion",
+          "Bundle-SymbolicName",
+          "Bundle-Version",
+          "Bundle-Localization",
+          "Bundle-Name",
+          "Bundle-Vendor",
+          "Bundle-ClassPath",
+          "Bundle-Activator",
+          "Bundle-ActivationPolicy",
+          "Bundle-RequiredExecutionEnvironment",
+          "Require-Bundle",
+          "Import-Package",
+          "Export-Package",
+          "Provide-Capability" }));
+
+    private final String[] valueComponents;
+
+    private Map<String, Object> attributes;
+
+    private Map<String, Object> directives;
+
+    private ManifestElement(String[] valueComponents)
+    {
+      this.valueComponents = valueComponents;
+    }
+
+    public String[] getValueComponents()
+    {
+      return valueComponents;
+    }
+
+    public String getAttribute(String key)
+    {
+      return getTableValue(attributes, key);
+    }
+
+    public Enumeration<String> getKeys()
+    {
+      return getTableKeys(attributes);
+    }
+
+    private void addAttribute(String key, String value)
+    {
+      attributes = addTableValue(attributes, key, value);
+    }
+
+    public String getDirective(String key)
+    {
+      return getTableValue(directives, key);
+    }
+
+    public Enumeration<String> getDirectiveKeys()
+    {
+      return getTableKeys(directives);
+    }
+
+    private void addDirective(String key, String value)
+    {
+      directives = addTableValue(directives, key, value);
+    }
+
+    private String getTableValue(Map<String, Object> table, String key)
+    {
+      if (table == null)
+      {
+        return null;
+      }
+      Object result = table.get(key);
+      if (result == null)
+      {
+        return null;
+      }
+      if (result instanceof String)
+        return (String)result;
+
+      @SuppressWarnings("unchecked")
+      List<String> valueList = (List<String>)result;
+      //return the last value
+      return valueList.get(valueList.size() - 1);
+    }
+
+    private Enumeration<String> getTableKeys(Map<String, Object> table)
+    {
+      if (table == null)
+        return null;
+      return Collections.enumeration(table.keySet());
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> addTableValue(Map<String, Object> table, String key, String value)
+    {
+      if (table == null)
+      {
+        table = new LinkedHashMap<String, Object>(7);
+      }
+      Object curValue = table.get(key);
+      if (curValue != null)
+      {
+        List<String> newList;
+        // create a list to contain multiple values
+        if (curValue instanceof List)
+        {
+          newList = (List<String>)curValue;
+        }
+        else
+        {
+          newList = new ArrayList<String>(5);
+          newList.add((String)curValue);
+        }
+        newList.add(value);
+        table.put(key, newList);
+      }
+      else
+      {
+        table.put(key, value);
+      }
+      return table;
+    }
+
+    public static ManifestElement[] parseHeader(String header, String value) throws IllegalArgumentException
+    {
+      if (value == null)
+        return (null);
+      List<ManifestElement> headerElements = new ArrayList<ManifestElement>(10);
+      Tokenizer tokenizer = new Tokenizer(value);
+      parseloop: while (true)
+      {
+        String next = tokenizer.getString(";,"); //$NON-NLS-1$
+        if (next == null)
+          throw new IllegalArgumentException();
+        List<String> headerValues = new ArrayList<String>();
+        StringBuilder headerValue = new StringBuilder(next);
+        headerValues.add(next);
+
+        boolean directive = false;
+        char c = tokenizer.getChar();
+        // Header values may be a list of ';' separated values.  Just append them all into one value until the first '=' or ','
+        while (c == ';')
+        {
+          next = tokenizer.getString(";,=:"); //$NON-NLS-1$
+          if (next == null)
+            throw new IllegalArgumentException();
+          c = tokenizer.getChar();
+          while (c == ':')
+          { // may not really be a :=
+            c = tokenizer.getChar();
+            if (c != '=')
+            {
+              String restOfNext = tokenizer.getToken(";,=:"); //$NON-NLS-1$
+              if (restOfNext == null)
+                throw new IllegalArgumentException();
+              next += ":" + c + restOfNext; //$NON-NLS-1$
+              c = tokenizer.getChar();
+            }
+            else
+              directive = true;
+          }
+          if (c == ';' || c == ',' || c == '\0')
+          /* more */ {
+            headerValues.add(next);
+            headerValue.append(";").append(next); //$NON-NLS-1$
+          }
+        }
+        // found the header value create a manifestElement for it.
+        ManifestElement manifestElement = new ManifestElement(headerValues.toArray(new String [headerValues.size()]));
+
+        // now add any attributes/directives for the manifestElement.
+        while (c == '=' || c == ':')
+        {
+          while (c == ':')
+          { // may not really be a :=
+            c = tokenizer.getChar();
+            if (c != '=')
+            {
+              String restOfNext = tokenizer.getToken("=:"); //$NON-NLS-1$
+              if (restOfNext == null)
+                throw new IllegalArgumentException();
+              next += ":" + c + restOfNext; //$NON-NLS-1$
+              c = tokenizer.getChar();
+            }
+            else
+              directive = true;
+          }
+          // determine if the attribute is the form attr:List<type>
+          String preserveEscapes = null;
+          if (!directive && next.indexOf("List") > 0) //$NON-NLS-1$
+          {
+            Tokenizer listTokenizer = new Tokenizer(next);
+            String attrKey = listTokenizer.getToken(":"); //$NON-NLS-1$
+            if (attrKey != null && listTokenizer.getChar() == ':' && "List".equals(listTokenizer.getToken("<"))) //$NON-NLS-1$//$NON-NLS-2$
+            {
+              // we assume we must preserve escapes for , and "
+              preserveEscapes = "\\,"; //$NON-NLS-1$
+            }
+          }
+          String val = tokenizer.getString(";,", preserveEscapes); //$NON-NLS-1$
+          if (val == null)
+            throw new IllegalArgumentException();
+
+          try
+          {
+            if (directive)
+              manifestElement.addDirective(next, val);
+            else
+              manifestElement.addAttribute(next, val);
+            directive = false;
+          }
+          catch (Exception e)
+          {
+            throw new IllegalArgumentException();
+          }
+          c = tokenizer.getChar();
+          if (c == ';')
+          /* more */ {
+            next = tokenizer.getToken("=:"); //$NON-NLS-1$
+            if (next == null)
+              throw new IllegalArgumentException();
+            c = tokenizer.getChar();
+          }
+        }
+        headerElements.add(manifestElement);
+        if (c == ',') /* another manifest element */
+          continue parseloop;
+        if (c == '\0') /* end of value */
+          break parseloop;
+        throw new IllegalArgumentException();
+      }
+      int size = headerElements.size();
+      if (size == 0)
+        return (null);
+
+      ManifestElement[] result = headerElements.toArray(new ManifestElement [size]);
+      return (result);
+    }
 
     public static List<AttributeData.Element> getElements(String name, String value)
     {
@@ -3057,7 +3364,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
                 {
                   AttributeData.Element.Directive directive = new AttributeData.Element.Directive();
                   directive.key = directiveKeys.nextElement();
-                  directive.value =  manifestElement.getDirective(directive.key);
+                  directive.value = manifestElement.getDirective(directive.key);
                   element.directives.add(directive);
                 }
               }
@@ -3069,21 +3376,160 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
               {
                 while (attributeKeys.hasMoreElements())
                 {
-                  AttributeData.Element.Attribute attribute2 = new AttributeData.Element.Attribute();
-                  attribute2.key  = attributeKeys.nextElement();
-                  attribute2.value  =  manifestElement.getAttribute(attribute2.key);
-                  element.attributes.add(attribute2);
+                  AttributeData.Element.Attribute attribute = new AttributeData.Element.Attribute();
+                  attribute.key = attributeKeys.nextElement();
+                  attribute.value = manifestElement.getAttribute(attribute.key);
+                  element.attributes.add(attribute);
                 }
               }
             }
           }
         }
-        catch (BundleException e)
+        catch (IllegalArgumentException e)
         {
           // Ignore
         }
       }
       return elements;
+    }
+
+    /**
+     * Copied from org.eclipse.osgi.internal.util.Tokenizer
+     *
+     * Copyright (c) 2003, 2016 IBM Corporation and others.
+     *
+     * This program and the accompanying materials
+     * are made available under the terms of the Eclipse Public License 2.0
+     * which accompanies this distribution, and is available at
+     * https://www.eclipse.org/legal/epl-2.0/
+     *
+     * SPDX-License-Identifier: EPL-2.0
+     *
+     * Contributors:
+     *     IBM Corporation - initial API and implementation
+     */
+    private static class Tokenizer
+    {
+      protected final char value[];
+
+      protected final int max;
+
+      protected int cursor;
+
+      public Tokenizer(String value)
+      {
+        this.value = value.toCharArray();
+        max = this.value.length;
+        cursor = 0;
+      }
+
+      private void skipWhiteSpace()
+      {
+        char[] val = value;
+        int cur = cursor;
+
+        for (; cur < max; cur++)
+        {
+          char c = val[cur];
+          if ((c == ' ') || (c == '\t') || (c == '\n') || (c == '\r'))
+          {
+            continue;
+          }
+          break;
+        }
+        cursor = cur;
+      }
+
+      public String getToken(String terminals)
+      {
+        skipWhiteSpace();
+        char[] val = value;
+        int cur = cursor;
+
+        int begin = cur;
+        for (; cur < max; cur++)
+        {
+          char c = val[cur];
+          if ((terminals.indexOf(c) != -1))
+          {
+            break;
+          }
+        }
+        cursor = cur;
+        int count = cur - begin;
+        if (count > 0)
+        {
+          skipWhiteSpace();
+          while (count > 0 && (val[begin + count - 1] == ' ' || val[begin + count - 1] == '\t'))
+            count--;
+          return (new String(val, begin, count));
+        }
+        return (null);
+      }
+
+      public String getString(String terminals, String preserveEscapes)
+      {
+        skipWhiteSpace();
+        char[] val = value;
+        int cur = cursor;
+
+        if (cur < max)
+        {
+          if (val[cur] == '\"') /* if a quoted string */
+          {
+            StringBuilder sb = new StringBuilder();
+            cur++; /* skip quote */
+            char c = '\0';
+            for (; cur < max; cur++)
+            {
+              c = val[cur];
+              // this is an escaped char
+              if (c == '\\')
+              {
+                cur++; // skip the escape char
+                if (cur == max)
+                  break;
+                c = val[cur]; // include the escaped char
+                if (preserveEscapes != null && preserveEscapes.indexOf(c) != -1)
+                  sb.append('\\'); // must preserve escapes for c
+              }
+              else if (c == '\"')
+              {
+                break;
+              }
+              sb.append(c);
+            }
+
+            if (c == '\"')
+            {
+              cur++;
+            }
+
+            cursor = cur;
+            skipWhiteSpace();
+            return sb.toString();
+          }
+          /* not a quoted string; same as token */
+          return getToken(terminals);
+        }
+        return (null);
+      }
+
+      public String getString(String terminals)
+      {
+        return getString(terminals, null);
+      }
+
+      public char getChar()
+      {
+        int cur = cursor;
+        if (cur < max)
+        {
+          cursor = cur + 1;
+          return (value[cur]);
+        }
+        return ('\0'); /* end of value */
+      }
     }
   }
 }
