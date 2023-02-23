@@ -223,7 +223,7 @@ public class BasicMonitor implements Monitor
    */
   public static IProgressMonitorWithBlocking subProgress(IProgressMonitor monitor, int ticks)
   {
-    return new EclipseSubProgress(monitor, ticks);
+    return EclipseSubProgress.createEclipseSubProgress(monitor, ticks);
   }
   
   /**
@@ -329,6 +329,11 @@ public class BasicMonitor implements Monitor
    */
   public static class EclipseSubProgress extends org.eclipse.core.runtime.SubProgressMonitor implements Monitor
   {
+    static IProgressMonitorWithBlocking createEclipseSubProgress(IProgressMonitor monitor, int ticks)
+    {
+      return new EclipseSubProgress(monitor, ticks);
+    }
+
     public EclipseSubProgress(IProgressMonitor monitor, int ticks)
     {
       super(monitor, ticks);
