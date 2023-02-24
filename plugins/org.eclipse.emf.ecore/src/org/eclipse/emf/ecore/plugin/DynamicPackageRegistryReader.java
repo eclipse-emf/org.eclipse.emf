@@ -11,9 +11,12 @@
 package org.eclipse.emf.ecore.plugin;
 
 
+import java.util.Map;
+
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.RegistryFactory;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 
 /**
@@ -27,12 +30,26 @@ class DynamicPackageRegistryReader extends RegistryReader
   static final String ATT_URI = "uri";
   static final String ATT_LOCATION = "location";
 
+  /**
+   * @since 2.33
+   */
+  protected Map<String, URI> ePackageNsURIToDynamicModelLocationMap;
+
   public DynamicPackageRegistryReader()
   {
     super
       (RegistryFactory.getRegistry(),
        EcorePlugin.INSTANCE.getSymbolicName(), 
        EcorePlugin.DYNAMIC_PACKAGE_PPID);
+  }
+
+  /**
+   * @since 2.33
+   */
+  public DynamicPackageRegistryReader(Map<String, URI> ePackageNsURIToDynamicModelLocationMap)
+  {
+    this();
+    this.ePackageNsURIToDynamicModelLocationMap = ePackageNsURIToDynamicModelLocationMap;
   }
 
   @Override
@@ -58,12 +75,28 @@ class DynamicPackageRegistryReader extends RegistryReader
           EcorePlugin.INSTANCE.log
             ("Both '" + descriptor.element.getContributor().getName() + "' and '" + element.getContributor().getName() + "' register a package for '" + packageURI + "'");
         }
-        
+        if (ePackageNsURIToDynamicModelLocationMap != null)
+        {
+          String dynamicModel = element.getAttribute(ATT_LOCATION);
+          if (dynamicModel != null)
+          {
+            URI dynamicModelURI = URI.createURI(dynamicModel);
+            if (dynamicModelURI.isRelative())
+            {
+              dynamicModelURI = URI.createPlatformPluginURI(element.getDeclaringExtension().getContributor().getName() + "/" + dynamicModel, true);
+            }
+            ePackageNsURIToDynamicModelLocationMap.put(packageURI, dynamicModelURI);
+          }
+        }
         return true;
       }
       else
       {
         EPackage.Registry.INSTANCE.remove(packageURI);
+        if (ePackageNsURIToDynamicModelLocationMap != null)
+        {
+          ePackageNsURIToDynamicModelLocationMap.remove(packageURI);
+        }
         return true;
       }
     }

@@ -2166,7 +2166,7 @@ public class EcoreEditor
 
     private final ResourceSet modelResourceSet;
 
-    private Map<String, URI> ePackageNsURItoGenModelLocationMap;
+    private Map<String, URI> ePackageNsURItoModelLocationMap;
 
     public DynamicLoadingEPackageRegistryImpl(ResourceSet editorResourceSet)
     {
@@ -2187,12 +2187,13 @@ public class EcoreEditor
 
       if (ePackage == null)
       {
-        if (ePackageNsURItoGenModelLocationMap == null)
+        if (ePackageNsURItoModelLocationMap == null)
         {
-          ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap(true);
+          ePackageNsURItoModelLocationMap = new HashMap<String, URI>(EcorePlugin.getEPackageNsURIToGenModelLocationMap(true));
+          ePackageNsURItoModelLocationMap.putAll(EcorePlugin.getEPackageNsURIToDynamicModelLocationMap(true));
         }
 
-        URI location = ePackageNsURItoGenModelLocationMap.get(nsURI);
+        URI location = ePackageNsURItoModelLocationMap.get(nsURI);
         if (location != null)
         {
           EList<Resource> modelResources = modelResourceSet.getResources();

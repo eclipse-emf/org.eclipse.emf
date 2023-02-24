@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -263,10 +264,11 @@ public class EcoreActionBarContributor
                  Resource dummyResource = domain == null ? null : resourceSet.createResource(domain.getResourceSet().getResources().get(0).getURI());
 
                  StringBuffer uris = new StringBuffer();
-                 Map<String, URI> ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap(true);
+                 Map<String, URI> ePackageNsURItoModelLocationMap = new HashMap<String, URI>(EcorePlugin.getEPackageNsURIToGenModelLocationMap(true));
+                 ePackageNsURItoModelLocationMap.putAll(EcorePlugin.getEPackageNsURIToDynamicModelLocationMap(true));
                  for (int i = 0, length = result.length; i < length; i++)
                  {
-                   URI location = ePackageNsURItoGenModelLocationMap.get(result[i]);
+                   URI location = ePackageNsURItoModelLocationMap.get(result[i]);
                    Resource resource = resourceSet.getResource(location, true);
                    EcoreUtil.resolveAll(resource);
                  }
@@ -316,10 +318,11 @@ public class EcoreActionBarContributor
                    Resource dummyResource = domain == null ? null : resourceSet.createResource(domain.getResourceSet().getResources().get(0).getURI());
 
                    StringBuffer uris = new StringBuffer();
-                   Map<String, URI> ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap(false);
+                   Map<String, URI> ePackageNsURItoModelLocationMap = new HashMap<String, URI>(EcorePlugin.getEPackageNsURIToGenModelLocationMap(false));
+                   ePackageNsURItoModelLocationMap.putAll(EcorePlugin.getEPackageNsURIToDynamicModelLocationMap(false));
                    for (int i = 0, length = result.length; i < length; i++)
                    {
-                     URI location = ePackageNsURItoGenModelLocationMap.get(result[i]);
+                     URI location = ePackageNsURItoModelLocationMap.get(result[i]);
                      Resource resource = resourceSet.getResource(location, true);
                      EcoreUtil.resolveAll(resource);
                    }
@@ -383,8 +386,9 @@ public class EcoreActionBarContributor
 
       protected void updateElements()
       {
-        Map<String, URI> ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap(true);
-        Object [] result = ePackageNsURItoGenModelLocationMap.keySet().toArray(new Object[ePackageNsURItoGenModelLocationMap.size()]);
+        Map<String, URI> ePackageNsURItoModelLocationMap = new HashMap<String, URI>(EcorePlugin.getEPackageNsURIToGenModelLocationMap(true));
+        ePackageNsURItoModelLocationMap.putAll(EcorePlugin.getEPackageNsURIToDynamicModelLocationMap(true));
+        Object [] result = ePackageNsURItoModelLocationMap.keySet().toArray(new Object[ePackageNsURItoModelLocationMap.size()]);
         Arrays.sort(result);
         setListElements(result);
       }
@@ -430,8 +434,9 @@ public class EcoreActionBarContributor
       {
         if (isDevelopmentTimeVersion)
         {
-          Map<String, URI> ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap(false);
-          Object [] result = ePackageNsURItoGenModelLocationMap.keySet().toArray(new Object[ePackageNsURItoGenModelLocationMap.size()]);
+          Map<String, URI> ePackageNsURItoModelLocationMap = new HashMap<String, URI>(EcorePlugin.getEPackageNsURIToGenModelLocationMap(false));
+          ePackageNsURItoModelLocationMap.putAll(EcorePlugin.getEPackageNsURIToDynamicModelLocationMap(false));
+          Object [] result = ePackageNsURItoModelLocationMap.keySet().toArray(new Object[ePackageNsURItoModelLocationMap.size()]);
           Arrays.sort(result);
           setListElements(result);
         }

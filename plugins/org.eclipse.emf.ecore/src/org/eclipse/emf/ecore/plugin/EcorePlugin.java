@@ -584,6 +584,42 @@ public class EcorePlugin  extends EMFPlugin
     }
     return result;
   }
+
+  /**
+   * Returns a map from {@link EPackage#getNsURI() package namespace URI} (represented as a String) 
+   * to the location of the dynamic model for the package (represented as a {@link URI URI})
+   * for either the target platform or the environment itself.
+   * If there is no target platform, i.e., if the PDE is not installed, it defaults back to the environment.
+   * It's generally expected that an application using these URIs will also {@link URIConverter#getURIMap() register} the mappings returned by {@link #computePlatformURIMap(boolean)}.
+   * @param targetPlatform whether to get locations for the target platform or for the environment itself; the former is preferred.
+   * @return a map from package namespace to dynamic model location.
+   * @see #computePlatformURIMap(boolean)
+   * @since 2.33
+   */
+  public static Map<String, URI> getEPackageNsURIToDynamicModelLocationMap(boolean targetPlatform)
+  {
+    if (!targetPlatform || !IS_RESOURCES_BUNDLE_AVAILABLE || !PDEHelper.IS_PDE_BUNDLE_AVAILABLE)
+    {
+      if (ePackageNsURIToDynamicModelLocationMap == null)
+      {
+        ePackageNsURIToDynamicModelLocationMap = new HashMap<String, URI>();
+      }
+      return ePackageNsURIToDynamicModelLocationMap;
+    }
+    else
+    {
+      Map<String, URI> nsURIMap = new HashMap<String, URI>();
+      try
+      {
+        PDEHelper.computeModels(null, null, nsURIMap);
+      }
+      catch (Exception exception)
+      {
+        INSTANCE.log(exception);
+      }
+      return nsURIMap;
+    }
+  }
   
   /**
    * The platform resource map.
@@ -593,9 +629,15 @@ public class EcorePlugin  extends EMFPlugin
   
   /**
    * The map from package namespace URIs to the location of the GenModel for that package.
-   * @see #getPlatformResourceMap
+   * @see #getEPackageNsURIToGenModelLocationMap(boolean)
    */
   private static Map<String, URI> ePackageNsURIToGenModelLocationMap;
+
+  /**
+   * The map from package namespace URIs to the location of the GenModel for that package.
+   * @see #getEPackageNsURIToDynamicModelLocationMap(boolean)
+   */
+  private static Map<String, URI> ePackageNsURIToDynamicModelLocationMap;
 
   /** 
    * A plugin implementation that handles Ecore plugin registration.
@@ -913,7 +955,7 @@ public class EcorePlugin  extends EMFPlugin
       }.readRegistry();
 
       new GeneratedPackageRegistryReader(getEPackageNsURIToGenModelLocationMap(false)).readRegistry();
-      new DynamicPackageRegistryReader().readRegistry();
+      new DynamicPackageRegistryReader(getEPackageNsURIToDynamicModelLocationMap(false)).readRegistry();
       new FactoryOverrideRegistryReader().readRegistry();
       new ExtensionParserRegistryReader().readRegistry();
       new ProtocolParserRegistryReader().readRegistry();
@@ -1171,7 +1213,12 @@ public class EcorePlugin  extends EMFPlugin
       IS_PDE_BUNDLE_AVAILABLE = isPDEBundleAvailable && !"true".equals(System.getProperty("org.eclipse.emf.common.CommonPlugin.doNotUsePDE"));
     }
 
-    private static void computeModels(Map<URI, URI> pluginMap, Map<String, URI> nsURIMap)
+    private static void computeModels(Map<URI, URI> pluginMap, Map<String, URI> nsURIToGenModelLocationMap)
+    {
+      computeModels(pluginMap, nsURIToGenModelLocationMap, null);
+    }
+
+    private static void computeModels(Map<URI, URI> pluginMap, Map<String, URI> nsURIToGenModelLocationMap, Map<String, URI> nsURIToDynamicModelLocationMap)
     {
       // Cache the workspace for use in the loop.
       //
@@ -1273,20 +1320,25 @@ public class EcorePlugin  extends EMFPlugin
                   }
                 }
 
-                // If we're not computing the nsURI map, we're done with this plugin.
+                // If we're not computing nsURI maps, we're done with this plugin.
                 //
-                if (nsURIMap == null)
+                if (nsURIToGenModelLocationMap == null && nsURIToDynamicModelLocationMap == null)
                 {
                   continue LOOP;
                 }
 
                 // Map the nsURI to the logical location URI of the registered GenModel, if we're dealing with a generated package extension point.
                 //
-                // nsURIMap.put(uri.getValue(), logicalLocation.appendSegments(new Path(genModel.getValue()).segments()));
-                //
-                if (isGenerated)
+                if (nsURIToGenModelLocationMap != null && isGenerated)
                 {
-                  nsURIMap.put(uri, logicalLocation.appendSegments(new Path(modelLocation).segments()));
+                  nsURIToGenModelLocationMap.put(uri, logicalLocation.appendSegments(new Path(modelLocation).segments()));
+                }
+
+                // Map the nsURI to the logical location URI of the registered dynamic model, if we're dealing with a dynamic package extension point.
+                //
+                if (nsURIToDynamicModelLocationMap != null && !isGenerated)
+                {
+                  nsURIToDynamicModelLocationMap.put(uri, logicalLocation.appendSegments(new Path(modelLocation).segments()));
                 }
               }
             }
