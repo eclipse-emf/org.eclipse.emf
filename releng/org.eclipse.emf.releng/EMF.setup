@@ -471,7 +471,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="xtext.latest.release.url"
-      value="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.29.0">
+      value="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.23.0">
     <description>The p2 update site URL for the last Xtext release.</description>
   </setupTask>
   <setupTask
@@ -487,17 +487,17 @@
       storageURI="scope://Workspace"/>
   <setupTask
       xsi:type="git:GitCloneTask"
-      id="emf.git.clone"
+      id="emf.github.clone"
       remoteURI="emf/org.eclipse.emf">
     <annotation
         source="http://www.eclipse.org/oomph/setup/InducedChoices">
       <detail
           key="inherit">
-        <value>eclipse.git.gerrit.remoteURIs</value>
+        <value>github.remoteURIs</value>
       </detail>
       <detail
           key="label">
-        <value>EMF Git or Gerrit Repository</value>
+        <value>EMF GitHub Repository</value>
       </detail>
       <detail
           key="target">
@@ -527,29 +527,29 @@
           source="http:/www.eclipse.org/oomph/targlets/PomModulesUpdaterX">
         <detail
             key="location">
-          <value>${emf.git.clone.location/releng/org.eclipse.emf.parent/plugins/pom.xml}</value>
+          <value>${emf.github.clone.location/releng/org.eclipse.emf.parent/plugins/pom.xml}</value>
         </detail>
         <detail
             key="moduleRoots">
-          <value>${emf.git.clone.location/plugins}</value>
+          <value>${emf.github.clone.location/plugins}</value>
         </detail>
       </annotation>
       <annotation
           source="http:/www.eclipse.org/oomph/targlets/PomModulesUpdaterX">
         <detail
             key="location">
-          <value>${emf.git.clone.location/releng/org.eclipse.emf.parent/features/pom.xml}</value>
+          <value>${emf.github.clone.location/releng/org.eclipse.emf.parent/features/pom.xml}</value>
         </detail>
         <detail
             key="moduleRoots">
-          <value>${emf.git.clone.location/features}</value>
+          <value>${emf.github.clone.location/features}</value>
         </detail>
       </annotation>
       <annotation
           source="http:/www.eclipse.org/oomph/targlets/TargetDefinitionGeneratorX">
         <detail
             key="location">
-          <value>${emf.git.clone.location/releng/org.eclipse.emf.parent/tp/org.eclipse.emf.tp.target}</value>
+          <value>${emf.github.clone.location/releng/org.eclipse.emf.parent/tp/org.eclipse.emf.tp.target}</value>
         </detail>
         <detail
             key="extraUnits">
@@ -852,7 +852,7 @@
   <setupTask
       xsi:type="setup:StringSubstitutionTask"
       name="emf.git.clone.location"
-      value="${emf.git.clone.location}"/>
+      value="${emf.github.clone.location}"/>
   <setupTask
       xsi:type="setup:ResourceCreationTask"
       targetURL="${installation.location|uri}/${installation.relativeProductFolder}/configuration/.settings/com.google.gdt.eclipse.suite.prefs"
@@ -889,7 +889,7 @@
         <requirement
             name="org.eclipse.xsd.example.feature.group"/>
         <sourceLocator
-            rootFolder="${emf.git.clone.location}"
+            rootFolder="${emf.github.clone.location}"
             locateNestedProjects="true">
           <predicate
               xsi:type="predicates:NotPredicate">
@@ -1169,7 +1169,7 @@
       <setupTask
           xsi:type="setup:EclipseIniTask"
           option="-Doomph.redirection.emf.setup"
-          value="=http://git.eclipse.org/c/emf/org.eclipse.emf.git/plain/releng/org.eclipse.emf.releng/EMF.setup->${emf.git.clone.location|uri}/releng/org.eclipse.emf.releng/EMF.setup"
+          value="=https://raw.githubusercontent.com/eclipse-emf/org.eclipse.emf/master/releng/org.eclipse.emf.releng/->${emf.github.clone.location|uri}/releng/org.eclipse.emf.releng/"
           vm="true"/>
     </stream>
     <description>The development environment for the EMF Core.</description>
@@ -1227,7 +1227,7 @@
         <requirement
             name="org.eclipse.xtext.generator"/>
         <sourceLocator
-            rootFolder="${emf.git.clone.location}"
+            rootFolder="${emf.github.clone.location}"
             locateNestedProjects="true">
           <predicate
               xsi:type="predicates:AndPredicate">
@@ -1327,7 +1327,7 @@
         <requirement
             name="com.google.gwt.eclipse.sdkbundle"/>
         <sourceLocator
-            rootFolder="${emf.git.clone.location}"
+            rootFolder="${emf.github.clone.location}"
             locateNestedProjects="true">
           <predicate
               xsi:type="predicates:NotPredicate">
@@ -1413,7 +1413,7 @@
             name="org.eclipse.rap.sdk.feature.feature.group"
             optional="true"/>
         <sourceLocator
-            rootFolder="${emf.git.clone.location}"
+            rootFolder="${emf.github.clone.location}"
             locateNestedProjects="true">
           <predicate
               xsi:type="predicates:AndPredicate">
