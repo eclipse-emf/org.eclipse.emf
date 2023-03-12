@@ -322,6 +322,7 @@
   </setupTask>
   <setupTask
       xsi:type="setup:VariableTask"
+      type="FILE"
       name="maven.build.command"
       defaultValue="mvn.cmd"
       label="Maven Command">
@@ -335,6 +336,7 @@
   </setupTask>
   <setupTask
       xsi:type="setup:VariableTask"
+      type="FOLDER"
       name="maven.build.releng.publish.target"
       defaultValue="/tmp/"
       label="Releng Maven Publish Target">
