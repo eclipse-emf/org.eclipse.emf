@@ -488,7 +488,7 @@
   <setupTask
       xsi:type="git:GitCloneTask"
       id="emf.github.clone"
-      remoteURI="emf/org.eclipse.emf">
+      remoteURI="eclipse-emf/org.eclipse.emf">
     <annotation
         source="http://www.eclipse.org/oomph/setup/InducedChoices">
       <detail
