@@ -6,7 +6,7 @@ pipeline {
   options {
     buildDiscarder(logRotator(numToKeepStr: '10'))
     disableConcurrentBuilds()
-    // skipDefaultCheckout true
+    skipDefaultCheckout true
   }
 
   tools {
@@ -33,6 +33,7 @@ pipeline {
     choice(
       name: 'TARGET_PLATFORM',
       choices: [
+        '2023-06',
         '2023-03',
         '2022-12',
         '2022-09',
@@ -127,11 +128,8 @@ pipeline {
               $class: 'GitSCM',
               branches: [[name: '*' + '/master']],
               doGenerateSubmoduleConfigurations: false,
-              // extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'emf']],
               submoduleCfg: [],
-              userRemoteConfigs: [[url: 'https://git.eclipse.org/r/emf/org.eclipse.emf.git']]
-              // userRemoteConfigs: [[url: 'https://github.com/eclipse-emf/emf.git']]
-              // userRemoteConfigs: [[url: 'https://github.com/merks/emf-xsd.git']]
+              userRemoteConfigs: [[url: 'https://github.com/eclipse-emf/emf.git']]
             ]
           )
 
