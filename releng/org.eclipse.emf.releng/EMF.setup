@@ -1143,25 +1143,25 @@
         xsi:type="workbench:FileAssociationsTask">
       <mapping
           filePattern="*.javajet"
-          defaultEditorID="org.eclipse.ui.DefaultTextEditor"/>
+          defaultEditorID="org.eclipse.emf.codegen.presentation.JETEditorID"/>
       <mapping
           filePattern="*.xmljet"
-          defaultEditorID="org.eclipse.ui.DefaultTextEditor"/>
+          defaultEditorID="org.eclipse.emf.codegen.presentation.JETEditorID"/>
       <mapping
           filePattern="*.mfjet"
-          defaultEditorID="org.eclipse.ui.DefaultTextEditor"/>
+          defaultEditorID="org.eclipse.emf.codegen.presentation.JETEditorID"/>
       <mapping
           filePattern="*.propertiesjet"
-          defaultEditorID="org.eclipse.ui.DefaultTextEditor"/>
+          defaultEditorID="org.eclipse.emf.codegen.presentation.JETEditorID"/>
       <mapping
           filePattern="*.javajetinc"
-          defaultEditorID="org.eclipse.ui.DefaultTextEditor"/>
+          defaultEditorID="org.eclipse.emf.codegen.presentation.JETEditorID"/>
       <mapping
           filePattern="*.jetinc"
-          defaultEditorID="org.eclipse.ui.DefaultTextEditor"/>
+          defaultEditorID="org.eclipse.emf.codegen.presentation.JETEditorID"/>
       <mapping
           filePattern="*.propertiesjetinc"
-          defaultEditorID="org.eclipse.ui.DefaultTextEditor"/>
+          defaultEditorID="org.eclipse.emf.codegen.presentation.JETEditorID"/>
       <description>Bindings for JET templates</description>
     </setupTask>
     <stream
