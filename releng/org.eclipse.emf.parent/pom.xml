@@ -10,7 +10,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <tycho.scmUrl>scm:git:https://git.eclipse.org/r/p/emf/org.eclipse.emf.git</tycho.scmUrl>
+    <tycho.scmUrl>scm:git:https://github.com/eclipse-emf/org.eclipse.emf.git</tycho.scmUrl>
     <tycho-version>2.7.5</tycho-version>
     <jarsigner-version>1.3.2</jarsigner-version>
     <javaVersion>11</javaVersion>

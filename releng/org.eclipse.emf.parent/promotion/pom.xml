@@ -91,7 +91,7 @@ SPDX-License-Identifier: EPL-2.0
                 -root ${project.build.directory}/emf-sync
                 -relative ${org.eclipse.justj.p2.manager.relative}
                 -version-iu org.eclipse.emf.sdk.feature.group
-                -commit https://git.eclipse.org/c/emf/org.eclipse.emf.git/commit/?id=${commit.id}
+                -commit https://github.com/eclipse-emf/org.eclipse.emf/commit/${commit.id}
                 -target-url https://download.eclipse.org/modeling/emf/emf
                 -promote ${project.basedir}/../../org.eclipse.emf.site/target/repository
                 -timestamp ${build.timestamp}

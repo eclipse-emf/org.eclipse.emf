@@ -29,7 +29,7 @@ more.
 
 The project maintains the following source code repositories
 
-* http://git.eclipse.org/c/emf/org.eclipse.emf.git
+* https://github.com/eclipse-emf/org.eclipse.emf
 
 This project uses Bugzilla to track ongoing development and issues.
 

@@ -68,7 +68,7 @@ pipeline {
 
     choice(
       name: 'JAVA_VERSION',
-      choices: ['11', '1.8'],
+      choices: ['17', '11', '1.8'],
       description: '''
         Choose the Java version for the execution environment of the Tycho build.
         '''

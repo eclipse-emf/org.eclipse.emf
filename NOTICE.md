@@ -27,7 +27,7 @@ SPDX-License-Identifier: EPL-2.0
 
 The project maintains the following source code repositories:
 
-* http://git.eclipse.org/c/emf/org.eclipse.emf.git
+* https://github.com/eclipse-emf/org.eclipse.emf
 
 ## Cryptography
 

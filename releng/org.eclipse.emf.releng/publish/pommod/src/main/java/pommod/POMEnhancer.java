@@ -125,8 +125,8 @@ public class POMEnhancer
     if (model.getScm() == null)
     {
       Scm scm = new Scm();
-      scm.setUrl("https://git.eclipse.org/c/emf/org.eclipse.emf.git/");
-      scm.setConnection("git://git.eclipse.org/gitroot/emf/org.eclipse.emf.git/");
+      scm.setUrl("https://github.com/eclipse-emf/org.eclipse.emf.git/");
+      scm.setConnection("https://github.com/eclipse-emf/org.eclipse.emf.git/");
       model.setScm(scm);
       modified = true;
     }
