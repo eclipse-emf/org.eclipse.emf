@@ -1,3 +1,34 @@
+def targetPlatformToJavaVersionMap = [
+  '2023-06' : '17',
+  '2023-03' : '11',
+  '2022-12' : '11',
+  '2022-09' : '11',
+  '2022-06' : '11',
+  '2022-03' : '11',
+  '2021-12' : '11',
+  '2021-09' : '11',
+  '2021-06' : '11',
+  '2021-03' : '11',
+  '2020-12' : '11',
+  '2020-09' : '11',
+  '2020-06' : '1.8',
+  '2020-03' : '1.8',
+  '2019-12' : '1.8',
+  '2019-09' : '1.8',
+  '2019-06' : '1.8',
+  '2019-03' : '1.8',
+  '2018-12' : '1.8',
+  '2018-09' : '1.8',
+  'photon'  : '1.8',
+  'oxygen'  : '1.8',
+  'neon'    : '1.8',
+  'mars'    : '1.8',
+  'luna'    : '1.8',
+  'kepler'  : '1.8'
+]
+
+def targetPlatforms = targetPlatformToJavaVersionMap.keySet() as List
+
 pipeline {
   agent {
     label 'centos-latest'
@@ -32,45 +63,10 @@ pipeline {
 
     choice(
       name: 'TARGET_PLATFORM',
-      choices: [
-        '2023-06',
-        '2023-03',
-        '2022-12',
-        '2022-09',
-        '2022-06',
-        '2022-03',
-        '2021-12',
-        '2021-09',
-        '2021-06',
-        '2021-03',
-        '2020-12',
-        '2020-09',
-        '2020-06',
-        '2020-03',
-        '2019-12',
-        '2019-09',
-        '2019-06',
-        '2019-03',
-        '2018-12',
-        '2018-09',
-        'photon',
-        'oxygen',
-        'neon',
-        'mars',
-        'luna',
-        'kepler'
-      ],
+      choices: targetPlatforms,
       description: '''
         Choose the named target platform against which to compile and test.
         This is relevant only for nightly and milestone builds.
-        '''
-    )
-
-    choice(
-      name: 'JAVA_VERSION',
-      choices: ['17', '11', '1.8'],
-      description: '''
-        Choose the Java version for the execution environment of the Tycho build.
         '''
     )
 
@@ -101,14 +97,13 @@ pipeline {
       steps {
         echo "BUILD_TIMESTAMP=${env.BUILD_TIMESTAMP}"
         echo "BUILD_TYPE=${params.BUILD_TYPE}"
-        echo "JAVA_VERSION=${params.JAVA_VERSION}"
         echo "TARGET_PLATFORM=${params.TARGET_PLATFORM}"
+        echo "JAVA_VERSION=" + targetPlatformToJavaVersionMap[params.TARGET_PLATFORM]
         echo "ECLIPSE_SIGN=${params.ECLIPSE_SIGN}"
         echo "PROMOTE=${params.PROMOTE}"
         echo "ARCHIVE=${params.ARCHIVE}"
         script {
           env.BUILD_TYPE = params.BUILD_TYPE
-          env.JAVA_VERSION = params.JAVA_VERSION
           env.TARGET_PLATFORM = params.TARGET_PLATFORM
           env.ECLIPSE_SIGN = params.ECLIPSE_SIGN
           env.PROMOTE = params.PROMOTE && env.ECLIPSE_SIGN
