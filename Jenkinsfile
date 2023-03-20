@@ -105,6 +105,7 @@ pipeline {
         script {
           env.BUILD_TYPE = params.BUILD_TYPE
           env.TARGET_PLATFORM = params.TARGET_PLATFORM
+          env.JAVA_VERSION = targetPlatformToJavaVersionMap[params.TARGET_PLATFORM]
           env.ECLIPSE_SIGN = params.ECLIPSE_SIGN
           env.PROMOTE = params.PROMOTE && env.ECLIPSE_SIGN
         }
