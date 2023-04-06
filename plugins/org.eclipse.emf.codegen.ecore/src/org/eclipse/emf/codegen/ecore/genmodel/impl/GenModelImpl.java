@@ -11019,33 +11019,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           if (project.exists())
           {
             String complianceLevel = CodeGenUtil.EclipseUtil.getJavaComplianceLevel(project);
-            if ("1.4".equals(complianceLevel))
+            for (GenJDKLevel genJDKLevel : GenJDKLevel.VALUES)
             {
-              return GenJDKLevel.JDK14_LITERAL;
-            }
-            else if ("1.5".equals(complianceLevel))
-            {
-              return GenJDKLevel.JDK50_LITERAL;
-            }
-            else if ("1.6".equals(complianceLevel))
-            {
-              return GenJDKLevel.JDK60_LITERAL;
-            }
-            else if ("1.7".equals(complianceLevel))
-            {
-              return GenJDKLevel.JDK70_LITERAL;
-            }
-            else if ("1.8".equals(complianceLevel))
-            {
-              return GenJDKLevel.JDK80_LITERAL;
-            }
-            else if ("9".equals(complianceLevel))
-            {
-              return GenJDKLevel.JDK90_LITERAL;
-            }
-            else if ("10".equals(complianceLevel))
-            {
-              return GenJDKLevel.JDK100_LITERAL;
+              String literal = genJDKLevel.getLiteral();
+              if (literal.equals(complianceLevel) || literal.endsWith(".0") && literal.substring(0, literal.length() - 2).equals(complianceLevel))
+              {
+                return genJDKLevel;
+              }
             }
           }
         }
