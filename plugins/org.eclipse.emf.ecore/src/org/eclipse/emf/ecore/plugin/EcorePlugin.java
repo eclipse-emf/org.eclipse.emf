@@ -32,15 +32,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.osgi.framework.BundleActivator;
-import org.osgi.framework.BundleContext;
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -63,6 +54,8 @@ import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.URIConverter;
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
 
 
 /**
@@ -368,43 +361,12 @@ public class EcorePlugin  extends EMFPlugin
       if (projects != null)
       {
         String pluginID = null;
-        
-        class Handler extends DefaultHandler
-        {
-          public String pluginID;
-
-          @Override
-          public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
-          {
-            if ("".equals(uri) && "plugin".equals(localName))
-            {
-              pluginID = attributes.getValue("id");
-            }
-            throw new SAXException("Done");
-          }
-        }
-        Handler handler = new Handler();
-        
-        SAXParserFactory parserFactory= SAXParserFactory.newInstance();
-        parserFactory.setNamespaceAware(true);
-        SAXParser parser = null;
-        
-        try
-        {
-          parser = parserFactory.newSAXParser();
-        }
-        catch (Exception exception)
-        {
-          INSTANCE.log(exception);
-        }
-        
         if (bundleSymbolNamePattern == null)
         {
           bundleSymbolNamePattern = Pattern.compile("^\\s*Bundle-SymbolicName\\s*:\\s*([^\\s;]*)\\s*(;.*)?$", Pattern.MULTILINE);
         }
-        
+
         byte [] bytes = NO_BYTES;
-        
         for (int i = 0, size = projects.length; i < size; ++i)
         {
           IProject project = projects[i];
@@ -450,29 +412,7 @@ public class EcorePlugin  extends EMFPlugin
                 }
               }
             }
-            else if (parser != null)
-            {
-              final IFile plugin = project.getFile("plugin.xml");
-              if (plugin.exists())
-              {
-                try
-                {
-                  parser.parse(new InputSource(plugin.getContents(true)), handler);
-                }
-                catch (Exception exception)
-                {
-                  if (handler.pluginID != null)
-                  {
-                    pluginID = handler.pluginID;
-                  }
-                  else
-                  {
-                    INSTANCE.log(exception);
-                  }
-                }
-              }
-            }
-            
+
             if (pluginID != null)
             {
               URI platformPluginURI = URI.createPlatformPluginURI(pluginID + "/", false);
