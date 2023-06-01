@@ -473,7 +473,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="xtext.latest.release.url"
-      value="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.30.0">
+      value="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.31.0">
     <description>The p2 update site URL for the last Xtext release.</description>
   </setupTask>
   <setupTask

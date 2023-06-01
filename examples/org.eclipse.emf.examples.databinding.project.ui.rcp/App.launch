@@ -1,71 +1,72 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.pde.ui.RuntimeWorkbench">
-<booleanAttribute key="append.args" value="true"/>
-<stringAttribute key="application" value="org.eclipse.emf.examples.databinding.project.ui.rcp.application"/>
-<booleanAttribute key="askclear" value="false"/>
-<booleanAttribute key="automaticAdd" value="false"/>
-<booleanAttribute key="automaticValidate" value="false"/>
-<stringAttribute key="bootstrap" value=""/>
-<stringAttribute key="checked" value="[NONE]"/>
-<booleanAttribute key="clearConfig" value="false"/>
-<booleanAttribute key="clearws" value="false"/>
-<booleanAttribute key="clearwslog" value="false"/>
-<stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/App"/>
-<booleanAttribute key="default" value="false"/>
-<setAttribute key="deselected_workspace_bundles"/>
-<booleanAttribute key="includeOptional" value="true"/>
-<stringAttribute key="location" value="${workspace_loc}/../runtime-org.eclipse.emf.examples.databinding.project.ui.rcp.application"/>
-<booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
-<stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JRE for JavaSE-11"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog"/>
-<stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
-<booleanAttribute key="pde.generated.config" value="false"/>
-<stringAttribute key="pde.version" value="3.3"/>
-<stringAttribute key="product" value="org.eclipse.emf.cdo.server.product"/>
-<setAttribute key="selected_target_bundles">
-<setEntry value="com.ibm.icu@default:default"/>
-<setEntry value="javax.servlet@default:default"/>
-<setEntry value="org.eclipse.ant.core@default:default"/>
-<setEntry value="org.eclipse.core.commands@default:default"/>
-<setEntry value="org.eclipse.core.contenttype@default:default"/>
-<setEntry value="org.eclipse.core.expressions@default:default"/>
-<setEntry value="org.eclipse.core.filesystem@default:default"/>
-<setEntry value="org.eclipse.core.jobs@default:default"/>
-<setEntry value="org.eclipse.core.resources@default:default"/>
-<setEntry value="org.eclipse.core.runtime@default:true"/>
-<setEntry value="org.eclipse.core.variables@default:default"/>
-<setEntry value="org.eclipse.equinox.app@default:default"/>
-<setEntry value="org.eclipse.equinox.common@2:true"/>
-<setEntry value="org.eclipse.equinox.ds@default:true"/>
-<setEntry value="org.eclipse.equinox.preferences@default:default"/>
-<setEntry value="org.eclipse.equinox.registry@default:default"/>
-<setEntry value="org.eclipse.help@default:default"/>
-<setEntry value="org.eclipse.jface@default:default"/>
-<setEntry value="org.eclipse.osgi.services@default:default"/>
-<setEntry value="org.eclipse.osgi@-1:true"/>
-<setEntry value="org.eclipse.swt@default:default"/>
-<setEntry value="org.eclipse.team.core@default:default"/>
-<setEntry value="org.eclipse.ui.forms@default:default"/>
-<setEntry value="org.eclipse.ui.workbench@default:default"/>
-<setEntry value="org.eclipse.ui@default:default"/>
-</setAttribute>
-<setAttribute key="selected_workspace_bundles">
-<setEntry value="org.eclipse.emf.common@default:default"/>
-<setEntry value="org.eclipse.emf.databinding.edit@default:default"/>
-<setEntry value="org.eclipse.emf.databinding@default:default"/>
-<setEntry value="org.eclipse.emf.ecore.change@default:default"/>
-<setEntry value="org.eclipse.emf.ecore.xmi@default:default"/>
-<setEntry value="org.eclipse.emf.ecore@default:default"/>
-<setEntry value="org.eclipse.emf.edit@default:default"/>
-<setEntry value="org.eclipse.emf.examples.databinding.project.core.model@default:default"/>
-<setEntry value="org.eclipse.emf.examples.databinding.project.core@default:default"/>
-<setEntry value="org.eclipse.emf.examples.databinding.project.ui.rcp@default:default"/>
-</setAttribute>
-<booleanAttribute key="show_selected_only" value="false"/>
-<booleanAttribute key="tracing" value="false"/>
-<booleanAttribute key="useCustomFeatures" value="false"/>
-<booleanAttribute key="useDefaultConfig" value="true"/>
-<booleanAttribute key="useDefaultConfigArea" value="true"/>
-<booleanAttribute key="useProduct" value="false"/>
-<booleanAttribute key="usefeatures" value="false"/>
+    <booleanAttribute key="append.args" value="true"/>
+    <stringAttribute key="application" value="org.eclipse.emf.examples.databinding.project.ui.rcp.application"/>
+    <booleanAttribute key="askclear" value="false"/>
+    <booleanAttribute key="automaticAdd" value="false"/>
+    <booleanAttribute key="automaticValidate" value="false"/>
+    <stringAttribute key="bootstrap" value=""/>
+    <stringAttribute key="checked" value="[NONE]"/>
+    <booleanAttribute key="clearConfig" value="false"/>
+    <booleanAttribute key="clearws" value="false"/>
+    <booleanAttribute key="clearwslog" value="false"/>
+    <stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/App"/>
+    <booleanAttribute key="default" value="false"/>
+    <setAttribute key="deselected_workspace_bundles"/>
+    <booleanAttribute key="includeOptional" value="true"/>
+    <stringAttribute key="location" value="${workspace_loc}/../runtime-org.eclipse.emf.examples.databinding.project.ui.rcp.application"/>
+    <booleanAttribute key="org.eclipse.debug.core.ATTR_FORCE_SYSTEM_CONSOLE_ENCODING" value="false"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_ATTR_USE_ARGFILE" value="false"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_SHOW_CODEDETAILS_IN_EXCEPTION_MESSAGES" value="true"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
+    <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JRE for JavaSE-11"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog"/>
+    <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
+    <booleanAttribute key="pde.generated.config" value="false"/>
+    <stringAttribute key="pde.version" value="3.3"/>
+    <stringAttribute key="product" value="org.eclipse.emf.cdo.server.product"/>
+    <setAttribute key="selected_target_bundles">
+        <setEntry value="com.ibm.icu*73.1.0@default:default"/>
+        <setEntry value="org.eclipse.ant.core@default:default"/>
+        <setEntry value="org.eclipse.core.commands@default:default"/>
+        <setEntry value="org.eclipse.core.contenttype@default:default"/>
+        <setEntry value="org.eclipse.core.expressions@default:default"/>
+        <setEntry value="org.eclipse.core.filesystem@default:default"/>
+        <setEntry value="org.eclipse.core.jobs@default:default"/>
+        <setEntry value="org.eclipse.core.resources@default:default"/>
+        <setEntry value="org.eclipse.core.runtime@default:true"/>
+        <setEntry value="org.eclipse.core.variables@default:default"/>
+        <setEntry value="org.eclipse.equinox.app@default:default"/>
+        <setEntry value="org.eclipse.equinox.common@2:true"/>
+        <setEntry value="org.eclipse.equinox.preferences@default:default"/>
+        <setEntry value="org.eclipse.equinox.registry@default:default"/>
+        <setEntry value="org.eclipse.help@default:default"/>
+        <setEntry value="org.eclipse.jface@default:default"/>
+        <setEntry value="org.eclipse.osgi.services@default:default"/>
+        <setEntry value="org.eclipse.osgi@-1:true"/>
+        <setEntry value="org.eclipse.swt@default:default"/>
+        <setEntry value="org.eclipse.team.core@default:default"/>
+        <setEntry value="org.eclipse.ui.forms@default:default"/>
+        <setEntry value="org.eclipse.ui.workbench@default:default"/>
+        <setEntry value="org.eclipse.ui@default:default"/>
+    </setAttribute>
+    <setAttribute key="selected_workspace_bundles">
+        <setEntry value="org.eclipse.emf.common@default:default"/>
+        <setEntry value="org.eclipse.emf.databinding.edit@default:default"/>
+        <setEntry value="org.eclipse.emf.databinding@default:default"/>
+        <setEntry value="org.eclipse.emf.ecore.change@default:default"/>
+        <setEntry value="org.eclipse.emf.ecore.xmi@default:default"/>
+        <setEntry value="org.eclipse.emf.ecore@default:default"/>
+        <setEntry value="org.eclipse.emf.edit@default:default"/>
+        <setEntry value="org.eclipse.emf.examples.databinding.project.core.model@default:default"/>
+        <setEntry value="org.eclipse.emf.examples.databinding.project.core@default:default"/>
+        <setEntry value="org.eclipse.emf.examples.databinding.project.ui.rcp@default:default"/>
+    </setAttribute>
+    <booleanAttribute key="show_selected_only" value="false"/>
+    <booleanAttribute key="tracing" value="false"/>
+    <booleanAttribute key="useCustomFeatures" value="false"/>
+    <booleanAttribute key="useDefaultConfig" value="true"/>
+    <booleanAttribute key="useDefaultConfigArea" value="true"/>
+    <booleanAttribute key="useProduct" value="false"/>
+    <booleanAttribute key="usefeatures" value="false"/>
 </launchConfiguration>
