@@ -1870,7 +1870,7 @@ public class EcoreValidator extends EObjectValidator
             // Don't complain about the literals if they are the same as the names and the names collide.
             //
             String name = eEnumLiteral.getName();
-            if (name != null && name.equals(literal) & name.equals(otherEEnumLiteral.getName()))
+            if (name != null && name.equals(literal) && name.equals(otherEEnumLiteral.getName()))
             {
               eEnumLiterals.remove(eEnumLiteral);
             }
