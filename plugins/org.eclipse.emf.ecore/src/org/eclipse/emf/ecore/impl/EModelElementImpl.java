@@ -433,7 +433,7 @@ public abstract class EModelElementImpl extends MinimalEObjectImpl.Container imp
             
             // Look for the annotation with the matching source.
             //
-            for (Object object : eContents())
+            for (EObject object : eContents())
             {
               if (object instanceof EAnnotation)
               {
@@ -481,7 +481,7 @@ public abstract class EModelElementImpl extends MinimalEObjectImpl.Container imp
   {
     // Look for a matching named element.
     //
-    for (Object object : eContents())
+    for (EObject object : eContents())
     {
       if (object instanceof ENamedElement)
       {

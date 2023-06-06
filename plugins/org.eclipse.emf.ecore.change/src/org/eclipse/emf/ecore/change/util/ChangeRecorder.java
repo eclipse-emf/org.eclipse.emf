@@ -225,7 +225,7 @@ public class ChangeRecorder extends BasicChangeRecorder implements Adapter.Inter
     ChangeDescription changeDescription = getChangeDescription();
     List<EObject> orphanedObjects = changeDescription.getObjectsToAttach();
     Set<Notifier> originalTargetObjects = new HashSet<Notifier>(this.originalTargetObjects);
-    for (Object target : targetObjects)
+    for (Notifier target : targetObjects)
     {
       if (target instanceof EObject)
       {

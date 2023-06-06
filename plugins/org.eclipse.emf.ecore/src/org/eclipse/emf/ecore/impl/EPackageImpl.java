@@ -220,7 +220,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     //
     if (uri != null && eClassifiers != null)
     {
-      for (Object eClassifier : eClassifiers)
+      for (EClassifier eClassifier : eClassifiers)
       {
         if (eClassifier instanceof EClassifierImpl)
         {
