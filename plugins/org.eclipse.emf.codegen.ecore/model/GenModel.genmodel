@@ -89,6 +89,7 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF232"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF233"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF234"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF235"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="GenModel.ecore#//GenRuntimePlatform">
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimePlatform/IDE"/>
@@ -129,6 +130,7 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2022_12"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2023_03"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2023_06"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2023_09"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="GenModel.ecore#//GenCodeStyle">
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenCodeStyle/UnnecessaryElse"/>

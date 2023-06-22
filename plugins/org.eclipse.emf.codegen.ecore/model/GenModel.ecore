@@ -713,6 +713,11 @@
         <details key="documentation" value="@since 2.34"/>
       </eAnnotations>
     </eLiterals>
+    <eLiterals name="EMF235" value="33" literal="2.35">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.35"/>
+      </eAnnotations>
+    </eLiterals>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="GenRuntimePlatform">
     <eLiterals name="IDE"/>
@@ -834,6 +839,11 @@
     <eLiterals name="Eclipse_2023_06" value="26" literal="2023-06">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="@since 2.34"/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="Eclipse_2023_09" value="28" literal="2023-09">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="@since 2.35"/>
       </eAnnotations>
     </eLiterals>
   </eClassifiers>

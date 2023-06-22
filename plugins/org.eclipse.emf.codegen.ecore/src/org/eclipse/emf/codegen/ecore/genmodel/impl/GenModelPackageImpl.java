@@ -3062,6 +3062,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF232);
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF233);
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF234);
+    addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF235);
 
     initEEnum(genRuntimePlatformEEnum, GenRuntimePlatform.class, "GenRuntimePlatform");
     addEEnumLiteral(genRuntimePlatformEEnum, GenRuntimePlatform.IDE);
@@ -3102,6 +3103,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2022_12);
     addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2023_03);
     addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2023_06);
+    addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2023_09);
 
     initEEnum(genCodeStyleEEnum, GenCodeStyle.class, "GenCodeStyle");
     addEEnumLiteral(genCodeStyleEEnum, GenCodeStyle.UNNECESSARY_ELSE);
