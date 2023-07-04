@@ -512,9 +512,9 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
     if (instanceValue == null) return null;
     if (instanceValue.isEmpty()) return "";
     StringBuilder result = new StringBuilder();
-    for (Object item : instanceValue)
+    for (String item : instanceValue)
     {
-      result.append(convertENTITY((String)item));
+      result.append(convertENTITY(item));
       result.append(' ');
     }
     return result.substring(0, result.length() - 1);
@@ -949,9 +949,9 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
     if (instanceValue == null) return null;
     if (instanceValue.isEmpty()) return "";
     StringBuilder result = new StringBuilder();
-    for (Object item : instanceValue)
+    for (String item : instanceValue)
     {
-      result.append(convertIDREF((String)item));
+      result.append(convertIDREF(item));
       result.append(' ');
     }
     return result.substring(0, result.length() - 1);
@@ -1264,9 +1264,9 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
     if (instanceValue == null) return null;
     if (instanceValue.isEmpty()) return "";
     StringBuilder result = new StringBuilder();
-    for (Object item : instanceValue)
+    for (String item : instanceValue)
     {
-      result.append(convertNMTOKEN((String)item));
+      result.append(convertNMTOKEN(item));
       result.append(' ');
     }
     return result.substring(0, result.length() - 1);
