@@ -129,7 +129,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     getEAllReferences();
     getEAllContainments();
     getEAllOperations();
-    getEAllStructuralFeatures();
+    ((FeatureSubsetSupplier)getEAllStructuralFeatures()).containments();
     getEAllSuperTypes();
     getEAllGenericSuperTypes();
 
