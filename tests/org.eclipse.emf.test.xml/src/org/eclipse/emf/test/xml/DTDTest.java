@@ -45,6 +45,7 @@ public class DTDTest
   public void setUp() throws Exception
   {
     resourceSet = new ResourceSetImpl();
+    resourceSet.getLoadOptions().put(XMLResource.OPTION_RESOLVE_ENTITIES, Boolean.TRUE);
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put
       (Resource.Factory.Registry.DEFAULT_EXTENSION, new GenericXMLResourceFactoryImpl());
   }

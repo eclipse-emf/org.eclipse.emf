@@ -14,6 +14,7 @@ package org.eclipse.emf.ecore.xmi.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -346,6 +347,11 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   protected XMLResource.MissingPackageHandler missingPackageHandler;
 
   /**
+   * @since 2.35
+   */
+  protected boolean resolveEntities;
+
+  /**
    */
   public XMLHandler(XMLResource xmlResource, XMLHelper helper, Map<?, ?> options)
   {
@@ -509,6 +515,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
     usePackageNsURIAsLocation = !Boolean.FALSE.equals(options.get(XMLResource.OPTION_USE_PACKAGE_NS_URI_AS_LOCATION));
     missingPackageHandler = (XMLResource.MissingPackageHandler)options.get(XMLResource.OPTION_MISSING_PACKAGE_HANDLER);
+    resolveEntities = Boolean.TRUE.equals(options.get(XMLResource.OPTION_RESOLVE_ENTITIES));
   }
 
   protected void setExtendedMetaDataOption(Object extendedMetaDataOption)
@@ -804,6 +811,11 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   @Override
   public InputSource resolveEntity(String publicId, String systemId) throws SAXException
   {
+    if (!resolveEntities)
+    {
+      return new InputSource(new StringReader("")); //$NON-NLS-1$
+    }
+
     try
     {
       Map<Object, Object> options = new HashMap<Object, Object>();
