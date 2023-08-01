@@ -13,9 +13,13 @@ package org.eclipse.emf.test.xml.xmi;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import java.io.FileNotFoundException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.Collections;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -49,6 +53,7 @@ import org.xml.sax.InputSource;
 
 public class URIHandlerTest
 {
+  final static String BASE_XMI_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xmi/";
   final static String BASE_XML_URI = TestUtil.getPluginDirectory(AllSuites.PLUGIN_ID) + "/data/xml/";
   final static String LF = System.getProperty("line.separator");
 
@@ -168,5 +173,33 @@ public class URIHandlerTest
     Writer reloadedFirstAuthor = reloadedMainLibrary.getWriters().get(0);
     Book reloadedFirstBook = reloadedFirstAuthor.getBooks().get(0);
     assertEquals(firstLibraryResource.getURI(), reloadedFirstBook.eResource().getURI());
+  }
+
+  @Test
+  public void testEntityResolver() throws Exception
+  {
+    // Expecting external entities not to be resolved by default.
+    // So the redirection of that external reference to a non-existent location should not result in a file not found exception.
+    //
+    resourceSet.getURIConverter().getURIMap().put(URI.createFileURI(BASE_XMI_URI + "/root.dtd"), URI.createFileURI(BASE_XMI_URI + "/not-found.dtd"));
+    Resource resource = resourceSet.getResource(URI.createFileURI(BASE_XMI_URI + "/test-with-external-entity.xmi"), true);
+
+    try
+    {
+      // Load it again, but resolving external entities.
+      //
+      resource.unload();
+      resource.load(Collections.singletonMap(XMLResource.OPTION_RESOLVE_ENTITIES, Boolean.TRUE));
+
+      // We should not get here, we should get an exception.
+      //
+      fail("Expecting the URI to be loaded to the redirected bogus location, causing a FileNotFoundException");
+    }
+    catch (FileNotFoundException ex)
+    {
+      // The exception should refer to the redirected URI.
+      //
+      assertTrue("Expecting the entity reference to be loaded to the redirected bogus location", ex.toString().contains("not-found.dtd"));
+    }
   }
 }

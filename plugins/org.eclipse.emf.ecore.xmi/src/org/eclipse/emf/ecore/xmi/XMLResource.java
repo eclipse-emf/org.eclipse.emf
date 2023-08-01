@@ -563,6 +563,13 @@ public interface XMLResource extends Resource
    */
   String OPTION_MISSING_PACKAGE_HANDLER = "MISSING_PACKAGE_HANDLER";
 
+  /**
+   * A load option that specifies whether external entities should be resolved during XML loading.
+   * The default value is false.
+   * @since 2.35
+   */
+  String OPTION_RESOLVE_ENTITIES = "RESOLVED_ENTITIES";
+
   String HREF = "href";
   String NIL = "nil";
   String TYPE = "type";
