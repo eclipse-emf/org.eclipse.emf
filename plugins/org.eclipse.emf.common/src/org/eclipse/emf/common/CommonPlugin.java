@@ -610,7 +610,7 @@ public final class CommonPlugin extends EMFPlugin
           @Override
           void visitActiveModel(Object activeModel, BundleDescription bundleDescription, URI location)
           {
-            String symbolicName = bundleDescription.getSymbolicName();
+            String symbolicName = bundleDescription == null ? null : bundleDescription.getSymbolicName();
             if (symbolicName != null && location != null)
             {
               result.put(symbolicName, location);
@@ -628,7 +628,7 @@ public final class CommonPlugin extends EMFPlugin
           @Override
           void visitActiveModel(Object activeModel, BundleDescription bundleDescription, URI location)
           {
-            String symbolicName = bundleDescription.getSymbolicName();
+            String symbolicName = bundleDescription == null ? null : bundleDescription.getSymbolicName();
 
             // Iterate over the plugin's extensions...
             //
@@ -639,7 +639,7 @@ public final class CommonPlugin extends EMFPlugin
             Object[] pluginExtensions = invoke(extensions, EXTENSIONS_GET_EXTENSIONS_METHOD);
             if (pluginExtensions.length == 0)
             {
-              if (extensionPoints != null)
+              if (extensionPoints != null && bundleDescription != null)
               {
                 if (extensionPoints.contains(ECORE_GENERATED_PACKAGE))
                 {
