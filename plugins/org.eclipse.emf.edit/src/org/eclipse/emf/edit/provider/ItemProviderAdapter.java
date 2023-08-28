@@ -2126,6 +2126,7 @@ public class ItemProviderAdapter
         if (f instanceof EAttribute)
         {
           wrappingNeeded = Boolean.TRUE;
+          break;
         }
       }
     }
