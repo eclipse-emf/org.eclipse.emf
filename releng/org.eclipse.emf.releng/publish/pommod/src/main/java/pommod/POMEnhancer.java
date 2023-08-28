@@ -181,7 +181,7 @@ public class POMEnhancer
         Path publishPath = path.getParent().resolve(pomFileName.substring(0, pomFileName.length() - 3) + "publish");
 
         String javadocWindowTitle = getJavadocWindowTitle(name, version);
-        String javadocFooter = getJavadocFooter(name);
+        String javadocFooter = getJavadocFooter();
         savePublish(publishPath.toFile(), javadocWindowTitle, javadocFooter);
       }
 
@@ -206,12 +206,10 @@ public class POMEnhancer
     }
   }
 
-  protected String getJavadocFooter(String string)
+  protected String getJavadocFooter()
   {
-    String product = string.startsWith("XSD") ? "MDT.XSD" : "EMF";
     return "<font size=\"-1\">Copyright &copy; " + YEAR
-        + ". Licensed under the <a href=\"https://www.eclipse.org/legal/epl-2.0/\">Eclipse Public License v2.0</a>. All rights reserved.<br/><a href=\"https://bugs.eclipse.org/bugs/enter_bug.cgi?product="
-        + product + "\">Submit a bug or feature</a><br/></font>";
+        + ". Licensed under the <a href=\"https://www.eclipse.org/legal/epl-2.0/\">Eclipse Public License v2.0</a>. All rights reserved.<br/><a href=\"https://github.com/eclipse-emf/org.eclipse.emf/issues\">Submit an issue</a><br/></font>";
   }
 
   protected Model load(File file)
