@@ -1,43 +1,19 @@
+<img src="https://eclipse.dev/modeling/emf/images/emf_logo.png" width="20%">
+
 # Contributing to Eclipse EMF
 
 Thanks for your interest in this project.
 
-## Project description
+## Creating an Eclipse Development Environment
 
-Eclipse EMF is a modeling framework and code generation facility for building
-tools and other applications based on a structured data model. From a model
-specification described in XMI, EMF provides tools and runtime support to
-produce a set of Java classes for the model, a set of adapter classes that
-enable viewing and command-based editing of the model, and a basic editor.
-Models can be specified using annotated Java, XML documents, or modeling tools
-like Rational Rose, then imported into EMF. Most important of all, EMF provides
-the foundation for interoperability with other EMF-based tools and applications.
+You can set up a pre-configured IDE for the development of EMF and XSD using the following link.
 
-Eclipse XSD is a library that provides an API for manipulating the components of
-an XML Schema as described by the W3C XML Schema specifications, as well as an
-API for manipulating the DOM-accessible representation of XML.
+[![Create Eclipse Development Environment for EMF(https://download.eclipse.org/oomph/www/setups/svg/emf.svg)](https://www.eclipse.org/setups/installer/?url=https://raw.githubusercontent.com/eclipse-emf/org.eclipse.emf/master/releng/org.eclipse.emf.releng/EMFDevelopmentEnvironmentConfiguration.setup&show=true "Click to open Eclipse-Installer Auto Launch or drag onto your running installer's title area")
 
-* https://www.eclipse.org/modeling/emf/
-* https://projects.eclipse.org/projects/modeling.emf.emf
+[![Create Eclipse Development Environment for Oomph](https://download.eclipse.org/oomph/www/setups/svg/oomph.svg)](https://www.eclipse.org/setups/installer/?url=https://raw.githubusercontent.com/eclipse-emf/org.eclipse.emf/master/releng/org.eclipse.emf.releng/EMFDevelopmentEnvironmentConfiguration.setup&show=true "Click to open Eclipse-Installer Auto Launch or drag onto your running installer's title area")
+
 
 ## Developer resources
-
-Information regarding source code management, builds, coding standards, and
-more.
-
-* https://projects.eclipse.org/projects/modeling.emf.emf/developer
-
-The project maintains the following source code repositories
-
-* https://github.com/eclipse-emf/org.eclipse.emf
-
-This project uses Bugzilla to track ongoing development and issues.
-
-* Search for issues: https://bugs.eclipse.org/bugs/buglist.cgi?product=EMF
-* Create a new report: https://bugs.eclipse.org/bugs/enter_bug.cgi?product=EMF
-
-Be sure to search for existing bugs before you create another one. Remember that
-contributions are always welcome!
 
 This project is built using Maven/Tycho.
 Instructions for setting up a development environment and for replicating the build locally are provided here:
