@@ -473,13 +473,13 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="xtext.latest.release.url"
-      value="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.31.0">
+      value="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.32.0">
     <description>The p2 update site URL for the last Xtext release.</description>
   </setupTask>
   <setupTask
       xsi:type="setup:VariableTask"
       name="mwe.latest.release.url"
-      value="https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.14.0">
+      value="https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.15.0">
     <description>The p2 update site URL for the last MWE release.</description>
   </setupTask>
   <setupTask
