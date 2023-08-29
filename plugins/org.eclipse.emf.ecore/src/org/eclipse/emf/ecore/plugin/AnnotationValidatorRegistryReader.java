@@ -47,7 +47,7 @@ class AnnotationValidatorRegistryReader extends RegistryReader
           Object result = field.get(null);
           return (EAnnotationValidator)result;
         }
-        catch (NoSuchFieldError e)
+        catch (NoSuchFieldException e)
         {
           // If not, create a new instance.
           return (EAnnotationValidator) javaClass.getDeclaredConstructor().newInstance();
@@ -58,10 +58,6 @@ class AnnotationValidatorRegistryReader extends RegistryReader
         throw new WrappedException(e);
       }
       catch (IllegalAccessException e)
-      {
-        throw new WrappedException(e);
-      }
-      catch (NoSuchFieldException e)
       {
         throw new WrappedException(e);
       }
