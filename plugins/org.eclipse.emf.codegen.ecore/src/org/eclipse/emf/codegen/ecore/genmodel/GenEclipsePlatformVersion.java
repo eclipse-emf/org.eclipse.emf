@@ -357,7 +357,19 @@ public enum GenEclipsePlatformVersion implements Enumerator
    * @generated
    * @ordered
    */
-  ECLIPSE_2023_09(28, "Eclipse_2023_09", "2023-09");
+  ECLIPSE_2023_09(27, "Eclipse_2023_09", "2023-09"),
+  /**
+   * The '<em><b>Eclipse 2023 12</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.36
+   * <!-- end-model-doc -->
+   * @see #ECLIPSE_2023_12_VALUE
+   * @generated
+   * @ordered
+   */
+  ECLIPSE_2023_12(28, "Eclipse_2023_12", "2023-12");
 
   /**
    * The '<em><b>Juno</b></em>' literal value.
@@ -728,7 +740,21 @@ public enum GenEclipsePlatformVersion implements Enumerator
    * @generated
    * @ordered
    */
-  public static final int ECLIPSE_2023_09_VALUE = 28;
+  public static final int ECLIPSE_2023_09_VALUE = 27;
+
+  /**
+   * The '<em><b>Eclipse 2023 12</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.36
+   * <!-- end-model-doc -->
+   * @see #ECLIPSE_2023_12
+   * @model name="Eclipse_2023_12" literal="2023-12"
+   * @generated
+   * @ordered
+   */
+  public static final int ECLIPSE_2023_12_VALUE = 28;
 
   /**
    * An array of all the '<em><b>Gen Eclipse Platform Version</b></em>' enumerators.
@@ -767,6 +793,7 @@ public enum GenEclipsePlatformVersion implements Enumerator
       ECLIPSE_2023_03,
       ECLIPSE_2023_06,
       ECLIPSE_2023_09,
+      ECLIPSE_2023_12,
     };
 
   /**
@@ -859,6 +886,7 @@ public enum GenEclipsePlatformVersion implements Enumerator
       case ECLIPSE_2023_03_VALUE: return ECLIPSE_2023_03;
       case ECLIPSE_2023_06_VALUE: return ECLIPSE_2023_06;
       case ECLIPSE_2023_09_VALUE: return ECLIPSE_2023_09;
+      case ECLIPSE_2023_12_VALUE: return ECLIPSE_2023_12;
     }
     return null;
   }
