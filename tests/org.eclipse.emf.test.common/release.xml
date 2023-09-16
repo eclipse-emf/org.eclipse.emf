@@ -8,7 +8,7 @@
 		<plugin name="org.eclipse.emf.test.core" version="2.29.0"/>
 		<plugin name="org.eclipse.emf.test.edit" version="2.13.0"/>
 		<plugin name="org.eclipse.emf.test.tools" version="2.19.0"/>
-		<plugin name="org.eclipse.emf.test.xml" version="2.15.0"/>
+		<plugin name="org.eclipse.emf.test.xml" version="2.16.0"/>
 		<plugin name="org.eclipse.emf.test.examples" version="2.12.0"/>
 		<plugin name="org.eclipse.emf.test.databinding" version="1.7.0"/>
 		<plugin name="org.eclipse.emf.test.databinding.edit" version="1.6.0"/>
@@ -24,6 +24,6 @@
 	<plugin name="org.eclipse.emf.test.edit.ui.rap" version="2.12.0"/>
 	<plugin name="org.eclipse.emf.test.examples" version="2.12.0"/>
 	<plugin name="org.eclipse.emf.test.tools" version="2.19.0"/>
-	<plugin name="org.eclipse.emf.test.xml" version="2.15.0"/>
+	<plugin name="org.eclipse.emf.test.xml" version="2.16.0"/>
 	<plugin name="org.eclipse.emf.tests" version="2.9.0"/>
 </release>
