@@ -408,7 +408,7 @@ public class XMLString extends StringSegment
 
   public void endEmptyElement()
   {
-    removeLast();
+    removeLastElement();
     add("/>");
     if (!isMixed)
     {
@@ -422,7 +422,7 @@ public class XMLString extends StringSegment
     add(">");
     add(content);
     add("</");
-    String name = removeLast();
+    String name = removeLastElement();
     add(name);
     add(">");
     if (!isMixed)
@@ -441,7 +441,7 @@ public class XMLString extends StringSegment
     else
     {
       boolean wasMixed = isMixed;
-      String name = removeLast();
+      String name = removeLastElement();
       if (name != null)
       {
         if (!wasMixed)
@@ -460,7 +460,7 @@ public class XMLString extends StringSegment
     }
   }
 
-  protected String removeLast()
+  protected String removeLastElement()
   {
     int end = elementNames.size();
     isMixed = mixed.remove(end - 1);
