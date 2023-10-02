@@ -460,6 +460,11 @@ public class XMLString extends StringSegment
     }
   }
 
+  /**
+   * This was renamed from <code>removeLast</code> because Java 21 provides a public default method <code>List.removeLast</code> with a different return type.
+   *
+   * @since 2.36
+   */
   protected String removeLastElement()
   {
     int end = elementNames.size();
