@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
@@ -138,6 +139,8 @@ public final class ColumnResizer
 
   private static abstract class ColumnResizerHandler<T extends Composite, C extends Item> extends Handler implements ControlListener
   {
+    private static int PADDING = SWT.getPlatform().equals("cocoa") ? 28 : 10;
+
     private final T control;
 
     private final ParentHandler parentHandler;
@@ -216,7 +219,7 @@ public final class ColumnResizer
             int limit = columns.size() - 1;
             for (int i = 0; i < limit; ++i)
             {
-              int width = packedColumnWidths.get(i) + 10;
+              int width = packedColumnWidths.get(i) + PADDING;
               total += width;
               setWidth(columns.get(i), width);
             }
