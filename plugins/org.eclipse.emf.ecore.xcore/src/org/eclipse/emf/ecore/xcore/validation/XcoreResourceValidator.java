@@ -10,7 +10,6 @@ package org.eclipse.emf.ecore.xcore.validation;
 
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -33,6 +32,8 @@ import org.eclipse.xtext.validation.Issue;
 import org.eclipse.xtext.validation.ResourceValidatorImpl;
 import org.eclipse.xtext.validation.impl.ConcreteSyntaxEValidator;
 import org.eclipse.xtext.xbase.annotations.validation.DerivedStateAwareResourceValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
@@ -45,7 +46,7 @@ public class XcoreResourceValidator extends DerivedStateAwareResourceValidator
     public abstract void update(Diagnostic diagnostic);
   }
 
-  private static final Logger log = Logger.getLogger(ResourceValidatorImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(ResourceValidatorImpl.class);
 
   @Inject
   private Diagnostician diagnostician;
