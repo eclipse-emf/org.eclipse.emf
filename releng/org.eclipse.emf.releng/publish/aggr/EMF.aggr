@@ -59,7 +59,6 @@
       <mavenMappings namePattern="org.eclipse.ant.core" groupId="org.eclipse.platform" artifactId="org.eclipse.ant.core"/>
       <mavenMappings namePattern="org.eclipse.debug.(.*)" groupId="org.eclipse.platform" artifactId="org.eclipse.debug.$1"/>
       <mavenMappings namePattern="org.eclipse.core.(.*)" groupId="org.eclipse.platform" artifactId="org.eclipse.core.$1"/>
-      <mavenMappings namePattern="org.apache.log4j" groupId="log4j" artifactId="log4j"/>
       <mavenMappings namePattern="org.antlr.runtime" groupId="org.antlr" artifactId="antlr-runtime" versionPattern="3.2" versionTemplate=".*"/>
       <mavenMappings namePattern="org.objectweb.asm" groupId="org.ow2.asm" artifactId="asm"/>
     </contributions>

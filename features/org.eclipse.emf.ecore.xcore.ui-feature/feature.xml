@@ -48,7 +48,6 @@ http://www.eclipse.org/legal/epl-v20.html
       <import plugin="org.eclipse.emf.ecore.editor"/>
       <import plugin="org.eclipse.jdt.core"/>
       <import plugin="org.eclipse.emf.codegen.ecore.ui"/>
-      <import plugin="org.apache.log4j"/>
       <import plugin="org.eclipse.emf.codegen.ecore.xtext"/>
    </requires>
 
