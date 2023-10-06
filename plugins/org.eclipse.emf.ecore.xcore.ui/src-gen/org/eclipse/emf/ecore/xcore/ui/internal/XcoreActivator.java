@@ -8,13 +8,14 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import java.util.Collections;
 import java.util.Map;
-import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.xcore.XcoreRuntimeModule;
 import org.eclipse.emf.ecore.xcore.ui.XcoreUiModule;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.ui.shared.SharedStateModule;
 import org.eclipse.xtext.util.Modules2;
 import org.osgi.framework.BundleContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class was generated. Customizations should only happen in a newly
@@ -25,7 +26,7 @@ public class XcoreActivator extends AbstractUIPlugin {
 	public static final String PLUGIN_ID = "org.eclipse.emf.ecore.xcore.ui";
 	public static final String ORG_ECLIPSE_EMF_ECORE_XCORE_XCORE = "org.eclipse.emf.ecore.xcore.Xcore";
 	
-	private static final Logger logger = Logger.getLogger(XcoreActivator.class);
+	private static final Logger logger = LoggerFactory.getLogger(XcoreActivator.class);
 	
 	private static XcoreActivator INSTANCE;
 	

@@ -20,7 +20,6 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -41,11 +40,13 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.osgi.framework.Bundle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class XcoreClasspathUpdater
 {
-  private static final Logger LOG = Logger.getLogger(XcoreClasspathUpdater.class);
+  private static final Logger LOG = LoggerFactory.getLogger(XcoreClasspathUpdater.class);
 
   private static final String PLUGIN_NATURE = "org.eclipse.pde.PluginNature";
 
