@@ -17,6 +17,8 @@
 
       <unit id="org.eclipse.nebula.widgets.cdatetime" version="0.0.0"/>
 
+      <unit id="org.slf4j.api" version="0.0.0"/>
+
       <unit id="org.eclipse.xtext.generator" version="0.0.0"/> 
 
       <repository location="https://download.eclipse.org/eclipse/updates/4.28/R-4.28-202306050440"/>
