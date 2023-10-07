@@ -1260,7 +1260,7 @@
         <requirement
             name="com.google.guava"/>
         <requirement
-            name="org.eclipse.xtext.generator"/>
+            name="org.eclipse.xtext.xtext.generator"/>
         <sourceLocator
             rootFolder="${emf.github.clone.location}"
             locateNestedProjects="true">
