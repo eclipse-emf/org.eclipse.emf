@@ -32,9 +32,7 @@ def targetPlatformToJavaVersionMap = [
 def targetPlatforms = targetPlatformToJavaVersionMap.keySet() as List
 
 pipeline {
-  agent {
-    label 'centos-latest'
-  }
+  agent any
 
   options {
     buildDiscarder(logRotator(numToKeepStr: '10'))

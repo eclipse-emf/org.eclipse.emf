@@ -1,2 +1,4 @@
-requires.1.name = org.eclipse.sdk.feature.group
+requires.1.name = org.eclipse.pde.feature.group
 requires.1.namespace = org.eclipse.equinox.p2.iu
+requires.2.name = org.eclipse.osgi.compatibility.state
+requires.2.namespace = org.eclipse.equinox.p2.iu

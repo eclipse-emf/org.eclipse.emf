@@ -47,7 +47,7 @@ public class StringPoolTest
     try
     {
       // If the garbage collector a chance to enqueue the stale entries.
-      Thread.sleep(1000);
+      Thread.sleep(2000);
     }
     catch (InterruptedException e)
     {
