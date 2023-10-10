@@ -35,7 +35,7 @@ pipeline {
   agent any
 
   options {
-    buildDiscarder(logRotator(numToKeepStr: '10'))
+    buildDiscarder(logRotator(numToKeepStr: '30'))
     disableConcurrentBuilds()
     skipDefaultCheckout false
   }
