@@ -26,7 +26,6 @@ def targetPlatformToJavaVersionMap = [
   'neon'    : '1.8',
   'mars'    : '1.8',
   'luna'    : '1.8',
-  'kepler'  : '1.8'
 ]
 
 def targetPlatforms = targetPlatformToJavaVersionMap.keySet() as List
