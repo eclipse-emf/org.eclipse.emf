@@ -268,7 +268,7 @@ public class MoveCommand extends AbstractOverrideableCommand
    * </p>
    *
    * @since 2.15
-   * @returns {@code true} if the {@code value} and {@code oldIndex} are valid with respect to the {@code ownerList}.
+   * @return {@code true} if the {@code value} and {@code oldIndex} are valid with respect to the {@code ownerList}.
    */
   protected boolean prepareValue()
   {
