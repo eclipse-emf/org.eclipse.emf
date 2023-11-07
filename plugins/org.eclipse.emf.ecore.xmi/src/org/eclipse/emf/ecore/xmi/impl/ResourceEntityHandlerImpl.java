@@ -33,7 +33,6 @@ public class ResourceEntityHandlerImpl extends URIHandlerImpl implements XMLReso
   /**
    * Creates an instance that will generate entity names based on the given entity name 
    * followed by the {@link #count} starting from 1 to ensure uniqueness.
-   * @param entityName
    */
   public ResourceEntityHandlerImpl(String entityName)
   {
@@ -90,7 +89,6 @@ public class ResourceEntityHandlerImpl extends URIHandlerImpl implements XMLReso
 
   /**
    * Sets the base URI by calling super.
-   * @param uri
    */
   protected void doSetBaseURI(URI uri)
   {

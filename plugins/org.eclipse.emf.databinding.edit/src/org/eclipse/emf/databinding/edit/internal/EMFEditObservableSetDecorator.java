@@ -31,11 +31,6 @@ public class EMFEditObservableSetDecorator extends EMFObservableSetDecorator imp
 {
   private final EditingDomain editingDomain;
 
-  /**
-   * @param editingDomain
-   * @param decorated
-   * @param eStructuralFeature
-   */
   public EMFEditObservableSetDecorator(EditingDomain editingDomain, IObservableSet decorated, EStructuralFeature eStructuralFeature)
   {
     super(decorated, eStructuralFeature);

@@ -351,8 +351,6 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
    */
   protected boolean resolveEntities;
 
-  /**
-   */
   public XMLHandler(XMLResource xmlResource, XMLHelper helper, Map<?, ?> options)
   {
     this.xmlResource = xmlResource;

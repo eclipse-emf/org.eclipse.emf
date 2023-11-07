@@ -551,9 +551,6 @@ static class Match implements Cloneable {
     public Match() {
     }
 
-    /**
-     *
-     */
     public synchronized Object clone() {
         Match ma = new Match();
         if (this.nofgroups > 0) {
@@ -568,9 +565,6 @@ static class Match implements Cloneable {
         return ma;
     }
 
-    /**
-     *
-     */
     protected void setNumberOfGroups(int n) {
         int oldn = this.nofgroups;
         this.nofgroups = n;
@@ -585,41 +579,26 @@ static class Match implements Cloneable {
         }
     }
 
-    /**
-     *
-     */
     protected void setSource(CharacterIterator ci) {
         this.ciSource = ci;
         this.strSource = null;
         this.charSource = null;
     }
-    /**
-     *
-     */
     protected void setSource(String str) {
         this.ciSource = null;
         this.strSource = str;
         this.charSource = null;
     }
-    /**
-     *
-     */
     protected void setSource(char[] chars) {
         this.ciSource = null;
         this.strSource = null;
         this.charSource = chars;
     }
 
-    /**
-     *
-     */
     protected void setBeginning(int index, int v) {
         this.beginpos[index] = v;
     }
 
-    /**
-     *
-     */
     protected void setEnd(int index, int v) {
         this.endpos[index] = v;
     }
@@ -939,9 +918,6 @@ public static class ParseException extends RuntimeException {
         this(mes, -1);
     }
     */
-    /**
-     *
-     */
     public ParseException(String mes, int location) {
         super(mes);
         this.location = location;
@@ -3106,8 +3082,6 @@ static class RegexParser {
         return tok;
     }
 
-    /**
-     */
     int decodeEscaped() throws ParseException {
         if (this.read() != T_BACKSOLIDUS)  throw ex("parser.next.1", this.offset-1);
         int c = this.chardata;
@@ -5500,9 +5474,6 @@ public static class RegularExpression implements java.io.Serializable {
         this.hasBackReferences = hasBackReferences;
     }
 
-    /**
-     *
-     */
     public void setPattern(String newPattern) throws ParseException {
         this.setPattern(newPattern, Locale.getDefault());
     }
@@ -5523,9 +5494,6 @@ public static class RegularExpression implements java.io.Serializable {
         this.operations = null;
         this.context = null;
     }
-    /**
-     *
-     */
     public void setPattern(String newPattern, String options) throws ParseException {
         this.setPattern(newPattern, options, Locale.getDefault());
     }
@@ -5534,9 +5502,6 @@ public static class RegularExpression implements java.io.Serializable {
         this.setPattern(newPattern, REUtil.parseOptions(options), locale);
     }
 
-    /**
-     *
-     */
     public String getPattern() {
         return this.regex;
     }
@@ -5575,9 +5540,6 @@ public static class RegularExpression implements java.io.Serializable {
         return this.regex.equals(pattern) && this.options == options;
     }
 
-    /**
-     *
-     */
     public int hashCode() {
         return (this.regex+"/"+this.getOptions()).hashCode();
     }
@@ -5585,7 +5547,6 @@ public static class RegularExpression implements java.io.Serializable {
     /**
      * Return the number of regular expression groups.
      * This method returns 1 when the regular expression has no capturing-parenthesis.
-     *
      */
     public int getNumberOfGroups() {
         return this.nofparen;
@@ -5983,9 +5944,6 @@ final static class REUtil {
 
     // ================================================================
 
-    /**
-     *
-     */
     public static String quoteMeta(String literal) {
         int len = literal.length();
         StringBuffer buffer = null;

@@ -36,7 +36,6 @@ public class XMIResourceImpl extends XMLResourceImpl implements XMIResource
 
   /**
    * Constructor for XMIResourceImpl.
-   * @param uri
    */
   public XMIResourceImpl(URI uri)
   {

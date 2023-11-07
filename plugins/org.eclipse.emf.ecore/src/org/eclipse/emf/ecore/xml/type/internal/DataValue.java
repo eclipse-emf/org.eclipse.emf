@@ -264,7 +264,6 @@ public static final class  Base64 {
   /**
    * Decodes Base64 data into octects
    *
-   * @param encoded
    * @return Array containind decoded data.
    */
   public static byte[] decode(String encoded) {

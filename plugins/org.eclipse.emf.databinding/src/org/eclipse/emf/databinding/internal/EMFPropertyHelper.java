@@ -25,7 +25,6 @@ public class EMFPropertyHelper
 {
 
   /**
-   * @param eStructuralFeature
    * @return String description of property descriptor
    */
   public static String propertyName(EStructuralFeature eStructuralFeature)
@@ -34,7 +33,6 @@ public class EMFPropertyHelper
   }
 
   /**
-   * @param eStructuralFeature
    * @return class name excluding package
    */
   public static String shortClassName(EStructuralFeature eStructuralFeature)

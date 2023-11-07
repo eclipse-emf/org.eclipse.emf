@@ -27,7 +27,6 @@ import org.eclipse.emf.common.CommonPlugin;
  * It is very convenient to use prepare, as it is guaranteed to be called only once just before canExecute is to be tested.
  * It can be implemented to create any additional commands that need to be executed, 
  * and the result it yields becomes the permanent cached return value for canExecute.
- *
  */
 public abstract class AbstractCommand implements Command 
 {

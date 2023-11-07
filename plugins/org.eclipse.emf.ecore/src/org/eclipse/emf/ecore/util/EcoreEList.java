@@ -35,7 +35,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * A {@link NotifyingInternalEListImpl notifying internal EList} that implements {@link InternalEList} and {@link org.eclipse.emf.ecore.EStructuralFeature.Setting}.
  * At least one of {@link #getEStructuralFeature()} or {@link #getFeatureID()} must be specialized
  * since each delegates to the other and without specialization this will lead to stack overflow.
- * @param <E>
  */
 public abstract class EcoreEList<E> extends NotifyingInternalEListImpl<E> implements InternalEList.Unsettable<E>, EStructuralFeature.Setting
 {

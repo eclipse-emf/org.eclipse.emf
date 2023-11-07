@@ -585,7 +585,6 @@ public interface URIConverter
   {
     /**
      * Encrypts the specified output stream.
-     * @param outputStream
      * @return an encrypted output stream
      */
     OutputStream encrypt(OutputStream outputStream) throws Exception;
@@ -600,7 +599,6 @@ public interface URIConverter
   
     /**
      * Decrypts the specified input stream.
-     * @param inputStream
      * @return a decrypted input stream
      */
     InputStream decrypt(InputStream inputStream) throws Exception;

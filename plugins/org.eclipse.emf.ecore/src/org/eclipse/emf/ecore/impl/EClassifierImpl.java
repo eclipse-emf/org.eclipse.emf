@@ -493,8 +493,6 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
     return null;
   }
 
-  /**
-   */
   public Class<?> getInstanceClassGen()
   {
     return instanceClass;
@@ -532,15 +530,11 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
     setInstanceClassGen(value);
   }
 
-  /**
-   */
   public void setInstanceClassGen(Class<?> newInstanceClass)
   {
     instanceClass = newInstanceClass;
   }
 
-  /**
-   */
   public Object getDefaultValue()
   {
     return null;
@@ -701,8 +695,6 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    */
   EPackage ePackage;
 
-  /**
-   */
   public EPackage getEPackage()
   {
     // If there is a cached result, return it.

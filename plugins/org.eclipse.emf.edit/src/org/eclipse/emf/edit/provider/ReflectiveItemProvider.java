@@ -58,15 +58,11 @@ public class ReflectiveItemProvider
     IItemLabelProvider,
     IItemPropertySource
 {
-  /**
-   */
   public ReflectiveItemProvider(AdapterFactory adapterFactory)
   {
     super(adapterFactory);
   }
 
-  /**
-   */
   @Override
   public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) 
   {
@@ -341,8 +337,6 @@ public class ReflectiveItemProvider
     return  result;
   }
 
-  /**
-   */
   @Override
   protected Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
@@ -374,8 +368,6 @@ public class ReflectiveItemProvider
     return childrenFeatures;
   }
 
-  /**
-   */
   @Override
   public Object getImage(Object object)
   {
@@ -384,8 +376,6 @@ public class ReflectiveItemProvider
     return URI.createURI(getResourceLocator().getImage("full/obj16/Item").toString() + "#" + eClass.getName());
   }
 
-  /**
-   */
   @Override
   public String getText(Object object)
   {
@@ -433,15 +423,11 @@ public class ReflectiveItemProvider
     return result;
   }
 
-  /**
-   */
   protected String capName(String name)
   {
     return name.length() == 0 ? name : name.substring(0, 1).toUpperCase() + name.substring(1);
   }
 
-  /**
-   */
   public String format(String name, char separator)
   {
     StringBuilder result = new StringBuilder();
@@ -458,8 +444,6 @@ public class ReflectiveItemProvider
     return result.toString();
   }
 
-  /**
-   */
   protected List<String> parseName(String sourceName, char sourceSeparator)
   {
     List<String> result = new ArrayList<String>();
@@ -622,8 +606,6 @@ public class ReflectiveItemProvider
     return result;
   }
 
-  /**
-   */
   @Override
   protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object)    
   {
@@ -715,8 +697,6 @@ public class ReflectiveItemProvider
          new Object[] { childType, getFeatureText(feature), getTypeText(owner) });
   }
 
-  /**
-   */
   @Override
   public Object getCreateChildImage(Object owner, Object feature, Object child, Collection<?> selection)
   {
@@ -741,8 +721,6 @@ public class ReflectiveItemProvider
     return getResourceLocator().getImage("full/ctool16/CreateChild");
   }
 
-  /**
-   */
   @Override
   protected String getTypeText(Object object)
   {
@@ -750,16 +728,12 @@ public class ReflectiveItemProvider
     return format(capName(text), ' ');
   }
 
-  /**
-   */
   @Override
   protected String getTypeText(EAttribute attribute)
   {
     return format(capName(attribute.getEAttributeType().getName()), ' ');
   }
 
-  /**
-   */
   @Override
   protected String getFeatureText(Object feature)
   {
@@ -768,8 +742,6 @@ public class ReflectiveItemProvider
     return format(capName(text), ' ');
   }
 
-  /**
-   */
   @Override
   public void notifyChanged(Notification notification)
   {

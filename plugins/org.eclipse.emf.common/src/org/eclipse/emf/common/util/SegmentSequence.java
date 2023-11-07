@@ -733,7 +733,6 @@ public final class SegmentSequence implements CharSequence
 
     /**
      * An access unit for single segment access.
-     *
      */
     protected static class StringAccessUnit extends AccessUnitBase
     {
@@ -1309,7 +1308,6 @@ public final class SegmentSequence implements CharSequence
 
       /**
        * Creates an instance managed by the given queue.
-       * @param queue
        */
       protected SegmentsAccessUnit(Queue queue)
       {
@@ -1655,7 +1653,6 @@ public final class SegmentSequence implements CharSequence
 
       /**
        * Creates an instance managed by the given queue.
-       * @param queue
        */
       protected SubsegmentsAndSubsegmentsAccessUnit(Queue queue)
       {
@@ -2002,7 +1999,6 @@ public final class SegmentSequence implements CharSequence
 
       /**
        * Create an instance managed by the given queue.
-       * @param queue
        */
       protected StringAccessUnit(Queue queue)
       {
@@ -2342,7 +2338,6 @@ public final class SegmentSequence implements CharSequence
 
       /**
        * Creates an instance managed by the given queue.
-       * @param queue
        */
       protected SegmentsAndSegmentAccessUnit(Queue queue)
       {
@@ -2632,9 +2627,6 @@ public final class SegmentSequence implements CharSequence
 
     /**
      * Creates a new weak reference managed by the appropriate {@link #externalQueue external} or {@link #cachedToStrings internal} queue.
-     * @param segmentSequence
-     * @param string
-     * @return
      */
     protected WeakReference<String> newCachedToString(SegmentSequence segmentSequence, String string)
     {

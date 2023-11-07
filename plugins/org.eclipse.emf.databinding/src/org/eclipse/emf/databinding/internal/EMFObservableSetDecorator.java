@@ -31,10 +31,6 @@ public class EMFObservableSetDecorator extends DecoratingObservableSet implement
 {
   private EStructuralFeature eStructuralFeature;
 
-  /**
-   * @param decorated
-   * @param eStructuralFeature
-   */
   public EMFObservableSetDecorator(IObservableSet decorated, EStructuralFeature eStructuralFeature)
   {
     super(decorated, true);

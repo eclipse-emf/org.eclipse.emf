@@ -382,7 +382,6 @@ public final class StyledString implements Iterable<Fragment>
       /**
        * @param font
        *          the font to set
-       * @return
        */
       public Builder setFont(URI font)
       {
@@ -393,7 +392,6 @@ public final class StyledString implements Iterable<Fragment>
       /**
        * @param backgroundColor
        *          the backgroundColor to set
-       * @return
        */
       public Builder setBackgroundColor(URI backgroundColor)
       {
@@ -404,7 +402,6 @@ public final class StyledString implements Iterable<Fragment>
       /**
        * @param foregroundColor
        *          the forregroundColor to set
-       * @return
        */
       public Builder setForegroundColor(URI foregroundColor)
       {
@@ -415,7 +412,6 @@ public final class StyledString implements Iterable<Fragment>
       /**
        * @param isStrikedout
        *          the isStrikedout to set
-       * @return
        */
       public Builder setStrikedout(boolean isStrikedout)
       {
@@ -430,7 +426,6 @@ public final class StyledString implements Iterable<Fragment>
       /**
        * @param strikeoutColor
        *          the strikeoutColor to set
-       * @return
        */
       public Builder setStrikeoutColor(URI strikeoutColor)
       {
@@ -442,7 +437,6 @@ public final class StyledString implements Iterable<Fragment>
       /**
        * @param borderColor
        *          the borderColor to set
-       * @return
        */
       public Builder setBorderColor(URI borderColor)
       {
@@ -457,7 +451,6 @@ public final class StyledString implements Iterable<Fragment>
       /**
        * @param borderStyle
        *          the borderStyle to set
-       * @return
        */
       public Builder setBorderStyle(BorderStyle borderStyle)
       {
@@ -472,7 +465,6 @@ public final class StyledString implements Iterable<Fragment>
       /**
        * @param underlineColor
        *          the underlineColor to set
-       * @return
        */
       public Builder setUnderlineColor(URI underlineColor)
       {
@@ -487,7 +479,6 @@ public final class StyledString implements Iterable<Fragment>
       /**
        * @param underlineStyle
        *          the underlineStyle to set
-       * @return
        */
       public Builder setUnderlineStyle(UnderLineStyle underlineStyle)
       {
@@ -501,7 +492,6 @@ public final class StyledString implements Iterable<Fragment>
   
       /**
        * Creates and return a new Style object as configured with the builder.
-       * @return
        */
       public Style toStyle()
       {

@@ -33,7 +33,6 @@ import org.eclipse.emf.ecore.resource.URIHandler;
 
 /**
  * An implementation of a {@link URIHandler URI handler}.
- *
  */
 public class URIHandlerImpl implements URIHandler
 {

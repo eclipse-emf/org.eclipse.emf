@@ -393,9 +393,6 @@ public class StringSegment extends BasicEList<StringSegment.Element>
   
   /**
    * @deprecated since 2.2 - Instead use #write(Writer, int)
-   * @param os
-   * @param flushThreshold
-   * @throws IOException
    */
   @Deprecated
   public void write(OutputStreamWriter os, int flushThreshold) throws IOException

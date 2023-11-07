@@ -981,8 +981,6 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
 
   /**
    * Puts the entry into the {@link #entries} linking up the {@link Entry#next chain} for collision handling.
-   * @param index
-   * @param entry
    */
   protected void putEntry(int index, Entry<E> entry)
   {

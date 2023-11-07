@@ -75,7 +75,6 @@ public interface XMLOptions
    * occurring in the instance document will be processed to convert XSD(s) to Ecore file(s).
    * If this option is specified together with externalSchemaLocation option, the schemas specified in externalSchemaLocation
    * will take precedence.
-   * @param processSchemaLocations
    */
   void setProcessSchemaLocations(boolean processSchemaLocations);
 

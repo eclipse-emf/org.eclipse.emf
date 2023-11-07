@@ -1827,9 +1827,6 @@ public class EObjectValidator implements EValidator
 
   /**
    * @since 2.3
-   * @param eObject
-   * @param diagnostics
-   * @param context
    * @return whether every key is unique.
    */
   public boolean validate_EveryKeyUnique(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
@@ -1857,10 +1854,6 @@ public class EObjectValidator implements EValidator
   
   /**
    * @since 2.3
-   * @param eObject
-   * @param eReference
-   * @param diagnostics
-   * @param context
    * @return whether every key is unique.
    */
   protected boolean validate_KeyUnique
@@ -1926,9 +1919,6 @@ public class EObjectValidator implements EValidator
 
   /**
    * @since 2.3
-   * @param eObject
-   * @param diagnostics
-   * @param context
    * @return whether every map entry is unique.
    */
   public boolean validate_EveryMapEntryUnique(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
@@ -1953,10 +1943,6 @@ public class EObjectValidator implements EValidator
 
   /**
    * @since 2.3
-   * @param eObject
-   * @param eReference
-   * @param diagnostics
-   * @param context
    * @return whether every map entry is unique.
    */
   protected boolean validate_MapEntryUnique

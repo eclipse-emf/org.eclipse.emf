@@ -37,11 +37,6 @@ public class EMFEditListPropertyDecorator extends ListProperty implements IEMFEd
   private final EditingDomain editingDomain;
 
   
-  /**
-   * @param editingDomain
-   * @param delegate
-   * @param eStructuralFeature
-   */
   public EMFEditListPropertyDecorator(EditingDomain editingDomain, IListProperty delegate, EStructuralFeature eStructuralFeature)
   {
     this.delegate = delegate;

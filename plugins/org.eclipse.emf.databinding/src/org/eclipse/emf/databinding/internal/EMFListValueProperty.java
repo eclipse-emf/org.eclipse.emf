@@ -29,8 +29,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 
-/**
- */
 public class EMFListValueProperty extends SimpleValueProperty
 {
   private final EStructuralFeature eStructuralFeature;
@@ -39,8 +37,6 @@ public class EMFListValueProperty extends SimpleValueProperty
 
   /**
    * @param delegate 
-   * @param eStructuralFeature
-   * @param elementAccess
    */
   public EMFListValueProperty(IListProperty delegate, EStructuralFeature eStructuralFeature, ListElementAccess<?> elementAccess)
   {
@@ -99,12 +95,6 @@ public class EMFListValueProperty extends SimpleValueProperty
     }
   }
 
-  /**
-   * @param source
-   * @param targetList
-   * @param data
-   * @param value
-   */
   protected void doSetListValue(EObject source, List<Object> targetList, WriteData data, Object value)
   {
     if (data.insert)

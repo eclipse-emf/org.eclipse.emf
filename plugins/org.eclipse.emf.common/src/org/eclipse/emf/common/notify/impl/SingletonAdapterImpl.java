@@ -23,7 +23,6 @@ import org.eclipse.emf.common.notify.Notifier;
  * An alternate, extensible adapter implementation that is well suited to adapt for a number of objects
  * (typically all objects of a given type).
  * @since 2.2
- * 
  */
 public class SingletonAdapterImpl implements Adapter.Internal
 {

@@ -28,11 +28,6 @@ public class EMFEditObservableMapDecorator extends EMFObservableMapDecorator imp
 {
   private final EditingDomain editingDomain;
 
-  /**
-   * @param editingDomain
-   * @param decorated
-   * @param eStructuralFeature
-   */
   public EMFEditObservableMapDecorator(EditingDomain editingDomain, IObservableMap decorated, EStructuralFeature eStructuralFeature)
   {
     super(decorated, eStructuralFeature);

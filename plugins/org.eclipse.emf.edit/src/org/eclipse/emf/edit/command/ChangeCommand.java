@@ -147,7 +147,6 @@ abstract public class ChangeCommand extends AbstractCommand
    * Disposes the {@link ChangeRecorder} created by {@link #execute()}.  The default 
    * implementation doesn't dispose the change recorder if it was passed in 
    * through one of the constructor methods.
-   * @param changeRecorder
    */
   protected void disposeChangeRecorder(ChangeRecorder changeRecorder)
   {

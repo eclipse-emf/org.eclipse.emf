@@ -511,7 +511,6 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
   /**
    * Returns the throwable viewed as a {@link Diagnostic}.
    * 
-   * @param throwable
    * @return {@link Diagnostic}
    */
   public static Diagnostic toDiagnostic(Throwable throwable)

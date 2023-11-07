@@ -282,7 +282,6 @@ public class AdapterFactoryEditingDomain implements EditingDomain
    * {@link #getEditingDomainFor(java.lang.Object) getEditingDomainFor(Object)}
    * and {@link #getEditingDomainFor(org.eclipse.emf.ecore.EObject) getEditingDomainFor(EObject)}
    * An instance of this is created if needed in the constructor.
-   * 
    */
   protected class AdapterFactoryEditingDomainResourceSet extends ResourceSetImpl implements IEditingDomainProvider
   {

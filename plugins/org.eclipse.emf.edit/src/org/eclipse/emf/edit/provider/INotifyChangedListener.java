@@ -20,7 +20,5 @@ import org.eclipse.emf.common.notify.Notification;
  */
 public interface INotifyChangedListener
 {
-  /**
-   */
   void notifyChanged(Notification notification);
 }

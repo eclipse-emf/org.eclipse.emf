@@ -50,8 +50,6 @@ public interface XMLParserPool
    * @param properties a map of a parser properties and their values.
    * @param useLexicalHandler whether a lexical handler was set during loading.
    * @return A parser instance with given features and properties.
-   * @throws ParserConfigurationException
-   * @throws SAXException
    */
   public SAXParser get(Map<String, Boolean> features, Map<String, ?> properties, boolean useLexicalHandler) 
     throws ParserConfigurationException, SAXException;
@@ -70,14 +68,12 @@ public interface XMLParserPool
    * @param resource - the resource
    * @param xmlLoad - the XMLLoad
    * @param helper - XMLHelper
-   * @param options
    */
   public XMLDefaultHandler getDefaultHandler(XMLResource resource, XMLLoad xmlLoad, XMLHelper helper, Map<?, ?> options);
   
   /**
    * Returns the XMLDefaultHandler to the pool.
    * @param handler the handler to return to the pool
-   * @param options
    */
   public void releaseDefaultHandler(XMLDefaultHandler handler, Map<?, ?> options);
 }

@@ -40,10 +40,6 @@ public class EMFValuePropertyDecorator extends ValueProperty implements IEMFValu
   private final IValueProperty delegate;
   private final EStructuralFeature eStructuralFeature;
 
-  /**
-   * @param delegate
-   * @param eStructuralFeature
-   */
   public EMFValuePropertyDecorator(IValueProperty delegate, EStructuralFeature eStructuralFeature)
   {
     this.delegate = delegate;

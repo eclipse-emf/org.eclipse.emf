@@ -1711,7 +1711,6 @@ public abstract class URI
 
       /**
        * Creates an instance managed by the given queue.
-       * @param queue
        */
       protected URIComponentsAccessUnit(Queue queue)
       {
@@ -2050,7 +2049,6 @@ public abstract class URI
 
     /**
      * A specialized weak reference used by {@link URI#toString} that removes the URI's reference when {@link #clear()} is called.
-     *
      */
     protected static class CachedToString extends WeakReference<String>
     {

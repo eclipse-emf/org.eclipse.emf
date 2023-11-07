@@ -39,11 +39,6 @@ public class EMFEditSetPropertyDecorator extends SetProperty implements IEMFEdit
   private final ISetProperty delegate;
   private final EStructuralFeature eStructuralFeature;
 
-  /**
-   * @param editingDomain
-   * @param delegate
-   * @param eStructuralFeature
-   */
   public EMFEditSetPropertyDecorator(EditingDomain editingDomain, ISetProperty delegate, EStructuralFeature eStructuralFeature)
   {
     this.editingDomain = editingDomain;

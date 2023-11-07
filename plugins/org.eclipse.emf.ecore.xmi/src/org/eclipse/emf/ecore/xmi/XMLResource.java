@@ -149,7 +149,6 @@ public interface XMLResource extends Resource
    * This option allows to specify an EClass for the implementation for anyType.
    * As an example, see <code>org.eclipse.emf.ecore.sdo.SDOPackage</code> <code>getEDataObjectAnyType()</code>.
    * @see #OPTION_ANY_SIMPLE_TYPE
-   *
    */
   String OPTION_ANY_TYPE = "ANY_TYPE";
 
@@ -208,7 +207,6 @@ public interface XMLResource extends Resource
    * @see #getSystemId()
    * @see #getPublicId()
    * @see #setDoctypeInfo(String,String)
-   *
    */
   String OPTION_SAVE_DOCTYPE = "SAVE_DOCTYPE";
 
@@ -616,8 +614,6 @@ public interface XMLResource extends Resource
   /**
    * Sets the values of <a href='http://www.w3.org/TR/2004/REC-xml-20040204/#NT-SystemLiteral'>system</a> and
    * <a href='http://www.w3.org/TR/2004/REC-xml-20040204/#NT-PubidLiteral'>public</a> identifiers on this resource.
-   * @param publicId
-   * @param systemId
    */
   void setDoctypeInfo(String publicId, String systemId);
 

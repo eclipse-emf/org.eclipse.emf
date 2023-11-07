@@ -96,7 +96,6 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
 
   /**
    * Constructor for XMLResourceImpl.
-   * @param uri
    */
   public XMLResourceImpl(URI uri)
   {

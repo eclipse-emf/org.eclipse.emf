@@ -75,10 +75,6 @@ public interface XMLSave
   Document save(XMLResource resource, Document document, Map<?, ?> options, DOMHandler handler);
   
   /** Saves the resource to the writer using the specified options.
-   * @param resource
-   * @param writer
-   * @param options
-   * @throws IOException
    */
   void save(XMLResource resource, Writer writer, Map<?, ?> options) throws IOException;
 }

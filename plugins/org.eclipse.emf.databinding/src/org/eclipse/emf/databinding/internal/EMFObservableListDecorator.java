@@ -31,10 +31,6 @@ public class EMFObservableListDecorator extends DecoratingObservableList impleme
 {
   private EStructuralFeature eStructuralFeature;
 
-  /**
-   * @param decorated
-   * @param eStructuralFeature
-   */
   public EMFObservableListDecorator(IObservableList decorated, EStructuralFeature eStructuralFeature)
   {
     super(decorated, true);

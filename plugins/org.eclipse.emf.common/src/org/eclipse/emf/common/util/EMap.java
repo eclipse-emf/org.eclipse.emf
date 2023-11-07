@@ -90,7 +90,6 @@ public interface EMap<K, V> extends EList<Map.Entry<K, V>>
    * An entry is removed from the list, if the key is found.
    * @param key the key of a value.
    * @return the value formerly associated with the key.
-   * 
    */
   V removeKey(Object key);
 

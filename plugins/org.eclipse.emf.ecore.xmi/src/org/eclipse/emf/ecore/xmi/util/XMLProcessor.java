@@ -48,7 +48,6 @@ import org.xml.sax.SAXException;
 
 /**
  * XMLProcessor provides helper methods to serialize and deserialize XML using EMF framework.
- *
  */
 public class XMLProcessor
 {
@@ -119,7 +118,6 @@ public class XMLProcessor
   /**
    * Create an XML processor that is aware of XML Schemas specified.
    * @param schemaURIs - a list of URI {@link URI} which point to XML Schemas
-   * @throws SAXException
    */
   public XMLProcessor(Collection<URI> schemaURIs) throws SAXException
   {
@@ -185,7 +183,6 @@ public class XMLProcessor
    * @param systemId - system identifier
    * @param options - options map
    * @return Loaded resource
-   * @throws IOException
    * @see org.eclipse.emf.ecore.resource.Resource
    * @see org.eclipse.emf.common.util.URI
    */

@@ -31,10 +31,6 @@ public class EMFObservableValueDecorator extends DecoratingObservableValue imple
 {
   private EStructuralFeature eStructuralFeature;
 
-  /**
-   * @param decorated
-   * @param eStructuralFeature
-   */
   public EMFObservableValueDecorator(IObservableValue decorated, EStructuralFeature eStructuralFeature)
   {
     super(decorated, true);

@@ -32,7 +32,6 @@ public class EMFEditMultiListProperty extends MultiListProperty implements IEMFE
   /**
    * Create new property
    * @param editingDomain 
-   * @param properties
    */
   public EMFEditMultiListProperty(EditingDomain editingDomain, IEMFEditListProperty[] properties)
   {

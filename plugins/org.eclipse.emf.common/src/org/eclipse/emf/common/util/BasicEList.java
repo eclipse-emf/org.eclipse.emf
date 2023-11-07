@@ -111,7 +111,6 @@ public class BasicEList<E> extends AbstractEList<E> implements RandomAccess, Clo
    * @param index the position of the new content.
    * @param object the new content.
    * @return the object that's been stored.
-   * 
    */
   protected E assign(int index, E object)
   {
