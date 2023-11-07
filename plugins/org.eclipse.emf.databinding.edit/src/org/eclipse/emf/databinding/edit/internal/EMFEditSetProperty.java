@@ -31,10 +31,6 @@ public class EMFEditSetProperty extends EMFSetProperty
 {
   private final EditingDomain editingDomain;
 
-  /**
-   * @param editingDomain
-   * @param eStructuralFeature
-   */
   public EMFEditSetProperty(EditingDomain editingDomain, EStructuralFeature eStructuralFeature)
   {
     super(eStructuralFeature);

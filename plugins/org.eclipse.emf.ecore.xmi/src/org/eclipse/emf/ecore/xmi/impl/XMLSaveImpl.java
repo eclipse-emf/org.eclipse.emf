@@ -167,9 +167,6 @@ public class XMLSaveImpl implements XMLSave
 
   /**
    * Constructor for XMLSave.
-   * @param options
-   * @param helper
-   * @param encoding
    */
   public XMLSaveImpl(Map<?, ?> options, XMLHelper helper, String encoding)
   {
@@ -1002,8 +999,6 @@ public class XMLSaveImpl implements XMLSave
 
   /**
    * @deprecated since 2.2 - instead use #write(Writer)
-   * @param os
-   * @throws IOException
    */
   @Deprecated
   public void write(OutputStreamWriter os) throws IOException
@@ -1678,8 +1673,6 @@ public class XMLSaveImpl implements XMLSave
     }
   }
 
-  /**
-   */
   protected void processAttributeExtensions(EObject object)
   {
     if (eObjectToExtensionMap != null)

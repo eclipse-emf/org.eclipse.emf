@@ -42,7 +42,6 @@ public class ECollections
   
   /**
    * Moves the object to the new position, if is in the list.
-   * @param list
    * @param newPosition the position of the object after the move.
    * @param object the object to move.
    */
@@ -61,7 +60,6 @@ public class ECollections
 
   /**
    * Moves the object from the old position to the new position.
-   * @param list
    * @param targetIndex the position of the object after the move.
    * @param sourceIndex the position of the object before the move.
    * @return the moved object
@@ -96,7 +94,6 @@ public class ECollections
    * Searches for the first occurrence of the given argument in list starting from
    * a specified index.  The equality is tested using the operator <tt>==<tt> and
    * the <tt>equals</tt> method. 
-   * @param list
    * @param o an object (can be null)
    * @param fromIndex 
    * @return the index of the first occurrence of the argument in this

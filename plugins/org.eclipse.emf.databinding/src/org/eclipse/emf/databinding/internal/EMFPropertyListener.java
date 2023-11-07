@@ -72,9 +72,6 @@ public abstract class EMFPropertyListener extends AdapterImpl implements INative
    */
   protected abstract IProperty getOwner();
 
-  /**
-   *
-   */
   public abstract static class EMFListPropertyListener extends EMFPropertyListener
   {
     @Override
@@ -184,9 +181,6 @@ public abstract class EMFPropertyListener extends AdapterImpl implements INative
     }
   }
 
-  /**
-   *
-   */
   public abstract static class EMFSetPropertyListener extends EMFPropertyListener
   {
     @Override
@@ -236,9 +230,6 @@ public abstract class EMFPropertyListener extends AdapterImpl implements INative
     }
   }
 
-  /**
-   *
-   */
   public abstract static class EMFMapPropertyListener extends EMFPropertyListener
   {
 		@Override
@@ -351,9 +342,6 @@ public abstract class EMFPropertyListener extends AdapterImpl implements INative
     }
   }
 
-  /**
-   *
-   */
   public abstract static class EMFValuePropertyListener extends EMFPropertyListener
   {
     @Override

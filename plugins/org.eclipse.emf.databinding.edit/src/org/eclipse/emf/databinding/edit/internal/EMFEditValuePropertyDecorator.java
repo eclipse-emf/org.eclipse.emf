@@ -43,11 +43,6 @@ public class EMFEditValuePropertyDecorator extends ValueProperty implements IEMF
   private final EStructuralFeature eStructuralFeature;
   private final EditingDomain editingDomain;
 
-  /**
-   * @param editingDomain
-   * @param delegate
-   * @param eStructuralFeature
-   */
   public EMFEditValuePropertyDecorator(EditingDomain editingDomain, IValueProperty delegate, EStructuralFeature eStructuralFeature)
   {
     this.delegate = delegate;

@@ -243,7 +243,6 @@ public class ContentHandlerImpl implements ContentHandler
    * @param options any options to influence the behavior; this base implementation ignores this.
    * @param context the cache for fetching and storing a previous computation of the byte order marker; this base implementation caches {@link ContentHandler#BYTE_ORDER_MARK_PROPERTY}.
    * @return the byte order marker at the start of the input stream.
-   * @throws IOException
    */
   protected ByteOrderMark getByteOrderMark(URI uri, InputStream inputStream, Map<?, ?> options, Map<Object, Object> context) throws IOException
   {

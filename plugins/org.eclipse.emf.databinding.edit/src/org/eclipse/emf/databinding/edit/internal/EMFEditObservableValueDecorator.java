@@ -28,11 +28,6 @@ public class EMFEditObservableValueDecorator extends EMFObservableValueDecorator
 {
   private final EditingDomain editingDomain;
 
-  /**
-   * @param editingDomain
-   * @param decorated
-   * @param eStructuralFeature
-   */
   public EMFEditObservableValueDecorator(EditingDomain editingDomain, IObservableValue decorated, EStructuralFeature eStructuralFeature)
   {
     super(decorated, eStructuralFeature);

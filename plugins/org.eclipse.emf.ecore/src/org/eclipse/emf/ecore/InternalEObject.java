@@ -222,7 +222,6 @@ public interface InternalEObject extends EObject
    * Set the store associated with this object.
    * Most objects will <b>not</b> support this.
    * @param store the store to associate with this object.
-   * @throws UnsupportedOperationException
    */
   void eSetStore(EStore store);
 

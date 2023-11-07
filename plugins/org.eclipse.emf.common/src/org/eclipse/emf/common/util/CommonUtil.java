@@ -977,7 +977,6 @@ public final class CommonUtil
       /**
        * {@link #ensureCapacity(int) Ensures} that the strings is begin enough to hold one more string
        * and then {@link #basicAppend(String) appends} the string.
-       * @param string
        */
       protected void doAppend(String string)
       {
@@ -987,7 +986,6 @@ public final class CommonUtil
 
       /**
        * Appends the string to the {@link #strings}, if it's not the empty string, and computes the composed hash code and {@link #stringLength total composed string length}.
-       * @param string
        */
       protected void basicAppend(String string)
       {
@@ -1017,7 +1015,6 @@ public final class CommonUtil
 
       /**
        * Appends the string, replacing <code>null</code> with <code>"null"</code>.
-       * @param string
        */
       public void append(String string)
       {
@@ -1026,7 +1023,6 @@ public final class CommonUtil
 
       /**
        * Appends the character sequence, with special handing for {@link SegmentSequence}.
-       * @param charSequence
        */
       public void append(CharSequence charSequence)
       {

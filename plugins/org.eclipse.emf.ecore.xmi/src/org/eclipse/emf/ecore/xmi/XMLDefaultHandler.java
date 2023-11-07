@@ -20,7 +20,6 @@ import org.xml.sax.ext.LexicalHandler;
 
 /**
  * The XML handler interface. 
- *
  */
 public interface XMLDefaultHandler extends ContentHandler, EntityResolver, DTDHandler, ErrorHandler, LexicalHandler
 {

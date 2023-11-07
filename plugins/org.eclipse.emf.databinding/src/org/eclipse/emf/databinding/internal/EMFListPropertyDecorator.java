@@ -35,10 +35,6 @@ public class EMFListPropertyDecorator extends ListProperty implements IEMFListPr
   private final IListProperty delegate;
   private final EStructuralFeature eStructuralFeature;
 
-  /**
-   * @param delegate
-   * @param eStructuralFeature
-   */
   public EMFListPropertyDecorator(IListProperty delegate, EStructuralFeature eStructuralFeature)
   {
     this.delegate = delegate;

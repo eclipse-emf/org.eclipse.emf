@@ -23,8 +23,6 @@ import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
 
-/**
- */
 public class AdapterFactoryItemDelegator 
   implements 
     IEditingDomainItemProvider,
@@ -43,8 +41,6 @@ public class AdapterFactoryItemDelegator
    */
   protected AdapterFactory  adapterFactory;
 
-  /**
-   */
   public AdapterFactoryItemDelegator(AdapterFactory adapterFactory)
   {
     this.adapterFactory = adapterFactory;

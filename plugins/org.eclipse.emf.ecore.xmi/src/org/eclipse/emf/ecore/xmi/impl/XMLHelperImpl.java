@@ -1672,8 +1672,6 @@ public class XMLHelperImpl implements XMLHelper
   }
   
   /**
-   * @param factory
-   * @param dataType
    * @param value a data value to be converted to string
    * @param list if the value is part of the list of values
    * @return if the value is not part of the list, return string corresponding to value,

@@ -30,10 +30,6 @@ public class EMFEditMapProperty extends EMFMapProperty
 {
   private final EditingDomain editingDomain;
 
-  /**
-   * @param editingDomain
-   * @param eStructuralFeature
-   */
   public EMFEditMapProperty(EditingDomain editingDomain, EStructuralFeature eStructuralFeature)
   {
     super(eStructuralFeature);

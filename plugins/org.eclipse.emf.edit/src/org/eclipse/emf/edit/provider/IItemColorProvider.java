@@ -37,7 +37,6 @@ public interface IItemColorProvider
    *<pre>
    * color://hsb///0.5
    *</pre>
-   * 
    */
   URI GRAYED_OUT_COLOR = URI.createURI("color://hsb///0.5");
   

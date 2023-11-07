@@ -133,8 +133,6 @@ public class ETypeParameterImpl extends ENamedElementImpl implements ETypeParame
     return eBounds;
   }
 
-  /**
-   */
   protected Set<EGenericType> getEGenericTypes()
   {
     if (eGenericTypes == null)

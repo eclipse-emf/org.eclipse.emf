@@ -26,7 +26,6 @@ import java.util.RandomAccess;
 
 /**
  * A highly extensible abstract list implementation {@link #data() logically backed by an array} that is <b>never<b> modified.
- *
  */
 public abstract class ArrayDelegatingEList<E> extends AbstractEList<E> implements RandomAccess, Cloneable, Serializable
 {
@@ -84,7 +83,6 @@ public abstract class ArrayDelegatingEList<E> extends AbstractEList<E> implement
    * @param index the position of the new content.
    * @param object the new content.
    * @return the object that's been stored.
-   *
    */
   protected E assign(Object [] data, int index, E object)
   {

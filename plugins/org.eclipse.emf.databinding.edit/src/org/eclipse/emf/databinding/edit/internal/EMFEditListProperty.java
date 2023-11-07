@@ -38,10 +38,6 @@ public class EMFEditListProperty extends EMFListProperty
 {
   private final EditingDomain editingDomain;
 
-  /**
-   * @param editingDomain
-   * @param eStructuralFeature
-   */
   public EMFEditListProperty(EditingDomain editingDomain, EStructuralFeature eStructuralFeature)
   {
     super(eStructuralFeature);

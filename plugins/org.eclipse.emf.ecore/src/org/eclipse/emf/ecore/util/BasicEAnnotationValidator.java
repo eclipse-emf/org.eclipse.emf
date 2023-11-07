@@ -1023,7 +1023,6 @@ public abstract class BasicEAnnotationValidator implements EAnnotationValidator
    * @param eObject the modeled object.
    * @param eStructuralFeature a feature of that object.
    * @param literalValues the literal value to join into a single value.
-   * @return
    */
   protected String join(EObject eObject, EStructuralFeature eStructuralFeature, List<String> literalValues)
   {
@@ -1744,10 +1743,6 @@ public abstract class BasicEAnnotationValidator implements EAnnotationValidator
 
   /**
    * Creates a diagnostic using the given parameters and the {@link #annotationSource}.
-   * @param severity
-   * @param code
-   * @param message
-   * @param data
    * @return a diagnostic.
    */
   protected BasicDiagnostic createDiagnostic(int severity, int code, String message, Object... data)
@@ -1757,9 +1752,6 @@ public abstract class BasicEAnnotationValidator implements EAnnotationValidator
 
   /**
    * Fetches a translated string from the resource locator using the message key and the give substitutions, if any.
-   * @param resourceLocator
-   * @param key
-   * @param substitutions
    * @return the translated string for the message key.
    */
   protected String getString(ResourceLocator resourceLocator, String key, Object... substitutions)

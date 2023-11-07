@@ -30,9 +30,6 @@ public class EMFValueProperty extends SimpleValueProperty
 {
   private final EStructuralFeature eStructuralFeature;
 
-  /**
-   * @param eStructuralFeature
-   */
   public EMFValueProperty(EStructuralFeature eStructuralFeature)
   {
     this.eStructuralFeature = eStructuralFeature;

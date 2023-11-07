@@ -68,7 +68,6 @@ public interface Monitor
     
   /**
    * Called to indicate the task is complete.
-   *
    */
   void done();
 }

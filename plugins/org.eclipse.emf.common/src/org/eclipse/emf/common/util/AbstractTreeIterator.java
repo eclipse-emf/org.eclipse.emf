@@ -180,7 +180,6 @@ public abstract class AbstractTreeIterator<E> extends BasicEList<Iterator<? exte
    * @exception IllegalStateException 
    * if <code>next</code> has not yet been called or has been called only the yield the root object, 
    * or <code>remove</code> has already been called after the last call to the <code>next</code> method.
-   * 
    */
   public void remove()
   {

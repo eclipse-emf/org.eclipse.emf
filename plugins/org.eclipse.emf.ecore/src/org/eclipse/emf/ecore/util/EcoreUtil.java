@@ -3147,8 +3147,6 @@ public class EcoreUtil
 
   /**
    * Returns the object reached via by navigating the relative URI fragment path.
-   * @param rootEObject
-   * @param relativeFragmentPath
    * @return the object at the path.
    * @see #getRelativeURIFragmentPath(EObject, EObject)
    * @see InternalEObject#eObjectForURIFragmentSegment(String)
@@ -3170,7 +3168,6 @@ public class EcoreUtil
    * Searches for the first occurrence of the given argument in list starting from
    * a specified index.  The equality is tested using the operator <tt>==<tt> and
    * the <tt>equals</tt> method. 
-   * @param list
    * @param o an object (can be null)
    * @param fromIndex 
    * @return the index of the first occurrence of the argument in this
@@ -4364,8 +4361,6 @@ public class EcoreUtil
 
   /**
    * Computes a {@link Diagnostic} from the errors and warnings stored in the specified resource.
-   * @param resource
-   * @param includeWarnings
    * @return {@link Diagnostic}
    */
   public static Diagnostic computeDiagnostic(Resource resource, boolean includeWarnings)

@@ -29,11 +29,6 @@ public class EMFEditObservableListDecorator extends EMFObservableListDecorator i
 
   private final EditingDomain editingDomain;
 
-  /**
-   * @param editingDomain
-   * @param decorated
-   * @param eStructuralFeature
-   */
   public EMFEditObservableListDecorator(EditingDomain editingDomain, IObservableList decorated, EStructuralFeature eStructuralFeature)
   {
     super(decorated, eStructuralFeature);

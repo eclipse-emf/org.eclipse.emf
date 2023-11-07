@@ -21,7 +21,6 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 /**
  * The interface describes an XML Schema to Ecore builder. 
- *
  */
 public interface EcoreBuilder
 {
@@ -29,7 +28,6 @@ public interface EcoreBuilder
    * Given an XML schema location URI this method creates corresponding Ecore model(s)
    * @param uri - location of the XML Schema files.
    * @return Collection of resources containing the generated models.
-   * @throws Exception
    * @see org.eclipse.emf.common.util.URI
    */
   public Collection<? extends Resource> generate(URI uri) throws Exception;
@@ -38,7 +36,6 @@ public interface EcoreBuilder
    * Given XML Schema location URIs this method creates corresponding Ecore model(s)
    * @param uris - locations of the XML Schema files.
    * @return Collection of resources containing the generated models.
-   * @throws Exception
    * @see org.eclipse.emf.common.util.URI
    */
   public Collection<? extends Resource> generate(Collection<URI> uris) throws Exception;
@@ -48,7 +45,6 @@ public interface EcoreBuilder
    * generates corresponding Ecore model(s).
    * @param targetNamespaceToURI - a map of XML Schema targetNamespaces to XML Schema location URIs
    * @return Collection of resources containing the generated models.
-   * @throws Exception
    * @see org.eclipse.emf.common.util.URI
    */
   public Collection<? extends Resource> generate(Map<String, URI> targetNamespaceToURI) throws Exception;
@@ -56,7 +52,6 @@ public interface EcoreBuilder
   /**
    * Sets extended meta data to register generated Ecore models.
    * Note the same extended meta data should be used for loading/saving an instance document.
-   * @param extendedMetaData
    */
   public void setExtendedMetaData(ExtendedMetaData extendedMetaData);
 

@@ -103,8 +103,6 @@ public class ReflectiveItemProviderAdapterFactory
     return super.adapt(notifier, this);
   }
 
-  /**
-   */
   @Override
   public Object adapt(Object object, Object type)
   {

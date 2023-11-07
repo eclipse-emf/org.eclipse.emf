@@ -31,10 +31,6 @@ public class EMFObservableMapDecorator extends DecoratingObservableMap implement
 {
   private EStructuralFeature eStructuralFeature;
 
-  /**
-   * @param decorated
-   * @param eStructuralFeature
-   */
   public EMFObservableMapDecorator(IObservableMap decorated, EStructuralFeature eStructuralFeature)
   {
     super(decorated, true);

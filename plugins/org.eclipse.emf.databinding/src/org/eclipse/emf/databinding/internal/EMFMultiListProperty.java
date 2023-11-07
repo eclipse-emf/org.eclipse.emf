@@ -28,7 +28,6 @@ public class EMFMultiListProperty extends MultiListProperty implements IEMFListP
 
   /**
    * Create new property
-   * @param properties
    */
   public EMFMultiListProperty(IEMFListProperty[] properties)
   {

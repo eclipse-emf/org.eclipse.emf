@@ -237,7 +237,6 @@ import org.eclipse.emf.edit.domain.EditingDomain;
  *      }
  *    };
  * </pre>
- *
  */
 public class ItemProvider
   implements 

@@ -34,9 +34,6 @@ public class EMFEditResourceContentProperty extends EMFResourceContentProperty
 {
   private final EditingDomain editingDomain;
 
-  /**
-   * @param editingDomain
-   */
   public EMFEditResourceContentProperty(EditingDomain editingDomain)
   {
     this.editingDomain = editingDomain;

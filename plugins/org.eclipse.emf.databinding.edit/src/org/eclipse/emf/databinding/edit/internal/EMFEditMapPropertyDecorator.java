@@ -36,11 +36,6 @@ public class EMFEditMapPropertyDecorator extends MapProperty implements IEMFEdit
   private final EStructuralFeature eStructuralFeature;
   private final EditingDomain editingDomain;
 
-  /**
-   * @param editingDomain
-   * @param delegate
-   * @param eStructuralFeature
-   */
   public EMFEditMapPropertyDecorator(EditingDomain editingDomain, IMapProperty delegate, EStructuralFeature eStructuralFeature)
   {
     this.delegate = delegate;

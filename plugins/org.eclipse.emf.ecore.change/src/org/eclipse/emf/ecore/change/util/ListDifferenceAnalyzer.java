@@ -28,8 +28,6 @@ public class ListDifferenceAnalyzer
    * Analyzes the differences between two lists, returning the {@link ListChange list changes}
    * that describe how the <code>newList</code> could be changed to the contents of
    * <code>oldList</code>.  The lists are not modified by this method.</p>
-   * @param oldList
-   * @param newList
    * @return a list of {@link ListChange}
    */
   public EList<ListChange> analyzeLists(EList<?> oldList, EList<?> newList)
@@ -45,10 +43,6 @@ public class ListDifferenceAnalyzer
    * should be manipulated in order to have the same contents of <code>oldList</code></p>
    *
    * <p>This methods changes the contents of <code>oldList</code></p>
-   *
-   * @param oldList
-   * @param newList
-   * @param listChanges
    */
   public void analyzeLists(EList<Object> oldList, EList<?> newList, EList<ListChange> listChanges)
   {
@@ -367,9 +361,6 @@ public class ListDifferenceAnalyzer
 
   /**
    * Creates a ListChange, initializes the main attributes, and adds it to the specified listChanges.
-   * @param listChanges
-   * @param kind
-   * @param index
    * @return ListChange
    */
   protected ListChange createListChange(EList<ListChange> listChanges, ChangeKind kind, int index)

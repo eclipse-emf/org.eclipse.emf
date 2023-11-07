@@ -14,15 +14,11 @@ package org.eclipse.emf.edit.provider;
 import java.util.Collection;
 
 
-/**
- */
 public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor, IItemPropertyDescriptor.ValueHandlerProvider, IPropertyEditorFactory.Provider
 {
   protected Object object;
   protected IItemPropertyDescriptor itemPropertyDescriptor;
 
-  /**
-   */
   public ItemPropertyDescriptorDecorator(Object object, IItemPropertyDescriptor itemPropertyDescriptor)
   {
     this.object = object;

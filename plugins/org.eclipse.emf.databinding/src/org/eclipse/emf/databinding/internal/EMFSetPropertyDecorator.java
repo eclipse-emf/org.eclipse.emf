@@ -35,10 +35,6 @@ public class EMFSetPropertyDecorator extends SetProperty implements IEMFSetPrope
   private final ISetProperty delegate;
   private final EStructuralFeature eStructuralFeature;
 
-  /**
-   * @param delegate
-   * @param eStructuralFeature
-   */
   public EMFSetPropertyDecorator(ISetProperty delegate, EStructuralFeature eStructuralFeature)
   {
     this.delegate = delegate;

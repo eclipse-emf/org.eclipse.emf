@@ -88,7 +88,6 @@ public interface XMIResource extends XMLResource
 
   /**
    * Sets XMI version and automatically assigns corresponding namespace
-   * @param version
    */
   void setXMIVersion(String version);
 
@@ -99,7 +98,6 @@ public interface XMIResource extends XMLResource
 
   /**
    * Sets XMI namespace and automatically assigns corresponding version
-   * @param namespace
    */
   void setXMINamespace(String namespace);
 }

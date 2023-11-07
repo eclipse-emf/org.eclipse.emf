@@ -139,15 +139,11 @@ public class ComposedAdapterFactory
     super();
   }
   
-  /**
-   */
   public ComposedAdapterFactory(Descriptor.Registry adapterFactoryDescriptorRegistry)
   {
     this.adapterFactoryDescriptorRegistry = adapterFactoryDescriptorRegistry;
   }
   
-  /**
-   */
   public ComposedAdapterFactory(AdapterFactory adapterFactory)
   {
     addAdapterFactory(adapterFactory);

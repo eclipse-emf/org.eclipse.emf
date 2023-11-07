@@ -27,10 +27,6 @@ public class EMFEditValueProperty extends EMFValueProperty
 {
   private final EditingDomain editingDomain;
 
-  /**
-   * @param editingDomain
-   * @param eStructuralFeature
-   */
   public EMFEditValueProperty(EditingDomain editingDomain, EStructuralFeature eStructuralFeature)
   {
     super(eStructuralFeature);

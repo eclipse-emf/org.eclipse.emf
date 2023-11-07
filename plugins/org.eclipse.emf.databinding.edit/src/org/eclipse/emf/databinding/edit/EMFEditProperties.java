@@ -184,8 +184,6 @@ public class EMFEditProperties
 
   /**
    * Returns a list property for the given {@link FeaturePath}
-   * @param editingDomain
-   * @param featurePath
    * @return a list property for the given {@link FeaturePath}
    */
   public static IEMFEditListProperty list(EditingDomain editingDomain, FeaturePath featurePath)

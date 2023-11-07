@@ -204,8 +204,6 @@ public interface XMLHelper
   
   /** Create an object given an EFactory and a type 
    * @since 2.2
-   * @param eFactory
-   * @param type
    * @return the created object.
    * @see #createObject(EFactory, String)
    */
@@ -214,8 +212,6 @@ public interface XMLHelper
   /**
    * Given an EFactory and a type name, find and return the type
    * @since 2.2
-   * @param eFactory
-   * @param typeName
    * @see #createObject(EFactory, String)
    */
   public EClassifier getType(EFactory eFactory, String typeName);
@@ -341,7 +337,6 @@ public interface XMLHelper
   
   /**
    * Specify if qualified names must have a prefix or could use default namespace (if possible)
-   * @param mustHavePrefix
    */
   void setMustHavePrefix(boolean mustHavePrefix);
 
