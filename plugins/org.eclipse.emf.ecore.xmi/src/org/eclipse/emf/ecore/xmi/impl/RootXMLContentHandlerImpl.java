@@ -76,7 +76,7 @@ public class RootXMLContentHandlerImpl extends XMLContentHandlerImpl
 
   /**
    * The key in the {@link #RootXMLContentHandlerImpl(Map) constructor}'s parameter map representing the kind of resource being processed;
-   * only the value <code>xmi<code> is recognized.
+   * only the value <code>xmi</code> is recognized.
    * @see #kind
    */
   public static final String KIND = "kind";
