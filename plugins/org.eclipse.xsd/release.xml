@@ -39,7 +39,7 @@
 	</feature>
 	<feature name="org.eclipse.xsd.mapping.editor.source" version="0.0.0"/> <!-- UNRESOLVED -->
 	<feature name="org.eclipse.xsd.mapping.source" version="0.0.0"/> <!-- UNRESOLVED -->
-	<feature name="org.eclipse.xsd.sdk" version="2.35.0">
+	<feature name="org.eclipse.xsd.sdk" version="2.36.0">
 		<feature name="org.eclipse.xsd.license" version="2.12.0" license="true"/>
 		<feature name="org.eclipse.xsd" version="2.21.0"/>
 		<feature name="org.eclipse.xsd.source" version="0.0.0"/> <!-- UNRESOLVED -->
