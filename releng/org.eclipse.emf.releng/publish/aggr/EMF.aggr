@@ -61,8 +61,11 @@
       <mavenMappings namePattern="org.eclipse.core.(.*)" groupId="org.eclipse.platform" artifactId="org.eclipse.core.$1"/>
       <mavenMappings namePattern="org.antlr.runtime" groupId="org.antlr" artifactId="antlr-runtime" versionPattern="3.2" versionTemplate=".*"/>
       <mavenMappings namePattern="org.objectweb.asm" groupId="org.ow2.asm" artifactId="asm"/>
+      <mavenMappings namePattern=".*" groupId="\$maven-groupId\$" artifactId="\$maven-artifactId\$" versionPattern=".*" versionTemplate="\$maven-version\$"/>
+      <mavenDependencyMapping namespacePattern="java\.package" namePattern="org.osgi.framework" groupId="!" artifactId="!" versionRangePattern=".*"/>
+      <mavenDependencyMapping namespacePattern="java\.package" namePattern=".*" groupId="*" artifactId="*" versionRangePattern=".*" versionRangeTemplate="major.minor.micro-qualifier"/>
     </contributions>
-    <validationRepositories location="https://download.eclipse.org/releases/2022-09"/>
+    <validationRepositories location="https://download.eclipse.org/releases/2023-12"/>
   </validationSets>
   <configurations architecture="x86_64"/>
   <configurations operatingSystem="linux" windowSystem="gtk" architecture="x86_64"/>

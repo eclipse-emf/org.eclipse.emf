@@ -467,6 +467,16 @@
         url="https://download.eclipse.org/ecoretools/updates/0.10/R201006151639"/>
   </setupTask>
   <setupTask
+      xsi:type="setup.p2:P2Task"
+      label="CBI Aggregator">
+    <requirement
+        name="org.eclipse.cbi.p2repo.aggregator.editor.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.cbi.p2repo.aggregator.analyzer.editor.feature.feature.group"/>
+    <repository
+        url="https://download.eclipse.org/cbi/updates/p2-aggregator/tools/nightly/latest"/>
+  </setupTask>
+  <setupTask
       xsi:type="setup:VariableTask"
       name="gwt.tool.url"
       value="https://www.macromodeling.com/gwt"/>
@@ -910,6 +920,10 @@
 
     </content>
   </setupTask>
+  <setupTask
+      xsi:type="setup:StringSubstitutionTask"
+      name="p2.emf"
+      value="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
   <project name="core"
       label="Core">
     <setupTask
