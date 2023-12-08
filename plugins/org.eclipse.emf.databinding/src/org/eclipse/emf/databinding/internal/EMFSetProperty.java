@@ -32,6 +32,9 @@ public class EMFSetProperty extends SimpleSetProperty
 {
   private EStructuralFeature eStructuralFeature;
 
+  /**
+   * @param eStructuralFeature the feature of the set.
+   */
   public EMFSetProperty(EStructuralFeature eStructuralFeature)
   {
     this.eStructuralFeature = eStructuralFeature;

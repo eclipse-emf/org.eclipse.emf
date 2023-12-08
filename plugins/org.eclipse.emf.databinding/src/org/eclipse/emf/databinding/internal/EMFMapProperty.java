@@ -35,6 +35,9 @@ public class EMFMapProperty extends SimpleMapProperty
 {
   private EStructuralFeature eStructuralFeature;
 
+  /**
+   * @param eStructuralFeature the feature of the map.
+   */
   public EMFMapProperty(EStructuralFeature eStructuralFeature)
   {
     this.eStructuralFeature = eStructuralFeature;

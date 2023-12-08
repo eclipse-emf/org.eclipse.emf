@@ -35,6 +35,9 @@ public class EMFListProperty extends SimpleListProperty
 {
   private EStructuralFeature eStructuralFeature;
 
+  /**
+   * @param eStructuralFeature the feature of the propery.
+   */
   public EMFListProperty(EStructuralFeature eStructuralFeature)
   {
     this.eStructuralFeature = eStructuralFeature;

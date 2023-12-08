@@ -28,7 +28,9 @@ import org.eclipse.emf.databinding.IEMFListProperty.ListElementAccess.WriteData;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-
+/**
+ * A list-based simple value property.
+ */
 public class EMFListValueProperty extends SimpleValueProperty
 {
   private final EStructuralFeature eStructuralFeature;
@@ -36,7 +38,9 @@ public class EMFListValueProperty extends SimpleValueProperty
   private final IListProperty delegate;
 
   /**
-   * @param delegate 
+   * @param delegate the delegate list.
+   * @param eStructuralFeature the list feature
+   * @param elementAccess the corresponding element access of the list feature.
    */
   public EMFListValueProperty(IListProperty delegate, EStructuralFeature eStructuralFeature, ListElementAccess<?> elementAccess)
   {
@@ -95,6 +99,13 @@ public class EMFListValueProperty extends SimpleValueProperty
     }
   }
 
+  /**
+   * Set the actual list value.
+   * @param source the object holding the value.
+   * @param targetList the list to update.
+   * @param data the way to modify the list.
+   * @param value the value with which to modify the list.
+   */
   protected void doSetListValue(EObject source, List<Object> targetList, WriteData data, Object value)
   {
     if (data.insert)

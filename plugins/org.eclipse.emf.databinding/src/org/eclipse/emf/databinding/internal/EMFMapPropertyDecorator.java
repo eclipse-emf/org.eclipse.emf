@@ -35,6 +35,10 @@ public class EMFMapPropertyDecorator extends MapProperty implements IEMFMapPrope
   private final IMapProperty delegate;
   private final EStructuralFeature eStructuralFeature;
 
+  /**
+   * @param delegate the delegate map property.
+   * @param eStructuralFeature the feature of the map.
+   */
   public EMFMapPropertyDecorator(IMapProperty delegate, EStructuralFeature eStructuralFeature)
   {
     this.delegate = delegate;
