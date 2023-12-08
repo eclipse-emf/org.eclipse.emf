@@ -97,19 +97,24 @@ pipeline {
   stages {
     stage('Display Parameters') {
       steps {
-        echo "BUILD_TIMESTAMP=${env.BUILD_TIMESTAMP}"
-        echo "BUILD_TYPE=${params.BUILD_TYPE}"
-        echo "TARGET_PLATFORM=${params.TARGET_PLATFORM}"
-        echo "JAVA_VERSION=" + targetPlatformToJavaVersionMap[params.TARGET_PLATFORM]
-        echo "ECLIPSE_SIGN=${params.ECLIPSE_SIGN}"
-        echo "PROMOTE=${params.PROMOTE}"
-        echo "ARCHIVE=${params.ARCHIVE}"
         script {
+          env.JAVA_VERSION = targetPlatformToJavaVersionMap[params.TARGET_PLATFORM]
           env.BUILD_TYPE = params.BUILD_TYPE
           env.TARGET_PLATFORM = params.TARGET_PLATFORM
           env.JAVA_VERSION = targetPlatformToJavaVersionMap[params.TARGET_PLATFORM]
           env.ECLIPSE_SIGN = params.ECLIPSE_SIGN
           env.PROMOTE = params.PROMOTE && env.ECLIPSE_SIGN
+          def description = """
+BUILD_TYPE=${env.BUILD_TYPE}
+TARGET_PLATFORM=${env.TARGET_PLATFORM}
+JAVA_VERSION=${env.JAVA_VERSION}
+BUILD_TIMESTAMP=${env.BUILD_TIMESTAMP}
+ECLIPSE_SIGN=${env.ECLIPSE_SIGN}
+PROMOTE=${env.PROMOTE}
+ARCHIVE=${params.ARCHIVE}
+""".trim()
+          echo description
+          currentBuild.description = description.replace("\n", "<br/>")
         }
       }
     }
