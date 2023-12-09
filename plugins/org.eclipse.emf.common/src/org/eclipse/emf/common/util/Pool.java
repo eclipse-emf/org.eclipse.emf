@@ -7,8 +7,10 @@
  */
 package org.eclipse.emf.common.util;
 
+import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicReference;
@@ -28,6 +30,62 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class Pool<E> extends WeakInterningHashSet<E>
 {
   private static final long serialVersionUID = 1L;
+
+  private interface TestEnqueued
+  {
+    public boolean isEnqueued(Reference<?> reference);
+  }
+
+  private static final TestEnqueued TEST_ENQUEUED;
+
+  static
+  {
+    TestEnqueued testEnqueued;
+    try
+    {
+      final Method refersToMethod = Reference.class.getMethod("refersTo", Object.class);
+      testEnqueued = new TestEnqueued()
+        {
+          public boolean isEnqueued(Reference<?> reference)
+          {
+            try
+            {
+              return !(Boolean)refersToMethod.invoke(reference, (Object)null);
+            }
+            catch (Exception exeption)
+            {
+              throw new RuntimeException(exeption);
+            }
+          }
+        };
+    }
+    catch (Exception e)
+    {
+      try
+      {
+        final Method isEnqueuedMethod = Reference.class.getMethod("isEnqueued");
+        testEnqueued = new TestEnqueued()
+          {
+            public boolean isEnqueued(Reference<?> reference)
+            {
+              try
+              {
+                return (Boolean)isEnqueuedMethod.invoke(reference);
+              }
+              catch (Exception exeption)
+              {
+                throw new RuntimeException(exeption);
+              }
+            }
+          };
+      }
+      catch (Exception e1)
+      {
+        throw new RuntimeException("Either Reference.refersTo(T) or Reference.isEnqueued() must exist.", e1);
+      }
+    }
+    TEST_ENQUEUED = testEnqueued;
+  }
 
   /**
    * An access unit is used during access to the pool.
@@ -517,7 +575,7 @@ public class Pool<E> extends WeakInterningHashSet<E>
                       ++newSize;
                       continue LOOP;
                     }
-                    else if (expectedEntry.get() == null && !expectedEntry.isEnqueued())
+                    else if (expectedEntry.get() == null && !TEST_ENQUEUED.isEnqueued(expectedEntry))
                     {
                       // The referent is null and the entry isn't enqueued so it must be an entry that was removed.
                       //
@@ -528,7 +586,7 @@ public class Pool<E> extends WeakInterningHashSet<E>
                       // If this entry isn't garbage collected, it must be a new one that was added since we did our initial computation, so put it back too.
                       // Don't increment the entry count.
                       //
-                      if (!entry.isEnqueued())
+                      if (!TEST_ENQUEUED.isEnqueued(entry))
                       {
                         pool.putEntry(index(entry.hashCode, newCapacity), entry);
                         ++newSize;
