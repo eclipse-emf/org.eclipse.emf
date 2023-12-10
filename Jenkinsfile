@@ -107,10 +107,10 @@ pipeline {
           def description = """
 BUILD_TYPE=${env.BUILD_TYPE}
 TARGET_PLATFORM=${env.TARGET_PLATFORM}
+PROMOTE=${env.PROMOTE}
 JAVA_VERSION=${env.JAVA_VERSION}
 BUILD_TIMESTAMP=${env.BUILD_TIMESTAMP}
 ECLIPSE_SIGN=${env.ECLIPSE_SIGN}
-PROMOTE=${env.PROMOTE}
 ARCHIVE=${params.ARCHIVE}
 """.trim()
           echo description
