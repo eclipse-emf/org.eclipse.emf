@@ -48,11 +48,21 @@ public final class CommonUtil
     ReferenceQueue<Object> referenceClearingQueue = null;
     try
     {
+      boolean hasSecurityManager;
+      try
+      {
+        hasSecurityManager = System.class.getMethod("getSecurityManager").invoke(null) != null;
+      }
+      catch (Exception ex)
+      {
+        hasSecurityManager = false;
+      }
+
       // A daemon thread is created only if there is no security manager.
       // The system property "org.eclipse.emf.common.util.ReferenceClearingQueue" can be used to override the default.
       //
       String hasReferenceClearingQueue = System.getProperty("org.eclipse.emf.common.util.ReferenceClearingQueue");
-      if (System.getSecurityManager() == null ? !"false".equalsIgnoreCase(hasReferenceClearingQueue) : "true".equalsIgnoreCase(hasReferenceClearingQueue))
+      if (!hasSecurityManager ? !"false".equalsIgnoreCase(hasReferenceClearingQueue) : "true".equalsIgnoreCase(hasReferenceClearingQueue))
       {
         class ReferenceClearingQueuePollingThread extends Thread
         {
@@ -85,7 +95,7 @@ public final class CommonUtil
         referenceClearingQueuePollingThread.setName("EMF Reference Cleaner");
         // referenceClearingQueuePollingThread.setPriority(Thread.MAX_PRIORITY);S
         referenceClearingQueuePollingThread.start();
-        
+
         // If we successfully started the thread, initialize the queue
         //
         referenceClearingQueue = referenceClearingQueuePollingThread.queue;

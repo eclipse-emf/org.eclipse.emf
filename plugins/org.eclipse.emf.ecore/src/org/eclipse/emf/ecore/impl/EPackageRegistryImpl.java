@@ -11,7 +11,9 @@
 package org.eclipse.emf.ecore.impl;
 
 
-import java.security.AccessController;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.security.Permission;
 import java.security.PrivilegedAction;
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,7 +24,6 @@ import java.util.WeakHashMap;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 
@@ -56,17 +57,18 @@ public class EPackageRegistryImpl extends HashMap<String, Object> implements EPa
         {
           try
           {
-            SecurityManager securityManager = System.getSecurityManager();
+            Object securityManager = System.class.getMethod("getSecurityManager").invoke(null);
             if (securityManager != null)
             {
-              securityManager.checkPermission(new RuntimePermission("classLoader"));
+              Method checkPermission = securityManager.getClass().getMethod("checkPermission", Permission.class);
+              checkPermission.invoke(securityManager, new RuntimePermission("classLoader"));
+              return new Delegator();
             }
-            return new Delegator();
           }
           catch (Throwable throwable)
           {
-            return new SecureDelegator();
           }
+          return new SecureDelegator();
         }
         else
         {
@@ -306,7 +308,6 @@ public class EPackageRegistryImpl extends HashMap<String, Object> implements EPa
 
     public Object put(String key, Object value) 
     {
-      // TODO Binary incompatibility; an old override must override putAll.
       Class<?> valueClass = value.getClass();
       if (valueClass == EPackageImpl.class) 
       {
@@ -401,7 +402,7 @@ public class EPackageRegistryImpl extends HashMap<String, Object> implements EPa
     public ClassLoader getParent(ClassLoader classLoader)
     {
       this.classLoader = classLoader;
-      AccessController.doPrivileged(this);
+      doPrivileged(this);
       return this.classLoader;
     }
   }
@@ -419,7 +420,7 @@ public class EPackageRegistryImpl extends HashMap<String, Object> implements EPa
 
   private static ClassLoader getContextClassLoaderSecurely()
   {
-    return AccessController.doPrivileged(CONTEXT_CLASS_LOADER_ACTION);
+    return doPrivileged(CONTEXT_CLASS_LOADER_ACTION);
   }
 
   private static final Map<ClassLoader, EPackage.Registry> secureClassLoaderToRegistryMap = new WeakHashMap<ClassLoader, EPackage.Registry>();
@@ -458,6 +459,57 @@ public class EPackageRegistryImpl extends HashMap<String, Object> implements EPa
     protected ClassLoader getParent(ClassLoader classLoader)
     {
       return parentClassLoaderGetter.getParent(classLoader);
+    }
+  }
+
+  private static final Method  DO_PRIVILEGED;
+
+  static
+  {
+    Method doPrivileged = null;
+    try
+    {
+      doPrivileged = Class.forName("java.security.AccessController").getMethod("doPrivileged", PrivilegedAction.class);
+    }
+    catch (Throwable throwable)
+    {
+    }
+    DO_PRIVILEGED = doPrivileged;
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T> T doPrivileged(PrivilegedAction<T> action)
+  {
+    try
+    {
+      if (DO_PRIVILEGED == null)
+      {
+        return action.run();
+      }
+      else
+      {
+        return (T)DO_PRIVILEGED.invoke(null, action);
+      }
+    }
+    catch (IllegalAccessException e)
+    {
+      throw new RuntimeException(e);
+    }
+    catch (IllegalArgumentException e)
+    {
+      throw e;
+    }
+    catch (InvocationTargetException e)
+    {
+      Throwable targetException = e.getTargetException();
+      if (targetException instanceof RuntimeException)
+      {
+        throw (RuntimeException)targetException;
+      }
+      else
+      {
+        throw new RuntimeException(e);
+      }
     }
   }
 }
