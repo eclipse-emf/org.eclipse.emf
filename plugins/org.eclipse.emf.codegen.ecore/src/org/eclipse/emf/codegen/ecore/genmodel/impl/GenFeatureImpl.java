@@ -1400,9 +1400,12 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     if (eType instanceof EDataType)
     {
       GenDataType genDataType = (GenDataType)findGenClassifier(eType);
-      if (hasGenericType()) {
+      if (hasGenericType())
+      {
         return getRawTypeCast() + genDataType.getStaticValue(defaultString, false);
-      } else {
+      }
+      else
+      {
         return genDataType.getStaticValue(defaultString);
       }
     }
