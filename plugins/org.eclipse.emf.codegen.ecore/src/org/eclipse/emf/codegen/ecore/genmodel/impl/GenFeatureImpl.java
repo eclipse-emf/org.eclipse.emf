@@ -1400,10 +1400,43 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     if (eType instanceof EDataType)
     {
       GenDataType genDataType = (GenDataType)findGenClassifier(eType);
-      return genDataType.getStaticValue(defaultString);
+      if (hasGenericType() && defaultString != null && !"java.lang.Class".equals(eType.getInstanceClassName()))
+      {
+        return getRawTypeCast() + genDataType.getStaticValue(defaultString, false);
+      }
+      else
+      {
+        return genDataType.getStaticValue(defaultString);
+      }
     }
 
     return "null";
+  }
+
+  public boolean isStaticDefaultValueUncheckedCast()
+  {
+    if (!getGenModel().useGenerics())
+    {
+      return false;
+    }
+    else if (isListDataType() && isSetDefaultValue())
+    {
+      return true;
+    }
+    else if (getEcoreFeature().getDefaultValueLiteral() == null)
+    {
+      return false;
+    }
+    else if (hasGenericType())
+    {
+      return true;
+    }
+    else
+    {
+      EClassifier eType = getEcoreFeature().getEType();
+      String instanceClassName = eType.getInstanceClassName();
+      return !"java.lang.Class".equals(instanceClassName) && instanceClassName != eType.getInstanceTypeName();
+    }
   }
 
   protected boolean isMapEntryFeature()
@@ -2600,6 +2633,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     return 
       getEcoreFeature() instanceof EAttribute && 
         (getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50 ||
+           ((EAttribute)getEcoreFeature()).getDefaultValueLiteral() != null ||
            (getEcoreFeature().getEType() != null &&
                getEcoreFeature().getEType().getETypeParameters().isEmpty() && 
                getEcoreFeature().getEGenericType().getETypeParameter() == null &&
