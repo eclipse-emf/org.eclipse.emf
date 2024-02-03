@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.pde.ui.RuntimeWorkbench">
     <setAttribute key="additional_plugins">
-        <setEntry value="com.ibm.icu:73.2.0:default:true:default:default"/>
+        <setEntry value="com.ibm.icu:74.2.0:default:true:default:default"/>
         <setEntry value="jakarta.inject.jakarta.inject-api:2.0.1:default:true:default:default"/>
         <setEntry value="org.aopalliance:1.0.0.v20230720-0728:default:true:default:default"/>
-        <setEntry value="org.objectweb.asm:9.5.0:default:true:default:default"/>
+        <setEntry value="org.objectweb.asm:9.6.0:default:true:default:default"/>
     </setAttribute>
     <booleanAttribute key="append.args" value="true"/>
     <booleanAttribute key="askclear" value="true"/>

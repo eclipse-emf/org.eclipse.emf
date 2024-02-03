@@ -84,7 +84,8 @@ public class RoseLoader extends RoseComponent
         }
         if (inputStream != null)
         {
-          bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+          InputStreamReader in = new InputStreamReader(inputStream);
+          bufferedReader = new BufferedReader(in);
           valid = true;
           length = inputStream.available();
           currentLength = 0;

@@ -14,6 +14,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
+import org.eclipse.emf.converter.ConverterPlugin;
+import org.eclipse.emf.converter.ui.contribution.ModelConverterDescriptor;
+import org.eclipse.emf.converter.ui.contribution.ModelConverterManager;
+import org.eclipse.emf.converter.ui.contribution.ModelConverterManager.ModelConverterDescriptorWizardNode;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -40,15 +49,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
-
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
-import org.eclipse.emf.converter.ConverterPlugin;
-import org.eclipse.emf.converter.ui.contribution.ModelConverterDescriptor;
-import org.eclipse.emf.converter.ui.contribution.ModelConverterManager;
-import org.eclipse.emf.converter.ui.contribution.ModelConverterManager.ModelConverterDescriptorWizardNode;
 import org.osgi.service.prefs.BackingStoreException;
 
 /**
@@ -129,7 +129,7 @@ public abstract class ModelConverterDescriptorSelectionPage extends WizardSelect
   }
   
   @SuppressWarnings("deprecation")
-  private static final InstanceScope INSTANCE_SCOPE = new InstanceScope();
+  private static final IScopeContext INSTANCE_SCOPE = new InstanceScope();
 
   public void performFinish()
   {

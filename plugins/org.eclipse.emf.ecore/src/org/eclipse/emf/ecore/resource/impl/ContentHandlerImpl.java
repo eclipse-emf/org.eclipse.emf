@@ -192,7 +192,6 @@ public class ContentHandlerImpl implements ContentHandler
    */
   public static String getLineDelimiter(InputStream inputStream, String charset) throws IOException
   {
-    @SuppressWarnings("resource")
     Reader reader = charset == null ? new InputStreamReader(inputStream) : new InputStreamReader(inputStream, charset);
     char [] text = new char [4048];
     char target = 0;

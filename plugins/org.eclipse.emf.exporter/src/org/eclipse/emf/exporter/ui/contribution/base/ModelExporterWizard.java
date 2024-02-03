@@ -14,10 +14,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
+import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.IWorkbench;
-
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
 import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
@@ -28,6 +26,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.converter.ui.contribution.base.ModelConverterWizard;
 import org.eclipse.emf.exporter.ExporterPlugin;
 import org.eclipse.emf.exporter.ModelExporter;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.IWorkbench;
 import org.osgi.service.prefs.BackingStoreException;
 
 
@@ -98,7 +98,7 @@ public abstract class ModelExporterWizard extends ModelConverterWizard
   }
 
   @SuppressWarnings("deprecation")
-  private static final InstanceScope INSTANCE_SCOPE = new InstanceScope();
+  private static final IScopeContext INSTANCE_SCOPE = new InstanceScope();
 
   protected void writePreferencesSettings()
   {
