@@ -2,31 +2,31 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.test.tools;singleton:=true
-Bundle-Version: 2.19.0.qualifier
+Bundle-Version: 2.20.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.emf.test.tools;version="2.19.0",
- org.eclipse.emf.test.tools.ant;version="2.19.0",
- org.eclipse.emf.test.tools.codegen;version="2.19.0",
- org.eclipse.emf.test.tools.converter;version="2.19.0",
- org.eclipse.emf.test.tools.importer;version="2.19.0",
- org.eclipse.emf.test.tools.merger;version="2.19.0",
- org.eclipse.emf.test.tools.merger.facade;version="2.19.0"
+Export-Package: org.eclipse.emf.test.tools;version="2.20.0",
+ org.eclipse.emf.test.tools.ant;version="2.20.0",
+ org.eclipse.emf.test.tools.codegen;version="2.20.0",
+ org.eclipse.emf.test.tools.converter;version="2.20.0",
+ org.eclipse.emf.test.tools.importer;version="2.20.0",
+ org.eclipse.emf.test.tools.merger;version="2.20.0",
+ org.eclipse.emf.test.tools.merger.facade;version="2.20.0"
 Require-Bundle: org.apache.ant;bundle-version="[1.7.0,2.0.0)",
  org.eclipse.ant.core;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.core.resources;bundle-version="[3.8.0,4.0.0)",
- org.eclipse.emf.codegen.ecore;bundle-version="[2.33.0,3.0.0)",
- org.eclipse.emf.ecore.xmi;bundle-version="[2.18.0,3.0.0)",
+ org.eclipse.emf.codegen.ecore;bundle-version="[2.37.0,3.0.0)",
+ org.eclipse.emf.ecore.xmi;bundle-version="[2.37.0,3.0.0)",
  org.eclipse.emf.importer;bundle-version="[2.13.0,3.0.0)",
  org.eclipse.jdt.core;bundle-version="[3.9.0,4.0.0)",
  org.junit;bundle-version="[4.12.0,5.0.0)",
  org.eclipse.text;bundle-version="[3.5.0,4.0.0)",
  org.eclipse.emf.test.common;bundle-version="[1.11.0,2.0.0)",
  org.eclipse.emf.ant;bundle-version="[2.12.0,3.0.0)",
- org.eclipse.emf.importer.rose;bundle-version="[2.12.0,3.0.0)",
+ org.eclipse.emf.importer.rose;bundle-version="[2.13.0,3.0.0)",
  org.eclipse.xsd.ecore.importer;bundle-version="[2.10.0,3.0.0)",
  org.eclipse.emf.importer.ecore;bundle-version="[2.11.0,3.0.0)",
  org.eclipse.emf.importer.java;bundle-version="[2.12.0,3.0.0)",

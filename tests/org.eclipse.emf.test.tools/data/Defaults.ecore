@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="defaults"
-    nsURI="http:///org.eclipse.emf.test.models/Defaults.ecore" nsPrefix="def">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="defaults" nsURI="http:///org.eclipse.emf.test.models/Defaults.ecore"
+    nsPrefix="def">
   <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
     <details key="prefix" value="Defaults"/>
     <details key="basePackage" value="org.eclipse.emf.test.tools.genmodel"/>
@@ -367,10 +366,30 @@
         <details key="staticDefaultValue" value="true"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" defaultValueLiteral="1 s">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="(Quantity&lt;Time>)DefaultsFactory.eINSTANCE.createFromString(DefaultsPackage.eINSTANCE.getEQuantity(), &quot;1 s&quot;)"/>
+      </eAnnotations>
+      <eGenericType eClassifier="#//EQuantity">
+        <eTypeArguments eClassifier="#//ETime"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="period" eType="#//ETimeQuantity"
+        defaultValueLiteral="1 s">
+      <eAnnotations source="http://www.eclipse.org/emf/GenModelTest">
+        <details key="staticDefaultValue" value="(Quantity&lt;Time>)DefaultsFactory.eINSTANCE.createFromString(DefaultsPackage.eINSTANCE.getETimeQuantity(), &quot;1 s&quot;)"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MyClass"/>
   <eClassifiers xsi:type="ecore:EDataType" name="MyInt" instanceClassName="int"/>
   <eClassifiers xsi:type="ecore:EDataType" name="MyIntegerObject" instanceClassName="java.lang.Integer"/>
   <eClassifiers xsi:type="ecore:EDataType" name="MyDate" instanceClassName="java.util.Date"/>
   <eClassifiers xsi:type="ecore:EDataType" name="UUID" instanceClassName="java.util.UUID"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="EQuantity" instanceClassName="javax.measure.Quantity">
+    <eTypeParameters name="dimension"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="ETime" instanceClassName="javax.measure.quantity.Time"
+      serializable="false"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="ETimeQuantity" instanceTypeName="javax.measure.Quantity&lt;javax.measure.quantity.Time>"/>
 </ecore:EPackage>

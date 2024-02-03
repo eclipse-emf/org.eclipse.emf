@@ -374,6 +374,11 @@ public interface GenFeature extends GenTypedElement
   String getDefaultValue();
   String getStaticDefaultValue();
 
+  /**
+   * @since 2.37
+   */
+  boolean isStaticDefaultValueUncheckedCast();
+
   boolean isContainer();
   boolean isContains();
   boolean isEffectiveContains();
