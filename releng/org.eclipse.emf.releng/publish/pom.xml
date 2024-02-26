@@ -5,7 +5,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <version.tycho>2.7.5</version.tycho>
+    <version.tycho>4.0.5</version.tycho>
     <version.emf>2.33</version.emf>
     <p2.emf>https://download.eclipse.org/modeling/emf/emf/builds/release/${version.emf}</p2.emf>
   </properties>
@@ -31,8 +31,8 @@
         <extensions>true</extensions>
       </plugin>
       <plugin>
-        <groupId>org.eclipse.tycho.extras</groupId>
-        <artifactId>tycho-eclipserun-plugin</artifactId>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-eclipse-plugin</artifactId>
         <version>${version.tycho}</version>
         <executions>
           <execution>
