@@ -54,7 +54,7 @@
         <bundles name="org.eclipse.xsd.edit"/>
         <bundles name="org.eclipse.xsd.edit.source"/>
       </repositories>
-      <mavenMappings namePattern="org\.eclipse\.(xsd.*|core\.resources|text).*" groupId="\$maven-groupId\$" artifactId="\$maven-artifactId\$"/>
+      <mavenMappings namePattern="org\.eclipse\.(xsd.*|emf|core\.resources|text).*" groupId="\$maven-groupId\$" artifactId="\$maven-artifactId\$"/>
       <mavenMappings namePattern="org.apache.ant" groupId="org.apache.ant" artifactId="ant"/>
       <mavenMappings namePattern="org.eclipse.ant.core" groupId="org.eclipse.platform" artifactId="org.eclipse.ant.core"/>
       <mavenMappings namePattern="org.eclipse.debug.(.*)" groupId="org.eclipse.platform" artifactId="org.eclipse.debug.$1"/>
