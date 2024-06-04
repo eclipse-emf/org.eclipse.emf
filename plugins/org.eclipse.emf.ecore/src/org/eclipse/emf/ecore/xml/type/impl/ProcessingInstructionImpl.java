@@ -102,6 +102,7 @@ public class ProcessingInstructionImpl extends MinimalEObjectImpl.Container impl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getData()
   {
     return data;
@@ -112,6 +113,7 @@ public class ProcessingInstructionImpl extends MinimalEObjectImpl.Container impl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setData(String newData)
   {
     String oldData = data;
@@ -125,6 +127,7 @@ public class ProcessingInstructionImpl extends MinimalEObjectImpl.Container impl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getTarget()
   {
     return target;
@@ -135,6 +138,7 @@ public class ProcessingInstructionImpl extends MinimalEObjectImpl.Container impl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTarget(String newTarget)
   {
     String oldTarget = target;

@@ -126,6 +126,7 @@ public abstract class XSDFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getLexicalValue()
   {
     return lexicalValue;
@@ -136,6 +137,7 @@ public abstract class XSDFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLexicalValue(String newLexicalValue)
   {
     String oldLexicalValue = lexicalValue;
@@ -231,6 +233,7 @@ public abstract class XSDFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAnnotation getAnnotation()
   {
     return annotation;
@@ -241,6 +244,7 @@ public abstract class XSDFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAnnotation(XSDAnnotation newAnnotation)
   {
     if (newAnnotation != annotation)

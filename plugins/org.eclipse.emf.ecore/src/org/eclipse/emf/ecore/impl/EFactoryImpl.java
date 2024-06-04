@@ -100,6 +100,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory, BinaryR
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EPackage getEPackage()
   {
     return ePackage;
@@ -110,6 +111,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory, BinaryR
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEPackage(EPackage newEPackage)
   {
     if (newEPackage != ePackage)

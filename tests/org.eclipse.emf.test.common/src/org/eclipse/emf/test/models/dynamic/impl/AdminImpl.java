@@ -8,11 +8,8 @@
 package org.eclipse.emf.test.models.dynamic.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.test.models.dynamic.Admin;
 import org.eclipse.emf.test.models.dynamic.DynamicPackage;
 
@@ -98,6 +95,7 @@ public class AdminImpl extends ServiceImpl implements Admin
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -108,6 +106,7 @@ public class AdminImpl extends ServiceImpl implements Admin
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -121,6 +120,7 @@ public class AdminImpl extends ServiceImpl implements Admin
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getLocation()
   {
     return location;
@@ -131,6 +131,7 @@ public class AdminImpl extends ServiceImpl implements Admin
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLocation(String newLocation)
   {
     String oldLocation = location;

@@ -84,6 +84,7 @@ public class DBPriceFactoryImpl extends EFactoryImpl implements DBPriceFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public PencilType createPencilType()
   {
     PencilTypeImpl pencilType = new PencilTypeImpl();
@@ -95,6 +96,7 @@ public class DBPriceFactoryImpl extends EFactoryImpl implements DBPriceFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public PenType createPenType()
   {
     PenTypeImpl penType = new PenTypeImpl();
@@ -106,6 +108,7 @@ public class DBPriceFactoryImpl extends EFactoryImpl implements DBPriceFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public DBPricePackage getDBPricePackage()
   {
     return (DBPricePackage)getEPackage();

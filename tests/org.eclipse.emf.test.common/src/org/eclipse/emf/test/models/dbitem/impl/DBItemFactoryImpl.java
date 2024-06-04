@@ -84,6 +84,7 @@ public class DBItemFactoryImpl extends EFactoryImpl implements DBItemFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public DbType createDbType()
   {
     DbTypeImpl dbType = new DbTypeImpl();
@@ -95,6 +96,7 @@ public class DBItemFactoryImpl extends EFactoryImpl implements DBItemFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public DocumentRoot createDocumentRoot()
   {
     DocumentRootImpl documentRoot = new DocumentRootImpl();
@@ -106,6 +108,7 @@ public class DBItemFactoryImpl extends EFactoryImpl implements DBItemFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public DBItemPackage getDBItemPackage()
   {
     return (DBItemPackage)getEPackage();

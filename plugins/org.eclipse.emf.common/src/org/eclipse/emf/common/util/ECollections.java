@@ -1282,6 +1282,7 @@ public class ECollections
    * @return an EList view of the specified array.
    * @since 2.9
    */
+  @SafeVarargs
   public static <T> EList<T> asEList(final T...elements)
   {
     return
@@ -1386,6 +1387,7 @@ public class ECollections
    * @return a mutable {@link BasicEList} containing the given elements.
    * @since 2.9
    */
+  @SafeVarargs
   public static <T> BasicEList<T> newBasicEList(T... elements)
   {
     BasicEList<T> result = new BasicEList<T>(elements.length);

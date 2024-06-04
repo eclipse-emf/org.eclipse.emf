@@ -129,6 +129,7 @@ public class XSDImportImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getNamespace()
   {
     return namespace;
@@ -139,6 +140,7 @@ public class XSDImportImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNamespace(String newNamespace)
   {
     String oldNamespace = namespace;
@@ -152,6 +154,7 @@ public class XSDImportImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAnnotation getAnnotation()
   {
     return annotation;
@@ -162,6 +165,7 @@ public class XSDImportImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAnnotation(XSDAnnotation newAnnotation)
   {
     if (newAnnotation != annotation)

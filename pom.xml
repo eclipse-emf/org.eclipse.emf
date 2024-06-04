@@ -9,7 +9,7 @@
   <packaging>pom</packaging>
 
   <properties>
-    <target-platform>2020-09</target-platform>
+    <target-platform>2024-06</target-platform>
   </properties>
 
   <modules>

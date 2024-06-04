@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.change.ListChange#getKind <em>Kind</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.ListChange#getDataValues <em>Data Values</em>}</li>
@@ -33,7 +34,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *   <li>{@link org.eclipse.emf.ecore.change.ListChange#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.ListChange#getFeatureMapEntryValues <em>Feature Map Entry Values</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.change.ChangePackage#getListChange()
  * @model

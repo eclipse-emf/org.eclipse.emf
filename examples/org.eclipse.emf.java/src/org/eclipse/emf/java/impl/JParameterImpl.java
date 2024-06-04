@@ -96,6 +96,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isFinal()
   {
     return final_;
@@ -106,6 +107,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFinal(boolean newFinal)
   {
     boolean oldFinal = final_;
@@ -119,6 +121,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JMethod getMethod()
   {
     if (eContainerFeatureID() != JavaPackage.JPARAMETER__METHOD) return null;
@@ -141,6 +144,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMethod(JMethod newMethod)
   {
     if (newMethod != eInternalContainer() || (eContainerFeatureID() != JavaPackage.JPARAMETER__METHOD && newMethod != null))
@@ -164,6 +168,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JClass getType()
   {
     if (type != null && type.eIsProxy())
@@ -194,6 +199,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setType(JClass newType)
   {
     JClass oldType = type;

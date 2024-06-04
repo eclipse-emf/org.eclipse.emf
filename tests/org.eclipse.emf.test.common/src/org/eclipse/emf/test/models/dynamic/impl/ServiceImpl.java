@@ -71,6 +71,7 @@ public class ServiceImpl extends MinimalEObjectImpl.Container.Dynamic.Permissive
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Detail> getDetails()
   {
     if (details == null)

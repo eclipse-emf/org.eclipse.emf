@@ -9,11 +9,13 @@ package org.eclipse.emf.test.models.dynamic.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.test.models.dynamic.*;
+import org.eclipse.emf.test.models.dynamic.Admin;
+import org.eclipse.emf.test.models.dynamic.Detail;
+import org.eclipse.emf.test.models.dynamic.DynamicPackage;
+import org.eclipse.emf.test.models.dynamic.Provider;
+import org.eclipse.emf.test.models.dynamic.Service;
 
 /**
  * <!-- begin-user-doc -->

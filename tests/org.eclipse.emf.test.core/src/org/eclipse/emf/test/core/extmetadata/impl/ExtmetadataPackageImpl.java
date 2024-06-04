@@ -78,7 +78,7 @@ public class ExtmetadataPackageImpl extends EPackageImpl implements ExtmetadataP
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link ExtmetadataPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -92,7 +92,8 @@ public class ExtmetadataPackageImpl extends EPackageImpl implements ExtmetadataP
     if (isInited) return (ExtmetadataPackage)EPackage.Registry.INSTANCE.getEPackage(ExtmetadataPackage.eNS_URI);
 
     // Obtain or create and register package
-    ExtmetadataPackageImpl theExtmetadataPackage = (ExtmetadataPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ExtmetadataPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ExtmetadataPackageImpl());
+    Object registeredExtmetadataPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    ExtmetadataPackageImpl theExtmetadataPackage = registeredExtmetadataPackage instanceof ExtmetadataPackageImpl ? (ExtmetadataPackageImpl)registeredExtmetadataPackage : new ExtmetadataPackageImpl();
 
     isInited = true;
 
@@ -105,7 +106,6 @@ public class ExtmetadataPackageImpl extends EPackageImpl implements ExtmetadataP
     // Mark meta-data to indicate it can't be changed
     theExtmetadataPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(ExtmetadataPackage.eNS_URI, theExtmetadataPackage);
     return theExtmetadataPackage;
@@ -116,6 +116,7 @@ public class ExtmetadataPackageImpl extends EPackageImpl implements ExtmetadataP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getNamedElement() {
     return namedElementEClass;
   }
@@ -125,6 +126,7 @@ public class ExtmetadataPackageImpl extends EPackageImpl implements ExtmetadataP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getNamedElement_Name() {
     return (EAttribute)namedElementEClass.getEStructuralFeatures().get(0);
   }
@@ -134,6 +136,7 @@ public class ExtmetadataPackageImpl extends EPackageImpl implements ExtmetadataP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getClass_() {
     return classEClass;
   }
@@ -143,6 +146,7 @@ public class ExtmetadataPackageImpl extends EPackageImpl implements ExtmetadataP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getClass_Attribute() {
     return (EReference)classEClass.getEStructuralFeatures().get(0);
   }
@@ -152,6 +156,7 @@ public class ExtmetadataPackageImpl extends EPackageImpl implements ExtmetadataP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getAttribute() {
     return attributeEClass;
   }
@@ -161,6 +166,7 @@ public class ExtmetadataPackageImpl extends EPackageImpl implements ExtmetadataP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getAttribute_Type() {
     return (EReference)attributeEClass.getEStructuralFeatures().get(0);
   }
@@ -170,6 +176,7 @@ public class ExtmetadataPackageImpl extends EPackageImpl implements ExtmetadataP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ExtmetadataFactory getExtmetadataFactory() {
     return (ExtmetadataFactory)getEFactoryInstance();
   }

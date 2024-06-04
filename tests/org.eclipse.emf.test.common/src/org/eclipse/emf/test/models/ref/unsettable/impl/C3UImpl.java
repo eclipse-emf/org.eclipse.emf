@@ -97,6 +97,7 @@ public class C3UImpl extends EObjectImpl implements C3U
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CU getCu()
   {
     return cu;
@@ -126,6 +127,7 @@ public class C3UImpl extends EObjectImpl implements C3U
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCu(CU newCu)
   {
     if (newCu != cu)
@@ -171,6 +173,7 @@ public class C3UImpl extends EObjectImpl implements C3U
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetCu()
   {
     if (cu != null)
@@ -194,6 +197,7 @@ public class C3UImpl extends EObjectImpl implements C3U
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetCu()
   {
     return cuESet;
@@ -204,6 +208,7 @@ public class C3UImpl extends EObjectImpl implements C3U
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<DU> getDu()
   {
     if (du == null)
@@ -218,6 +223,7 @@ public class C3UImpl extends EObjectImpl implements C3U
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetDu()
   {
     if (du != null) ((InternalEList.Unsettable<?>)du).unset();
@@ -228,6 +234,7 @@ public class C3UImpl extends EObjectImpl implements C3U
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetDu()
   {
     return du != null && ((InternalEList.Unsettable<?>)du).isSet();

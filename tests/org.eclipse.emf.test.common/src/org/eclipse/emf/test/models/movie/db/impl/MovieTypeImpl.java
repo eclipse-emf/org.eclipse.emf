@@ -238,6 +238,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getTitle()
   {
     return title;
@@ -248,6 +249,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTitle(String newTitle)
   {
     String oldTitle = title;
@@ -261,6 +263,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public List<String> getActors()
   {
     return actors;
@@ -271,6 +274,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setActors(List<String> newActors)
   {
     List<String> oldActors = actors;
@@ -284,6 +288,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getDirector()
   {
     return director;
@@ -294,6 +299,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setDirector(String newDirector)
   {
     String oldDirector = director;
@@ -307,6 +313,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenreTypes getGenre()
   {
     return genre;
@@ -317,6 +324,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setGenre(GenreTypes newGenre)
   {
     GenreTypes oldGenre = genre;
@@ -332,6 +340,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetGenre()
   {
     GenreTypes oldGenre = genre;
@@ -347,6 +356,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetGenre()
   {
     return genreESet;
@@ -357,6 +367,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getSummary()
   {
     return summary;
@@ -367,6 +378,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSummary(String newSummary)
   {
     String oldSummary = summary;
@@ -380,6 +392,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getCriticsReviewGroup()
   {
     if (criticsReviewGroup == null)
@@ -394,6 +407,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<CriticsReviewType> getCriticsReview()
   {
     return getCriticsReviewGroup().list(DBPackage.Literals.MOVIE_TYPE__CRITICS_REVIEW);
@@ -404,6 +418,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CustomerType getCheckedOutBy()
   {
     if (checkedOutBy != null && checkedOutBy.eIsProxy())
@@ -434,6 +449,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCheckedOutBy(CustomerType newCheckedOutBy)
   {
     CustomerType oldCheckedOutBy = checkedOutBy;
@@ -447,6 +463,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getAny()
   {
     if (any == null)
@@ -461,6 +478,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getID()
   {
     return iD;
@@ -471,6 +489,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setID(String newID)
   {
     String oldID = iD;
@@ -670,7 +689,7 @@ public class MovieTypeImpl extends EObjectImpl implements MovieType
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (title: ");
     result.append(title);
     result.append(", actors: ");

@@ -98,6 +98,7 @@ public class URefFactoryImpl extends EFactoryImpl implements URefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C1U createC1U()
   {
     C1UImpl c1U = new C1UImpl();
@@ -109,6 +110,7 @@ public class URefFactoryImpl extends EFactoryImpl implements URefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C2U createC2U()
   {
     C2UImpl c2U = new C2UImpl();
@@ -120,6 +122,7 @@ public class URefFactoryImpl extends EFactoryImpl implements URefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public AU createAU()
   {
     AUImpl au = new AUImpl();
@@ -131,6 +134,7 @@ public class URefFactoryImpl extends EFactoryImpl implements URefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public BU createBU()
   {
     BUImpl bu = new BUImpl();
@@ -142,6 +146,7 @@ public class URefFactoryImpl extends EFactoryImpl implements URefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CU createCU()
   {
     CUImpl cu = new CUImpl();
@@ -153,6 +158,7 @@ public class URefFactoryImpl extends EFactoryImpl implements URefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public DU createDU()
   {
     DUImpl du = new DUImpl();
@@ -164,6 +170,7 @@ public class URefFactoryImpl extends EFactoryImpl implements URefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C4U createC4U()
   {
     C4UImpl c4U = new C4UImpl();
@@ -175,6 +182,7 @@ public class URefFactoryImpl extends EFactoryImpl implements URefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C3U createC3U()
   {
     C3UImpl c3U = new C3UImpl();
@@ -186,6 +194,7 @@ public class URefFactoryImpl extends EFactoryImpl implements URefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EU createEU()
   {
     EUImpl eu = new EUImpl();
@@ -197,6 +206,7 @@ public class URefFactoryImpl extends EFactoryImpl implements URefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public URefPackage getURefPackage()
   {
     return (URefPackage)getEPackage();

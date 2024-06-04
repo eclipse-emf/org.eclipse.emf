@@ -127,6 +127,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isStatic()
   {
     return static_;
@@ -137,6 +138,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setStatic(boolean newStatic)
   {
     boolean oldStatic = static_;
@@ -150,6 +152,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JVisibility getVisibility()
   {
     return visibility;
@@ -160,6 +163,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setVisibility(JVisibility newVisibility)
   {
     JVisibility oldVisibility = visibility;
@@ -173,6 +177,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getComment()
   {
     return comment;
@@ -183,6 +188,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setComment(String newComment)
   {
     String oldComment = comment;
@@ -196,6 +202,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JClass getContainingType()
   {
     if (eContainerFeatureID() != JavaPackage.JMEMBER__CONTAINING_TYPE) return null;
@@ -218,6 +225,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setContainingType(JClass newContainingType)
   {
     if (newContainingType != eInternalContainer() || (eContainerFeatureID() != JavaPackage.JMEMBER__CONTAINING_TYPE && newContainingType != null))

@@ -99,6 +99,7 @@ public abstract class AddressTypeImpl extends EObjectImpl implements AddressType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getStreet()
   {
     return street;
@@ -109,6 +110,7 @@ public abstract class AddressTypeImpl extends EObjectImpl implements AddressType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setStreet(String newStreet)
   {
     String oldStreet = street;
@@ -122,6 +124,7 @@ public abstract class AddressTypeImpl extends EObjectImpl implements AddressType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getTown()
   {
     return town;
@@ -132,6 +135,7 @@ public abstract class AddressTypeImpl extends EObjectImpl implements AddressType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTown(String newTown)
   {
     String oldTown = town;
@@ -226,7 +230,7 @@ public abstract class AddressTypeImpl extends EObjectImpl implements AddressType
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (street: ");
     result.append(street);
     result.append(", town: ");

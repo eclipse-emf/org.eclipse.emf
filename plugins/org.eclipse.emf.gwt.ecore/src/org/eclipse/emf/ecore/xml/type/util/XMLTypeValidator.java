@@ -825,7 +825,7 @@ public class XMLTypeValidator extends EObjectValidator
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    * @see #validateNegativeInteger_Max
    */
   public static final String NEGATIVE_INTEGER__MAX__VALUE = "-1";
@@ -958,7 +958,7 @@ public class XMLTypeValidator extends EObjectValidator
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    * @see #validateNonNegativeInteger_Min
    */
   public static final String NON_NEGATIVE_INTEGER__MIN__VALUE = "0";
@@ -991,7 +991,7 @@ public class XMLTypeValidator extends EObjectValidator
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    * @see #validateNonPositiveInteger_Max
    */
   public static final String NON_POSITIVE_INTEGER__MAX__VALUE = "0";
@@ -1050,7 +1050,7 @@ public class XMLTypeValidator extends EObjectValidator
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    * @see #validatePositiveInteger_Min
    */
   public static final String POSITIVE_INTEGER__MIN__VALUE = "1";
@@ -1308,7 +1308,7 @@ public class XMLTypeValidator extends EObjectValidator
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    * @see #validateUnsignedLong_Max
    */
   public static final String UNSIGNED_LONG__MAX__VALUE = "18446744073709551615";

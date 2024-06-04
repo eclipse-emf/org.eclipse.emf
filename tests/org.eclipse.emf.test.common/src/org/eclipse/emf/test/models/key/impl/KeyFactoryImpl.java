@@ -84,6 +84,7 @@ public class KeyFactoryImpl extends EFactoryImpl implements KeyFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Item createItem()
   {
     ItemImpl item = new ItemImpl();
@@ -95,6 +96,7 @@ public class KeyFactoryImpl extends EFactoryImpl implements KeyFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Root createRoot()
   {
     RootImpl root = new RootImpl();
@@ -106,6 +108,7 @@ public class KeyFactoryImpl extends EFactoryImpl implements KeyFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public KeyPackage getKeyPackage()
   {
     return (KeyPackage)getEPackage();

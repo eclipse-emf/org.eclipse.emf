@@ -100,6 +100,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Package getJavaPackage()
   {
     return javaPackage;
@@ -110,6 +111,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setJavaPackage(Package newJavaPackage)
   {
     Package oldJavaPackage = javaPackage;
@@ -123,6 +125,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<JClass> getTypes()
   {
     if (types == null)

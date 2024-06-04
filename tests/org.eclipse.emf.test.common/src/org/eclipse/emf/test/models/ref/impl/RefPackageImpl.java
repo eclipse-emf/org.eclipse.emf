@@ -122,7 +122,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link RefPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -137,13 +137,16 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
     if (isInited) return (RefPackage)EPackage.Registry.INSTANCE.getEPackage(RefPackage.eNS_URI);
 
     // Obtain or create and register package
-    RefPackageImpl theRefPackage = (RefPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof RefPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new RefPackageImpl());
+    Object registeredRefPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    RefPackageImpl theRefPackage = registeredRefPackage instanceof RefPackageImpl ? (RefPackageImpl)registeredRefPackage : new RefPackageImpl();
 
     isInited = true;
 
     // Obtain or create and register interdependencies
-    URefPackageImpl theURefPackage = (URefPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(URefPackage.eNS_URI) instanceof URefPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(URefPackage.eNS_URI) : URefPackage.eINSTANCE);
-    ExtPackageImpl theExtPackage = (ExtPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ExtPackage.eNS_URI) instanceof ExtPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ExtPackage.eNS_URI) : ExtPackage.eINSTANCE);
+    Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(URefPackage.eNS_URI);
+    URefPackageImpl theURefPackage = (URefPackageImpl)(registeredPackage instanceof URefPackageImpl ? registeredPackage : URefPackage.eINSTANCE);
+    registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ExtPackage.eNS_URI);
+    ExtPackageImpl theExtPackage = (ExtPackageImpl)(registeredPackage instanceof ExtPackageImpl ? registeredPackage : ExtPackage.eINSTANCE);
 
     // Create package meta-data objects
     theRefPackage.createPackageContents();
@@ -158,7 +161,6 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
     // Mark meta-data to indicate it can't be changed
     theRefPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(RefPackage.eNS_URI, theRefPackage);
     return theRefPackage;
@@ -169,6 +171,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getA()
   {
     return aEClass;
@@ -179,6 +182,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getA_B()
   {
     return (EReference)aEClass.getEStructuralFeatures().get(0);
@@ -189,6 +193,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getA_C2()
   {
     return (EReference)aEClass.getEStructuralFeatures().get(1);
@@ -199,6 +204,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getA_C()
   {
     return (EReference)aEClass.getEStructuralFeatures().get(2);
@@ -209,6 +215,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getB()
   {
     return bEClass;
@@ -219,6 +226,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getB_A()
   {
     return (EReference)bEClass.getEStructuralFeatures().get(0);
@@ -229,6 +237,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getB_C2()
   {
     return (EReference)bEClass.getEStructuralFeatures().get(1);
@@ -239,6 +248,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getB_D()
   {
     return (EReference)bEClass.getEStructuralFeatures().get(2);
@@ -249,6 +259,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getC1()
   {
     return c1EClass;
@@ -259,6 +270,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getC1_A()
   {
     return (EReference)c1EClass.getEStructuralFeatures().get(0);
@@ -269,6 +281,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getC1_B()
   {
     return (EReference)c1EClass.getEStructuralFeatures().get(1);
@@ -279,6 +292,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getC2()
   {
     return c2EClass;
@@ -289,6 +303,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getC2_B()
   {
     return (EReference)c2EClass.getEStructuralFeatures().get(0);
@@ -299,6 +314,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getC2_A()
   {
     return (EReference)c2EClass.getEStructuralFeatures().get(1);
@@ -309,6 +325,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getC()
   {
     return cEClass;
@@ -319,6 +336,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getC_D()
   {
     return (EReference)cEClass.getEStructuralFeatures().get(0);
@@ -329,6 +347,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getC_C4()
   {
     return (EReference)cEClass.getEStructuralFeatures().get(1);
@@ -339,6 +358,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getD()
   {
     return dEClass;
@@ -349,6 +369,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getD_C()
   {
     return (EReference)dEClass.getEStructuralFeatures().get(0);
@@ -359,6 +380,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getD_E()
   {
     return (EReference)dEClass.getEStructuralFeatures().get(1);
@@ -369,6 +391,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getD_C4()
   {
     return (EReference)dEClass.getEStructuralFeatures().get(2);
@@ -379,6 +402,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getE()
   {
     return eEClass;
@@ -389,6 +413,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getE_Name()
   {
     return (EAttribute)eEClass.getEStructuralFeatures().get(0);
@@ -399,6 +424,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getE_Ids()
   {
     return (EAttribute)eEClass.getEStructuralFeatures().get(1);
@@ -409,6 +435,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getE_Labels()
   {
     return (EAttribute)eEClass.getEStructuralFeatures().get(2);
@@ -419,6 +446,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getE_D()
   {
     return (EReference)eEClass.getEStructuralFeatures().get(3);
@@ -429,6 +457,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getC4()
   {
     return c4EClass;
@@ -439,6 +468,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getC4_C()
   {
     return (EReference)c4EClass.getEStructuralFeatures().get(0);
@@ -449,6 +479,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getC4_D()
   {
     return (EReference)c4EClass.getEStructuralFeatures().get(1);
@@ -459,6 +490,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getC3()
   {
     return c3EClass;
@@ -469,6 +501,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getC3_D()
   {
     return (EReference)c3EClass.getEStructuralFeatures().get(0);
@@ -479,6 +512,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getC3_C()
   {
     return (EReference)c3EClass.getEStructuralFeatures().get(1);
@@ -489,6 +523,7 @@ public class RefPackageImpl extends EPackageImpl implements RefPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public RefFactory getRefFactory()
   {
     return (RefFactory)getEFactoryInstance();

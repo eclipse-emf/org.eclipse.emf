@@ -464,7 +464,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link EcorePackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -481,7 +481,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     initializeRegistryHelpers();
 
     // Obtain or create and register package
-    EcorePackageImpl theEcorePackage = (EcorePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof EcorePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new EcorePackageImpl());
+    Object registeredEcorePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    EcorePackageImpl theEcorePackage = registeredEcorePackage instanceof EcorePackageImpl ? (EcorePackageImpl)registeredEcorePackage : new EcorePackageImpl();
 
     isInited = true;
 
@@ -493,16 +494,16 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
 
     // Register package validator
     EValidator.Registry.INSTANCE.put
-      (theEcorePackage, 
+      (theEcorePackage,
        new EValidator.Descriptor()
        {
+         @Override
          public EValidator getEValidator()
          {
            return EcoreValidator.INSTANCE;
          }
        });
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(EcorePackage.eNS_URI, theEcorePackage);
     return theEcorePackage;
@@ -516,8 +517,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
   public static void initializeRegistryHelpersGen()
   {
     Reflect.register
-      (EAttribute.class, 
-       new Reflect.Helper() 
+      (EAttribute.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -530,8 +531,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (EAnnotation.class, 
-       new Reflect.Helper() 
+      (EAnnotation.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -544,8 +545,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (EClass.class, 
-       new Reflect.Helper() 
+      (EClass.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -558,8 +559,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (EClassifier.class, 
-       new Reflect.Helper() 
+      (EClassifier.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -572,8 +573,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (EDataType.class, 
-       new Reflect.Helper() 
+      (EDataType.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -586,8 +587,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (EEnum.class, 
-       new Reflect.Helper() 
+      (EEnum.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -600,8 +601,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (EEnumLiteral.class, 
-       new Reflect.Helper() 
+      (EEnumLiteral.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -614,8 +615,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (EFactory.class, 
-       new Reflect.Helper() 
+      (EFactory.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -628,8 +629,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (EModelElement.class, 
-       new Reflect.Helper() 
+      (EModelElement.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -642,8 +643,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (ENamedElement.class, 
-       new Reflect.Helper() 
+      (ENamedElement.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -656,8 +657,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (EObject.class, 
-       new Reflect.Helper() 
+      (EObject.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -670,8 +671,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (EOperation.class, 
-       new Reflect.Helper() 
+      (EOperation.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -684,8 +685,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (EPackage.class, 
-       new Reflect.Helper() 
+      (EPackage.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -698,8 +699,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (EParameter.class, 
-       new Reflect.Helper() 
+      (EParameter.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -712,8 +713,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (EReference.class, 
-       new Reflect.Helper() 
+      (EReference.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -726,8 +727,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (EStructuralFeature.class, 
-       new Reflect.Helper() 
+      (EStructuralFeature.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -740,8 +741,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (ETypedElement.class, 
-       new Reflect.Helper() 
+      (ETypedElement.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -754,8 +755,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (EStringToStringMapEntryImpl.class, 
-       new Reflect.Helper() 
+      (EStringToStringMapEntryImpl.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -768,8 +769,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (EGenericType.class, 
-       new Reflect.Helper() 
+      (EGenericType.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -782,8 +783,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (ETypeParameter.class, 
-       new Reflect.Helper() 
+      (ETypeParameter.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -796,8 +797,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
        });
     Reflect.register
-      (BigDecimal.class, 
-       new Reflect.Helper() 
+      (BigDecimal.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -810,8 +811,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (BigInteger.class, 
-       new Reflect.Helper() 
+      (BigInteger.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -824,8 +825,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (Boolean.class, 
-       new Reflect.Helper() 
+      (Boolean.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -838,8 +839,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (byte[].class, 
-       new Reflect.Helper() 
+      (byte[].class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -852,8 +853,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (Byte.class, 
-       new Reflect.Helper() 
+      (Byte.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -866,8 +867,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (Character.class, 
-       new Reflect.Helper() 
+      (Character.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -880,8 +881,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (Date.class, 
-       new Reflect.Helper() 
+      (Date.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -894,8 +895,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (DiagnosticChain.class, 
-       new Reflect.Helper() 
+      (DiagnosticChain.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -908,8 +909,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (Double.class, 
-       new Reflect.Helper() 
+      (Double.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -922,8 +923,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (EList.class, 
-       new Reflect.Helper() 
+      (EList.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -936,8 +937,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (Enumerator.class, 
-       new Reflect.Helper() 
+      (Enumerator.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -950,8 +951,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (FeatureMap.class, 
-       new Reflect.Helper() 
+      (FeatureMap.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -964,8 +965,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (FeatureMap.Entry.class, 
-       new Reflect.Helper() 
+      (FeatureMap.Entry.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -978,8 +979,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (Float.class, 
-       new Reflect.Helper() 
+      (Float.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -992,8 +993,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (Integer.class, 
-       new Reflect.Helper() 
+      (Integer.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -1006,8 +1007,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (Class.class, 
-       new Reflect.Helper() 
+      (Class.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -1020,8 +1021,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (Long.class, 
-       new Reflect.Helper() 
+      (Long.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -1034,8 +1035,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (Map.class, 
-       new Reflect.Helper() 
+      (Map.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -1048,8 +1049,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (Resource.class, 
-       new Reflect.Helper() 
+      (Resource.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -1062,8 +1063,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (ResourceSet.class, 
-       new Reflect.Helper() 
+      (ResourceSet.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -1076,8 +1077,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (Short.class, 
-       new Reflect.Helper() 
+      (Short.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -1090,8 +1091,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
+      (String.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -1104,8 +1105,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (TreeIterator.class, 
-       new Reflect.Helper() 
+      (TreeIterator.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -1118,8 +1119,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
          }
     });
     Reflect.register
-      (InvocationTargetException.class, 
-       new Reflect.Helper() 
+      (InvocationTargetException.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -1493,6 +1494,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEClass()
   {
     return eClassEClass;
@@ -1503,6 +1505,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEClass_Abstract()
   {
     return (EAttribute)eClassEClass.getEStructuralFeatures().get(0);
@@ -1513,6 +1516,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEClass_Interface()
   {
     return (EAttribute)eClassEClass.getEStructuralFeatures().get(1);
@@ -1523,6 +1527,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEClass_ESuperTypes()
   {
     return (EReference)eClassEClass.getEStructuralFeatures().get(2);
@@ -1533,6 +1538,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEClass_EOperations()
   {
     return (EReference)eClassEClass.getEStructuralFeatures().get(3);
@@ -1543,6 +1549,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEClass_EAllAttributes()
   {
     return (EReference)eClassEClass.getEStructuralFeatures().get(4);
@@ -1553,6 +1560,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEClass_EAllReferences()
   {
     return (EReference)eClassEClass.getEStructuralFeatures().get(5);
@@ -1563,6 +1571,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEClass_EReferences()
   {
     return (EReference)eClassEClass.getEStructuralFeatures().get(6);
@@ -1573,6 +1582,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEClass_EAttributes()
   {
     return (EReference)eClassEClass.getEStructuralFeatures().get(7);
@@ -1583,6 +1593,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEClass_EAllContainments()
   {
     return (EReference)eClassEClass.getEStructuralFeatures().get(8);
@@ -1593,6 +1604,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEClass_EAllOperations()
   {
     return (EReference)eClassEClass.getEStructuralFeatures().get(9);
@@ -1603,6 +1615,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEClass_EAllStructuralFeatures()
   {
     return (EReference)eClassEClass.getEStructuralFeatures().get(10);
@@ -1613,6 +1626,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEClass_EAllSuperTypes()
   {
     return (EReference)eClassEClass.getEStructuralFeatures().get(11);
@@ -1623,6 +1637,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEClass_EIDAttribute()
   {
     return (EReference)eClassEClass.getEStructuralFeatures().get(12);
@@ -1633,6 +1648,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEClass_EStructuralFeatures()
   {
     return (EReference)eClassEClass.getEStructuralFeatures().get(13);
@@ -1643,6 +1659,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEClass_EGenericSuperTypes()
   {
     return (EReference)eClassEClass.getEStructuralFeatures().get(14);
@@ -1653,6 +1670,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEClass_EAllGenericSuperTypes()
   {
     return (EReference)eClassEClass.getEStructuralFeatures().get(15);
@@ -1663,6 +1681,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEClass__IsSuperTypeOf__EClass()
   {
     return eClassEClass.getEOperations().get(0);
@@ -1673,6 +1692,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEClass__GetFeatureCount()
   {
     return eClassEClass.getEOperations().get(1);
@@ -1683,6 +1703,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEClass__GetEStructuralFeature__int()
   {
     return eClassEClass.getEOperations().get(2);
@@ -1693,6 +1714,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEClass__GetFeatureID__EStructuralFeature()
   {
     return eClassEClass.getEOperations().get(3);
@@ -1703,6 +1725,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEClass__GetEStructuralFeature__String()
   {
     return eClassEClass.getEOperations().get(4);
@@ -1713,6 +1736,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEClass__GetOperationCount()
   {
     return eClassEClass.getEOperations().get(5);
@@ -1723,6 +1747,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEClass__GetEOperation__int()
   {
     return eClassEClass.getEOperations().get(6);
@@ -1733,6 +1758,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEClass__GetOperationID__EOperation()
   {
     return eClassEClass.getEOperations().get(7);
@@ -1743,6 +1769,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEClass__GetOverride__EOperation()
   {
     return eClassEClass.getEOperations().get(8);
@@ -1753,6 +1780,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEDataType()
   {
     return eDataTypeEClass;
@@ -1763,6 +1791,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEDataType_Serializable()
   {
     return (EAttribute)eDataTypeEClass.getEStructuralFeatures().get(0);
@@ -1773,6 +1802,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEClassifier()
   {
     return eClassifierEClass;
@@ -1783,6 +1813,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEClassifier_InstanceClassName()
   {
     return (EAttribute)eClassifierEClass.getEStructuralFeatures().get(0);
@@ -1793,6 +1824,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEClassifier_InstanceClass()
   {
     return (EAttribute)eClassifierEClass.getEStructuralFeatures().get(1);
@@ -1803,6 +1835,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEClassifier_DefaultValue()
   {
     return (EAttribute)eClassifierEClass.getEStructuralFeatures().get(2);
@@ -1813,6 +1846,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEClassifier_InstanceTypeName()
   {
     return (EAttribute)eClassifierEClass.getEStructuralFeatures().get(3);
@@ -1823,6 +1857,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEClassifier_EPackage()
   {
     return (EReference)eClassifierEClass.getEStructuralFeatures().get(4);
@@ -1833,6 +1868,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEClassifier_ETypeParameters()
   {
     return (EReference)eClassifierEClass.getEStructuralFeatures().get(5);
@@ -1843,6 +1879,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEClassifier__IsInstance__Object()
   {
     return eClassifierEClass.getEOperations().get(0);
@@ -1853,6 +1890,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEClassifier__GetClassifierID()
   {
     return eClassifierEClass.getEOperations().get(1);
@@ -1863,6 +1901,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getENamedElement()
   {
     return eNamedElementEClass;
@@ -1873,6 +1912,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getENamedElement_Name()
   {
     return (EAttribute)eNamedElementEClass.getEStructuralFeatures().get(0);
@@ -1883,6 +1923,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEOperation()
   {
     return eOperationEClass;
@@ -1893,6 +1934,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEOperation_EContainingClass()
   {
     return (EReference)eOperationEClass.getEStructuralFeatures().get(0);
@@ -1903,6 +1945,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEOperation_EParameters()
   {
     return (EReference)eOperationEClass.getEStructuralFeatures().get(2);
@@ -1913,6 +1956,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEOperation_EExceptions()
   {
     return (EReference)eOperationEClass.getEStructuralFeatures().get(3);
@@ -1923,6 +1967,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEOperation_EGenericExceptions()
   {
     return (EReference)eOperationEClass.getEStructuralFeatures().get(4);
@@ -1933,6 +1978,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEOperation__GetOperationID()
   {
     return eOperationEClass.getEOperations().get(0);
@@ -1943,6 +1989,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEOperation__IsOverrideOf__EOperation()
   {
     return eOperationEClass.getEOperations().get(1);
@@ -1953,6 +2000,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEOperation_ETypeParameters()
   {
     return (EReference)eOperationEClass.getEStructuralFeatures().get(1);
@@ -1963,6 +2011,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEModelElement()
   {
     return eModelElementEClass;
@@ -1973,6 +2022,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEModelElement_EAnnotations()
   {
     return (EReference)eModelElementEClass.getEStructuralFeatures().get(0);
@@ -1983,6 +2033,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEModelElement__GetEAnnotation__String()
   {
     return eModelElementEClass.getEOperations().get(0);
@@ -1993,6 +2044,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEStructuralFeature()
   {
     return eStructuralFeatureEClass;
@@ -2003,6 +2055,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEStructuralFeature_Transient()
   {
     return (EAttribute)eStructuralFeatureEClass.getEStructuralFeatures().get(2);
@@ -2013,6 +2066,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEStructuralFeature_Volatile()
   {
     return (EAttribute)eStructuralFeatureEClass.getEStructuralFeatures().get(1);
@@ -2023,6 +2077,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEStructuralFeature_Changeable()
   {
     return (EAttribute)eStructuralFeatureEClass.getEStructuralFeatures().get(0);
@@ -2033,6 +2088,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEStructuralFeature_DefaultValueLiteral()
   {
     return (EAttribute)eStructuralFeatureEClass.getEStructuralFeatures().get(3);
@@ -2043,6 +2099,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEStructuralFeature_DefaultValue()
   {
     return (EAttribute)eStructuralFeatureEClass.getEStructuralFeatures().get(4);
@@ -2053,6 +2110,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEStructuralFeature_Unsettable()
   {
     return (EAttribute)eStructuralFeatureEClass.getEStructuralFeatures().get(5);
@@ -2063,6 +2121,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEStructuralFeature_Derived()
   {
     return (EAttribute)eStructuralFeatureEClass.getEStructuralFeatures().get(6);
@@ -2073,6 +2132,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEStructuralFeature_EContainingClass()
   {
     return (EReference)eStructuralFeatureEClass.getEStructuralFeatures().get(7);
@@ -2083,6 +2143,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEStructuralFeature__GetFeatureID()
   {
     return eStructuralFeatureEClass.getEOperations().get(0);
@@ -2093,6 +2154,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEStructuralFeature__GetContainerClass()
   {
     return eStructuralFeatureEClass.getEOperations().get(1);
@@ -2148,6 +2210,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEAttribute()
   {
     return eAttributeEClass;
@@ -2158,6 +2221,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEAttribute_ID()
   {
     return (EAttribute)eAttributeEClass.getEStructuralFeatures().get(0);
@@ -2168,6 +2232,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEAttribute_EAttributeType()
   {
     return (EReference)eAttributeEClass.getEStructuralFeatures().get(1);
@@ -2178,6 +2243,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEAnnotation()
   {
     return eAnnotationEClass;
@@ -2188,6 +2254,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEAnnotation_Source()
   {
     return (EAttribute)eAnnotationEClass.getEStructuralFeatures().get(0);
@@ -2198,6 +2265,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEAnnotation_Details()
   {
     return (EReference)eAnnotationEClass.getEStructuralFeatures().get(1);
@@ -2208,6 +2276,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEAnnotation_EModelElement()
   {
     return (EReference)eAnnotationEClass.getEStructuralFeatures().get(2);
@@ -2218,6 +2287,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEAnnotation_Contents()
   {
     return (EReference)eAnnotationEClass.getEStructuralFeatures().get(3);
@@ -2228,6 +2298,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEAnnotation_References()
   {
     return (EReference)eAnnotationEClass.getEStructuralFeatures().get(4);
@@ -2238,6 +2309,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEReference()
   {
     return eReferenceEClass;
@@ -2248,6 +2320,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEReference_Containment()
   {
     return (EAttribute)eReferenceEClass.getEStructuralFeatures().get(0);
@@ -2258,6 +2331,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEReference_Container()
   {
     return (EAttribute)eReferenceEClass.getEStructuralFeatures().get(1);
@@ -2268,6 +2342,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEReference_ResolveProxies()
   {
     return (EAttribute)eReferenceEClass.getEStructuralFeatures().get(2);
@@ -2278,6 +2353,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEReference_EOpposite()
   {
     return (EReference)eReferenceEClass.getEStructuralFeatures().get(3);
@@ -2288,6 +2364,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEReference_EReferenceType()
   {
     return (EReference)eReferenceEClass.getEStructuralFeatures().get(4);
@@ -2298,6 +2375,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEReference_EKeys()
   {
     return (EReference)eReferenceEClass.getEStructuralFeatures().get(5);
@@ -2308,6 +2386,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEEList()
   {
     return eeListEDataType;
@@ -2318,6 +2397,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEResource()
   {
     return eResourceEDataType;
@@ -2328,6 +2408,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEResourceSet()
   {
     return eResourceSetEDataType;
@@ -2338,6 +2419,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEBooleanObject()
   {
     return eBooleanObjectEDataType;
@@ -2348,6 +2430,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getECharacterObject()
   {
     return eCharacterObjectEDataType;
@@ -2358,6 +2441,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEDate()
   {
     return eDateEDataType;
@@ -2368,6 +2452,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEDiagnosticChain()
   {
     return eDiagnosticChainEDataType;
@@ -2378,6 +2463,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEDoubleObject()
   {
     return eDoubleObjectEDataType;
@@ -2388,6 +2474,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEFloatObject()
   {
     return eFloatObjectEDataType;
@@ -2398,6 +2485,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEIntegerObject()
   {
     return eIntegerObjectEDataType;
@@ -2408,6 +2496,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getETypedElement()
   {
     return eTypedElementEClass;
@@ -2418,6 +2507,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getETypedElement_Ordered()
   {
     return (EAttribute)eTypedElementEClass.getEStructuralFeatures().get(0);
@@ -2428,6 +2518,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getETypedElement_Unique()
   {
     return (EAttribute)eTypedElementEClass.getEStructuralFeatures().get(1);
@@ -2438,6 +2529,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getETypedElement_LowerBound()
   {
     return (EAttribute)eTypedElementEClass.getEStructuralFeatures().get(2);
@@ -2448,6 +2540,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getETypedElement_UpperBound()
   {
     return (EAttribute)eTypedElementEClass.getEStructuralFeatures().get(3);
@@ -2458,6 +2551,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getETypedElement_Many()
   {
     return (EAttribute)eTypedElementEClass.getEStructuralFeatures().get(4);
@@ -2468,6 +2562,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getETypedElement_Required()
   {
     return (EAttribute)eTypedElementEClass.getEStructuralFeatures().get(5);
@@ -2478,6 +2573,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getETypedElement_EType()
   {
     return (EReference)eTypedElementEClass.getEStructuralFeatures().get(6);
@@ -2488,6 +2584,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getETypedElement_EGenericType()
   {
     return (EReference)eTypedElementEClass.getEStructuralFeatures().get(7);
@@ -2498,6 +2595,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEStringToStringMapEntry()
   {
     return eStringToStringMapEntryEClass;
@@ -2508,6 +2606,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEStringToStringMapEntry_Key()
   {
     return (EAttribute)eStringToStringMapEntryEClass.getEStructuralFeatures().get(0);
@@ -2518,6 +2617,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEStringToStringMapEntry_Value()
   {
     return (EAttribute)eStringToStringMapEntryEClass.getEStructuralFeatures().get(1);
@@ -2528,6 +2628,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEGenericType()
   {
     return eGenericTypeEClass;
@@ -2538,6 +2639,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEGenericType_EUpperBound()
   {
     return (EReference)eGenericTypeEClass.getEStructuralFeatures().get(0);
@@ -2548,6 +2650,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEGenericType_ETypeArguments()
   {
     return (EReference)eGenericTypeEClass.getEStructuralFeatures().get(1);
@@ -2558,6 +2661,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEGenericType_ERawType()
   {
     return (EReference)eGenericTypeEClass.getEStructuralFeatures().get(2);
@@ -2568,6 +2672,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEGenericType_ELowerBound()
   {
     return (EReference)eGenericTypeEClass.getEStructuralFeatures().get(3);
@@ -2578,6 +2683,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEGenericType_ETypeParameter()
   {
     return (EReference)eGenericTypeEClass.getEStructuralFeatures().get(4);
@@ -2588,6 +2694,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEGenericType_EClassifier()
   {
     return (EReference)eGenericTypeEClass.getEStructuralFeatures().get(5);
@@ -2598,6 +2705,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getETypeParameter()
   {
     return eTypeParameterEClass;
@@ -2608,6 +2716,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getETypeParameter_EBounds()
   {
     return (EReference)eTypeParameterEClass.getEStructuralFeatures().get(0);
@@ -2618,6 +2727,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEBigDecimal()
   {
     return eBigDecimalEDataType;
@@ -2628,6 +2738,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEBigInteger()
   {
     return eBigIntegerEDataType;
@@ -2638,6 +2749,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEParameter()
   {
     return eParameterEClass;
@@ -2648,6 +2760,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEParameter_EOperation()
   {
     return (EReference)eParameterEClass.getEStructuralFeatures().get(0);
@@ -2658,6 +2771,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEObject()
   {
     return eObjectEClass;
@@ -2668,6 +2782,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEObject__EClass()
   {
     return eObjectEClass.getEOperations().get(0);
@@ -2678,6 +2793,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEObject__EIsProxy()
   {
     return eObjectEClass.getEOperations().get(1);
@@ -2688,6 +2804,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEObject__EResource()
   {
     return eObjectEClass.getEOperations().get(2);
@@ -2698,6 +2815,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEObject__EContainer()
   {
     return eObjectEClass.getEOperations().get(3);
@@ -2708,6 +2826,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEObject__EContainingFeature()
   {
     return eObjectEClass.getEOperations().get(4);
@@ -2718,6 +2837,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEObject__EContainmentFeature()
   {
     return eObjectEClass.getEOperations().get(5);
@@ -2728,6 +2848,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEObject__EContents()
   {
     return eObjectEClass.getEOperations().get(6);
@@ -2738,6 +2859,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEObject__EAllContents()
   {
     return eObjectEClass.getEOperations().get(7);
@@ -2748,6 +2870,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEObject__ECrossReferences()
   {
     return eObjectEClass.getEOperations().get(8);
@@ -2758,6 +2881,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEObject__EGet__EStructuralFeature()
   {
     return eObjectEClass.getEOperations().get(9);
@@ -2768,6 +2892,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEObject__EGet__EStructuralFeature_boolean()
   {
     return eObjectEClass.getEOperations().get(10);
@@ -2778,6 +2903,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEObject__ESet__EStructuralFeature_Object()
   {
     return eObjectEClass.getEOperations().get(11);
@@ -2788,6 +2914,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEObject__EIsSet__EStructuralFeature()
   {
     return eObjectEClass.getEOperations().get(12);
@@ -2798,6 +2925,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEObject__EUnset__EStructuralFeature()
   {
     return eObjectEClass.getEOperations().get(13);
@@ -2808,6 +2936,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEObject__EInvoke__EOperation_EList()
   {
     return eObjectEClass.getEOperations().get(14);
@@ -2818,6 +2947,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEPackage()
   {
     return ePackageEClass;
@@ -2828,6 +2958,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEPackage_NsURI()
   {
     return (EAttribute)ePackageEClass.getEStructuralFeatures().get(0);
@@ -2838,6 +2969,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEPackage_NsPrefix()
   {
     return (EAttribute)ePackageEClass.getEStructuralFeatures().get(1);
@@ -2848,6 +2980,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEPackage_EFactoryInstance()
   {
     return (EReference)ePackageEClass.getEStructuralFeatures().get(2);
@@ -2858,6 +2991,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEPackage_EClassifiers()
   {
     return (EReference)ePackageEClass.getEStructuralFeatures().get(3);
@@ -2868,6 +3002,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEPackage_ESubpackages()
   {
     return (EReference)ePackageEClass.getEStructuralFeatures().get(4);
@@ -2878,6 +3013,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEPackage_ESuperPackage()
   {
     return (EReference)ePackageEClass.getEStructuralFeatures().get(5);
@@ -2888,6 +3024,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEPackage__GetEClassifier__String()
   {
     return ePackageEClass.getEOperations().get(0);
@@ -2898,6 +3035,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEEnum()
   {
     return eEnumEClass;
@@ -2908,6 +3046,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEEnum_ELiterals()
   {
     return (EReference)eEnumEClass.getEStructuralFeatures().get(0);
@@ -2918,6 +3057,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEEnum__GetEEnumLiteral__String()
   {
     return eEnumEClass.getEOperations().get(0);
@@ -2928,6 +3068,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEEnum__GetEEnumLiteral__int()
   {
     return eEnumEClass.getEOperations().get(1);
@@ -2938,6 +3079,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEEnum__GetEEnumLiteralByLiteral__String()
   {
     return eEnumEClass.getEOperations().get(2);
@@ -2948,6 +3090,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEEnumLiteral()
   {
     return eEnumLiteralEClass;
@@ -2958,6 +3101,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEEnumLiteral_Value()
   {
     return (EAttribute)eEnumLiteralEClass.getEStructuralFeatures().get(0);
@@ -2968,6 +3112,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEEnumLiteral_Instance()
   {
     return (EAttribute)eEnumLiteralEClass.getEStructuralFeatures().get(1);
@@ -2978,6 +3123,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEEnumLiteral_Literal()
   {
     return (EAttribute)eEnumLiteralEClass.getEStructuralFeatures().get(2);
@@ -2988,6 +3134,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEEnumLiteral_EEnum()
   {
     return (EReference)eEnumLiteralEClass.getEStructuralFeatures().get(3);
@@ -2998,6 +3145,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEBoolean()
   {
     return eBooleanEDataType;
@@ -3008,6 +3156,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEByteObject()
   {
     return eByteObjectEDataType;
@@ -3018,6 +3167,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEJavaClass()
   {
     return eJavaClassEDataType;
@@ -3028,6 +3178,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEJavaObject()
   {
     return eJavaObjectEDataType;
@@ -3038,6 +3189,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getELongObject()
   {
     return eLongObjectEDataType;
@@ -3048,6 +3200,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEMap()
   {
     return eMapEDataType;
@@ -3058,6 +3211,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEShortObject()
   {
     return eShortObjectEDataType;
@@ -3068,6 +3222,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEString()
   {
     return eStringEDataType;
@@ -3078,6 +3233,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEInt()
   {
     return eIntEDataType;
@@ -3088,6 +3244,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEFloat()
   {
     return eFloatEDataType;
@@ -3098,6 +3255,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getELong()
   {
     return eLongEDataType;
@@ -3108,6 +3266,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEDouble()
   {
     return eDoubleEDataType;
@@ -3118,6 +3277,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEShort()
   {
     return eShortEDataType;
@@ -3128,6 +3288,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getETreeIterator()
   {
     return eTreeIteratorEDataType;
@@ -3138,6 +3299,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEInvocationTargetException()
   {
     return eInvocationTargetExceptionEDataType;
@@ -3148,6 +3310,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEFeatureMapEntry()
   {
     return eFeatureMapEntryEDataType;
@@ -3158,6 +3321,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEEnumerator()
   {
     return eEnumeratorEDataType;
@@ -3168,6 +3332,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEFeatureMap()
   {
     return eFeatureMapEDataType;
@@ -3178,6 +3343,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEChar()
   {
     return eCharEDataType;
@@ -3188,6 +3354,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEByte()
   {
     return eByteEDataType;
@@ -3198,6 +3365,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEByteArray()
   {
     return eByteArrayEDataType;
@@ -3208,6 +3376,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EcoreFactory getEcoreFactory()
   {
     return (EcoreFactory)getEFactoryInstance();
@@ -3775,90 +3944,90 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    */
   protected void createEcoreAnnotations()
   {
-    String source = "http://www.eclipse.org/emf/2002/Ecore";	
+    String source = "http://www.eclipse.org/emf/2002/Ecore";
     addAnnotation
-      (eAttributeEClass, 
-       source, 
-       new String[] 
+      (eAttributeEClass,
+       source,
+       new String[]
        {
-       "constraints", "ConsistentTransient"
-       });	
+         "constraints", "ConsistentTransient"
+       });
     addAnnotation
-      (eAnnotationEClass, 
-       source, 
-       new String[] 
+      (eAnnotationEClass,
+       source,
+       new String[]
        {
-       "constraints", "WellFormedSourceURI"
-       });	
+         "constraints", "WellFormedSourceURI"
+       });
     addAnnotation
-      (eClassEClass, 
-       source, 
-       new String[] 
+      (eClassEClass,
+       source,
+       new String[]
        {
-       "constraints", "InterfaceIsAbstract AtMostOneID UniqueFeatureNames UniqueOperationSignatures NoCircularSuperTypes WellFormedMapEntryClass ConsistentSuperTypes DisjointFeatureAndOperationSignatures"
-       });	
+         "constraints", "InterfaceIsAbstract AtMostOneID UniqueFeatureNames UniqueOperationSignatures NoCircularSuperTypes WellFormedMapEntryClass ConsistentSuperTypes DisjointFeatureAndOperationSignatures"
+       });
     addAnnotation
-      (eClassifierEClass, 
-       source, 
-       new String[] 
+      (eClassifierEClass,
+       source,
+       new String[]
        {
-       "constraints", "WellFormedInstanceTypeName UniqueTypeParameterNames"
-       });	
+         "constraints", "WellFormedInstanceTypeName UniqueTypeParameterNames"
+       });
     addAnnotation
-      (eEnumEClass, 
-       source, 
-       new String[] 
+      (eEnumEClass,
+       source,
+       new String[]
        {
-       "constraints", "UniqueEnumeratorNames UniqueEnumeratorLiterals"
-       });	
+         "constraints", "UniqueEnumeratorNames UniqueEnumeratorLiterals"
+       });
     addAnnotation
-      (eNamedElementEClass, 
-       source, 
-       new String[] 
+      (eNamedElementEClass,
+       source,
+       new String[]
        {
-       "constraints", "WellFormedName"
-       });	
+         "constraints", "WellFormedName"
+       });
     addAnnotation
-      (eOperationEClass, 
-       source, 
-       new String[] 
+      (eOperationEClass,
+       source,
+       new String[]
        {
-       "constraints", "UniqueParameterNames UniqueTypeParameterNames NoRepeatingVoid"
-       });	
+         "constraints", "UniqueParameterNames UniqueTypeParameterNames NoRepeatingVoid"
+       });
     addAnnotation
-      (ePackageEClass, 
-       source, 
-       new String[] 
+      (ePackageEClass,
+       source,
+       new String[]
        {
-       "constraints", "WellFormedNsURI WellFormedNsPrefix UniqueSubpackageNames UniqueClassifierNames UniqueNsURIs"
-       });	
+         "constraints", "WellFormedNsURI WellFormedNsPrefix UniqueSubpackageNames UniqueClassifierNames UniqueNsURIs"
+       });
     addAnnotation
-      (eReferenceEClass, 
-       source, 
-       new String[] 
+      (eReferenceEClass,
+       source,
+       new String[]
        {
-       "constraints", "ConsistentOpposite SingleContainer ConsistentKeys ConsistentUnique ConsistentContainer"
-       });	
+         "constraints", "ConsistentOpposite SingleContainer ConsistentKeys ConsistentUnique ConsistentContainer"
+       });
     addAnnotation
-      (eStructuralFeatureEClass, 
-       source, 
-       new String[] 
+      (eStructuralFeatureEClass,
+       source,
+       new String[]
        {
-       "constraints", "ValidDefaultValueLiteral"
-       });	
+         "constraints", "ValidDefaultValueLiteral"
+       });
     addAnnotation
-      (eTypedElementEClass, 
-       source, 
-       new String[] 
+      (eTypedElementEClass,
+       source,
+       new String[]
        {
-       "constraints", "ValidLowerBound ValidUpperBound ConsistentBounds ValidType"
-       });	
+         "constraints", "ValidLowerBound ValidUpperBound ConsistentBounds ValidType"
+       });
     addAnnotation
-      (eGenericTypeEClass, 
-       source, 
-       new String[] 
+      (eGenericTypeEClass,
+       source,
+       new String[]
        {
-       "constraints", "ConsistentType ConsistentBounds ConsistentArguments"
+         "constraints", "ConsistentType ConsistentBounds ConsistentArguments"
        });
   }
 
@@ -3870,147 +4039,147 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
     addAnnotation
-      (eBigDecimalEDataType, 
-       source, 
-       new String[] 
+      (eBigDecimalEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#decimal"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#decimal"
+       });
     addAnnotation
-      (eBigIntegerEDataType, 
-       source, 
-       new String[] 
+      (eBigIntegerEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#integer"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#integer"
+       });
     addAnnotation
-      (eBooleanEDataType, 
-       source, 
-       new String[] 
+      (eBooleanEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#boolean"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#boolean"
+       });
     addAnnotation
-      (eBooleanObjectEDataType, 
-       source, 
-       new String[] 
+      (eBooleanObjectEDataType,
+       source,
+       new String[]
        {
-       "baseType", "EBoolean",
-       "name", "EBoolean:Object"
-       });	
+         "baseType", "EBoolean",
+         "name", "EBoolean:Object"
+       });
     addAnnotation
-      (eByteEDataType, 
-       source, 
-       new String[] 
+      (eByteEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#byte"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#byte"
+       });
     addAnnotation
-      (eByteArrayEDataType, 
-       source, 
-       new String[] 
+      (eByteArrayEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#hexBinary"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#hexBinary"
+       });
     addAnnotation
-      (eByteObjectEDataType, 
-       source, 
-       new String[] 
+      (eByteObjectEDataType,
+       source,
+       new String[]
        {
-       "baseType", "EByte",
-       "name", "EByte:Object"
-       });	
+         "baseType", "EByte",
+         "name", "EByte:Object"
+       });
     addAnnotation
-      (eCharacterObjectEDataType, 
-       source, 
-       new String[] 
+      (eCharacterObjectEDataType,
+       source,
+       new String[]
        {
-       "baseType", "EChar",
-       "name", "EChar:Object"
-       });	
+         "baseType", "EChar",
+         "name", "EChar:Object"
+       });
     addAnnotation
-      (eDoubleEDataType, 
-       source, 
-       new String[] 
+      (eDoubleEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#double"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#double"
+       });
     addAnnotation
-      (eDoubleObjectEDataType, 
-       source, 
-       new String[] 
+      (eDoubleObjectEDataType,
+       source,
+       new String[]
        {
-       "baseType", "EDouble",
-       "name", "EDouble:Object"
-       });	
+         "baseType", "EDouble",
+         "name", "EDouble:Object"
+       });
     addAnnotation
-      (eFloatEDataType, 
-       source, 
-       new String[] 
+      (eFloatEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#float"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#float"
+       });
     addAnnotation
-      (eFloatObjectEDataType, 
-       source, 
-       new String[] 
+      (eFloatObjectEDataType,
+       source,
+       new String[]
        {
-       "baseType", "EFloat",
-       "name", "EFloat:Object"
-       });	
+         "baseType", "EFloat",
+         "name", "EFloat:Object"
+       });
     addAnnotation
-      (eIntEDataType, 
-       source, 
-       new String[] 
+      (eIntEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#int"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#int"
+       });
     addAnnotation
-      (eIntegerObjectEDataType, 
-       source, 
-       new String[] 
+      (eIntegerObjectEDataType,
+       source,
+       new String[]
        {
-       "baseType", "EInt",
-       "name", "EInt:Object"
-       });	
+         "baseType", "EInt",
+         "name", "EInt:Object"
+       });
     addAnnotation
-      (eLongEDataType, 
-       source, 
-       new String[] 
+      (eLongEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#long"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#long"
+       });
     addAnnotation
-      (eLongObjectEDataType, 
-       source, 
-       new String[] 
+      (eLongObjectEDataType,
+       source,
+       new String[]
        {
-       "baseType", "ELong",
-       "name", "ELong:Object"
-       });	
+         "baseType", "ELong",
+         "name", "ELong:Object"
+       });
     addAnnotation
-      (eShortEDataType, 
-       source, 
-       new String[] 
+      (eShortEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#short"
-       });	
+         "baseType", "http://www.w3.org/2001/XMLSchema#short"
+       });
     addAnnotation
-      (eShortObjectEDataType, 
-       source, 
-       new String[] 
+      (eShortObjectEDataType,
+       source,
+       new String[]
        {
-       "baseType", "EShort",
-       "name", "EShort:Object"
-       });	
+         "baseType", "EShort",
+         "name", "EShort:Object"
+       });
     addAnnotation
-      (eStringEDataType, 
-       source, 
-       new String[] 
+      (eStringEDataType,
+       source,
+       new String[]
        {
-       "baseType", "http://www.w3.org/2001/XMLSchema#string"
+         "baseType", "http://www.w3.org/2001/XMLSchema#string"
        });
   }
 
@@ -4019,6 +4188,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEFactory()
   {
     return eFactoryEClass;
@@ -4029,6 +4199,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEFactory_EPackage()
   {
     return (EReference)eFactoryEClass.getEStructuralFeatures().get(0);
@@ -4039,6 +4210,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEFactory__Create__EClass()
   {
     return eFactoryEClass.getEOperations().get(0);
@@ -4049,6 +4221,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEFactory__CreateFromString__EDataType_String()
   {
     return eFactoryEClass.getEOperations().get(1);
@@ -4059,6 +4232,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEFactory__ConvertToString__EDataType_Object()
   {
     return eFactoryEClass.getEOperations().get(2);

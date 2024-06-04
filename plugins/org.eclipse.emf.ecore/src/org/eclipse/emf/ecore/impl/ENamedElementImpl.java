@@ -131,6 +131,7 @@ public abstract class ENamedElementImpl extends EModelElementImpl implements ENa
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;

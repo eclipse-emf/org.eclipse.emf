@@ -138,6 +138,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<EObject, EList<FeatureChange>> getObjectChanges()
   {
     if (objectChanges == null)
@@ -259,6 +260,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<EObject> getObjectsToAttach()
   {
     if (objectsToAttach == null)
@@ -273,6 +275,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<ResourceChange> getResourceChanges()
   {
     if (resourceChanges == null)

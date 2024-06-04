@@ -84,6 +84,7 @@ public abstract class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Date getPublicationDate()
   {
     return publicationDate;
@@ -94,6 +95,7 @@ public abstract class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPublicationDate(Date newPublicationDate)
   {
     Date oldPublicationDate = publicationDate;

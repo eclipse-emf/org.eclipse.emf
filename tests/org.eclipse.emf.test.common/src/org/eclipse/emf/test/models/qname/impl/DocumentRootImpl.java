@@ -200,6 +200,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getMixed()
   {
     if (mixed == null)
@@ -214,6 +215,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<String, String> getXMLNSPrefixMap()
   {
     if (xMLNSPrefixMap == null)
@@ -228,6 +230,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<String, String> getXSISchemaLocation()
   {
     if (xSISchemaLocation == null)
@@ -242,6 +245,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public QName getAnyE()
   {
     return (QName)getMixed().get(QNamePackage.Literals.DOCUMENT_ROOT__ANY_E, true);
@@ -252,6 +256,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAnyE(QName newAnyE)
   {
     ((FeatureMap.Internal)getMixed()).set(QNamePackage.Literals.DOCUMENT_ROOT__ANY_E, newAnyE);
@@ -263,6 +268,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * @generated
    */
   @SuppressWarnings("unchecked")
+  @Override
   public List<Object> getAnyEU()
   {
     return (List<Object>)getMixed().get(QNamePackage.Literals.DOCUMENT_ROOT__ANY_EU, true);
@@ -273,6 +279,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAnyEU(List<Object> newAnyEU)
   {
     ((FeatureMap.Internal)getMixed()).set(QNamePackage.Literals.DOCUMENT_ROOT__ANY_EU, newAnyEU);
@@ -283,6 +290,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceType getResource()
   {
     return (ResourceType)getMixed().get(QNamePackage.Literals.DOCUMENT_ROOT__RESOURCE, true);
@@ -303,6 +311,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setResource(ResourceType newResource)
   {
     ((FeatureMap.Internal)getMixed()).set(QNamePackage.Literals.DOCUMENT_ROOT__RESOURCE, newResource);
@@ -313,6 +322,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getAInt()
   {
     return aInt;
@@ -323,6 +333,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAInt(int newAInt)
   {
     int oldAInt = aInt;
@@ -338,6 +349,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetAInt()
   {
     int oldAInt = aInt;
@@ -353,6 +365,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetAInt()
   {
     return aIntESet;
@@ -363,6 +376,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public QName getAQname()
   {
     return aQname;
@@ -373,6 +387,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAQname(QName newAQname)
   {
     QName oldAQname = aQname;
@@ -386,6 +401,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public List<Object> getAUnion()
   {
     return aUnion;
@@ -396,6 +412,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAUnion(List<Object> newAUnion)
   {
     List<Object> oldAUnion = aUnion;
@@ -586,7 +603,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (mixed: ");
     result.append(mixed);
     result.append(", aInt: ");

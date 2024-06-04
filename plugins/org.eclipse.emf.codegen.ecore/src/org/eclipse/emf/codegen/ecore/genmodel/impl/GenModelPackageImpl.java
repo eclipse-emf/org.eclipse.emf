@@ -317,6 +317,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
       (theGenModelPackage,
        new EValidator.Descriptor()
        {
+         @Override
          public EValidator getEValidator()
          {
            return GenModelValidator.INSTANCE;
@@ -336,6 +337,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGenModel()
   {
     return genModelEClass;
@@ -346,6 +348,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_CopyrightText()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(0);
@@ -356,6 +359,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_ModelDirectory()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(1);
@@ -366,6 +370,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_CreationCommands()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(2);
@@ -376,6 +381,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_CreationIcons()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(3);
@@ -386,6 +392,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_EditDirectory()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(5);
@@ -396,6 +403,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_CreationSubmenus()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(4);
@@ -406,6 +414,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_EditorDirectory()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(6);
@@ -416,6 +425,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_ModelPluginID()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(7);
@@ -426,6 +436,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_TemplateDirectory()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(8);
@@ -436,6 +447,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_RuntimeJar()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(9);
@@ -446,6 +458,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_ForeignModel()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(10);
@@ -456,6 +469,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_DynamicTemplates()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(11);
@@ -466,6 +480,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_Redirection()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(12);
@@ -476,6 +491,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_ForceOverwrite()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(13);
@@ -486,6 +502,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_NonExternalizedStringTag()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(14);
@@ -496,6 +513,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_ModelName()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(15);
@@ -506,6 +524,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_ModelPluginClass()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(16);
@@ -516,6 +535,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_EditPluginClass()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(17);
@@ -526,6 +546,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_EditorPluginClass()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(18);
@@ -536,6 +557,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_UpdateClasspath()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(19);
@@ -546,6 +568,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_GenerateSchema()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(20);
@@ -556,6 +579,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_NonNLSMarkers()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(21);
@@ -566,6 +590,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_StaticPackages()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(22);
@@ -576,6 +601,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_ModelPluginVariables()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(23);
@@ -586,6 +612,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_RootExtendsInterface()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(24);
@@ -596,6 +623,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_RootExtendsClass()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(25);
@@ -606,6 +634,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_RootImplementsInterface()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(26);
@@ -616,6 +645,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_SuppressEMFTypes()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(27);
@@ -626,6 +656,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_SuppressEMFMetaData()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(28);
@@ -636,6 +667,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_SuppressEMFModelTags()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(29);
@@ -646,6 +678,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_SuppressInterfaces()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(30);
@@ -656,6 +689,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_FeatureMapWrapperInterface()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(31);
@@ -666,6 +700,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_FeatureMapWrapperInternalInterface()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(32);
@@ -676,6 +711,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_FeatureMapWrapperClass()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(33);
@@ -686,6 +722,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_RuntimeCompatibility()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(34);
@@ -696,6 +733,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_RichClientPlatform()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(35);
@@ -706,6 +744,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_ReflectiveDelegation()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(36);
@@ -716,6 +755,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_CodeFormatting()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(37);
@@ -726,6 +766,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_CommentFormatting()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(38);
@@ -736,6 +777,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_TestsDirectory()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(39);
@@ -746,6 +788,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_TestSuiteClass()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(40);
@@ -756,6 +799,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_BooleanFlagsField()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(41);
@@ -766,6 +810,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_BooleanFlagsReservedBits()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(42);
@@ -776,6 +821,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_ImporterID()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(43);
@@ -786,6 +832,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_BundleManifest()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(44);
@@ -796,6 +843,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_FeatureDelegation()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(45);
@@ -806,6 +854,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_ContainmentProxies()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(46);
@@ -816,6 +865,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_MinimalReflectiveMethods()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(47);
@@ -826,6 +876,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_SuppressContainment()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(48);
@@ -836,6 +887,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_SuppressNotification()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(49);
@@ -846,6 +898,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_ArrayAccessors()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(50);
@@ -856,6 +909,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_SuppressUnsettable()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(51);
@@ -866,6 +920,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_FacadeHelperClass()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(52);
@@ -876,6 +931,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_ComplianceLevel()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(53);
@@ -886,6 +942,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_SuppressGenModelAnnotations()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(54);
@@ -896,6 +953,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_CopyrightFields()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(55);
@@ -906,6 +964,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_BinaryCompatibleReflectiveMethods()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(56);
@@ -916,6 +975,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_PublicConstructors()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(57);
@@ -926,6 +986,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_TemplatePluginVariables()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(58);
@@ -936,6 +997,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_ProviderRootExtendsClass()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(59);
@@ -946,6 +1008,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_EditPluginID()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(60);
@@ -956,6 +1019,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_EditPluginVariables()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(61);
@@ -966,6 +1030,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_EditorPluginID()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(62);
@@ -976,6 +1041,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_EditorPluginVariables()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(63);
@@ -986,6 +1052,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_TestsPluginID()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(64);
@@ -996,6 +1063,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_TestsPluginVariables()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(65);
@@ -1006,6 +1074,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_OptimizedHasChildren()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(66);
@@ -1016,6 +1085,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_TableProviders()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(67);
@@ -1026,6 +1096,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_ColorProviders()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(68);
@@ -1036,6 +1107,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_FontProviders()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(69);
@@ -1046,6 +1118,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_RuntimeVersion()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(70);
@@ -1056,6 +1129,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_Language()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(71);
@@ -1066,6 +1140,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_PackedEnums()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(72);
@@ -1076,6 +1151,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenModel_GenPackages()
   {
     return (EReference)genModelEClass.getEStructuralFeatures().get(73);
@@ -1086,6 +1162,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenModel_UsedGenPackages()
   {
     return (EReference)genModelEClass.getEStructuralFeatures().get(74);
@@ -1096,6 +1173,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_InterfaceNamePattern()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(75);
@@ -1106,6 +1184,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_ClassNamePattern()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(76);
@@ -1116,6 +1195,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_OperationReflection()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(77);
@@ -1126,6 +1206,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_RichAjaxPlatform()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(78);
@@ -1136,6 +1217,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_RuntimePlatform()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(79);
@@ -1146,6 +1228,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_ImportOrganizing()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(80);
@@ -1156,6 +1239,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_PluginKey()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(81);
@@ -1166,6 +1250,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_Decoration()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(82);
@@ -1177,6 +1262,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_StyleProviders()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(83);
@@ -1187,6 +1273,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_Cleanup()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(84);
@@ -1197,6 +1284,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenModel_OSGiCompatible()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(85);
@@ -1208,6 +1296,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenModel_EclipsePlatformVersion()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(86);
@@ -1219,6 +1308,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenModel_ModelDocumentation()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(87);
@@ -1230,6 +1320,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenModel_AutoResizeProperties()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(88);
@@ -1241,6 +1332,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenModel_AutoExpandProperties()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(89);
@@ -1252,6 +1344,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenModel_FindAction()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(90);
@@ -1263,6 +1356,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenModel_ExpandAllAction()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(91);
@@ -1274,6 +1368,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenModel_CollapseAllAction()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(92);
@@ -1285,6 +1380,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenModel_RevertAction()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(93);
@@ -1296,6 +1392,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.19
    * @generated
    */
+  @Override
   public EAttribute getGenModel_CodeStyle()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(94);
@@ -1307,6 +1404,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.33
    * @generated
    */
+  @Override
   public EAttribute getGenModel_OSGiStyle()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(95);
@@ -1317,6 +1415,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGenPackage()
   {
     return genPackageEClass;
@@ -1327,6 +1426,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_Prefix()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(0);
@@ -1337,6 +1437,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_BasePackage()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(1);
@@ -1347,6 +1448,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_Resource()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(2);
@@ -1357,6 +1459,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_DisposableProviderFactory()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(3);
@@ -1367,6 +1470,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_AdapterFactory()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(4);
@@ -1377,6 +1481,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_LoadInitialization()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(5);
@@ -1387,6 +1492,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_InterfacePackageSuffix()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(6);
@@ -1397,6 +1503,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_MetaDataPackageSuffix()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(7);
@@ -1407,6 +1514,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_ClassPackageSuffix()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(8);
@@ -1417,6 +1525,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_UtilityPackageSuffix()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(9);
@@ -1427,6 +1536,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_ProviderPackageSuffix()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(10);
@@ -1437,6 +1547,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_PresentationPackageSuffix()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(11);
@@ -1447,6 +1558,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_TestsPackageSuffix()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(12);
@@ -1457,6 +1569,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_GenerateExampleClass()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(13);
@@ -1467,6 +1580,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_LiteralsInterface()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(14);
@@ -1477,6 +1591,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_DataTypeConverters()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(15);
@@ -1487,6 +1602,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_MultipleEditorPages()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(16);
@@ -1497,6 +1613,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_GenerateModelWizard()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(17);
@@ -1507,6 +1624,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_ExtensibleProviderFactory()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(18);
@@ -1517,6 +1635,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_ChildCreationExtenders()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(19);
@@ -1527,6 +1646,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_ContentTypeIdentifier()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(20);
@@ -1537,6 +1657,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_FileExtensions()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(21);
@@ -1547,6 +1668,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenPackage_EcorePackage()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(22);
@@ -1557,6 +1679,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenPackage_GenModel()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(23);
@@ -1567,6 +1690,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenPackage_GenEnums()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(24);
@@ -1577,6 +1701,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenPackage_GenDataTypes()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(25);
@@ -1587,6 +1712,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenPackage_GenClasses()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(26);
@@ -1597,6 +1723,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenPackage_NestedGenPackages()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(27);
@@ -1607,6 +1734,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenPackage_GenClassifiers()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(28);
@@ -1617,6 +1745,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_PublicationLocation()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(29);
@@ -1628,6 +1757,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_Documentation()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(30);
@@ -1639,6 +1769,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.15
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_LoadInitializationFileExtension()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(31);
@@ -1650,6 +1781,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.31
    * @generated
    */
+  @Override
   public EAttribute getGenPackage_FamilyTreeInitialization()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(32);
@@ -1660,6 +1792,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGenClass()
   {
     return genClassEClass;
@@ -1670,6 +1803,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenClass_Provider()
   {
     return (EAttribute)genClassEClass.getEStructuralFeatures().get(0);
@@ -1680,6 +1814,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenClass_Image()
   {
     return (EAttribute)genClassEClass.getEStructuralFeatures().get(1);
@@ -1690,6 +1825,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenClass_Dynamic()
   {
     return (EAttribute)genClassEClass.getEStructuralFeatures().get(2);
@@ -1700,6 +1836,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenClass_EcoreClass()
   {
     return (EReference)genClassEClass.getEStructuralFeatures().get(3);
@@ -1710,6 +1847,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenClass_GenFeatures()
   {
     return (EReference)genClassEClass.getEStructuralFeatures().get(4);
@@ -1720,6 +1858,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenClass_GenOperations()
   {
     return (EReference)genClassEClass.getEStructuralFeatures().get(5);
@@ -1730,6 +1869,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenClass_LabelFeature()
   {
     return (EReference)genClassEClass.getEStructuralFeatures().get(6);
@@ -1740,6 +1880,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGenFeature()
   {
     return genFeatureEClass;
@@ -1750,6 +1891,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenFeature_Property()
   {
     return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(0);
@@ -1760,6 +1902,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenFeature_Notify()
   {
     return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(1);
@@ -1770,6 +1913,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenFeature_Children()
   {
     return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(2);
@@ -1780,6 +1924,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenFeature_CreateChild()
   {
     return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(3);
@@ -1790,6 +1935,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenFeature_PropertyCategory()
   {
     return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(4);
@@ -1800,6 +1946,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenFeature_PropertyFilterFlags()
   {
     return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(5);
@@ -1810,6 +1957,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenFeature_PropertyDescription()
   {
     return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(6);
@@ -1820,6 +1968,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenFeature_PropertyMultiLine()
   {
     return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(7);
@@ -1830,6 +1979,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenFeature_PropertySortChoices()
   {
     return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(8);
@@ -1840,6 +1990,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenFeature_GenClass()
   {
     return (EReference)genFeatureEClass.getEStructuralFeatures().get(9);
@@ -1850,6 +2001,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenFeature_EcoreFeature()
   {
     return (EReference)genFeatureEClass.getEStructuralFeatures().get(10);
@@ -1861,6 +2013,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenFeature_SuppressedGetVisibility()
   {
     return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(11);
@@ -1872,6 +2025,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenFeature_SuppressedSetVisibility()
   {
     return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(12);
@@ -1883,6 +2037,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenFeature_SuppressedIsSetVisibility()
   {
     return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(13);
@@ -1894,6 +2049,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenFeature_SuppressedUnsetVisibility()
   {
     return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(14);
@@ -1905,6 +2061,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenFeature_Get()
   {
     return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(15);
@@ -1916,6 +2073,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenFeature_PropertyEditorFactory()
   {
     return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(16);
@@ -1926,6 +2084,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGenBase()
   {
     return genBaseEClass;
@@ -1936,6 +2095,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenBase_GenAnnotations()
   {
     return (EReference)genBaseEClass.getEStructuralFeatures().get(0);
@@ -1946,6 +2106,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGenEnum()
   {
     return genEnumEClass;
@@ -1956,6 +2117,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenEnum_TypeSafeEnumCompatible()
   {
     return (EAttribute)genEnumEClass.getEStructuralFeatures().get(0);
@@ -1966,6 +2128,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenEnum_EcoreEnum()
   {
     return (EReference)genEnumEClass.getEStructuralFeatures().get(1);
@@ -1976,6 +2139,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenEnum_GenEnumLiterals()
   {
     return (EReference)genEnumEClass.getEStructuralFeatures().get(2);
@@ -1986,6 +2150,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGenEnumLiteral()
   {
     return genEnumLiteralEClass;
@@ -1996,6 +2161,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenEnumLiteral_GenEnum()
   {
     return (EReference)genEnumLiteralEClass.getEStructuralFeatures().get(0);
@@ -2006,6 +2172,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenEnumLiteral_EcoreEnumLiteral()
   {
     return (EReference)genEnumLiteralEClass.getEStructuralFeatures().get(1);
@@ -2017,6 +2184,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenEnumLiteral_Documentation()
   {
     return (EAttribute)genEnumLiteralEClass.getEStructuralFeatures().get(2);
@@ -2027,6 +2195,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGenClassifier()
   {
     return genClassifierEClass;
@@ -2037,6 +2206,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenClassifier_GenPackage()
   {
     return (EReference)genClassifierEClass.getEStructuralFeatures().get(0);
@@ -2047,6 +2217,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenClassifier_GenTypeParameters()
   {
     return (EReference)genClassifierEClass.getEStructuralFeatures().get(1);
@@ -2058,6 +2229,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenClassifier_Documentation()
   {
     return (EAttribute)genClassifierEClass.getEStructuralFeatures().get(2);
@@ -2068,6 +2240,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGenDataType()
   {
     return genDataTypeEClass;
@@ -2078,6 +2251,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenDataType_EcoreDataType()
   {
     return (EReference)genDataTypeEClass.getEStructuralFeatures().get(0);
@@ -2089,6 +2263,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenDataType_Create()
   {
     return (EAttribute)genDataTypeEClass.getEStructuralFeatures().get(1);
@@ -2100,6 +2275,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenDataType_Convert()
   {
     return (EAttribute)genDataTypeEClass.getEStructuralFeatures().get(2);
@@ -2111,6 +2287,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenDataType_PropertyEditorFactory()
   {
     return (EAttribute)genDataTypeEClass.getEStructuralFeatures().get(3);
@@ -2121,6 +2298,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGenOperation()
   {
     return genOperationEClass;
@@ -2131,6 +2309,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenOperation_GenClass()
   {
     return (EReference)genOperationEClass.getEStructuralFeatures().get(0);
@@ -2141,6 +2320,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenOperation_EcoreOperation()
   {
     return (EReference)genOperationEClass.getEStructuralFeatures().get(1);
@@ -2151,6 +2331,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenOperation_GenParameters()
   {
     return (EReference)genOperationEClass.getEStructuralFeatures().get(2);
@@ -2161,6 +2342,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenOperation_GenTypeParameters()
   {
     return (EReference)genOperationEClass.getEStructuralFeatures().get(3);
@@ -2172,6 +2354,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenOperation_SuppressedVisibility()
   {
     return (EAttribute)genOperationEClass.getEStructuralFeatures().get(4);
@@ -2183,6 +2366,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenOperation_Body()
   {
     return (EAttribute)genOperationEClass.getEStructuralFeatures().get(5);
@@ -2193,6 +2377,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGenParameter()
   {
     return genParameterEClass;
@@ -2203,6 +2388,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenParameter_GenOperation()
   {
     return (EReference)genParameterEClass.getEStructuralFeatures().get(0);
@@ -2213,6 +2399,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenParameter_EcoreParameter()
   {
     return (EReference)genParameterEClass.getEStructuralFeatures().get(1);
@@ -2223,6 +2410,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGenTypedElement()
   {
     return genTypedElementEClass;
@@ -2234,6 +2422,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenTypedElement_Documentation()
   {
     return (EAttribute)genTypedElementEClass.getEStructuralFeatures().get(0);
@@ -2244,6 +2433,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGenAnnotation()
   {
     return genAnnotationEClass;
@@ -2254,6 +2444,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getGenAnnotation_Source()
   {
     return (EAttribute)genAnnotationEClass.getEStructuralFeatures().get(0);
@@ -2264,6 +2455,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenAnnotation_Details()
   {
     return (EReference)genAnnotationEClass.getEStructuralFeatures().get(1);
@@ -2274,6 +2466,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenAnnotation_GenBase()
   {
     return (EReference)genAnnotationEClass.getEStructuralFeatures().get(2);
@@ -2284,6 +2477,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenAnnotation_References()
   {
     return (EReference)genAnnotationEClass.getEStructuralFeatures().get(3);
@@ -2294,6 +2488,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenAnnotation_Contents()
   {
     return (EReference)genAnnotationEClass.getEStructuralFeatures().get(4);
@@ -2304,6 +2499,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getGenTypeParameter()
   {
     return genTypeParameterEClass;
@@ -2314,6 +2510,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getGenTypeParameter_EcoreTypeParameter()
   {
     return (EReference)genTypeParameterEClass.getEStructuralFeatures().get(0);
@@ -2325,6 +2522,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EAttribute getGenTypeParameter_Documentation()
   {
     return (EAttribute)genTypeParameterEClass.getEStructuralFeatures().get(1);
@@ -2335,6 +2533,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getGenProviderKind()
   {
     return genProviderKindEEnum;
@@ -2345,6 +2544,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getGenPropertyKind()
   {
     return genPropertyKindEEnum;
@@ -2355,6 +2555,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getGenResourceKind()
   {
     return genResourceKindEEnum;
@@ -2365,6 +2566,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getGenDelegationKind()
   {
     return genDelegationKindEEnum;
@@ -2375,6 +2577,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getGenJDKLevel()
   {
     return genJDKLevelEEnum;
@@ -2385,6 +2588,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getGenRuntimeVersion()
   {
     return genRuntimeVersionEEnum;
@@ -2395,6 +2599,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getGenRuntimePlatform()
   {
     return genRuntimePlatformEEnum;
@@ -2405,6 +2610,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getGenDecoration()
   {
     return genDecorationEEnum;
@@ -2416,6 +2622,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EEnum getGenEclipsePlatformVersion()
   {
     return genEclipsePlatformVersionEEnum;
@@ -2427,6 +2634,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.19
    * @generated
    */
+  @Override
   public EEnum getGenCodeStyle()
   {
     return genCodeStyleEEnum;
@@ -2438,6 +2646,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.33
    * @generated
    */
+  @Override
   public EEnum getGenOSGiStyle()
   {
     return genOSGiStyleEEnum;
@@ -2449,6 +2658,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EDataType getPath()
   {
     return pathEDataType;
@@ -2460,6 +2670,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public EDataType getPropertyEditorFactory()
   {
     return propertyEditorFactoryEDataType;
@@ -2470,6 +2681,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenModelFactory getGenModelFactory()
   {
     return (GenModelFactory)getEFactoryInstance();
@@ -3068,6 +3280,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF236);
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF237);
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF238);
+    addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF239);
 
     initEEnum(genRuntimePlatformEEnum, GenRuntimePlatform.class, "GenRuntimePlatform");
     addEEnumLiteral(genRuntimePlatformEEnum, GenRuntimePlatform.IDE);
@@ -3112,6 +3325,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2023_12);
     addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2024_03);
     addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2024_06);
+    addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2024_09);
 
     initEEnum(genCodeStyleEEnum, GenCodeStyle.class, "GenCodeStyle");
     addEEnumLiteral(genCodeStyleEEnum, GenCodeStyle.UNNECESSARY_ELSE);

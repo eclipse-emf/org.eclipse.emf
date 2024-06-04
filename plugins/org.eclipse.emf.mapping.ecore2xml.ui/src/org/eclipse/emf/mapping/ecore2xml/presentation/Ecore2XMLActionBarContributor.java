@@ -185,6 +185,7 @@ public class Ecore2XMLActionBarContributor
   @Override
   public void contributeToToolBar(IToolBarManager toolBarManager)
   {
+    super.contributeToToolBar(toolBarManager);
     toolBarManager.add(new Separator("ecore2xml-settings")); //$NON-NLS-1$
     toolBarManager.add(new Separator("ecore2xml-additions")); //$NON-NLS-1$
   }
@@ -223,6 +224,7 @@ public class Ecore2XMLActionBarContributor
     submenuManager.addMenuListener
       (new IMenuListener()
        {
+         @Override
          public void menuAboutToShow(IMenuManager menuManager)
          {
            menuManager.updateAll(true);
@@ -276,6 +278,7 @@ public class Ecore2XMLActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void selectionChanged(SelectionChangedEvent event)
   {
     // Remove any menu items for old selection.

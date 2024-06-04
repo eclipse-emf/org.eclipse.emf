@@ -74,7 +74,7 @@ public class ExtPackageImpl extends EPackageImpl implements ExtPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link ExtPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -89,13 +89,16 @@ public class ExtPackageImpl extends EPackageImpl implements ExtPackage
     if (isInited) return (ExtPackage)EPackage.Registry.INSTANCE.getEPackage(ExtPackage.eNS_URI);
 
     // Obtain or create and register package
-    ExtPackageImpl theExtPackage = (ExtPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ExtPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ExtPackageImpl());
+    Object registeredExtPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    ExtPackageImpl theExtPackage = registeredExtPackage instanceof ExtPackageImpl ? (ExtPackageImpl)registeredExtPackage : new ExtPackageImpl();
 
     isInited = true;
 
     // Obtain or create and register interdependencies
-    RefPackageImpl theRefPackage = (RefPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RefPackage.eNS_URI) instanceof RefPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RefPackage.eNS_URI) : RefPackage.eINSTANCE);
-    URefPackageImpl theURefPackage = (URefPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(URefPackage.eNS_URI) instanceof URefPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(URefPackage.eNS_URI) : URefPackage.eINSTANCE);
+    Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(RefPackage.eNS_URI);
+    RefPackageImpl theRefPackage = (RefPackageImpl)(registeredPackage instanceof RefPackageImpl ? registeredPackage : RefPackage.eINSTANCE);
+    registeredPackage = EPackage.Registry.INSTANCE.getEPackage(URefPackage.eNS_URI);
+    URefPackageImpl theURefPackage = (URefPackageImpl)(registeredPackage instanceof URefPackageImpl ? registeredPackage : URefPackage.eINSTANCE);
 
     // Create package meta-data objects
     theExtPackage.createPackageContents();
@@ -110,7 +113,6 @@ public class ExtPackageImpl extends EPackageImpl implements ExtPackage
     // Mark meta-data to indicate it can't be changed
     theExtPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(ExtPackage.eNS_URI, theExtPackage);
     return theExtPackage;
@@ -121,6 +123,7 @@ public class ExtPackageImpl extends EPackageImpl implements ExtPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getExtE()
   {
     return extEEClass;
@@ -131,6 +134,7 @@ public class ExtPackageImpl extends EPackageImpl implements ExtPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getExtE_Value()
   {
     return (EAttribute)extEEClass.getEStructuralFeatures().get(0);
@@ -141,6 +145,7 @@ public class ExtPackageImpl extends EPackageImpl implements ExtPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getExtE_F()
   {
     return (EReference)extEEClass.getEStructuralFeatures().get(1);
@@ -151,6 +156,7 @@ public class ExtPackageImpl extends EPackageImpl implements ExtPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getF()
   {
     return fEClass;
@@ -161,6 +167,7 @@ public class ExtPackageImpl extends EPackageImpl implements ExtPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getF_Id()
   {
     return (EAttribute)fEClass.getEStructuralFeatures().get(0);
@@ -171,6 +178,7 @@ public class ExtPackageImpl extends EPackageImpl implements ExtPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getF_E()
   {
     return (EReference)fEClass.getEStructuralFeatures().get(1);
@@ -181,6 +189,7 @@ public class ExtPackageImpl extends EPackageImpl implements ExtPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ExtFactory getExtFactory()
   {
     return (ExtFactory)getEFactoryInstance();

@@ -156,7 +156,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link DBPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -171,7 +171,8 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
     if (isInited) return (DBPackage)EPackage.Registry.INSTANCE.getEPackage(DBPackage.eNS_URI);
 
     // Obtain or create and register package
-    DBPackageImpl theDBPackage = (DBPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof DBPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new DBPackageImpl());
+    Object registeredDBPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    DBPackageImpl theDBPackage = registeredDBPackage instanceof DBPackageImpl ? (DBPackageImpl)registeredDBPackage : new DBPackageImpl();
 
     isInited = true;
 
@@ -179,8 +180,10 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
     XMLTypePackage.eINSTANCE.eClass();
 
     // Obtain or create and register interdependencies
-    CustomerPackageImpl theCustomerPackage = (CustomerPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) instanceof CustomerPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) : CustomerPackage.eINSTANCE);
-    OrderPackageImpl theOrderPackage = (OrderPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OrderPackage.eNS_URI) instanceof OrderPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OrderPackage.eNS_URI) : OrderPackage.eINSTANCE);
+    Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI);
+    CustomerPackageImpl theCustomerPackage = (CustomerPackageImpl)(registeredPackage instanceof CustomerPackageImpl ? registeredPackage : CustomerPackage.eINSTANCE);
+    registeredPackage = EPackage.Registry.INSTANCE.getEPackage(OrderPackage.eNS_URI);
+    OrderPackageImpl theOrderPackage = (OrderPackageImpl)(registeredPackage instanceof OrderPackageImpl ? registeredPackage : OrderPackage.eINSTANCE);
 
     // Create package meta-data objects
     theDBPackage.createPackageContents();
@@ -194,9 +197,10 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
 
     // Register package validator
     EValidator.Registry.INSTANCE.put
-      (theDBPackage, 
+      (theDBPackage,
        new EValidator.Descriptor()
        {
+         @Override
          public EValidator getEValidator()
          {
            return DBValidator.INSTANCE;
@@ -206,7 +210,6 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
     // Mark meta-data to indicate it can't be changed
     theDBPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(DBPackage.eNS_URI, theDBPackage);
     return theDBPackage;
@@ -217,6 +220,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getCriticsReviewType()
   {
     return criticsReviewTypeEClass;
@@ -227,6 +231,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCriticsReviewType_Rating()
   {
     return (EAttribute)criticsReviewTypeEClass.getEStructuralFeatures().get(0);
@@ -237,6 +242,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCriticsReviewType_ReviewedBy()
   {
     return (EAttribute)criticsReviewTypeEClass.getEStructuralFeatures().get(1);
@@ -247,6 +253,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getCustomerReviewType()
   {
     return customerReviewTypeEClass;
@@ -257,6 +264,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCustomerReviewType_Comment()
   {
     return (EAttribute)customerReviewTypeEClass.getEStructuralFeatures().get(0);
@@ -267,6 +275,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getDocumentRoot()
   {
     return documentRootEClass;
@@ -277,6 +286,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getDocumentRoot_Mixed()
   {
     return (EAttribute)documentRootEClass.getEStructuralFeatures().get(0);
@@ -287,6 +297,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDocumentRoot_XMLNSPrefixMap()
   {
     return (EReference)documentRootEClass.getEStructuralFeatures().get(1);
@@ -297,6 +308,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDocumentRoot_XSISchemaLocation()
   {
     return (EReference)documentRootEClass.getEStructuralFeatures().get(2);
@@ -307,6 +319,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDocumentRoot_CheckedOutBy()
   {
     return (EReference)documentRootEClass.getEStructuralFeatures().get(3);
@@ -317,6 +330,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDocumentRoot_CriticsReview()
   {
     return (EReference)documentRootEClass.getEStructuralFeatures().get(4);
@@ -327,6 +341,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDocumentRoot_CustomerReview()
   {
     return (EReference)documentRootEClass.getEStructuralFeatures().get(5);
@@ -337,6 +352,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getDocumentRoot_Language()
   {
     return (EAttribute)documentRootEClass.getEStructuralFeatures().get(6);
@@ -347,6 +363,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDocumentRoot_MovieDB()
   {
     return (EReference)documentRootEClass.getEStructuralFeatures().get(7);
@@ -357,6 +374,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getDocumentRoot_SpecialFeatures()
   {
     return (EAttribute)documentRootEClass.getEStructuralFeatures().get(8);
@@ -367,6 +385,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getMovieDBType()
   {
     return movieDBTypeEClass;
@@ -377,6 +396,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getMovieDBType_MovieDBFeatureMap()
   {
     return (EAttribute)movieDBTypeEClass.getEStructuralFeatures().get(0);
@@ -387,6 +407,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getMovieDBType_Movie()
   {
     return (EReference)movieDBTypeEClass.getEStructuralFeatures().get(1);
@@ -397,6 +418,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getMovieDBType_Comment()
   {
     return (EAttribute)movieDBTypeEClass.getEStructuralFeatures().get(2);
@@ -407,6 +429,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getMovieType()
   {
     return movieTypeEClass;
@@ -417,6 +440,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getMovieType_Title()
   {
     return (EAttribute)movieTypeEClass.getEStructuralFeatures().get(0);
@@ -427,6 +451,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getMovieType_Actors()
   {
     return (EAttribute)movieTypeEClass.getEStructuralFeatures().get(1);
@@ -437,6 +462,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getMovieType_Director()
   {
     return (EAttribute)movieTypeEClass.getEStructuralFeatures().get(2);
@@ -447,6 +473,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getMovieType_Genre()
   {
     return (EAttribute)movieTypeEClass.getEStructuralFeatures().get(3);
@@ -457,6 +484,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getMovieType_Summary()
   {
     return (EAttribute)movieTypeEClass.getEStructuralFeatures().get(4);
@@ -467,6 +495,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getMovieType_CriticsReviewGroup()
   {
     return (EAttribute)movieTypeEClass.getEStructuralFeatures().get(5);
@@ -477,6 +506,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getMovieType_CriticsReview()
   {
     return (EReference)movieTypeEClass.getEStructuralFeatures().get(6);
@@ -487,6 +517,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getMovieType_CheckedOutBy()
   {
     return (EReference)movieTypeEClass.getEStructuralFeatures().get(7);
@@ -497,6 +528,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getMovieType_Any()
   {
     return (EAttribute)movieTypeEClass.getEStructuralFeatures().get(8);
@@ -507,6 +539,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getMovieType_ID()
   {
     return (EAttribute)movieTypeEClass.getEStructuralFeatures().get(9);
@@ -517,6 +550,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getGenreTypes()
   {
     return genreTypesEEnum;
@@ -527,6 +561,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getActorsList()
   {
     return actorsListEDataType;
@@ -537,6 +572,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getGenreTypesObject()
   {
     return genreTypesObjectEDataType;
@@ -547,6 +583,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getRatingType()
   {
     return ratingTypeEDataType;
@@ -557,6 +594,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getRatingTypeObject()
   {
     return ratingTypeObjectEDataType;
@@ -567,6 +605,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getRatingValues()
   {
     return ratingValuesEDataType;
@@ -577,6 +616,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getRatingValuesObject()
   {
     return ratingValuesObjectEDataType;
@@ -587,6 +627,7 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public DBFactory getDBFactory()
   {
     return (DBFactory)getEFactoryInstance();
@@ -769,322 +810,322 @@ public class DBPackageImpl extends EPackageImpl implements DBPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
     addAnnotation
-      (actorsListEDataType, 
-       source, 
-       new String[] 
+      (actorsListEDataType,
+       source,
+       new String[]
        {
-       "name", "actorsList",
-       "itemType", "http://www.eclipse.org/emf/2003/XMLType#NCName"
-       });	
+         "name", "actorsList",
+         "itemType", "http://www.eclipse.org/emf/2003/XMLType#NCName"
+       });
     addAnnotation
-      (criticsReviewTypeEClass, 
-       source, 
-       new String[] 
+      (criticsReviewTypeEClass,
+       source,
+       new String[]
        {
-       "name", "criticsReviewType",
-       "kind", "elementOnly"
-       });	
+         "name", "criticsReviewType",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getCriticsReviewType_Rating(), 
-       source, 
-       new String[] 
+      (getCriticsReviewType_Rating(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "rating"
-       });	
+         "kind", "element",
+         "name", "rating"
+       });
     addAnnotation
-      (getCriticsReviewType_ReviewedBy(), 
-       source, 
-       new String[] 
+      (getCriticsReviewType_ReviewedBy(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "ReviewedBy"
-       });	
+         "kind", "attribute",
+         "name", "ReviewedBy"
+       });
     addAnnotation
-      (customerReviewTypeEClass, 
-       source, 
-       new String[] 
+      (customerReviewTypeEClass,
+       source,
+       new String[]
        {
-       "name", "customerReviewType",
-       "kind", "elementOnly"
-       });	
+         "name", "customerReviewType",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getCustomerReviewType_Comment(), 
-       source, 
-       new String[] 
+      (getCustomerReviewType_Comment(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "comment"
-       });	
+         "kind", "element",
+         "name", "comment"
+       });
     addAnnotation
-      (documentRootEClass, 
-       source, 
-       new String[] 
+      (documentRootEClass,
+       source,
+       new String[]
        {
-       "name", "",
-       "kind", "mixed"
-       });	
+         "name", "",
+         "kind", "mixed"
+       });
     addAnnotation
-      (getDocumentRoot_Mixed(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_Mixed(),
+       source,
+       new String[]
        {
-       "kind", "elementWildcard",
-       "name", ":mixed"
-       });	
+         "kind", "elementWildcard",
+         "name", ":mixed"
+       });
     addAnnotation
-      (getDocumentRoot_XMLNSPrefixMap(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_XMLNSPrefixMap(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "xmlns:prefix"
-       });	
+         "kind", "attribute",
+         "name", "xmlns:prefix"
+       });
     addAnnotation
-      (getDocumentRoot_XSISchemaLocation(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_XSISchemaLocation(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "xsi:schemaLocation"
-       });	
+         "kind", "attribute",
+         "name", "xsi:schemaLocation"
+       });
     addAnnotation
-      (getDocumentRoot_CheckedOutBy(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_CheckedOutBy(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "checkedOutBy",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "element",
+         "name", "checkedOutBy",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getDocumentRoot_CriticsReview(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_CriticsReview(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "criticsReview",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "element",
+         "name", "criticsReview",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getDocumentRoot_CustomerReview(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_CustomerReview(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "customerReview",
-       "namespace", "##targetNamespace",
-       "affiliation", "criticsReview"
-       });	
+         "kind", "element",
+         "name", "customerReview",
+         "namespace", "##targetNamespace",
+         "affiliation", "criticsReview"
+       });
     addAnnotation
-      (getDocumentRoot_Language(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_Language(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "language",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "element",
+         "name", "language",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getDocumentRoot_MovieDB(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_MovieDB(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "movieDB",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "element",
+         "name", "movieDB",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getDocumentRoot_SpecialFeatures(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_SpecialFeatures(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "specialFeatures",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "element",
+         "name", "specialFeatures",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (genreTypesEEnum, 
-       source, 
-       new String[] 
+      (genreTypesEEnum,
+       source,
+       new String[]
        {
-       "name", "genreTypes"
-       });	
+         "name", "genreTypes"
+       });
     addAnnotation
-      (genreTypesObjectEDataType, 
-       source, 
-       new String[] 
+      (genreTypesObjectEDataType,
+       source,
+       new String[]
        {
-       "name", "genreTypes:Object",
-       "baseType", "genreTypes"
-       });	
+         "name", "genreTypes:Object",
+         "baseType", "genreTypes"
+       });
     addAnnotation
-      (movieDBTypeEClass, 
-       source, 
-       new String[] 
+      (movieDBTypeEClass,
+       source,
+       new String[]
        {
-       "name", "movieDBType",
-       "kind", "elementOnly"
-       });	
+         "name", "movieDBType",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getMovieDBType_MovieDBFeatureMap(), 
-       source, 
-       new String[] 
+      (getMovieDBType_MovieDBFeatureMap(),
+       source,
+       new String[]
        {
-       "name", ":group",
-       "kind", "group"
-       });	
+         "name", ":group",
+         "kind", "group"
+       });
     addAnnotation
-      (getMovieDBType_Movie(), 
-       source, 
-       new String[] 
+      (getMovieDBType_Movie(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "movie",
-       "namespace", "##targetNamespace",
-       "group", "#:group"
-       });	
+         "kind", "element",
+         "name", "movie",
+         "namespace", "##targetNamespace",
+         "group", "#:group"
+       });
     addAnnotation
-      (getMovieDBType_Comment(), 
-       source, 
-       new String[] 
+      (getMovieDBType_Comment(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "comment",
-       "group", "#:group"
-       });	
+         "kind", "element",
+         "name", "comment",
+         "group", "#:group"
+       });
     addAnnotation
-      (movieTypeEClass, 
-       source, 
-       new String[] 
+      (movieTypeEClass,
+       source,
+       new String[]
        {
-       "name", "movie",
-       "kind", "elementOnly"
-       });	
+         "name", "movie",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getMovieType_Title(), 
-       source, 
-       new String[] 
+      (getMovieType_Title(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "title"
-       });	
+         "kind", "element",
+         "name", "title"
+       });
     addAnnotation
-      (getMovieType_Actors(), 
-       source, 
-       new String[] 
+      (getMovieType_Actors(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "actors"
-       });	
+         "kind", "element",
+         "name", "actors"
+       });
     addAnnotation
-      (getMovieType_Director(), 
-       source, 
-       new String[] 
+      (getMovieType_Director(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "director"
-       });	
+         "kind", "element",
+         "name", "director"
+       });
     addAnnotation
-      (getMovieType_Genre(), 
-       source, 
-       new String[] 
+      (getMovieType_Genre(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "genre"
-       });	
+         "kind", "element",
+         "name", "genre"
+       });
     addAnnotation
-      (getMovieType_Summary(), 
-       source, 
-       new String[] 
+      (getMovieType_Summary(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "summary"
-       });	
+         "kind", "element",
+         "name", "summary"
+       });
     addAnnotation
-      (getMovieType_CriticsReviewGroup(), 
-       source, 
-       new String[] 
+      (getMovieType_CriticsReviewGroup(),
+       source,
+       new String[]
        {
-       "kind", "group",
-       "name", "criticsReview:group",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "group",
+         "name", "criticsReview:group",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getMovieType_CriticsReview(), 
-       source, 
-       new String[] 
+      (getMovieType_CriticsReview(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "criticsReview",
-       "namespace", "##targetNamespace",
-       "group", "criticsReview:group"
-       });	
+         "kind", "element",
+         "name", "criticsReview",
+         "namespace", "##targetNamespace",
+         "group", "criticsReview:group"
+       });
     addAnnotation
-      (getMovieType_CheckedOutBy(), 
-       source, 
-       new String[] 
+      (getMovieType_CheckedOutBy(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "checkedOutBy",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "element",
+         "name", "checkedOutBy",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getMovieType_Any(), 
-       source, 
-       new String[] 
+      (getMovieType_Any(),
+       source,
+       new String[]
        {
-       "kind", "elementWildcard",
-       "wildcards", "##any",
-       "name", ":8",
-       "processing", "strict"
-       });	
+         "kind", "elementWildcard",
+         "wildcards", "##any",
+         "name", ":8",
+         "processing", "strict"
+       });
     addAnnotation
-      (getMovieType_ID(), 
-       source, 
-       new String[] 
+      (getMovieType_ID(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "ID",
-       "namespace", "http:///org.eclipse.emf.test.models/Customer"
-       });	
+         "kind", "attribute",
+         "name", "ID",
+         "namespace", "http:///org.eclipse.emf.test.models/Customer"
+       });
     addAnnotation
-      (ratingTypeEDataType, 
-       source, 
-       new String[] 
+      (ratingTypeEDataType,
+       source,
+       new String[]
        {
-       "name", "rating_._type",
-       "baseType", "http://www.eclipse.org/emf/2003/XMLType#int",
-       "minInclusive", "0",
-       "maxInclusive", "10"
-       });	
+         "name", "rating_._type",
+         "baseType", "http://www.eclipse.org/emf/2003/XMLType#int",
+         "minInclusive", "0",
+         "maxInclusive", "10"
+       });
     addAnnotation
-      (ratingTypeObjectEDataType, 
-       source, 
-       new String[] 
+      (ratingTypeObjectEDataType,
+       source,
+       new String[]
        {
-       "name", "rating_._type:Object",
-       "baseType", "rating_._type"
-       });	
+         "name", "rating_._type:Object",
+         "baseType", "rating_._type"
+       });
     addAnnotation
-      (ratingValuesEDataType, 
-       source, 
-       new String[] 
+      (ratingValuesEDataType,
+       source,
+       new String[]
        {
-       "name", "ratingValues",
-       "baseType", "http://www.eclipse.org/emf/2003/XMLType#int",
-       "minInclusive", "0",
-       "maxInclusive", "10"
-       });	
+         "name", "ratingValues",
+         "baseType", "http://www.eclipse.org/emf/2003/XMLType#int",
+         "minInclusive", "0",
+         "maxInclusive", "10"
+       });
     addAnnotation
-      (ratingValuesObjectEDataType, 
-       source, 
-       new String[] 
+      (ratingValuesObjectEDataType,
+       source,
+       new String[]
        {
-       "name", "ratingValues:Object",
-       "baseType", "ratingValues"
+         "name", "ratingValues:Object",
+         "baseType", "ratingValues"
        });
   }
 

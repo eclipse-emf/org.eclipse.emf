@@ -494,6 +494,7 @@ public class XSDModelGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAnnotation getAnnotation()
   {
     return annotation;
@@ -504,6 +505,7 @@ public class XSDModelGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAnnotation(XSDAnnotation newAnnotation)
   {
     if (newAnnotation != annotation)
@@ -542,6 +544,7 @@ public class XSDModelGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDModelGroup getModelGroup()
   {
     return modelGroup;
@@ -552,6 +555,7 @@ public class XSDModelGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setModelGroup(XSDModelGroup newModelGroup)
   {
     if (newModelGroup != modelGroup)
@@ -590,6 +594,7 @@ public class XSDModelGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDModelGroupDefinition getResolvedModelGroupDefinition()
   {
     return resolvedModelGroupDefinition;
@@ -600,6 +605,7 @@ public class XSDModelGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setResolvedModelGroupDefinition(XSDModelGroupDefinition newResolvedModelGroupDefinition)
   {
     XSDModelGroupDefinition oldResolvedModelGroupDefinition = resolvedModelGroupDefinition;

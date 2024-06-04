@@ -135,6 +135,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getResourceURI()
   {
     return resourceURI;
@@ -145,6 +146,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setResourceURI(String newResourceURI)
   {
     String oldResourceURI = resourceURI;
@@ -237,6 +239,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<ListChange> getListChanges()
   {
     if (listChanges == null)

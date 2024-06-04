@@ -134,6 +134,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -144,6 +145,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -157,6 +159,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Book> getBooks()
   {
     if (books == null)
@@ -171,6 +174,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Address getAddress()
   {
     if (address != null && address.eIsProxy())
@@ -225,6 +229,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAddress(Address newAddress)
   {
     if (newAddress != address)
@@ -246,6 +251,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Person> getWriters()
   {
     if (writers == null)
@@ -260,6 +266,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Cafeteria getCafeteria()
   {
     if (cafeteria != null && cafeteria.eIsProxy())
@@ -314,6 +321,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCafeteria(Cafeteria newCafeteria)
   {
     if (newCafeteria != cafeteria)
@@ -494,7 +502,7 @@ public class LibraryImpl extends EObjectImpl implements Library
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (name: ");
     result.append(name);
     result.append(')');

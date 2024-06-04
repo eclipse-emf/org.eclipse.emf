@@ -145,6 +145,7 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CanadaAddr createCanadaAddr()
   {
     CanadaAddrImpl canadaAddr = new CanadaAddrImpl();
@@ -156,6 +157,7 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CreditInfo createCreditInfo()
   {
     CreditInfoImpl creditInfo = new CreditInfoImpl();
@@ -167,6 +169,7 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CustomersType createCustomersType()
   {
     CustomersTypeImpl customersType = new CustomersTypeImpl();
@@ -178,6 +181,7 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CustomerType createCustomerType()
   {
     CustomerTypeImpl customerType = new CustomerTypeImpl();
@@ -189,6 +193,7 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public DocumentRoot createDocumentRoot()
   {
     DocumentRootImpl documentRoot = new DocumentRootImpl();
@@ -200,6 +205,7 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public USAddr createUSAddr()
   {
     USAddrImpl usAddr = new USAddrImpl();
@@ -347,6 +353,7 @@ public class CustomerFactoryImpl extends EFactoryImpl implements CustomerFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CustomerPackage getCustomerPackage()
   {
     return (CustomerPackage)getEPackage();

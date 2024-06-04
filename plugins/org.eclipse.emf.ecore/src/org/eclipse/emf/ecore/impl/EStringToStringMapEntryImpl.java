@@ -254,6 +254,7 @@ public class EStringToStringMapEntryImpl extends MinimalEObjectImpl.Container im
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getHash()
   {
     if (hash == -1)
@@ -269,6 +270,7 @@ public class EStringToStringMapEntryImpl extends MinimalEObjectImpl.Container im
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setHash(int hash)
   {
     this.hash = hash;
@@ -279,6 +281,7 @@ public class EStringToStringMapEntryImpl extends MinimalEObjectImpl.Container im
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getKey()
   {
     return getTypedKey();
@@ -289,6 +292,7 @@ public class EStringToStringMapEntryImpl extends MinimalEObjectImpl.Container im
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setKey(String key)
   {
     setTypedKey(key);
@@ -299,6 +303,7 @@ public class EStringToStringMapEntryImpl extends MinimalEObjectImpl.Container im
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getValue()
   {
     return getTypedValue();
@@ -309,6 +314,7 @@ public class EStringToStringMapEntryImpl extends MinimalEObjectImpl.Container im
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String setValue(String value)
   {
     String oldValue = getValue();

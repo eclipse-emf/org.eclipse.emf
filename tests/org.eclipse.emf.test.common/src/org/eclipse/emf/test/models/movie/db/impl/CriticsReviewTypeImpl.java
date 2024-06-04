@@ -108,6 +108,7 @@ public class CriticsReviewTypeImpl extends EObjectImpl implements CriticsReviewT
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getRating()
   {
     return rating;
@@ -118,6 +119,7 @@ public class CriticsReviewTypeImpl extends EObjectImpl implements CriticsReviewT
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRating(int newRating)
   {
     int oldRating = rating;
@@ -133,6 +135,7 @@ public class CriticsReviewTypeImpl extends EObjectImpl implements CriticsReviewT
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetRating()
   {
     int oldRating = rating;
@@ -148,6 +151,7 @@ public class CriticsReviewTypeImpl extends EObjectImpl implements CriticsReviewT
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetRating()
   {
     return ratingESet;
@@ -158,6 +162,7 @@ public class CriticsReviewTypeImpl extends EObjectImpl implements CriticsReviewT
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getReviewedBy()
   {
     return reviewedBy;
@@ -168,6 +173,7 @@ public class CriticsReviewTypeImpl extends EObjectImpl implements CriticsReviewT
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setReviewedBy(String newReviewedBy)
   {
     String oldReviewedBy = reviewedBy;
@@ -262,7 +268,7 @@ public class CriticsReviewTypeImpl extends EObjectImpl implements CriticsReviewT
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (rating: ");
     if (ratingESet) result.append(rating); else result.append("<unset>");
     result.append(", reviewedBy: ");

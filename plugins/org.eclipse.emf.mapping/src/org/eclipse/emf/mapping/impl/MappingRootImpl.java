@@ -167,6 +167,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isOutputReadOnly()
   {
     return outputReadOnly;
@@ -177,6 +178,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setOutputReadOnly(boolean newOutputReadOnly)
   {
     boolean oldOutputReadOnly = outputReadOnly;
@@ -190,6 +192,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isTopToBottom()
   {
     return topToBottom;
@@ -200,6 +203,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTopToBottom(boolean newTopToBottom)
   {
     boolean oldTopToBottom = topToBottom;
@@ -213,6 +217,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getCommandStack()
   {
     return commandStack;
@@ -223,6 +228,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCommandStack(String newCommandStack)
   {
     String oldCommandStack = commandStack;
@@ -327,7 +333,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (outputReadOnly: ");
     result.append(outputReadOnly);
     result.append(", topToBottom: ");

@@ -122,7 +122,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link MappingPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -137,7 +137,8 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
     if (isInited) return (MappingPackage)EPackage.Registry.INSTANCE.getEPackage(MappingPackage.eNS_URI);
 
     // Obtain or create and register package
-    MappingPackageImpl theMappingPackage = (MappingPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof MappingPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new MappingPackageImpl());
+    Object registeredMappingPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    MappingPackageImpl theMappingPackage = registeredMappingPackage instanceof MappingPackageImpl ? (MappingPackageImpl)registeredMappingPackage : new MappingPackageImpl();
 
     isInited = true;
 
@@ -153,7 +154,6 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
     // Mark meta-data to indicate it can't be changed
     theMappingPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(MappingPackage.eNS_URI, theMappingPackage);
     return theMappingPackage;
@@ -164,6 +164,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getMappingHelper()
   {
     return mappingHelperEClass;
@@ -174,6 +175,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getMappingHelper_Mapper()
   {
     return (EReference)mappingHelperEClass.getEStructuralFeatures().get(0);
@@ -184,6 +186,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getMappingHelper_HelpedObject()
   {
     return (EReference)mappingHelperEClass.getEStructuralFeatures().get(1);
@@ -194,6 +197,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getMappingHelper_NestedIn()
   {
     return (EReference)mappingHelperEClass.getEStructuralFeatures().get(2);
@@ -204,6 +208,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getMappingHelper_Nested()
   {
     return (EReference)mappingHelperEClass.getEStructuralFeatures().get(3);
@@ -214,6 +219,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getMapping()
   {
     return mappingEClass;
@@ -224,6 +230,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getMapping_Helper()
   {
     return (EReference)mappingEClass.getEStructuralFeatures().get(0);
@@ -234,6 +241,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getMapping_Nested()
   {
     return (EReference)mappingEClass.getEStructuralFeatures().get(1);
@@ -244,6 +252,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getMapping_NestedIn()
   {
     return (EReference)mappingEClass.getEStructuralFeatures().get(2);
@@ -254,6 +263,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getMapping_Inputs()
   {
     return (EReference)mappingEClass.getEStructuralFeatures().get(3);
@@ -264,6 +274,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getMapping_Outputs()
   {
     return (EReference)mappingEClass.getEStructuralFeatures().get(4);
@@ -274,6 +285,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getMapping_TypeMapping()
   {
     return (EReference)mappingEClass.getEStructuralFeatures().get(5);
@@ -284,6 +296,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getTypeConverter()
   {
     return typeConverterEClass;
@@ -294,6 +307,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getFunctionPair()
   {
     return functionPairEClass;
@@ -304,6 +318,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getFunctionPair_In2out()
   {
     return (EReference)functionPairEClass.getEStructuralFeatures().get(0);
@@ -314,6 +329,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getFunctionPair_Out2in()
   {
     return (EReference)functionPairEClass.getEStructuralFeatures().get(1);
@@ -324,6 +340,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getFunctionNamePair()
   {
     return functionNamePairEClass;
@@ -334,6 +351,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getFunctionNamePair_In2out()
   {
     return (EAttribute)functionNamePairEClass.getEStructuralFeatures().get(0);
@@ -344,6 +362,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getFunctionNamePair_Out2in()
   {
     return (EAttribute)functionNamePairEClass.getEStructuralFeatures().get(1);
@@ -354,6 +373,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getMappingStrategy()
   {
     return mappingStrategyEClass;
@@ -364,6 +384,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getMappingRoot()
   {
     return mappingRootEClass;
@@ -374,6 +395,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getMappingRoot_OutputReadOnly()
   {
     return (EAttribute)mappingRootEClass.getEStructuralFeatures().get(0);
@@ -384,6 +406,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getMappingRoot_TopToBottom()
   {
     return (EAttribute)mappingRootEClass.getEStructuralFeatures().get(1);
@@ -394,6 +417,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getMappingRoot_CommandStack()
   {
     return (EAttribute)mappingRootEClass.getEStructuralFeatures().get(2);
@@ -404,6 +428,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getComplexTypeConverter()
   {
     return complexTypeConverterEClass;
@@ -414,6 +439,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getComplexTypeConverter_In2out()
   {
     return (EReference)complexTypeConverterEClass.getEStructuralFeatures().get(0);
@@ -424,6 +450,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getComplexTypeConverter_Out2in()
   {
     return (EReference)complexTypeConverterEClass.getEStructuralFeatures().get(1);
@@ -434,6 +461,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public MappingFactory getMappingFactory()
   {
     return (MappingFactory)getEFactoryInstance();

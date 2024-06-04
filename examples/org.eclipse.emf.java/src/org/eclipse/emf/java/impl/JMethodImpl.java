@@ -267,6 +267,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isAbstract()
   {
     return abstract_;
@@ -277,6 +278,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAbstract(boolean newAbstract)
   {
     boolean oldAbstract = abstract_;
@@ -290,6 +292,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isFinal()
   {
     return final_;
@@ -300,6 +303,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFinal(boolean newFinal)
   {
     boolean oldFinal = final_;
@@ -313,6 +317,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isNative()
   {
     return native_;
@@ -323,6 +328,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNative(boolean newNative)
   {
     boolean oldNative = native_;
@@ -336,6 +342,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSynchronized()
   {
     return synchronized_;
@@ -346,6 +353,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSynchronized(boolean newSynchronized)
   {
     boolean oldSynchronized = synchronized_;
@@ -359,6 +367,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Method getJavaMethod()
   {
     return javaMethod;
@@ -369,6 +378,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setJavaMethod(Method newJavaMethod)
   {
     Method oldJavaMethod = javaMethod;
@@ -382,6 +392,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isConstructor()
   {
     return constructor;
@@ -392,6 +403,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setConstructor(boolean newConstructor)
   {
     boolean oldConstructor = constructor;
@@ -405,6 +417,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Constructor<?> getJavaConstructor()
   {
     return javaConstructor;
@@ -415,6 +428,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setJavaConstructor(Constructor<?> newJavaConstructor)
   {
     Constructor<?> oldJavaConstructor = javaConstructor;
@@ -428,6 +442,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getBody()
   {
     return body;
@@ -438,6 +453,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setBody(String newBody)
   {
     String oldBody = body;
@@ -451,6 +467,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<JParameter> getParameters()
   {
     if (parameters == null)
@@ -465,6 +482,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<JClass> getExceptions()
   {
     if (exceptions == null)
@@ -479,6 +497,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JClass getReturnType()
   {
     if (returnType != null && returnType.eIsProxy())
@@ -509,6 +528,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setReturnType(JClass newReturnType)
   {
     JClass oldReturnType = returnType;

@@ -756,6 +756,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<ETypeParameter> getETypeParameters()
   {
     if (eTypeParameters == null)

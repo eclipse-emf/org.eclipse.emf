@@ -185,6 +185,7 @@ public class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getProductName()
   {
     return productName;
@@ -195,6 +196,7 @@ public class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setProductName(String newProductName)
   {
     String oldProductName = productName;
@@ -208,6 +210,7 @@ public class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getQuantity()
   {
     return quantity;
@@ -218,6 +221,7 @@ public class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setQuantity(int newQuantity)
   {
     int oldQuantity = quantity;
@@ -231,6 +235,7 @@ public class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getUSPrice()
   {
     return usPrice;
@@ -241,6 +246,7 @@ public class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setUSPrice(int newUSPrice)
   {
     int oldUSPrice = usPrice;
@@ -254,6 +260,7 @@ public class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getComment()
   {
     return comment;
@@ -264,6 +271,7 @@ public class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setComment(String newComment)
   {
     String oldComment = comment;
@@ -277,6 +285,7 @@ public class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Date getShipDate()
   {
     return shipDate;
@@ -287,6 +296,7 @@ public class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setShipDate(Date newShipDate)
   {
     Date oldShipDate = shipDate;
@@ -300,6 +310,7 @@ public class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getPartNum()
   {
     return partNum;
@@ -310,6 +321,7 @@ public class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPartNum(String newPartNum)
   {
     String oldPartNum = partNum;
@@ -444,7 +456,7 @@ public class ItemImpl extends EObjectImpl implements Item
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (productName: ");
     result.append(productName);
     result.append(", quantity: ");

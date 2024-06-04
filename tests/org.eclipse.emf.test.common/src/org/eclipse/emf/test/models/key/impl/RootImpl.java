@@ -74,6 +74,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Item> getItems()
   {
     if (items == null)

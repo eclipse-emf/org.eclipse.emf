@@ -90,6 +90,7 @@ public class BImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public A getA()
   {
     if (a != null && a.eIsProxy())
@@ -137,6 +138,7 @@ public class BImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setA(A newA)
   {
     if (newA != a)
@@ -158,6 +160,7 @@ public class BImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C2 getC2()
   {
     if (eContainerFeatureID() != RefPackage.B__C2) return null;
@@ -180,6 +183,7 @@ public class BImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setC2(C2 newC2)
   {
     if (newC2 != eInternalContainer() || (eContainerFeatureID() != RefPackage.B__C2 && newC2 != null))
@@ -203,6 +207,7 @@ public class BImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<D> getD()
   {
     if (d == null)

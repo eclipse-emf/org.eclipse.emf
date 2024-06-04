@@ -117,6 +117,7 @@ public class BidirectionalImpl<T extends Bidirectional<T>> extends EObjectImpl i
    * @generated
    */
   @SuppressWarnings("unchecked")
+  @Override
   public T getIn()
   {
     if (in != null && in.eIsProxy())
@@ -164,6 +165,7 @@ public class BidirectionalImpl<T extends Bidirectional<T>> extends EObjectImpl i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setIn(T newIn)
   {
     if (newIn != in)
@@ -186,6 +188,7 @@ public class BidirectionalImpl<T extends Bidirectional<T>> extends EObjectImpl i
    * @generated
    */
   @SuppressWarnings("unchecked")
+  @Override
   public T getOut()
   {
     if (out != null && out.eIsProxy())
@@ -233,6 +236,7 @@ public class BidirectionalImpl<T extends Bidirectional<T>> extends EObjectImpl i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setOut(T newOut)
   {
     if (newOut != out)
@@ -255,6 +259,7 @@ public class BidirectionalImpl<T extends Bidirectional<T>> extends EObjectImpl i
    * @generated
    */
   @SuppressWarnings("unchecked")
+  @Override
   public T getValue()
   {
     if (value != null && value.eIsProxy())
@@ -285,6 +290,7 @@ public class BidirectionalImpl<T extends Bidirectional<T>> extends EObjectImpl i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValue(T newValue)
   {
     T oldValue = value;
@@ -299,6 +305,7 @@ public class BidirectionalImpl<T extends Bidirectional<T>> extends EObjectImpl i
    * @generated
    */
   @SuppressWarnings("unchecked")
+  @Override
   public Bidirectional<T>[] getValues()
   {
     if (values == null || values.isEmpty()) return VALUES_EEMPTY_ARRAY;
@@ -312,6 +319,7 @@ public class BidirectionalImpl<T extends Bidirectional<T>> extends EObjectImpl i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public T getValues(int index)
   {
     return getValuesList().get(index);
@@ -322,6 +330,7 @@ public class BidirectionalImpl<T extends Bidirectional<T>> extends EObjectImpl i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getValuesLength()
   {
     return values == null ? 0 : values.size();
@@ -332,6 +341,7 @@ public class BidirectionalImpl<T extends Bidirectional<T>> extends EObjectImpl i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValues(T[] newValues)
   {
     ((BasicEList<T>)getValuesList()).setData(newValues.length, newValues);
@@ -342,6 +352,7 @@ public class BidirectionalImpl<T extends Bidirectional<T>> extends EObjectImpl i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValues(int index, T element)
   {
     getValuesList().set(index, element);
@@ -352,6 +363,7 @@ public class BidirectionalImpl<T extends Bidirectional<T>> extends EObjectImpl i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<T> getValuesList()
   {
     if (values == null)

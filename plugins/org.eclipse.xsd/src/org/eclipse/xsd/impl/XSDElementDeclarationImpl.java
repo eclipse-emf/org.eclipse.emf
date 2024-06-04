@@ -319,6 +319,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isNillable()
   {
     return (eFlags & NILLABLE_EFLAG) != 0;
@@ -329,6 +330,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNillable(boolean newNillable)
   {
     boolean oldNillable = (eFlags & NILLABLE_EFLAG) != 0;
@@ -344,6 +346,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetNillable()
   {
     boolean oldNillable = (eFlags & NILLABLE_EFLAG) != 0;
@@ -359,6 +362,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetNillable()
   {
     return (eFlags & NILLABLE_ESETFLAG) != 0;
@@ -369,6 +373,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDDisallowedSubstitutions> getDisallowedSubstitutions()
   {
     if (disallowedSubstitutions == null)
@@ -383,6 +388,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDSubstitutionGroupExclusions> getSubstitutionGroupExclusions()
   {
     if (substitutionGroupExclusions == null)
@@ -397,6 +403,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isAbstract()
   {
     return (eFlags & ABSTRACT_EFLAG) != 0;
@@ -407,6 +414,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAbstract(boolean newAbstract)
   {
     boolean oldAbstract = (eFlags & ABSTRACT_EFLAG) != 0;
@@ -422,6 +430,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetAbstract()
   {
     boolean oldAbstract = (eFlags & ABSTRACT_EFLAG) != 0;
@@ -437,6 +446,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetAbstract()
   {
     return (eFlags & ABSTRACT_ESETFLAG) != 0;
@@ -447,6 +457,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDProhibitedSubstitutions> getLexicalFinal()
   {
     if (lexicalFinal == null)
@@ -461,6 +472,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetLexicalFinal()
   {
     if (lexicalFinal != null) ((InternalEList.Unsettable<?>)lexicalFinal).unset();
@@ -471,6 +483,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetLexicalFinal()
   {
     return lexicalFinal != null && ((InternalEList.Unsettable<?>)lexicalFinal).isSet();
@@ -481,6 +494,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDDisallowedSubstitutions> getBlock()
   {
     if (block == null)
@@ -495,6 +509,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetBlock()
   {
     if (block != null) ((InternalEList.Unsettable<?>)block).unset();
@@ -505,6 +520,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetBlock()
   {
     return block != null && ((InternalEList.Unsettable<?>)block).isSet();
@@ -1821,6 +1837,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAnnotation getAnnotation()
   {
     return annotation;
@@ -1831,6 +1848,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAnnotation(XSDAnnotation newAnnotation)
   {
     if (newAnnotation != annotation)
@@ -1869,6 +1887,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDTypeDefinition getAnonymousTypeDefinition()
   {
     return anonymousTypeDefinition;
@@ -1879,6 +1898,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAnonymousTypeDefinition(XSDTypeDefinition newAnonymousTypeDefinition)
   {
     if (newAnonymousTypeDefinition != anonymousTypeDefinition)
@@ -1917,6 +1937,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDTypeDefinition getTypeDefinition()
   {
     return typeDefinition;
@@ -1946,6 +1967,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDIdentityConstraintDefinition> getIdentityConstraintDefinitions()
   {
     if (identityConstraintDefinitions == null)
@@ -1960,6 +1982,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDElementDeclaration getResolvedElementDeclaration()
   {
     return resolvedElementDeclaration;
@@ -1970,6 +1993,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setResolvedElementDeclaration(XSDElementDeclaration newResolvedElementDeclaration)
   {
     XSDElementDeclaration oldResolvedElementDeclaration = resolvedElementDeclaration;
@@ -1983,6 +2007,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDElementDeclaration getSubstitutionGroupAffiliation()
   {
     return substitutionGroupAffiliation;
@@ -1993,6 +2018,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSubstitutionGroupAffiliation(XSDElementDeclaration newSubstitutionGroupAffiliation)
   {
     XSDElementDeclaration oldSubstitutionGroupAffiliation = substitutionGroupAffiliation;
@@ -2006,6 +2032,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDElementDeclaration> getSubstitutionGroup()
   {
     if (substitutionGroup == null)

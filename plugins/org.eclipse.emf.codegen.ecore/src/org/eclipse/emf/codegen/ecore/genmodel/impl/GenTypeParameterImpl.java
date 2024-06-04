@@ -103,6 +103,7 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ETypeParameter getEcoreTypeParameter()
   {
     if (ecoreTypeParameter != null && ecoreTypeParameter.eIsProxy())
@@ -133,6 +134,7 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEcoreTypeParameter(ETypeParameter newEcoreTypeParameter)
   {
     ETypeParameter oldEcoreTypeParameter = ecoreTypeParameter;
@@ -164,6 +166,7 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
    * @since 2.14
    * @generated
    */
+  @Override
   public void setDocumentation(String newDocumentation)
   {
     String oldDocumentation = documentation;

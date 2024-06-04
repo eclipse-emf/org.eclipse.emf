@@ -505,6 +505,7 @@ public abstract class XSDNamedComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -515,6 +516,7 @@ public abstract class XSDNamedComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -528,6 +530,7 @@ public abstract class XSDNamedComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getTargetNamespace()
   {
     return targetNamespace;
@@ -538,6 +541,7 @@ public abstract class XSDNamedComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTargetNamespace(String newTargetNamespace)
   {
     String oldTargetNamespace = targetNamespace;

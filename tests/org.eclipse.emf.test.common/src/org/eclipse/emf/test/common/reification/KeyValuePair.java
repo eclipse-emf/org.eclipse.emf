@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  *
  * @see org.eclipse.emf.test.common.reification.ReificationPackage#getKeyValuePair()
- * @model KBounds="org.eclipse.emf.ecore.EEList<?>"
+ * @model KBounds="org.eclipse.emf.ecore.EEList&lt;?&gt;"
  * @generated
  */
 public interface KeyValuePair<K extends EList<?>, V extends KeyValuePair<K, V>> extends EObject

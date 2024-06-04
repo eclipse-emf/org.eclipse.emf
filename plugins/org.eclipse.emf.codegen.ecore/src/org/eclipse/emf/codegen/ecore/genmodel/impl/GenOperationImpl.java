@@ -186,6 +186,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenClass getGenClass()
   {
     if (eContainerFeatureID() != GenModelPackage.GEN_OPERATION__GEN_CLASS) return null;
@@ -208,6 +209,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setGenClass(GenClass newGenClass)
   {
     if (newGenClass != eInternalContainer() || (eContainerFeatureID() != GenModelPackage.GEN_OPERATION__GEN_CLASS && newGenClass != null))
@@ -231,6 +233,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getEcoreOperation()
   {
     if (ecoreOperation != null && ecoreOperation.eIsProxy())
@@ -261,6 +264,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEcoreOperation(EOperation newEcoreOperation)
   {
     EOperation oldEcoreOperation = ecoreOperation;
@@ -274,6 +278,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<GenParameter> getGenParameters()
   {
     if (genParameters == null)
@@ -288,6 +293,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<GenTypeParameter> getGenTypeParameters()
   {
     if (genTypeParameters == null)
@@ -1402,6 +1408,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * @since 2.14
    * @generated
    */
+  @Override
   public void setSuppressedVisibility(boolean newSuppressedVisibility)
   {
     boolean oldSuppressedVisibility = suppressedVisibility;

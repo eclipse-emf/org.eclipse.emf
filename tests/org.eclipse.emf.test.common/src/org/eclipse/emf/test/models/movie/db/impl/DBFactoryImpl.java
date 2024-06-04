@@ -12,6 +12,7 @@ package org.eclipse.emf.test.models.movie.db.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -154,6 +155,7 @@ public class DBFactoryImpl extends EFactoryImpl implements DBFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CriticsReviewType createCriticsReviewType()
   {
     CriticsReviewTypeImpl criticsReviewType = new CriticsReviewTypeImpl();
@@ -165,6 +167,7 @@ public class DBFactoryImpl extends EFactoryImpl implements DBFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CustomerReviewType createCustomerReviewType()
   {
     CustomerReviewTypeImpl customerReviewType = new CustomerReviewTypeImpl();
@@ -176,6 +179,7 @@ public class DBFactoryImpl extends EFactoryImpl implements DBFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public DocumentRoot createDocumentRoot()
   {
     DocumentRootImpl documentRoot = new DocumentRootImpl();
@@ -187,6 +191,7 @@ public class DBFactoryImpl extends EFactoryImpl implements DBFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public MovieDBType createMovieDBType()
   {
     MovieDBTypeImpl movieDBType = new MovieDBTypeImpl();
@@ -198,6 +203,7 @@ public class DBFactoryImpl extends EFactoryImpl implements DBFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public MovieType createMovieType()
   {
     MovieTypeImpl movieType = new MovieTypeImpl();
@@ -366,6 +372,7 @@ public class DBFactoryImpl extends EFactoryImpl implements DBFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public DBPackage getDBPackage()
   {
     return (DBPackage)getEPackage();

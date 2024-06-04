@@ -90,6 +90,7 @@ public class LibFactoryImpl extends EFactoryImpl implements LibFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Library createLibrary()
   {
     LibraryImpl library = new LibraryImpl();
@@ -101,6 +102,7 @@ public class LibFactoryImpl extends EFactoryImpl implements LibFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Book createBook()
   {
     BookImpl book = new BookImpl();
@@ -112,6 +114,7 @@ public class LibFactoryImpl extends EFactoryImpl implements LibFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Address createAddress()
   {
     AddressImpl address = new AddressImpl();
@@ -123,6 +126,7 @@ public class LibFactoryImpl extends EFactoryImpl implements LibFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Person createPerson()
   {
     PersonImpl person = new PersonImpl();
@@ -134,6 +138,7 @@ public class LibFactoryImpl extends EFactoryImpl implements LibFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Cafeteria createCafeteria()
   {
     CafeteriaImpl cafeteria = new CafeteriaImpl();
@@ -145,6 +150,7 @@ public class LibFactoryImpl extends EFactoryImpl implements LibFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public LibPackage getLibPackage()
   {
     return (LibPackage)getEPackage();

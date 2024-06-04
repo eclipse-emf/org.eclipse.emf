@@ -96,6 +96,7 @@ public class XSDIncludeImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAnnotation getAnnotation()
   {
     return annotation;
@@ -106,6 +107,7 @@ public class XSDIncludeImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAnnotation(XSDAnnotation newAnnotation)
   {
     if (newAnnotation != annotation)

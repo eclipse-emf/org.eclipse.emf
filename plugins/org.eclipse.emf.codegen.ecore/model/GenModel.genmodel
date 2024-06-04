@@ -5,10 +5,10 @@
     modelPluginID="org.eclipse.emf.codegen.ecore" runtimeJar="true" modelName="GenModel"
     editPluginClass="org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin"
     editorPluginClass="" updateClasspath="false" testsDirectory="" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="5.0" editPluginID="org.eclipse.emf.codegen.ecore.ui" language="en"
+    complianceLevel="8.0" editPluginID="org.eclipse.emf.codegen.ecore.ui" language="en"
     usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore" decoration="Live"
-    eclipsePlatformVersion="Juno" autoResizeProperties="true" findAction="true" expandAllAction="true"
-    collapseAllAction="true" revertAction="true">
+    eclipsePlatformVersion="Photon" autoResizeProperties="true" findAction="true"
+    expandAllAction="true" collapseAllAction="true" revertAction="true">
   <foreignModel>GenModel.ecore</foreignModel>
   <genPackages prefix="GenModel" basePackage="org.eclipse.emf.codegen.ecore" disposableProviderFactory="true"
       multipleEditorPages="false" generateModelWizard="false" contentTypeIdentifier="org.eclipse.emf.codegen.genmodel"
@@ -95,6 +95,7 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF236"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF237"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF238"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimeVersion/EMF239"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="GenModel.ecore#//GenRuntimePlatform">
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenRuntimePlatform/IDE"/>
@@ -139,6 +140,7 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2023_12"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2024_03"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2024_06"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenEclipsePlatformVersion/Eclipse_2024_09"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="GenModel.ecore#//GenCodeStyle">
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenCodeStyle/UnnecessaryElse"/>

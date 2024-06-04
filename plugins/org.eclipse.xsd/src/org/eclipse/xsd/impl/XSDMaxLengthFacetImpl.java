@@ -109,6 +109,7 @@ public class XSDMaxLengthFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getValue()
   {
     return value;
@@ -119,6 +120,7 @@ public class XSDMaxLengthFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValue(int newValue)
   {
     int oldValue = value;

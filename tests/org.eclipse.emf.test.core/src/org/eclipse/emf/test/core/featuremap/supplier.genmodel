@@ -5,7 +5,7 @@
     editDirectory="/org.eclipse.emf.test.core.edit/src" editorDirectory="/org.eclipse.emf.test.core.editor/src"
     modelPluginID="org.eclipse.emf.test.core" runtimeJar="true" modelName="Supplier"
     editPluginClass="" editorPluginClass="" testsDirectory="" importerID="org.eclipse.xsd.ecore.importer"
-    complianceLevel="5.0">
+    complianceLevel="8.0">
   <foreignModel>supplier.xsd</foreignModel>
   <genPackages prefix="Supplier" basePackage="org.eclipse.emf.test.core.featuremap"
       resource="XML" disposableProviderFactory="true" ecorePackage="com.example.supplier.ecore#/">

@@ -255,6 +255,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAnnotation createXSDAnnotation()
   {
     XSDAnnotationImpl xsdAnnotation = new XSDAnnotationImpl();
@@ -266,6 +267,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAttributeDeclaration createXSDAttributeDeclaration()
   {
     XSDAttributeDeclarationImpl xsdAttributeDeclaration = new XSDAttributeDeclarationImpl();
@@ -277,6 +279,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAttributeGroupDefinition createXSDAttributeGroupDefinition()
   {
     XSDAttributeGroupDefinitionImpl xsdAttributeGroupDefinition = new XSDAttributeGroupDefinitionImpl();
@@ -288,6 +291,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAttributeUse createXSDAttributeUse()
   {
     XSDAttributeUseImpl xsdAttributeUse = new XSDAttributeUseImpl();
@@ -299,6 +303,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDBoundedFacet createXSDBoundedFacet()
   {
     XSDBoundedFacetImpl xsdBoundedFacet = new XSDBoundedFacetImpl();
@@ -310,6 +315,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDCardinalityFacet createXSDCardinalityFacet()
   {
     XSDCardinalityFacetImpl xsdCardinalityFacet = new XSDCardinalityFacetImpl();
@@ -321,6 +327,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDComplexTypeDefinition createXSDComplexTypeDefinition()
   {
     XSDComplexTypeDefinitionImpl xsdComplexTypeDefinition = new XSDComplexTypeDefinitionImpl();
@@ -332,6 +339,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDDiagnostic createXSDDiagnostic()
   {
     XSDDiagnosticImpl xsdDiagnostic = new XSDDiagnosticImpl();
@@ -343,6 +351,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDElementDeclaration createXSDElementDeclaration()
   {
     XSDElementDeclarationImpl xsdElementDeclaration = new XSDElementDeclarationImpl();
@@ -354,6 +363,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDEnumerationFacet createXSDEnumerationFacet()
   {
     XSDEnumerationFacetImpl xsdEnumerationFacet = new XSDEnumerationFacetImpl();
@@ -365,6 +375,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDFractionDigitsFacet createXSDFractionDigitsFacet()
   {
     XSDFractionDigitsFacetImpl xsdFractionDigitsFacet = new XSDFractionDigitsFacetImpl();
@@ -376,6 +387,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDIdentityConstraintDefinition createXSDIdentityConstraintDefinition()
   {
     XSDIdentityConstraintDefinitionImpl xsdIdentityConstraintDefinition = new XSDIdentityConstraintDefinitionImpl();
@@ -387,6 +399,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDImport createXSDImport()
   {
     XSDImportImpl xsdImport = new XSDImportImpl();
@@ -398,6 +411,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDInclude createXSDInclude()
   {
     XSDIncludeImpl xsdInclude = new XSDIncludeImpl();
@@ -409,6 +423,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDLengthFacet createXSDLengthFacet()
   {
     XSDLengthFacetImpl xsdLengthFacet = new XSDLengthFacetImpl();
@@ -420,6 +435,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDMaxExclusiveFacet createXSDMaxExclusiveFacet()
   {
     XSDMaxExclusiveFacetImpl xsdMaxExclusiveFacet = new XSDMaxExclusiveFacetImpl();
@@ -431,6 +447,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDMaxInclusiveFacet createXSDMaxInclusiveFacet()
   {
     XSDMaxInclusiveFacetImpl xsdMaxInclusiveFacet = new XSDMaxInclusiveFacetImpl();
@@ -442,6 +459,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDMaxLengthFacet createXSDMaxLengthFacet()
   {
     XSDMaxLengthFacetImpl xsdMaxLengthFacet = new XSDMaxLengthFacetImpl();
@@ -453,6 +471,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDMinExclusiveFacet createXSDMinExclusiveFacet()
   {
     XSDMinExclusiveFacetImpl xsdMinExclusiveFacet = new XSDMinExclusiveFacetImpl();
@@ -464,6 +483,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDMinInclusiveFacet createXSDMinInclusiveFacet()
   {
     XSDMinInclusiveFacetImpl xsdMinInclusiveFacet = new XSDMinInclusiveFacetImpl();
@@ -475,6 +495,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDMinLengthFacet createXSDMinLengthFacet()
   {
     XSDMinLengthFacetImpl xsdMinLengthFacet = new XSDMinLengthFacetImpl();
@@ -486,6 +507,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDModelGroup createXSDModelGroup()
   {
     XSDModelGroupImpl xsdModelGroup = new XSDModelGroupImpl();
@@ -497,6 +519,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDModelGroupDefinition createXSDModelGroupDefinition()
   {
     XSDModelGroupDefinitionImpl xsdModelGroupDefinition = new XSDModelGroupDefinitionImpl();
@@ -508,6 +531,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDNotationDeclaration createXSDNotationDeclaration()
   {
     XSDNotationDeclarationImpl xsdNotationDeclaration = new XSDNotationDeclarationImpl();
@@ -519,6 +543,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDNumericFacet createXSDNumericFacet()
   {
     XSDNumericFacetImpl xsdNumericFacet = new XSDNumericFacetImpl();
@@ -530,6 +555,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDOrderedFacet createXSDOrderedFacet()
   {
     XSDOrderedFacetImpl xsdOrderedFacet = new XSDOrderedFacetImpl();
@@ -541,6 +567,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDParticle createXSDParticle()
   {
     XSDParticleImpl xsdParticle = new XSDParticleImpl();
@@ -552,6 +579,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDPatternFacet createXSDPatternFacet()
   {
     XSDPatternFacetImpl xsdPatternFacet = new XSDPatternFacetImpl();
@@ -563,6 +591,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDRedefine createXSDRedefine()
   {
     XSDRedefineImpl xsdRedefine = new XSDRedefineImpl();
@@ -574,6 +603,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDSchema createXSDSchema()
   {
     XSDSchemaImpl xsdSchema = new XSDSchemaImpl();
@@ -585,6 +615,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDSimpleTypeDefinition createXSDSimpleTypeDefinition()
   {
     XSDSimpleTypeDefinitionImpl xsdSimpleTypeDefinition = new XSDSimpleTypeDefinitionImpl();
@@ -596,6 +627,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDTotalDigitsFacet createXSDTotalDigitsFacet()
   {
     XSDTotalDigitsFacetImpl xsdTotalDigitsFacet = new XSDTotalDigitsFacetImpl();
@@ -607,6 +639,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDWhiteSpaceFacet createXSDWhiteSpaceFacet()
   {
     XSDWhiteSpaceFacetImpl xsdWhiteSpaceFacet = new XSDWhiteSpaceFacetImpl();
@@ -618,6 +651,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDWildcard createXSDWildcard()
   {
     XSDWildcardImpl xsdWildcard = new XSDWildcardImpl();
@@ -629,6 +663,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDXPathDefinition createXSDXPathDefinition()
   {
     XSDXPathDefinitionImpl xsdxPathDefinition = new XSDXPathDefinitionImpl();
@@ -1180,6 +1215,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDPackage getXSDPackage()
   {
     return (XSDPackage)getEPackage();

@@ -26,12 +26,12 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.SimpleAnyTypeImpl#getRawValue <em>Raw Value</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.SimpleAnyTypeImpl#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.SimpleAnyTypeImpl#getInstanceType <em>Instance Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -95,6 +95,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getRawValue()
   {
     return (String)getMixed().get(XMLTypePackage.Literals.SIMPLE_ANY_TYPE__RAW_VALUE, true);
@@ -105,6 +106,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRawValue(String newRawValue)
   {
     ((FeatureMap.Internal)getMixed()).set(XMLTypePackage.Literals.SIMPLE_ANY_TYPE__RAW_VALUE, newRawValue);
@@ -135,6 +137,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getInstanceType()
   {
     return instanceType;
@@ -145,6 +148,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setInstanceType(EDataType newInstanceType)
   {
     EDataType oldInstanceType = instanceType;

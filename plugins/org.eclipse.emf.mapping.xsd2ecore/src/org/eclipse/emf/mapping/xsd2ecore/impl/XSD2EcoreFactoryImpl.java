@@ -84,6 +84,7 @@ public class XSD2EcoreFactoryImpl extends EFactoryImpl implements XSD2EcoreFacto
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSD2EcoreMappingRoot createXSD2EcoreMappingRoot()
   {
     XSD2EcoreMappingRootImpl xsd2EcoreMappingRoot = new XSD2EcoreMappingRootImpl();
@@ -95,6 +96,7 @@ public class XSD2EcoreFactoryImpl extends EFactoryImpl implements XSD2EcoreFacto
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSD2EcorePackage getXSD2EcorePackage()
   {
     return (XSD2EcorePackage)getEPackage();

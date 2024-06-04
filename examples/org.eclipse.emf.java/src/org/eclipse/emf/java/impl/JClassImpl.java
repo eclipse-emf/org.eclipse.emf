@@ -236,6 +236,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isAbstract()
   {
     return abstract_;
@@ -246,6 +247,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAbstract(boolean newAbstract)
   {
     boolean oldAbstract = abstract_;
@@ -259,6 +261,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isFinal()
   {
     return final_;
@@ -269,6 +272,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFinal(boolean newFinal)
   {
     boolean oldFinal = final_;
@@ -282,6 +286,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isInterface()
   {
     return interface_;
@@ -292,6 +297,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setInterface(boolean newInterface)
   {
     boolean oldInterface = interface_;
@@ -305,6 +311,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isThrowable()
   {
     return throwable;
@@ -315,6 +322,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setThrowable(boolean newThrowable)
   {
     boolean oldThrowable = throwable;
@@ -328,6 +336,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Class<?> getJavaClass()
   {
     return javaClass;
@@ -338,6 +347,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setJavaClass(Class<?> newJavaClass)
   {
     Class<?> oldJavaClass = javaClass;
@@ -389,6 +399,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<JClass> getSuperTypes()
   {
     if (superTypes == null)
@@ -432,6 +443,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<JMember> getMembers()
   {
     if (members == null)
@@ -446,6 +458,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JClass getComponentType()
   {
     if (eContainerFeatureID() != JavaPackage.JCLASS__COMPONENT_TYPE) return null;
@@ -468,6 +481,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setComponentType(JClass newComponentType)
   {
     if (newComponentType != eInternalContainer() || (eContainerFeatureID() != JavaPackage.JCLASS__COMPONENT_TYPE && newComponentType != null))
@@ -491,6 +505,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JClass getArrayType()
   {
     return arrayType;
@@ -518,6 +533,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setArrayType(JClass newArrayType)
   {
     if (newArrayType != arrayType)
@@ -539,6 +555,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JCompilationUnit getUnit()
   {
     if (eContainerFeatureID() != JavaPackage.JCLASS__UNIT) return null;
@@ -561,6 +578,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setUnit(JCompilationUnit newUnit)
   {
     if (newUnit != eInternalContainer() || (eContainerFeatureID() != JavaPackage.JCLASS__UNIT && newUnit != null))
@@ -621,6 +639,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JPackage getPackage()
   {
     if (package_ != null && package_.eIsProxy())
@@ -668,6 +687,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPackage(JPackage newPackage)
   {
     if (newPackage != package_)

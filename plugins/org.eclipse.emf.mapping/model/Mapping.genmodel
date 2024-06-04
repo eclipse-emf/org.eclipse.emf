@@ -4,7 +4,7 @@
     editDirectory="/org.eclipse.emf.mapping/src" editorDirectory="" modelPluginID="org.eclipse.emf.mapping"
     runtimeJar="true" modelName="Mapping" modelPluginClass="org.eclipse.emf.mapping.MappingPlugin"
     editPluginClass="org.eclipse.emf.mapping.MappingPlugin" editorPluginClass="" testsDirectory=""
-    importerID="org.eclipse.emf.importer.rose" complianceLevel="5.0" language="en"
+    importerID="org.eclipse.emf.importer.rose" complianceLevel="8.0" language="en"
     usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore" oSGiCompatible="true">
   <foreignModel>Mapping.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>

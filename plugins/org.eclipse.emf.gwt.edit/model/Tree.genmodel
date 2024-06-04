@@ -4,7 +4,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.gwt.edit/src"
     editorDirectory="" modelPluginID="org.eclipse.emf.gwt.edit" modelName="Tree" editPluginClass=""
     updateClasspath="false" testsDirectory="" importerID="org.eclipse.emf.importer.rose"
-    complianceLevel="5.0" editPluginID="org.eclipse.emf.gwt.edit.edit" language="en"
+    complianceLevel="8.0" editPluginID="org.eclipse.emf.gwt.edit.edit" language="en"
     usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore" runtimePlatform="GWT">
   <foreignModel>Tree.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>

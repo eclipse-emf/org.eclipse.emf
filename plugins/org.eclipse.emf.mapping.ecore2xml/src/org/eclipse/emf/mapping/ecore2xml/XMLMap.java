@@ -69,7 +69,7 @@ public interface XMLMap extends EObject, XMLResource.XMLMap{
    * <!-- end-user-doc -->
    * @return the value of the '<em>Ecore To XML Info</em>' map.
    * @see org.eclipse.emf.mapping.ecore2xml.Ecore2XMLPackage#getXMLMap_EcoreToXMLInfo()
-   * @model mapType="org.eclipse.emf.mapping.ecore2xml.ENamedElementToXMLInfoMapEntry<org.eclipse.emf.ecore.ENamedElement, org.eclipse.emf.mapping.ecore2xml.XMLInfo>"
+   * @model mapType="org.eclipse.emf.mapping.ecore2xml.ENamedElementToXMLInfoMapEntry&lt;org.eclipse.emf.ecore.ENamedElement, org.eclipse.emf.mapping.ecore2xml.XMLInfo&gt;"
    * @generated
    */
   EMap<ENamedElement, XMLInfo> getEcoreToXMLInfo();

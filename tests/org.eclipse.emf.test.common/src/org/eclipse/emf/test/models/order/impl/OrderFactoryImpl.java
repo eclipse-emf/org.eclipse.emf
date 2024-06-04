@@ -86,6 +86,7 @@ public class OrderFactoryImpl extends EFactoryImpl implements OrderFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CustomerOrder createCustomerOrder()
   {
     CustomerOrderImpl customerOrder = new CustomerOrderImpl();
@@ -97,6 +98,7 @@ public class OrderFactoryImpl extends EFactoryImpl implements OrderFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public DocumentRoot createDocumentRoot()
   {
     DocumentRootImpl documentRoot = new DocumentRootImpl();
@@ -108,6 +110,7 @@ public class OrderFactoryImpl extends EFactoryImpl implements OrderFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Order createOrder()
   {
     OrderImpl order = new OrderImpl();
@@ -119,6 +122,7 @@ public class OrderFactoryImpl extends EFactoryImpl implements OrderFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public OrderPackage getOrderPackage()
   {
     return (OrderPackage)getEPackage();

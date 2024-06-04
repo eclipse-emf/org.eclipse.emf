@@ -280,6 +280,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getHash()
   {
     if (hash == -1)
@@ -295,6 +296,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setHash(int hash)
   {
     this.hash = hash;
@@ -305,6 +307,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ENamedElement getKey()
   {
     return getTypedKey();
@@ -315,6 +318,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setKey(ENamedElement key)
   {
     setTypedKey(key);
@@ -325,6 +329,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XMLInfo getValue()
   {
     return getTypedValue();
@@ -335,6 +340,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XMLInfo setValue(XMLInfo value)
   {
     XMLInfo oldValue = getValue();

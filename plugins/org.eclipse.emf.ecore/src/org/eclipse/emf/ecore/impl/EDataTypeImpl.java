@@ -167,6 +167,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType, EDataTy
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSerializable()
   {
     return (eFlags & SERIALIZABLE_EFLAG) != 0;
@@ -177,6 +178,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType, EDataTy
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSerializable(boolean newSerializable)
   {
     boolean oldSerializable = (eFlags & SERIALIZABLE_EFLAG) != 0;

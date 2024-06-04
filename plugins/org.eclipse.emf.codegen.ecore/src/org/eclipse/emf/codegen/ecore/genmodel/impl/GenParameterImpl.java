@@ -85,6 +85,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenOperation getGenOperation()
   {
     if (eContainerFeatureID() != GenModelPackage.GEN_PARAMETER__GEN_OPERATION) return null;
@@ -107,6 +108,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setGenOperation(GenOperation newGenOperation)
   {
     if (newGenOperation != eInternalContainer() || (eContainerFeatureID() != GenModelPackage.GEN_PARAMETER__GEN_OPERATION && newGenOperation != null))
@@ -130,6 +132,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EParameter getEcoreParameter()
   {
     if (ecoreParameter != null && ecoreParameter.eIsProxy())
@@ -160,6 +163,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEcoreParameter(EParameter newEcoreParameter)
   {
     EParameter oldEcoreParameter = ecoreParameter;

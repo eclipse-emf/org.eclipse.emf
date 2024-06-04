@@ -65,7 +65,7 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link TreePackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -80,7 +80,8 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage
     if (isInited) return (TreePackage)EPackage.Registry.INSTANCE.getEPackage(TreePackage.eNS_URI);
 
     // Obtain or create and register package
-    TreePackageImpl theTreePackage = (TreePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof TreePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new TreePackageImpl());
+    Object registeredTreePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    TreePackageImpl theTreePackage = registeredTreePackage instanceof TreePackageImpl ? (TreePackageImpl)registeredTreePackage : new TreePackageImpl();
 
     isInited = true;
 
@@ -96,7 +97,6 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage
     // Mark meta-data to indicate it can't be changed
     theTreePackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(TreePackage.eNS_URI, theTreePackage);
     return theTreePackage;
@@ -107,6 +107,7 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getTreeNode()
   {
     return treeNodeEClass;
@@ -117,6 +118,7 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getTreeNode_Parent()
   {
     return (EReference)treeNodeEClass.getEStructuralFeatures().get(0);
@@ -127,6 +129,7 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getTreeNode_Children()
   {
     return (EReference)treeNodeEClass.getEStructuralFeatures().get(1);
@@ -137,6 +140,7 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getTreeNode_Data()
   {
     return (EReference)treeNodeEClass.getEStructuralFeatures().get(2);
@@ -147,6 +151,7 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public TreeFactory getTreeFactory()
   {
     return (TreeFactory)getEFactoryInstance();

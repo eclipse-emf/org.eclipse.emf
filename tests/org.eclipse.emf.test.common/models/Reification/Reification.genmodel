@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.test.common/src" editDirectory=""
     editorDirectory="" modelPluginID="org.eclipse.emf.test.common" modelName="Reification"
     testsDirectory="" importerID="org.eclipse.emf.importer.ecore" arrayAccessors="true"
-    complianceLevel="5.0" copyrightFields="false">
+    complianceLevel="8.0" copyrightFields="false">
   <foreignModel>Reification.ecore</foreignModel>
   <genPackages prefix="Reification" basePackage="org.eclipse.emf.test.common" disposableProviderFactory="true"
       ecorePackage="Reification.ecore#/">

@@ -133,6 +133,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
       (theXMLNamespacePackage,
        new EValidator.Descriptor()
        {
+         @Override
          public EValidator getEValidator()
          {
            return XMLNamespaceValidator.INSTANCE;
@@ -152,6 +153,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXMLNamespaceDocumentRoot()
   {
     return xmlNamespaceDocumentRootEClass;
@@ -162,6 +164,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLNamespaceDocumentRoot_Mixed()
   {
     return (EAttribute)xmlNamespaceDocumentRootEClass.getEStructuralFeatures().get(0);
@@ -172,6 +175,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXMLNamespaceDocumentRoot_XMLNSPrefixMap()
   {
     return (EReference)xmlNamespaceDocumentRootEClass.getEStructuralFeatures().get(1);
@@ -182,6 +186,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXMLNamespaceDocumentRoot_XSISchemaLocation()
   {
     return (EReference)xmlNamespaceDocumentRootEClass.getEStructuralFeatures().get(2);
@@ -192,6 +197,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLNamespaceDocumentRoot_Base()
   {
     return (EAttribute)xmlNamespaceDocumentRootEClass.getEStructuralFeatures().get(3);
@@ -202,6 +208,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLNamespaceDocumentRoot_Id()
   {
     return (EAttribute)xmlNamespaceDocumentRootEClass.getEStructuralFeatures().get(4);
@@ -212,6 +219,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLNamespaceDocumentRoot_Lang()
   {
     return (EAttribute)xmlNamespaceDocumentRootEClass.getEStructuralFeatures().get(5);
@@ -222,6 +230,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLNamespaceDocumentRoot_Space()
   {
     return (EAttribute)xmlNamespaceDocumentRootEClass.getEStructuralFeatures().get(6);
@@ -232,6 +241,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getSpaceType()
   {
     return spaceTypeEEnum;
@@ -242,6 +252,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getLangType()
   {
     return langTypeEDataType;
@@ -252,6 +263,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getLangTypeNull()
   {
     return langTypeNullEDataType;
@@ -262,6 +274,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getSpaceTypeObject()
   {
     return spaceTypeObjectEDataType;
@@ -272,6 +285,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XMLNamespaceFactory getXMLNamespaceFactory()
   {
     return (XMLNamespaceFactory)getEFactoryInstance();

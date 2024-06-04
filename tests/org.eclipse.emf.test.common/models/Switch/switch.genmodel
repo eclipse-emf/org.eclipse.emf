@@ -4,7 +4,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.test.common/src"
     editDirectory="" editorDirectory="" modelPluginID="org.eclipse.emf.test.models"
     modelName="Switch" testsDirectory="" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="5.0" editPluginID="org.eclipse.emf.test.models.edit" testsPluginID="org.eclipse.emf.test.models.edit">
+    complianceLevel="8.0" editPluginID="org.eclipse.emf.test.models.edit" testsPluginID="org.eclipse.emf.test.models.edit">
   <genPackages prefix="Switch1" basePackage="org.eclipse.emf.test.models" disposableProviderFactory="true"
       ecorePackage="switch1.ecore#/">
     <genClasses ecoreClass="switch1.ecore#//EClass0">

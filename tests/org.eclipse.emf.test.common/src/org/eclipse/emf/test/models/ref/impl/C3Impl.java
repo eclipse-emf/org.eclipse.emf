@@ -88,6 +88,7 @@ public class C3Impl extends EObjectImpl implements C3
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<D> getD()
   {
     if (d == null)
@@ -102,6 +103,7 @@ public class C3Impl extends EObjectImpl implements C3
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C getC()
   {
     return c;
@@ -129,6 +131,7 @@ public class C3Impl extends EObjectImpl implements C3
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setC(C newC)
   {
     if (newC != c)

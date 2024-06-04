@@ -1887,6 +1887,7 @@ public abstract class XSDConcreteComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDDiagnostic> getDiagnostics()
   {
     if (diagnostics == null)
@@ -2767,6 +2768,7 @@ public abstract class XSDConcreteComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Element getElement()
   {
     return element;

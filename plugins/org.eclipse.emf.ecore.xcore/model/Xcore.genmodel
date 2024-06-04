@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.ecore.xcore/src" creationIcons="false"
     modelPluginID="org.eclipse.emf.ecore.xcore" modelName="Xcore" modelPluginClass="XcorePlugin"
     rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" booleanFlagsField="eFlags"
-    importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
     packedEnums="true" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore ../../org.eclipse.emf.codegen.ecore/model/GenModel.genmodel#//genmodel ../../org.eclipse.xtext.common.types/model/JavaVMTypes.genmodel#//types ../../org.eclipse.xtext.xbase/model/Xbase.genmodel#//xbase">
   <foreignModel>Xcore.ecore</foreignModel>
   <genPackages prefix="Xcore" basePackage="org.eclipse.emf.ecore" disposableProviderFactory="true"

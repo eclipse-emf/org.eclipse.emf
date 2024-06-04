@@ -131,6 +131,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getA()
   {
     return aEClass;
@@ -141,6 +142,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getA_String()
   {
     return (EAttribute)aEClass.getEStructuralFeatures().get(0);
@@ -151,6 +153,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getA_Blist()
   {
     return (EReference)aEClass.getEStructuralFeatures().get(1);
@@ -161,6 +164,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getA_Cmap()
   {
     return (EReference)aEClass.getEStructuralFeatures().get(2);
@@ -171,6 +175,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getA_Strings()
   {
     return (EAttribute)aEClass.getEStructuralFeatures().get(3);
@@ -181,6 +186,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getA_PrimitiveValues()
   {
     return (EAttribute)aEClass.getEStructuralFeatures().get(4);
@@ -191,6 +197,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getA_NotUniqueValues()
   {
     return (EAttribute)aEClass.getEStructuralFeatures().get(5);
@@ -201,6 +208,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getB()
   {
     return bEClass;
@@ -211,6 +219,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getB_String()
   {
     return (EAttribute)bEClass.getEStructuralFeatures().get(0);
@@ -221,6 +230,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getB_D()
   {
     return (EReference)bEClass.getEStructuralFeatures().get(1);
@@ -231,6 +241,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getC()
   {
     return cEClass;
@@ -241,6 +252,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getC_Key()
   {
     return (EAttribute)cEClass.getEStructuralFeatures().get(0);
@@ -251,6 +263,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getC_Value()
   {
     return (EAttribute)cEClass.getEStructuralFeatures().get(1);
@@ -261,6 +274,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getD()
   {
     return dEClass;
@@ -271,6 +285,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getD_Elist()
   {
     return (EReference)dEClass.getEStructuralFeatures().get(0);
@@ -281,6 +296,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getD_Name()
   {
     return (EAttribute)dEClass.getEStructuralFeatures().get(1);
@@ -291,6 +307,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getE()
   {
     return eEClass;
@@ -301,6 +318,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getE_Name()
   {
     return (EAttribute)eEClass.getEStructuralFeatures().get(0);
@@ -311,6 +329,7 @@ public class EmfdbPackageImpl extends EPackageImpl implements EmfdbPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EmfdbFactory getEmfdbFactory()
   {
     return (EmfdbFactory)getEFactoryInstance();

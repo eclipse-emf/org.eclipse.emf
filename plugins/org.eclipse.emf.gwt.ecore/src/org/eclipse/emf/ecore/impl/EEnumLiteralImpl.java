@@ -133,6 +133,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getValue()
   {
     return value;
@@ -143,6 +144,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValue(int newValue)
   {
     int oldValue = value;
@@ -236,6 +238,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLiteral(String newLiteral)
   {
     String oldLiteral = literal;
@@ -436,7 +439,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (value: ");
     result.append(value);
     result.append(", instance: ");

@@ -83,6 +83,7 @@ public class AnyTypeImpl extends MinimalEObjectImpl.Container implements AnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getMixed()
   {
     if (mixed == null)
@@ -97,6 +98,7 @@ public class AnyTypeImpl extends MinimalEObjectImpl.Container implements AnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getAny()
   {
     return (FeatureMap)getMixed().<FeatureMap.Entry>list(XMLTypePackage.Literals.ANY_TYPE__ANY);
@@ -107,6 +109,7 @@ public class AnyTypeImpl extends MinimalEObjectImpl.Container implements AnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getAnyAttribute()
   {
     if (anyAttribute == null)

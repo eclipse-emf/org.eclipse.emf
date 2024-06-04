@@ -154,6 +154,7 @@ public class EGenericTypeImpl extends MinimalEObjectImpl.Container implements EG
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EGenericType getEUpperBound()
   {
     return eUpperBound;
@@ -181,6 +182,7 @@ public class EGenericTypeImpl extends MinimalEObjectImpl.Container implements EG
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEUpperBound(EGenericType newEUpperBound)
   {
     if (newEUpperBound != eUpperBound)
@@ -202,6 +204,7 @@ public class EGenericTypeImpl extends MinimalEObjectImpl.Container implements EG
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<EGenericType> getETypeArguments()
   {
     if (eTypeArguments == null)
@@ -417,6 +420,7 @@ public class EGenericTypeImpl extends MinimalEObjectImpl.Container implements EG
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EGenericType getELowerBound()
   {
     return eLowerBound;
@@ -444,6 +448,7 @@ public class EGenericTypeImpl extends MinimalEObjectImpl.Container implements EG
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setELowerBound(EGenericType newELowerBound)
   {
     if (newELowerBound != eLowerBound)
@@ -465,6 +470,7 @@ public class EGenericTypeImpl extends MinimalEObjectImpl.Container implements EG
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ETypeParameter getETypeParameter()
   {
     return eTypeParameter;
@@ -562,6 +568,7 @@ public class EGenericTypeImpl extends MinimalEObjectImpl.Container implements EG
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClassifier getEClassifier()
   {
     if (eClassifier != null && eClassifier.eIsProxy())

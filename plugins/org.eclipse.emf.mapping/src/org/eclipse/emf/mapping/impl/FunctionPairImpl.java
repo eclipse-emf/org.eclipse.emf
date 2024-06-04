@@ -82,6 +82,7 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getIn2out()
   {
     if (in2out != null && in2out.eIsProxy())
@@ -112,6 +113,7 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setIn2out(EOperation newIn2out)
   {
     EOperation oldIn2out = in2out;
@@ -125,6 +127,7 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation getOut2in()
   {
     if (out2in != null && out2in.eIsProxy())
@@ -155,6 +158,7 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setOut2in(EOperation newOut2in)
   {
     EOperation oldOut2in = out2in;

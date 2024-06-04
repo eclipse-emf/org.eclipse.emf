@@ -88,6 +88,7 @@ public class C4Impl extends EObjectImpl implements C4
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C getC()
   {
     return c;
@@ -115,6 +116,7 @@ public class C4Impl extends EObjectImpl implements C4
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setC(C newC)
   {
     if (newC != c)
@@ -136,6 +138,7 @@ public class C4Impl extends EObjectImpl implements C4
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<D> getD()
   {
     if (d == null)

@@ -103,6 +103,7 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getCopies()
   {
     return copies;
@@ -113,6 +114,7 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCopies(int newCopies)
   {
     int oldCopies = copies;
@@ -126,6 +128,7 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Borrower> getBorrowers()
   {
     if (borrowers == null)

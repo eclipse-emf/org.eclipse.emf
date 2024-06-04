@@ -91,6 +91,7 @@ public class DImpl extends EObjectImpl implements D
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C getC()
   {
     if (c != null && c.eIsProxy())
@@ -138,6 +139,7 @@ public class DImpl extends EObjectImpl implements D
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setC(C newC)
   {
     if (newC != c)
@@ -159,6 +161,7 @@ public class DImpl extends EObjectImpl implements D
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<E> getE()
   {
     if (e == null)
@@ -173,6 +176,7 @@ public class DImpl extends EObjectImpl implements D
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C4 getC4()
   {
     if (eContainerFeatureID() != RefPackage.D__C4) return null;
@@ -195,6 +199,7 @@ public class DImpl extends EObjectImpl implements D
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setC4(C4 newC4)
   {
     if (newC4 != eInternalContainer() || (eContainerFeatureID() != RefPackage.D__C4 && newC4 != null))

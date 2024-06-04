@@ -65,7 +65,7 @@ public interface DocumentRoot extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>XMLNS Prefix Map</em>' map.
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getDocumentRoot_XMLNSPrefixMap()
-   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>" transient="true"
+   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry&lt;org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString&gt;" transient="true"
    *        extendedMetaData="kind='attribute' name='xmlns:prefix'"
    * @generated
    */
@@ -83,7 +83,7 @@ public interface DocumentRoot extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>XSI Schema Location</em>' map.
    * @see org.eclipse.emf.test.models.customer.CustomerPackage#getDocumentRoot_XSISchemaLocation()
-   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>" transient="true"
+   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry&lt;org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString&gt;" transient="true"
    *        extendedMetaData="kind='attribute' name='xsi:schemaLocation'"
    * @generated
    */

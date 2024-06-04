@@ -131,6 +131,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Root createRoot()
   {
     RootImpl root = new RootImpl();
@@ -142,6 +143,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public VeryLow createVeryLow()
   {
     VeryLowImpl veryLow = new VeryLowImpl();
@@ -153,6 +155,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Low createLow()
   {
     LowImpl low = new LowImpl();
@@ -164,6 +167,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Medium createMedium()
   {
     MediumImpl medium = new MediumImpl();
@@ -175,6 +179,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public High createHigh()
   {
     HighImpl high = new HighImpl();
@@ -186,6 +191,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public VeryHigh createVeryHigh()
   {
     VeryHighImpl veryHigh = new VeryHighImpl();
@@ -197,6 +203,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public org.eclipse.emf.test.common.reification.Container createContainer()
   {
     ContainerImpl container = new ContainerImpl();
@@ -208,6 +215,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public <T> UnboundedGenericContainer<T> createUnboundedGenericContainer()
   {
     UnboundedGenericContainerImpl<T> unboundedGenericContainer = new UnboundedGenericContainerImpl<T>();
@@ -219,6 +227,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public RawUnboundedContainer createRawUnboundedContainer()
   {
     RawUnboundedContainerImpl rawUnboundedContainer = new RawUnboundedContainerImpl();
@@ -230,6 +239,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public MediumUnboundedContainer createMediumUnboundedContainer()
   {
     MediumUnboundedContainerImpl mediumUnboundedContainer = new MediumUnboundedContainerImpl();
@@ -241,6 +251,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public <T extends Medium> BoundedGenericContainer<T> createBoundedGenericContainer()
   {
     BoundedGenericContainerImpl<T> boundedGenericContainer = new BoundedGenericContainerImpl<T>();
@@ -252,6 +263,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public HighBoundedContainer createHighBoundedContainer()
   {
     HighBoundedContainerImpl highBoundedContainer = new HighBoundedContainerImpl();
@@ -263,6 +275,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public <K extends EList<?>, V extends KeyValuePair<K, V>> KeyValuePair<K, V> createKeyValuePair()
   {
     KeyValuePairImpl<K, V> keyValuePair = new KeyValuePairImpl<K, V>();
@@ -274,6 +287,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public RawKeyValuePair createRawKeyValuePair()
   {
     RawKeyValuePairImpl rawKeyValuePair = new RawKeyValuePairImpl();
@@ -285,6 +299,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public StringListKeyValuePair createStringListKeyValuePair()
   {
     StringListKeyValuePairImpl stringListKeyValuePair = new StringListKeyValuePairImpl();
@@ -296,6 +311,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public <T> TListKeyValuePair<T> createTListKeyValuePair()
   {
     TListKeyValuePairImpl<T> tListKeyValuePair = new TListKeyValuePairImpl<T>();
@@ -307,6 +323,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public <T extends Medium> BoundedTListKeyValuePair<T> createBoundedTListKeyValuePair()
   {
     BoundedTListKeyValuePairImpl<T> boundedTListKeyValuePair = new BoundedTListKeyValuePairImpl<T>();
@@ -318,6 +335,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public HighListKeyValuePair createHighListKeyValuePair()
   {
     HighListKeyValuePairImpl highListKeyValuePair = new HighListKeyValuePairImpl();
@@ -329,6 +347,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public IntegerListKeyValuePair createIntegerListKeyValuePair()
   {
     IntegerListKeyValuePairImpl integerListKeyValuePair = new IntegerListKeyValuePairImpl();
@@ -340,6 +359,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public <K extends EList<?>, V extends KeyValuePair<K, V>> KeyValuePairContainer<K, V> createKeyValuePairContainer()
   {
     KeyValuePairContainerImpl<K, V> keyValuePairContainer = new KeyValuePairContainerImpl<K, V>();
@@ -351,6 +371,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public StringListKeyValuePairContainer createStringListKeyValuePairContainer()
   {
     StringListKeyValuePairContainerImpl stringListKeyValuePairContainer = new StringListKeyValuePairContainerImpl();
@@ -362,6 +383,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public <T extends Bidirectional<T>> Bidirectional<T> createBidirectional()
   {
     BidirectionalImpl<T> bidirectional = new BidirectionalImpl<T>();
@@ -373,6 +395,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Link createLink()
   {
     LinkImpl link = new LinkImpl();
@@ -384,6 +407,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public RawLink createRawLink()
   {
     RawLinkImpl rawLink = new RawLinkImpl();
@@ -395,6 +419,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public LinkItem createLinkItem()
   {
     LinkItemImpl linkItem = new LinkItemImpl();
@@ -406,6 +431,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public <T extends MediumBidirectional<T> & Medium> MediumBidirectional<T> createMediumBidirectional()
   {
     MediumBidirectionalImpl<T> mediumBidirectional = new MediumBidirectionalImpl<T>();
@@ -417,6 +443,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public MediumLink createMediumLink()
   {
     MediumLinkImpl mediumLink = new MediumLinkImpl();
@@ -428,6 +455,7 @@ public class ReificationFactoryImpl extends EFactoryImpl implements ReificationF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ReificationPackage getReificationPackage()
   {
     return (ReificationPackage)getEPackage();

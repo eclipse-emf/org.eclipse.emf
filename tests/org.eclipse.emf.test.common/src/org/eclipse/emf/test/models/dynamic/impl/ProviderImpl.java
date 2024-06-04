@@ -89,6 +89,7 @@ public class ProviderImpl extends MinimalEObjectImpl.Container.Dynamic.Permissiv
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getId()
   {
     return id;
@@ -99,6 +100,7 @@ public class ProviderImpl extends MinimalEObjectImpl.Container.Dynamic.Permissiv
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setId(String newId)
   {
     String oldId = id;
@@ -112,6 +114,7 @@ public class ProviderImpl extends MinimalEObjectImpl.Container.Dynamic.Permissiv
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Admin getAdmin()
   {
     return admin;
@@ -139,6 +142,7 @@ public class ProviderImpl extends MinimalEObjectImpl.Container.Dynamic.Permissiv
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAdmin(Admin newAdmin)
   {
     if (newAdmin != admin)

@@ -131,6 +131,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public MappingHelper getHelper()
   {
     return helper;
@@ -158,6 +159,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setHelper(MappingHelper newHelper)
   {
     if (newHelper != helper)
@@ -179,6 +181,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Mapping> getNested()
   {
     if (nested == null)
@@ -193,6 +196,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Mapping getNestedIn()
   {
     if (eContainerFeatureID() != MappingPackage.MAPPING__NESTED_IN) return null;
@@ -215,6 +219,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNestedIn(Mapping newNestedIn)
   {
     if (newNestedIn != eInternalContainer() || (eContainerFeatureID() != MappingPackage.MAPPING__NESTED_IN && newNestedIn != null))
@@ -238,6 +243,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<EObject> getInputs()
   {
     if (inputs == null)
@@ -252,6 +258,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<EObject> getOutputs()
   {
     if (outputs == null)
@@ -266,6 +273,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Mapping getTypeMapping()
   {
     if (typeMapping != null && typeMapping.eIsProxy())
@@ -296,6 +304,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTypeMapping(Mapping newTypeMapping)
   {
     Mapping oldTypeMapping = typeMapping;

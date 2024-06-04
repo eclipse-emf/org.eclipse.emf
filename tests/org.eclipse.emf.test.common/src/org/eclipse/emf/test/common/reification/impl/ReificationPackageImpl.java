@@ -269,7 +269,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link ReificationPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -284,7 +284,8 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
     if (isInited) return (ReificationPackage)EPackage.Registry.INSTANCE.getEPackage(ReificationPackage.eNS_URI);
 
     // Obtain or create and register package
-    ReificationPackageImpl theReificationPackage = (ReificationPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ReificationPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ReificationPackageImpl());
+    Object registeredReificationPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    ReificationPackageImpl theReificationPackage = registeredReificationPackage instanceof ReificationPackageImpl ? (ReificationPackageImpl)registeredReificationPackage : new ReificationPackageImpl();
 
     isInited = true;
 
@@ -297,7 +298,6 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
     // Mark meta-data to indicate it can't be changed
     theReificationPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(ReificationPackage.eNS_URI, theReificationPackage);
     return theReificationPackage;
@@ -308,6 +308,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getRoot()
   {
     return rootEClass;
@@ -318,6 +319,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getRoot_Name()
   {
     return (EAttribute)rootEClass.getEStructuralFeatures().get(0);
@@ -328,6 +330,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getRoot_Container()
   {
     return (EReference)rootEClass.getEStructuralFeatures().get(1);
@@ -338,6 +341,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getRoot_UnboundedGenericContainerWithRawType()
   {
     return (EReference)rootEClass.getEStructuralFeatures().get(2);
@@ -348,6 +352,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getRoot_UnboundedGenericContainerWithWildcard()
   {
     return (EReference)rootEClass.getEStructuralFeatures().get(3);
@@ -358,6 +363,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getRoot_UnboundedGenericContainerWithSuper()
   {
     return (EReference)rootEClass.getEStructuralFeatures().get(4);
@@ -368,6 +374,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getRoot_UnboundedGenericContainerWithExtends()
   {
     return (EReference)rootEClass.getEStructuralFeatures().get(5);
@@ -378,6 +385,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getRoot_BoundedGenericContainerWithRawType()
   {
     return (EReference)rootEClass.getEStructuralFeatures().get(6);
@@ -388,6 +396,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getRoot_BoundedGenericContainerWithWildcard()
   {
     return (EReference)rootEClass.getEStructuralFeatures().get(7);
@@ -398,6 +407,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getRoot_BoundedGenericContainerWithSuper()
   {
     return (EReference)rootEClass.getEStructuralFeatures().get(8);
@@ -408,6 +418,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getRoot_BoundedGenericContainerWithExtends()
   {
     return (EReference)rootEClass.getEStructuralFeatures().get(9);
@@ -418,6 +429,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getVeryLow()
   {
     return veryLowEClass;
@@ -428,6 +440,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getLow()
   {
     return lowEClass;
@@ -438,6 +451,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getMedium()
   {
     return mediumEClass;
@@ -448,6 +462,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getHigh()
   {
     return highEClass;
@@ -458,6 +473,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getVeryHigh()
   {
     return veryHighEClass;
@@ -468,6 +484,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getContainer()
   {
     return containerEClass;
@@ -478,6 +495,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getUnboundedGenericContainer()
   {
     return unboundedGenericContainerEClass;
@@ -488,6 +506,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getUnboundedGenericContainer_Content()
   {
     return (EReference)unboundedGenericContainerEClass.getEStructuralFeatures().get(0);
@@ -498,6 +517,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getRawUnboundedContainer()
   {
     return rawUnboundedContainerEClass;
@@ -508,6 +528,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getMediumUnboundedContainer()
   {
     return mediumUnboundedContainerEClass;
@@ -518,6 +539,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getBoundedGenericContainer()
   {
     return boundedGenericContainerEClass;
@@ -528,6 +550,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getBoundedGenericContainer_Content()
   {
     return (EReference)boundedGenericContainerEClass.getEStructuralFeatures().get(0);
@@ -538,6 +561,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getHighBoundedContainer()
   {
     return highBoundedContainerEClass;
@@ -548,6 +572,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getKeyValuePair()
   {
     return keyValuePairEClass;
@@ -558,6 +583,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getKeyValuePair_Key()
   {
     return (EAttribute)keyValuePairEClass.getEStructuralFeatures().get(0);
@@ -568,6 +594,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getKeyValuePair_Value()
   {
     return (EReference)keyValuePairEClass.getEStructuralFeatures().get(1);
@@ -578,6 +605,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getRawKeyValuePair()
   {
     return rawKeyValuePairEClass;
@@ -588,6 +616,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getStringListKeyValuePair()
   {
     return stringListKeyValuePairEClass;
@@ -598,6 +627,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getTListKeyValuePair()
   {
     return tListKeyValuePairEClass;
@@ -608,6 +638,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getBoundedTListKeyValuePair()
   {
     return boundedTListKeyValuePairEClass;
@@ -618,6 +649,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getHighListKeyValuePair()
   {
     return highListKeyValuePairEClass;
@@ -628,6 +660,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getIntegerListKeyValuePair()
   {
     return integerListKeyValuePairEClass;
@@ -638,6 +671,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getKeyValuePairContainer()
   {
     return keyValuePairContainerEClass;
@@ -648,6 +682,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getKeyValuePairContainer_KeyValuePairs()
   {
     return (EReference)keyValuePairContainerEClass.getEStructuralFeatures().get(0);
@@ -658,6 +693,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getStringListKeyValuePairContainer()
   {
     return stringListKeyValuePairContainerEClass;
@@ -668,6 +704,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getBidirectional()
   {
     return bidirectionalEClass;
@@ -678,6 +715,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getBidirectional_In()
   {
     return (EReference)bidirectionalEClass.getEStructuralFeatures().get(0);
@@ -688,6 +726,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getBidirectional_Out()
   {
     return (EReference)bidirectionalEClass.getEStructuralFeatures().get(1);
@@ -698,6 +737,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getBidirectional_Value()
   {
     return (EReference)bidirectionalEClass.getEStructuralFeatures().get(2);
@@ -708,6 +748,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getBidirectional_Values()
   {
     return (EReference)bidirectionalEClass.getEStructuralFeatures().get(3);
@@ -718,6 +759,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getLink()
   {
     return linkEClass;
@@ -728,6 +770,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getRawLink()
   {
     return rawLinkEClass;
@@ -738,6 +781,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getLinkItem()
   {
     return linkItemEClass;
@@ -748,6 +792,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getMediumBidirectional()
   {
     return mediumBidirectionalEClass;
@@ -758,6 +803,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getMediumBidirectional_Contents()
   {
     return (EReference)mediumBidirectionalEClass.getEStructuralFeatures().get(0);
@@ -768,6 +814,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getMediumLink()
   {
     return mediumLinkEClass;
@@ -778,6 +825,7 @@ public class ReificationPackageImpl extends EPackageImpl implements ReificationP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ReificationFactory getReificationFactory()
   {
     return (ReificationFactory)getEFactoryInstance();

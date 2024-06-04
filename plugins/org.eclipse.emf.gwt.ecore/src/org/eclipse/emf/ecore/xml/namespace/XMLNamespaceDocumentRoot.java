@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xml.namespace.XMLNamespaceDocumentRoot#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.namespace.XMLNamespaceDocumentRoot#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
@@ -32,7 +33,6 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *   <li>{@link org.eclipse.emf.ecore.xml.namespace.XMLNamespaceDocumentRoot#getLang <em>Lang</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.namespace.XMLNamespaceDocumentRoot#getSpace <em>Space</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot()
  * @model extendedMetaData="name='' kind='mixed'"
@@ -61,7 +61,7 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>XMLNS Prefix Map</em>' map.
    * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot_XMLNSPrefixMap()
-   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>" transient="true"
+   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry&lt;org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString&gt;" transient="true"
    *        extendedMetaData="kind='attribute' name='xmlns:prefix'"
    * @generated
    */
@@ -75,7 +75,7 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>XSI Schema Location</em>' map.
    * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot_XSISchemaLocation()
-   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>" transient="true"
+   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry&lt;org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString&gt;" transient="true"
    *        extendedMetaData="kind='attribute' name='xsi:schemaLocation'"
    * @generated
    */

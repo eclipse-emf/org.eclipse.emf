@@ -192,7 +192,7 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
 
   public ExtendedComboBoxCellEditor(Composite composite, List<?> list, ILabelProvider labelProvider, boolean sorted, int style)
   {
-    super(composite, createItems(sorted ? list = new ArrayList<Object>(list) : list, labelProvider, null, sorted), style);
+    super(composite, createItems((List<?>)(sorted ? list = new ArrayList<>(list) : list), labelProvider, null, sorted), style);
     this.originalList = list;
     this.list = list;
     this.labelProvider = labelProvider;

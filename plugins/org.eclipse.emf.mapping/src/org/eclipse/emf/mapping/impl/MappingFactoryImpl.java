@@ -91,6 +91,7 @@ public class MappingFactoryImpl extends EFactoryImpl implements MappingFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public MappingHelper createMappingHelper()
   {
     MappingHelperImpl mappingHelper = new MappingHelperImpl();
@@ -102,6 +103,7 @@ public class MappingFactoryImpl extends EFactoryImpl implements MappingFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Mapping createMapping()
   {
     MappingImpl mapping = new MappingImpl();
@@ -113,6 +115,7 @@ public class MappingFactoryImpl extends EFactoryImpl implements MappingFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public TypeConverter createTypeConverter()
   {
     TypeConverterImpl typeConverter = new TypeConverterImpl();
@@ -124,6 +127,7 @@ public class MappingFactoryImpl extends EFactoryImpl implements MappingFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FunctionPair createFunctionPair()
   {
     FunctionPairImpl functionPair = new FunctionPairImpl();
@@ -135,6 +139,7 @@ public class MappingFactoryImpl extends EFactoryImpl implements MappingFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FunctionNamePair createFunctionNamePair()
   {
     FunctionNamePairImpl functionNamePair = new FunctionNamePairImpl();
@@ -146,6 +151,7 @@ public class MappingFactoryImpl extends EFactoryImpl implements MappingFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public MappingStrategy createMappingStrategy()
   {
     MappingStrategyImpl mappingStrategy = new MappingStrategyImpl();
@@ -157,6 +163,7 @@ public class MappingFactoryImpl extends EFactoryImpl implements MappingFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public MappingRoot createMappingRoot()
   {
     MappingRootImpl mappingRoot = new MappingRootImpl();
@@ -168,6 +175,7 @@ public class MappingFactoryImpl extends EFactoryImpl implements MappingFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ComplexTypeConverter createComplexTypeConverter()
   {
     ComplexTypeConverterImpl complexTypeConverter = new ComplexTypeConverterImpl();
@@ -179,6 +187,7 @@ public class MappingFactoryImpl extends EFactoryImpl implements MappingFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public MappingPackage getMappingPackage()
   {
     return (MappingPackage)getEPackage();

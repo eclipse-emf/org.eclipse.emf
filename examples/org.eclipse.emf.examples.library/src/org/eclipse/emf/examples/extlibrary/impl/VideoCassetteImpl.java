@@ -73,6 +73,7 @@ public class VideoCassetteImpl extends AudioVisualItemImpl implements VideoCasse
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Person> getCast()
   {
     if (cast == null)

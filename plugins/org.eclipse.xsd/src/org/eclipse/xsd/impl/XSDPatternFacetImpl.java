@@ -102,6 +102,7 @@ public class XSDPatternFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getValue()
   {
     if (value == null)

@@ -82,6 +82,7 @@ public class XSDNumericFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isValue()
   {
     return (eFlags & VALUE_EFLAG) != 0;
@@ -92,6 +93,7 @@ public class XSDNumericFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValue(boolean newValue)
   {
     boolean oldValue = (eFlags & VALUE_EFLAG) != 0;

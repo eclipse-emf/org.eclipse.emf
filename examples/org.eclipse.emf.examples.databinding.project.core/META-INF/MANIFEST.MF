@@ -4,16 +4,16 @@ Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-SymbolicName: org.eclipse.emf.examples.databinding.project.core
-Bundle-Version: 1.4.0.qualifier
+Bundle-Version: 1.5.0.qualifier
 Bundle-Activator: org.eclipse.emf.examples.databinding.project.core.internal.Activator
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
- org.eclipse.emf.ecore.xmi;bundle-version="[2.18.0,3.0.0)",
- org.eclipse.emf.edit;bundle-version="[2.18.0,3.0.0)"
+ org.eclipse.emf.ecore.xmi;bundle-version="[2.38.0,3.0.0)",
+ org.eclipse.emf.edit;bundle-version="[2.22.0,3.0.0)"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.emf.examples.databinding.project.core;version="1.4.0",
- org.eclipse.emf.examples.databinding.project.core.internal;version="1.4.0";x-internal:=true,
- org.eclipse.emf.examples.databinding.project.core.internal.xmi;version="1.4.0";x-internal:=true
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.eclipse.emf.examples.databinding.project.core;version="1.5.0",
+ org.eclipse.emf.examples.databinding.project.core.internal;version="1.5.0";x-internal:=true,
+ org.eclipse.emf.examples.databinding.project.core.internal.xmi;version="1.5.0";x-internal:=true
 Service-Component: META-INF/component.xml, META-INF/xmiprovider.xml
-Import-Package: org.eclipse.emf.examples.databinding.project.core.model.project;version="[1.4.0,2.0.0)"
+Import-Package: org.eclipse.emf.examples.databinding.project.core.model.project;version="[1.5.0,2.0.0)"
 Automatic-Module-Name: org.eclipse.emf.examples.databinding.project.core

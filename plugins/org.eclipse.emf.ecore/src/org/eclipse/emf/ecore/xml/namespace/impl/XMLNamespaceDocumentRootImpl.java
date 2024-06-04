@@ -196,6 +196,7 @@ public class XMLNamespaceDocumentRootImpl extends MinimalEObjectImpl.Container i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getMixed()
   {
     if (mixed == null)
@@ -210,6 +211,7 @@ public class XMLNamespaceDocumentRootImpl extends MinimalEObjectImpl.Container i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<String, String> getXMLNSPrefixMap()
   {
     if (xMLNSPrefixMap == null)
@@ -224,6 +226,7 @@ public class XMLNamespaceDocumentRootImpl extends MinimalEObjectImpl.Container i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<String, String> getXSISchemaLocation()
   {
     if (xSISchemaLocation == null)
@@ -238,6 +241,7 @@ public class XMLNamespaceDocumentRootImpl extends MinimalEObjectImpl.Container i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getBase()
   {
     return base;
@@ -248,6 +252,7 @@ public class XMLNamespaceDocumentRootImpl extends MinimalEObjectImpl.Container i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setBase(String newBase)
   {
     String oldBase = base;
@@ -261,6 +266,7 @@ public class XMLNamespaceDocumentRootImpl extends MinimalEObjectImpl.Container i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getId()
   {
     return id;
@@ -271,6 +277,7 @@ public class XMLNamespaceDocumentRootImpl extends MinimalEObjectImpl.Container i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setId(String newId)
   {
     String oldId = id;
@@ -284,6 +291,7 @@ public class XMLNamespaceDocumentRootImpl extends MinimalEObjectImpl.Container i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getLang()
   {
     return lang;
@@ -294,6 +302,7 @@ public class XMLNamespaceDocumentRootImpl extends MinimalEObjectImpl.Container i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLang(String newLang)
   {
     String oldLang = lang;
@@ -307,6 +316,7 @@ public class XMLNamespaceDocumentRootImpl extends MinimalEObjectImpl.Container i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public SpaceType getSpace()
   {
     return space;
@@ -317,6 +327,7 @@ public class XMLNamespaceDocumentRootImpl extends MinimalEObjectImpl.Container i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSpace(SpaceType newSpace)
   {
     SpaceType oldSpace = space;
@@ -332,6 +343,7 @@ public class XMLNamespaceDocumentRootImpl extends MinimalEObjectImpl.Container i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetSpace()
   {
     SpaceType oldSpace = space;
@@ -347,6 +359,7 @@ public class XMLNamespaceDocumentRootImpl extends MinimalEObjectImpl.Container i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetSpace()
   {
     return spaceESet;

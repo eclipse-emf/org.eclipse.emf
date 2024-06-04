@@ -87,6 +87,7 @@ public class PenTypeImpl extends EObjectImpl implements PenType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getPrice()
   {
     return price;
@@ -97,6 +98,7 @@ public class PenTypeImpl extends EObjectImpl implements PenType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPrice(int newPrice)
   {
     int oldPrice = price;
@@ -112,6 +114,7 @@ public class PenTypeImpl extends EObjectImpl implements PenType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetPrice()
   {
     int oldPrice = price;
@@ -127,6 +130,7 @@ public class PenTypeImpl extends EObjectImpl implements PenType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetPrice()
   {
     return priceESet;
@@ -208,7 +212,7 @@ public class PenTypeImpl extends EObjectImpl implements PenType
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (price: ");
     if (priceESet) result.append(price); else result.append("<unset>");
     result.append(')');

@@ -189,6 +189,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<EStructuralFeature> getEStructuralFeatures()
   {
     if (eStructuralFeatures == null)
@@ -1647,6 +1648,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isAbstract()
   {
     return (eFlags & ABSTRACT_EFLAG) != 0;
@@ -1657,6 +1659,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAbstract(boolean newAbstract)
   {
     boolean oldAbstract = (eFlags & ABSTRACT_EFLAG) != 0;
@@ -1670,6 +1673,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isInterface()
   {
     return (eFlags & INTERFACE_EFLAG) != 0;
@@ -1680,6 +1684,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setInterface(boolean newInterface)
   {
     boolean oldInterface = (eFlags & INTERFACE_EFLAG) != 0;
@@ -2109,6 +2114,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<EOperation> getEOperations()
   {
     if (eOperations == null)

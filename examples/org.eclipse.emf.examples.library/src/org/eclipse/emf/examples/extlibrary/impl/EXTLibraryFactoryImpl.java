@@ -128,6 +128,7 @@ public class EXTLibraryFactoryImpl extends EFactoryImpl implements EXTLibraryFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Book createBook()
   {
     BookImpl book = new BookImpl();
@@ -139,6 +140,7 @@ public class EXTLibraryFactoryImpl extends EFactoryImpl implements EXTLibraryFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Library createLibrary()
   {
     LibraryImpl library = new LibraryImpl();
@@ -150,6 +152,7 @@ public class EXTLibraryFactoryImpl extends EFactoryImpl implements EXTLibraryFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Writer createWriter()
   {
     WriterImpl writer = new WriterImpl();
@@ -161,6 +164,7 @@ public class EXTLibraryFactoryImpl extends EFactoryImpl implements EXTLibraryFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public BookOnTape createBookOnTape()
   {
     BookOnTapeImpl bookOnTape = new BookOnTapeImpl();
@@ -172,6 +176,7 @@ public class EXTLibraryFactoryImpl extends EFactoryImpl implements EXTLibraryFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public VideoCassette createVideoCassette()
   {
     VideoCassetteImpl videoCassette = new VideoCassetteImpl();
@@ -183,6 +188,7 @@ public class EXTLibraryFactoryImpl extends EFactoryImpl implements EXTLibraryFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Borrower createBorrower()
   {
     BorrowerImpl borrower = new BorrowerImpl();
@@ -194,6 +200,7 @@ public class EXTLibraryFactoryImpl extends EFactoryImpl implements EXTLibraryFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Person createPerson()
   {
     PersonImpl person = new PersonImpl();
@@ -205,6 +212,7 @@ public class EXTLibraryFactoryImpl extends EFactoryImpl implements EXTLibraryFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Employee createEmployee()
   {
     EmployeeImpl employee = new EmployeeImpl();
@@ -238,6 +246,7 @@ public class EXTLibraryFactoryImpl extends EFactoryImpl implements EXTLibraryFac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EXTLibraryPackage getEXTLibraryPackage()
   {
     return (EXTLibraryPackage)getEPackage();

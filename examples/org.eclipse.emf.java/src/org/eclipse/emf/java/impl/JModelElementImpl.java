@@ -106,6 +106,7 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -116,6 +117,7 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -129,6 +131,7 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object getJNode()
   {
     return jNode;

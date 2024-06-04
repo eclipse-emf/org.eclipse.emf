@@ -110,6 +110,7 @@ public class XSDCardinalityFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDCardinality getValue()
   {
     return VALUE_EFLAG_VALUES[(eFlags & VALUE_EFLAG) >>> VALUE_EFLAG_OFFSET];
@@ -120,6 +121,7 @@ public class XSDCardinalityFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValue(XSDCardinality newValue)
   {
     XSDCardinality oldValue = VALUE_EFLAG_VALUES[(eFlags & VALUE_EFLAG) >>> VALUE_EFLAG_OFFSET];

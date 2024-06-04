@@ -69,7 +69,7 @@ public interface MediumBidirectional<T extends MediumBidirectional<T> & Medium> 
 
   /**
    * Returns the value of the '<em><b>Contents</b></em>' reference list.
-   * The list contents are of type {@link org.eclipse.emf.test.common.reification.MediumBidirectional}&lt;T>.
+   * The list contents are of type {@link org.eclipse.emf.test.common.reification.MediumBidirectional}<code>&lt;T&gt;</code>.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Contents</em>' reference list isn't clear,

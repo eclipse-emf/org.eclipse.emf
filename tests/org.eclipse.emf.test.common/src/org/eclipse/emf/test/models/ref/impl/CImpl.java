@@ -79,6 +79,7 @@ public class CImpl extends EObjectImpl implements C
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<D> getD()
   {
     if (d == null)
@@ -93,6 +94,7 @@ public class CImpl extends EObjectImpl implements C
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C4 getC4()
   {
     if (eContainerFeatureID() != RefPackage.C__C4) return null;
@@ -115,6 +117,7 @@ public class CImpl extends EObjectImpl implements C
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setC4(C4 newC4)
   {
     if (newC4 != eInternalContainer() || (eContainerFeatureID() != RefPackage.C__C4 && newC4 != null))

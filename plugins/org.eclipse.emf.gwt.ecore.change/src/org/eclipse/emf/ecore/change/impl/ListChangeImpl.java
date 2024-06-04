@@ -50,6 +50,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ListChangeImpl#getKind <em>Kind</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ListChangeImpl#getDataValues <em>Data Values</em>}</li>
@@ -60,7 +61,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ListChangeImpl#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ListChangeImpl#getFeatureMapEntryValues <em>Feature Map Entry Values</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -207,6 +207,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ChangeKind getKind()
   {
     return kind;
@@ -217,6 +218,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setKind(ChangeKind newKind)
   {
     ChangeKind oldKind = kind;
@@ -230,6 +232,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getDataValues()
   {
     if (dataValues == null)
@@ -314,6 +317,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getIndex()
   {
     return index;
@@ -324,6 +328,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setIndex(int newIndex)
   {
     int oldIndex = index;
@@ -337,6 +342,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getMoveToIndex()
   {
     return moveToIndex;
@@ -347,6 +353,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMoveToIndex(int newMoveToIndex)
   {
     int oldMoveToIndex = moveToIndex;
@@ -360,6 +367,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<EObject> getReferenceValues()
   {
     if (referenceValues == null)
@@ -431,6 +439,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<FeatureMapEntry> getFeatureMapEntryValues()
   {
     if (featureMapEntryValues == null)
@@ -743,7 +752,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (kind: ");
     result.append(kind);
     result.append(", dataValues: ");

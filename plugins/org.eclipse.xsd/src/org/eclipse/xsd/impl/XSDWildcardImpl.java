@@ -250,6 +250,7 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDNamespaceConstraintCategory getNamespaceConstraintCategory()
   {
     return NAMESPACE_CONSTRAINT_CATEGORY_EFLAG_VALUES[(eFlags & NAMESPACE_CONSTRAINT_CATEGORY_EFLAG) >>> NAMESPACE_CONSTRAINT_CATEGORY_EFLAG_OFFSET];
@@ -260,6 +261,7 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNamespaceConstraintCategory(XSDNamespaceConstraintCategory newNamespaceConstraintCategory)
   {
     XSDNamespaceConstraintCategory oldNamespaceConstraintCategory = NAMESPACE_CONSTRAINT_CATEGORY_EFLAG_VALUES[(eFlags & NAMESPACE_CONSTRAINT_CATEGORY_EFLAG) >>> NAMESPACE_CONSTRAINT_CATEGORY_EFLAG_OFFSET];
@@ -274,6 +276,7 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getNamespaceConstraint()
   {
     if (namespaceConstraint == null)
@@ -288,6 +291,7 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDProcessContents getProcessContents()
   {
     return PROCESS_CONTENTS_EFLAG_VALUES[(eFlags & PROCESS_CONTENTS_EFLAG) >>> PROCESS_CONTENTS_EFLAG_OFFSET];
@@ -298,6 +302,7 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setProcessContents(XSDProcessContents newProcessContents)
   {
     XSDProcessContents oldProcessContents = PROCESS_CONTENTS_EFLAG_VALUES[(eFlags & PROCESS_CONTENTS_EFLAG) >>> PROCESS_CONTENTS_EFLAG_OFFSET];
@@ -314,6 +319,7 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetProcessContents()
   {
     XSDProcessContents oldProcessContents = PROCESS_CONTENTS_EFLAG_VALUES[(eFlags & PROCESS_CONTENTS_EFLAG) >>> PROCESS_CONTENTS_EFLAG_OFFSET];
@@ -329,6 +335,7 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetProcessContents()
   {
     return (eFlags & PROCESS_CONTENTS_ESETFLAG) != 0;
@@ -339,6 +346,7 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getLexicalNamespaceConstraint()
   {
     if (lexicalNamespaceConstraint == null)
@@ -353,6 +361,7 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetLexicalNamespaceConstraint()
   {
     if (lexicalNamespaceConstraint != null) ((InternalEList.Unsettable<?>)lexicalNamespaceConstraint).unset();
@@ -363,6 +372,7 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetLexicalNamespaceConstraint()
   {
     return lexicalNamespaceConstraint != null && ((InternalEList.Unsettable<?>)lexicalNamespaceConstraint).isSet();
@@ -373,6 +383,7 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAnnotation getAnnotation()
   {
     return annotation;
@@ -383,6 +394,7 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAnnotation(XSDAnnotation newAnnotation)
   {
     if (newAnnotation != annotation)
@@ -421,6 +433,7 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDAnnotation> getAnnotations()
   {
     if (annotations == null)

@@ -168,6 +168,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getAddress()
   {
     return address;
@@ -178,6 +179,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAddress(String newAddress)
   {
     String oldAddress = address;
@@ -191,6 +193,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -201,6 +204,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -214,6 +218,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Writer> getWriters()
   {
     return getPeople().list(EXTLibraryPackage.Literals.LIBRARY__WRITERS);
@@ -224,6 +229,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Employee> getEmployees()
   {
     return getPeople().list(EXTLibraryPackage.Literals.LIBRARY__EMPLOYEES);
@@ -234,6 +240,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Borrower> getBorrowers()
   {
     return getPeople().list(EXTLibraryPackage.Literals.LIBRARY__BORROWERS);
@@ -337,6 +344,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Library> getBranches()
   {
     if (branches == null)
@@ -351,6 +359,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Library getParentBranch()
   {
     if (eContainerFeatureID() != EXTLibraryPackage.LIBRARY__PARENT_BRANCH) return null;
@@ -384,6 +393,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setParentBranch(Library newParentBranch)
   {
     if (newParentBranch != eInternalContainer() || (eContainerFeatureID() != EXTLibraryPackage.LIBRARY__PARENT_BRANCH && newParentBranch != null))
@@ -407,6 +417,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getPeople()
   {
     if (people == null)

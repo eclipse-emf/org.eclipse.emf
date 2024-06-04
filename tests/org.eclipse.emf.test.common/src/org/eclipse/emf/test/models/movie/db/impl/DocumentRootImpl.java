@@ -128,6 +128,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getMixed()
   {
     if (mixed == null)
@@ -142,6 +143,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<String, String> getXMLNSPrefixMap()
   {
     if (xMLNSPrefixMap == null)
@@ -156,6 +158,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<String, String> getXSISchemaLocation()
   {
     if (xSISchemaLocation == null)
@@ -170,6 +173,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CustomerType getCheckedOutBy()
   {
     CustomerType checkedOutBy = basicGetCheckedOutBy();
@@ -191,6 +195,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCheckedOutBy(CustomerType newCheckedOutBy)
   {
     ((FeatureMap.Internal)getMixed()).set(DBPackage.Literals.DOCUMENT_ROOT__CHECKED_OUT_BY, newCheckedOutBy);
@@ -201,6 +206,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CriticsReviewType getCriticsReview()
   {
     return (CriticsReviewType)getMixed().get(DBPackage.Literals.DOCUMENT_ROOT__CRITICS_REVIEW, true);
@@ -221,6 +227,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCriticsReview(CriticsReviewType newCriticsReview)
   {
     ((FeatureMap.Internal)getMixed()).set(DBPackage.Literals.DOCUMENT_ROOT__CRITICS_REVIEW, newCriticsReview);
@@ -231,6 +238,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CustomerReviewType getCustomerReview()
   {
     return (CustomerReviewType)getMixed().get(DBPackage.Literals.DOCUMENT_ROOT__CUSTOMER_REVIEW, true);
@@ -251,6 +259,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCustomerReview(CustomerReviewType newCustomerReview)
   {
     ((FeatureMap.Internal)getMixed()).set(DBPackage.Literals.DOCUMENT_ROOT__CUSTOMER_REVIEW, newCustomerReview);
@@ -261,6 +270,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getLanguage()
   {
     return (String)getMixed().get(DBPackage.Literals.DOCUMENT_ROOT__LANGUAGE, true);
@@ -271,6 +281,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLanguage(String newLanguage)
   {
     ((FeatureMap.Internal)getMixed()).set(DBPackage.Literals.DOCUMENT_ROOT__LANGUAGE, newLanguage);
@@ -281,6 +292,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public MovieDBType getMovieDB()
   {
     return (MovieDBType)getMixed().get(DBPackage.Literals.DOCUMENT_ROOT__MOVIE_DB, true);
@@ -301,6 +313,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMovieDB(MovieDBType newMovieDB)
   {
     ((FeatureMap.Internal)getMixed()).set(DBPackage.Literals.DOCUMENT_ROOT__MOVIE_DB, newMovieDB);
@@ -311,6 +324,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getSpecialFeatures()
   {
     return (String)getMixed().get(DBPackage.Literals.DOCUMENT_ROOT__SPECIAL_FEATURES, true);
@@ -321,6 +335,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSpecialFeatures(String newSpecialFeatures)
   {
     ((FeatureMap.Internal)getMixed()).set(DBPackage.Literals.DOCUMENT_ROOT__SPECIAL_FEATURES, newSpecialFeatures);
@@ -512,7 +527,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (mixed: ");
     result.append(mixed);
     result.append(')');

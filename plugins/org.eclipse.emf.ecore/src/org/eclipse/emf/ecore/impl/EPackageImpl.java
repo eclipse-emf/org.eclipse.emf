@@ -316,6 +316,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getNsURI()
   {
     return nsURI;
@@ -326,6 +327,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNsURI(String newNsURI)
   {
     String oldNsURI = nsURI;
@@ -339,6 +341,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getNsPrefix()
   {
     return nsPrefix;
@@ -349,6 +352,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNsPrefix(String newNsPrefix)
   {
     String oldNsPrefix = nsPrefix;
@@ -362,6 +366,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EFactory getEFactoryInstance()
   {
     return eFactoryInstance;
@@ -372,6 +377,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEFactoryInstance(EFactory newEFactoryInstance)
   {
     if (newEFactoryInstance != eFactoryInstance)

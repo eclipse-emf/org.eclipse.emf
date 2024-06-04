@@ -84,6 +84,7 @@ public class Switch1FactoryImpl extends EFactoryImpl implements Switch1Factory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass0 createEClass0()
   {
     EClass0Impl eClass0 = new EClass0Impl();
@@ -95,6 +96,7 @@ public class Switch1FactoryImpl extends EFactoryImpl implements Switch1Factory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass1 createEClass1()
   {
     EClass1Impl eClass1 = new EClass1Impl();
@@ -106,6 +108,7 @@ public class Switch1FactoryImpl extends EFactoryImpl implements Switch1Factory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Switch1Package getSwitch1Package()
   {
     return (Switch1Package)getEPackage();

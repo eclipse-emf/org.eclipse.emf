@@ -135,6 +135,7 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getTitle()
   {
     return title;
@@ -145,6 +146,7 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTitle(String newTitle)
   {
     String oldTitle = title;
@@ -158,6 +160,7 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getPages()
   {
     return pages;
@@ -168,6 +171,7 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPages(int newPages)
   {
     int oldPages = pages;
@@ -181,6 +185,7 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public BookCategory getCategory()
   {
     return category;
@@ -191,6 +196,7 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCategory(BookCategory newCategory)
   {
     BookCategory oldCategory = category;
@@ -204,6 +210,7 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Writer getAuthor()
   {
     if (author != null && author.eIsProxy())
@@ -251,6 +258,7 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAuthor(Writer newAuthor)
   {
     if (newAuthor != author)
@@ -408,7 +416,7 @@ public class BookImpl extends EObjectImpl implements Book
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (title: ");
     result.append(title);
     result.append(", pages: ");

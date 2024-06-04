@@ -79,6 +79,7 @@ public class CUImpl extends EObjectImpl implements CU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<DU> getDu()
   {
     if (du == null)
@@ -93,6 +94,7 @@ public class CUImpl extends EObjectImpl implements CU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetDu()
   {
     if (du != null) ((InternalEList.Unsettable<?>)du).unset();
@@ -103,6 +105,7 @@ public class CUImpl extends EObjectImpl implements CU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetDu()
   {
     return du != null && ((InternalEList.Unsettable<?>)du).isSet();
@@ -113,6 +116,7 @@ public class CUImpl extends EObjectImpl implements CU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C4U getC4u()
   {
     if (eContainerFeatureID() != URefPackage.CU__C4U) return null;
@@ -135,6 +139,7 @@ public class CUImpl extends EObjectImpl implements CU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setC4u(C4U newC4u)
   {
     if (newC4u != eInternalContainer() || (eContainerFeatureID() != URefPackage.CU__C4U && newC4u != null))

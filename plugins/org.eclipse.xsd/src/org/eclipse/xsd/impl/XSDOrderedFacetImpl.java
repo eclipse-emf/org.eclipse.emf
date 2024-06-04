@@ -110,6 +110,7 @@ public class XSDOrderedFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDOrdered getValue()
   {
     return VALUE_EFLAG_VALUES[(eFlags & VALUE_EFLAG) >>> VALUE_EFLAG_OFFSET];
@@ -120,6 +121,7 @@ public class XSDOrderedFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValue(XSDOrdered newValue)
   {
     XSDOrdered oldValue = VALUE_EFLAG_VALUES[(eFlags & VALUE_EFLAG) >>> VALUE_EFLAG_OFFSET];

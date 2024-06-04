@@ -4,7 +4,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.test.common/src"
     editDirectory="" editorDirectory="" modelPluginID="org.eclipse.emf.test.models"
     modelName="Library" testsDirectory="" importerID="org.eclipse.emf.importer.rose"
-    complianceLevel="5.0">
+    complianceLevel="8.0">
   <foreignModel>library.mdl</foreignModel>
   <genPackages prefix="Library" basePackage="org.eclipse.emf.test.models" disposableProviderFactory="true"
       ecorePackage="library.ecore#/">

@@ -84,6 +84,7 @@ public class TreeFactoryImpl extends EFactoryImpl implements TreeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Node createNode()
   {
     NodeImpl node = new NodeImpl();
@@ -95,6 +96,7 @@ public class TreeFactoryImpl extends EFactoryImpl implements TreeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Data createData()
   {
     DataImpl data = new DataImpl();
@@ -106,6 +108,7 @@ public class TreeFactoryImpl extends EFactoryImpl implements TreeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public TreePackage getTreePackage()
   {
     return (TreePackage)getEPackage();

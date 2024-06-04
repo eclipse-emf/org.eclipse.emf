@@ -135,6 +135,7 @@ public class XSDNotationDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getSystemIdentifier()
   {
     return systemIdentifier;
@@ -145,6 +146,7 @@ public class XSDNotationDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSystemIdentifier(String newSystemIdentifier)
   {
     String oldSystemIdentifier = systemIdentifier;
@@ -158,6 +160,7 @@ public class XSDNotationDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getPublicIdentifier()
   {
     return publicIdentifier;
@@ -168,6 +171,7 @@ public class XSDNotationDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPublicIdentifier(String newPublicIdentifier)
   {
     String oldPublicIdentifier = publicIdentifier;
@@ -181,6 +185,7 @@ public class XSDNotationDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAnnotation getAnnotation()
   {
     return annotation;
@@ -191,6 +196,7 @@ public class XSDNotationDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAnnotation(XSDAnnotation newAnnotation)
   {
     if (newAnnotation != annotation)

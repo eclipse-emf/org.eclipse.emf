@@ -195,6 +195,7 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getMinOccurs()
   {
     return minOccurs;
@@ -205,6 +206,7 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMinOccurs(int newMinOccurs)
   {
     int oldMinOccurs = minOccurs;
@@ -220,6 +222,7 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetMinOccurs()
   {
     int oldMinOccurs = minOccurs;
@@ -235,6 +238,7 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetMinOccurs()
   {
     return (eFlags & MIN_OCCURS_ESETFLAG) != 0;
@@ -245,6 +249,7 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getMaxOccurs()
   {
     return maxOccurs;
@@ -255,6 +260,7 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMaxOccurs(int newMaxOccurs)
   {
     int oldMaxOccurs = maxOccurs;
@@ -270,6 +276,7 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetMaxOccurs()
   {
     int oldMaxOccurs = maxOccurs;
@@ -285,6 +292,7 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetMaxOccurs()
   {
     return (eFlags & MAX_OCCURS_ESETFLAG) != 0;
@@ -295,6 +303,7 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDParticleContent getContent()
   {
     return content;
@@ -305,6 +314,7 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setContent(XSDParticleContent newContent)
   {
     if (newContent != content)
@@ -343,6 +353,7 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDTerm getTerm()
   {
     return term;
@@ -353,6 +364,7 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTerm(XSDTerm newTerm)
   {
     XSDTerm oldTerm = term;

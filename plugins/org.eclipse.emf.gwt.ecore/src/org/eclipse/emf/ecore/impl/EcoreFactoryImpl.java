@@ -223,6 +223,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject createEObject()
   {
     EObjectImpl eObject = new EObjectImpl();
@@ -234,6 +235,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute createEAttribute()
   {
     EAttributeImpl eAttribute = new EAttributeImpl();
@@ -245,6 +247,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAnnotation createEAnnotation()
   {
     EAnnotationImpl eAnnotation = new EAnnotationImpl();
@@ -256,6 +259,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass createEClass()
   {
     EClassImpl eClass = new EClassImpl();
@@ -267,6 +271,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType createEDataType()
   {
     EDataTypeImpl eDataType = new EDataTypeImpl();
@@ -278,6 +283,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EParameter createEParameter()
   {
     EParameterImpl eParameter = new EParameterImpl();
@@ -289,6 +295,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EOperation createEOperation()
   {
     EOperationImpl eOperation = new EOperationImpl();
@@ -300,6 +307,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EPackage createEPackage()
   {
     EPackageImpl ePackage = new EPackageImpl();
@@ -311,6 +319,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EFactory createEFactory()
   {
     EFactoryImpl eFactory = new EFactoryImpl();
@@ -322,6 +331,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnumLiteral createEEnumLiteral()
   {
     EEnumLiteralImpl eEnumLiteral = new EEnumLiteralImpl();
@@ -333,6 +343,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum createEEnum()
   {
     EEnumImpl eEnum = new EEnumImpl();
@@ -524,6 +535,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference createEReference()
   {
     EReferenceImpl eReference = new EReferenceImpl();
@@ -546,6 +558,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EGenericType createEGenericType()
   {
     EGenericTypeImpl eGenericType = new EGenericTypeImpl();
@@ -557,6 +570,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ETypeParameter createETypeParameter()
   {
     ETypeParameterImpl eTypeParameter = new ETypeParameterImpl();
@@ -608,6 +622,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EcorePackage getEcorePackage()
   {
     return (EcorePackage)getEPackage();

@@ -211,6 +211,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getChangeDescription()
   {
     return changeDescriptionEClass;
@@ -221,6 +222,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getChangeDescription_ObjectChanges()
   {
     return (EReference)changeDescriptionEClass.getEStructuralFeatures().get(0);
@@ -231,6 +233,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getChangeDescription_ObjectsToDetach()
   {
     return (EReference)changeDescriptionEClass.getEStructuralFeatures().get(1);
@@ -241,6 +244,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getChangeDescription_ObjectsToAttach()
   {
     return (EReference)changeDescriptionEClass.getEStructuralFeatures().get(2);
@@ -251,6 +255,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getChangeDescription_ResourceChanges()
   {
     return (EReference)changeDescriptionEClass.getEStructuralFeatures().get(3);
@@ -261,6 +266,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEObjectToChangesMapEntry()
   {
     return eObjectToChangesMapEntryEClass;
@@ -271,6 +277,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEObjectToChangesMapEntry_Key()
   {
     return (EReference)eObjectToChangesMapEntryEClass.getEStructuralFeatures().get(0);
@@ -281,6 +288,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEObjectToChangesMapEntry_Value()
   {
     return (EReference)eObjectToChangesMapEntryEClass.getEStructuralFeatures().get(1);
@@ -291,6 +299,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getFeatureChange()
   {
     return featureChangeEClass;
@@ -301,6 +310,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getFeatureChange_FeatureName()
   {
     return (EAttribute)featureChangeEClass.getEStructuralFeatures().get(0);
@@ -311,6 +321,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getFeatureChange_DataValue()
   {
     return (EAttribute)featureChangeEClass.getEStructuralFeatures().get(1);
@@ -321,6 +332,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getFeatureChange_Set()
   {
     return (EAttribute)featureChangeEClass.getEStructuralFeatures().get(2);
@@ -331,6 +343,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getFeatureChange_Value()
   {
     return (EAttribute)featureChangeEClass.getEStructuralFeatures().get(3);
@@ -341,6 +354,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getFeatureChange_Feature()
   {
     return (EReference)featureChangeEClass.getEStructuralFeatures().get(4);
@@ -351,6 +365,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getFeatureChange_ReferenceValue()
   {
     return (EReference)featureChangeEClass.getEStructuralFeatures().get(5);
@@ -361,6 +376,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getFeatureChange_ListChanges()
   {
     return (EReference)featureChangeEClass.getEStructuralFeatures().get(6);
@@ -371,6 +387,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getListChange()
   {
     return listChangeEClass;
@@ -381,6 +398,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getListChange_Kind()
   {
     return (EAttribute)listChangeEClass.getEStructuralFeatures().get(0);
@@ -391,6 +409,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getListChange_DataValues()
   {
     return (EAttribute)listChangeEClass.getEStructuralFeatures().get(1);
@@ -401,6 +420,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getListChange_Index()
   {
     return (EAttribute)listChangeEClass.getEStructuralFeatures().get(2);
@@ -411,6 +431,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getListChange_MoveToIndex()
   {
     return (EAttribute)listChangeEClass.getEStructuralFeatures().get(3);
@@ -421,6 +442,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getListChange_Values()
   {
     return (EAttribute)listChangeEClass.getEStructuralFeatures().get(4);
@@ -431,6 +453,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getListChange_ReferenceValues()
   {
     return (EReference)listChangeEClass.getEStructuralFeatures().get(5);
@@ -441,6 +464,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getListChange_Feature()
   {
     return (EReference)listChangeEClass.getEStructuralFeatures().get(6);
@@ -451,6 +475,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getListChange_FeatureMapEntryValues()
   {
     return (EReference)listChangeEClass.getEStructuralFeatures().get(7);
@@ -461,6 +486,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getResourceChange()
   {
     return resourceChangeEClass;
@@ -471,6 +497,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getResourceChange_ResourceURI()
   {
     return (EAttribute)resourceChangeEClass.getEStructuralFeatures().get(0);
@@ -481,6 +508,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getResourceChange_Resource()
   {
     return (EAttribute)resourceChangeEClass.getEStructuralFeatures().get(1);
@@ -491,6 +519,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getResourceChange_Value()
   {
     return (EAttribute)resourceChangeEClass.getEStructuralFeatures().get(2);
@@ -501,6 +530,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getResourceChange_ListChanges()
   {
     return (EReference)resourceChangeEClass.getEStructuralFeatures().get(3);
@@ -511,6 +541,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getFeatureMapEntry()
   {
     return featureMapEntryEClass;
@@ -521,6 +552,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getFeatureMapEntry_FeatureName()
   {
     return (EAttribute)featureMapEntryEClass.getEStructuralFeatures().get(0);
@@ -531,6 +563,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getFeatureMapEntry_DataValue()
   {
     return (EAttribute)featureMapEntryEClass.getEStructuralFeatures().get(1);
@@ -541,6 +574,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getFeatureMapEntry_Value()
   {
     return (EAttribute)featureMapEntryEClass.getEStructuralFeatures().get(2);
@@ -551,6 +585,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getFeatureMapEntry_Feature()
   {
     return (EReference)featureMapEntryEClass.getEStructuralFeatures().get(3);
@@ -561,6 +596,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getFeatureMapEntry_ReferenceValue()
   {
     return (EReference)featureMapEntryEClass.getEStructuralFeatures().get(4);
@@ -571,6 +607,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getChangeKind()
   {
     return changeKindEEnum;
@@ -581,6 +618,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEObjectToURIMap()
   {
     return eObjectToURIMapEDataType;
@@ -591,6 +629,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ChangeFactory getChangeFactory()
   {
     return (ChangeFactory)getEFactoryInstance();

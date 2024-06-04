@@ -41,7 +41,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
   {
     try
     {
-      XMLNamespaceFactory theXMLNamespaceFactory = (XMLNamespaceFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.w3.org/XML/1998/namespace"); 
+      XMLNamespaceFactory theXMLNamespaceFactory = (XMLNamespaceFactory)EPackage.Registry.INSTANCE.getEFactory(XMLNamespacePackage.eNS_URI);
       if (theXMLNamespaceFactory != null)
       {
         return theXMLNamespaceFactory;
@@ -132,6 +132,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XMLNamespaceDocumentRoot createXMLNamespaceDocumentRoot()
   {
     XMLNamespaceDocumentRootImpl xmlNamespaceDocumentRoot = new XMLNamespaceDocumentRootImpl();
@@ -279,6 +280,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XMLNamespacePackage getXMLNamespacePackage()
   {
     return (XMLNamespacePackage)getEPackage();

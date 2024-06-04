@@ -165,6 +165,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getLastname()
   {
     return lastname;
@@ -175,6 +176,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLastname(String newLastname)
   {
     String oldLastname = lastname;
@@ -188,6 +190,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getFirstname()
   {
     return firstname;
@@ -198,6 +201,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFirstname(String newFirstname)
   {
     String oldFirstname = firstname;
@@ -211,6 +215,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getEmail()
   {
     return email;
@@ -221,6 +226,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEmail(String newEmail)
   {
     String oldEmail = email;
@@ -234,6 +240,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<CommitterShip> getCommitterships()
   {
     if (committerships == null)
@@ -248,6 +255,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getImage()
   {
     return image;
@@ -258,6 +266,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setImage(String newImage)
   {
     String oldImage = image;
@@ -417,7 +426,7 @@ public class PersonImpl extends EObjectImpl implements Person
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (lastname: ");
     result.append(lastname);
     result.append(", firstname: ");

@@ -79,6 +79,7 @@ public class BorrowerImpl extends PersonImpl implements Borrower
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Lendable> getBorrowed()
   {
     if (borrowed == null)

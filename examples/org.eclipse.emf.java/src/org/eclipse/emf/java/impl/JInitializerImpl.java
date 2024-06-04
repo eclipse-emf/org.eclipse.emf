@@ -84,6 +84,7 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getBody()
   {
     return body;
@@ -94,6 +95,7 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setBody(String newBody)
   {
     String oldBody = body;

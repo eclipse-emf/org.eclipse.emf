@@ -98,6 +98,7 @@ public class CanadaAddrImpl extends AddressTypeImpl implements CanadaAddr
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getZip()
   {
     return zip;
@@ -108,6 +109,7 @@ public class CanadaAddrImpl extends AddressTypeImpl implements CanadaAddr
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setZip(String newZip)
   {
     String oldZip = zip;
@@ -121,6 +123,7 @@ public class CanadaAddrImpl extends AddressTypeImpl implements CanadaAddr
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getProvince()
   {
     return province;
@@ -131,6 +134,7 @@ public class CanadaAddrImpl extends AddressTypeImpl implements CanadaAddr
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setProvince(String newProvince)
   {
     String oldProvince = province;
@@ -225,7 +229,7 @@ public class CanadaAddrImpl extends AddressTypeImpl implements CanadaAddr
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (zip: ");
     result.append(zip);
     result.append(", province: ");

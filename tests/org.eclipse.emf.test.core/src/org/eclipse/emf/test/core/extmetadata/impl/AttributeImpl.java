@@ -66,6 +66,7 @@ public class AttributeImpl extends NamedElementImpl implements Attribute {
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public org.eclipse.emf.test.core.extmetadata.Class getType() {
     if (type != null && type.eIsProxy())
     {
@@ -94,6 +95,7 @@ public class AttributeImpl extends NamedElementImpl implements Attribute {
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setType(org.eclipse.emf.test.core.extmetadata.Class newType) {
     org.eclipse.emf.test.core.extmetadata.Class oldType = type;
     type = newType;

@@ -256,6 +256,7 @@ public abstract class XSDFeatureImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object getValue()
   {
     return value;
@@ -266,6 +267,7 @@ public abstract class XSDFeatureImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValue(Object newValue)
   {
     Object oldValue = value;
@@ -279,6 +281,7 @@ public abstract class XSDFeatureImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDConstraint getConstraint()
   {
     return CONSTRAINT_EFLAG_VALUES[(eFlags & CONSTRAINT_EFLAG) >>> CONSTRAINT_EFLAG_OFFSET];
@@ -289,6 +292,7 @@ public abstract class XSDFeatureImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setConstraint(XSDConstraint newConstraint)
   {
     XSDConstraint oldConstraint = CONSTRAINT_EFLAG_VALUES[(eFlags & CONSTRAINT_EFLAG) >>> CONSTRAINT_EFLAG_OFFSET];
@@ -305,6 +309,7 @@ public abstract class XSDFeatureImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetConstraint()
   {
     XSDConstraint oldConstraint = CONSTRAINT_EFLAG_VALUES[(eFlags & CONSTRAINT_EFLAG) >>> CONSTRAINT_EFLAG_OFFSET];
@@ -320,6 +325,7 @@ public abstract class XSDFeatureImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetConstraint()
   {
     return (eFlags & CONSTRAINT_ESETFLAG) != 0;
@@ -330,6 +336,7 @@ public abstract class XSDFeatureImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDForm getForm()
   {
     return FORM_EFLAG_VALUES[(eFlags & FORM_EFLAG) >>> FORM_EFLAG_OFFSET];
@@ -340,6 +347,7 @@ public abstract class XSDFeatureImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setForm(XSDForm newForm)
   {
     XSDForm oldForm = FORM_EFLAG_VALUES[(eFlags & FORM_EFLAG) >>> FORM_EFLAG_OFFSET];
@@ -356,6 +364,7 @@ public abstract class XSDFeatureImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetForm()
   {
     XSDForm oldForm = FORM_EFLAG_VALUES[(eFlags & FORM_EFLAG) >>> FORM_EFLAG_OFFSET];
@@ -371,6 +380,7 @@ public abstract class XSDFeatureImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetForm()
   {
     return (eFlags & FORM_ESETFLAG) != 0;
@@ -381,6 +391,7 @@ public abstract class XSDFeatureImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getLexicalValue()
   {
     return lexicalValue;
@@ -391,6 +402,7 @@ public abstract class XSDFeatureImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLexicalValue(String newLexicalValue)
   {
     String oldLexicalValue = lexicalValue;

@@ -93,6 +93,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Mapping getMapper()
   {
     if (eContainerFeatureID() != MappingPackage.MAPPING_HELPER__MAPPER) return null;
@@ -115,6 +116,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMapper(Mapping newMapper)
   {
     if (newMapper != eInternalContainer() || (eContainerFeatureID() != MappingPackage.MAPPING_HELPER__MAPPER && newMapper != null))
@@ -138,6 +140,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject getHelpedObject()
   {
     if (helpedObject != null && helpedObject.eIsProxy())
@@ -168,6 +171,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setHelpedObject(EObject newHelpedObject)
   {
     EObject oldHelpedObject = helpedObject;
@@ -181,6 +185,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public MappingHelper getNestedIn()
   {
     if (eContainerFeatureID() != MappingPackage.MAPPING_HELPER__NESTED_IN) return null;
@@ -203,6 +208,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNestedIn(MappingHelper newNestedIn)
   {
     if (newNestedIn != eInternalContainer() || (eContainerFeatureID() != MappingPackage.MAPPING_HELPER__NESTED_IN && newNestedIn != null))
@@ -226,6 +232,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<MappingHelper> getNested()
   {
     if (nested == null)

@@ -68,6 +68,7 @@ public class BoundedGenericContainerImpl<T extends Medium> extends EObjectImpl i
    * @generated
    */
   @SuppressWarnings("unchecked")
+  @Override
   public T getContent()
   {
     if (content != null && content.eIsProxy())
@@ -98,6 +99,7 @@ public class BoundedGenericContainerImpl<T extends Medium> extends EObjectImpl i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setContent(T newContent)
   {
     T oldContent = content;

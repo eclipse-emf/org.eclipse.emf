@@ -112,6 +112,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenEnum getGenEnum()
   {
     if (eContainerFeatureID() != GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM) return null;
@@ -134,6 +135,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setGenEnum(GenEnum newGenEnum)
   {
     if (newGenEnum != eInternalContainer() || (eContainerFeatureID() != GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM && newGenEnum != null))
@@ -169,6 +171,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnumLiteral getEcoreEnumLiteral()
   {
     if (ecoreEnumLiteral != null && ecoreEnumLiteral.eIsProxy())
@@ -199,6 +202,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEcoreEnumLiteral(EEnumLiteral newEcoreEnumLiteral)
   {
     EEnumLiteral oldEcoreEnumLiteral = ecoreEnumLiteral;
@@ -230,6 +234,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    * @since 2.14
    * @generated
    */
+  @Override
   public void setDocumentation(String newDocumentation)
   {
     String oldDocumentation = documentation;

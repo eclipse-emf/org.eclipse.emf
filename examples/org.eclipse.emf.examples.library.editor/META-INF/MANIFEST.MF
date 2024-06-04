@@ -2,20 +2,19 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.examples.library.editor;singleton:=true
-Bundle-Version: 2.10.0.qualifier
+Bundle-Version: 2.11.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.emf.examples.extlibrary.presentation.EXTLibraryEditorPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.emf.examples.extlibrary.presentation;version="2.10.0",
- org.eclipse.emf.examples.extlibrary.presentation;version="2.10.0",
- org.eclipse.emf.examples.extlibrary.actions;version="2.10.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.eclipse.emf.examples.extlibrary.presentation;version="2.11.0",
+ org.eclipse.emf.examples.extlibrary.actions;version="2.11.0"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.core.resources;bundle-version="[3.8.0,4.0.0)";visibility:=reexport,
- org.eclipse.emf.examples.library.edit;bundle-version="[2.10.0,3.0.0)";visibility:=reexport,
- org.eclipse.emf.ecore.xmi;bundle-version="[2.18.0,3.0.0)";visibility:=reexport,
- org.eclipse.emf.edit.ui;bundle-version="[2.23.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.examples.library.edit;bundle-version="[2.11.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;bundle-version="[2.38.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.edit.ui;bundle-version="[2.24.0,3.0.0)";visibility:=reexport,
  org.eclipse.ui.ide;bundle-version="[3.9.0,4.0.0)";visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.eclipse.emf.examples.library.editor

@@ -123,6 +123,7 @@ public class CommitterShipImpl extends EObjectImpl implements CommitterShip
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Date getStart()
   {
     return start;
@@ -133,6 +134,7 @@ public class CommitterShipImpl extends EObjectImpl implements CommitterShip
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setStart(Date newStart)
   {
     Date oldStart = start;
@@ -146,6 +148,7 @@ public class CommitterShipImpl extends EObjectImpl implements CommitterShip
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Date getEnd()
   {
     return end;
@@ -156,6 +159,7 @@ public class CommitterShipImpl extends EObjectImpl implements CommitterShip
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEnd(Date newEnd)
   {
     Date oldEnd = end;
@@ -169,6 +173,7 @@ public class CommitterShipImpl extends EObjectImpl implements CommitterShip
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Project getProject()
   {
     if (eContainerFeatureID() != ProjectPackage.COMMITTER_SHIP__PROJECT) return null;
@@ -191,6 +196,7 @@ public class CommitterShipImpl extends EObjectImpl implements CommitterShip
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setProject(Project newProject)
   {
     if (newProject != eInternalContainer() || (eContainerFeatureID() != ProjectPackage.COMMITTER_SHIP__PROJECT && newProject != null))
@@ -214,6 +220,7 @@ public class CommitterShipImpl extends EObjectImpl implements CommitterShip
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Person getPerson()
   {
     if (person != null && person.eIsProxy())
@@ -261,6 +268,7 @@ public class CommitterShipImpl extends EObjectImpl implements CommitterShip
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPerson(Person newPerson)
   {
     if (newPerson != person)
@@ -440,7 +448,7 @@ public class CommitterShipImpl extends EObjectImpl implements CommitterShip
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (start: ");
     result.append(start);
     result.append(", end: ");

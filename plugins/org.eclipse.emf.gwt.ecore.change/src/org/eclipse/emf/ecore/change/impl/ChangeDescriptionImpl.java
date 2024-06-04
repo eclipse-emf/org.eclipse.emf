@@ -56,13 +56,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ChangeDescriptionImpl#getObjectChanges <em>Object Changes</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ChangeDescriptionImpl#getObjectsToDetach <em>Objects To Detach</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ChangeDescriptionImpl#getObjectsToAttach <em>Objects To Attach</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ChangeDescriptionImpl#getResourceChanges <em>Resource Changes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -140,6 +140,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<EObject, EList<FeatureChange>> getObjectChanges()
   {
     if (objectChanges == null)
@@ -261,6 +262,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<EObject> getObjectsToAttach()
   {
     if (objectsToAttach == null)
@@ -275,6 +277,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<ResourceChange> getResourceChanges()
   {
     if (resourceChanges == null)

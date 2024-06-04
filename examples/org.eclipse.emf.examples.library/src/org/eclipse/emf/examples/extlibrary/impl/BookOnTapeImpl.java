@@ -86,6 +86,7 @@ public class BookOnTapeImpl extends AudioVisualItemImpl implements BookOnTape
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Person getReader()
   {
     if (reader != null && reader.eIsProxy())
@@ -116,6 +117,7 @@ public class BookOnTapeImpl extends AudioVisualItemImpl implements BookOnTape
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setReader(Person newReader)
   {
     Person oldReader = reader;
@@ -129,6 +131,7 @@ public class BookOnTapeImpl extends AudioVisualItemImpl implements BookOnTape
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Writer getAuthor()
   {
     if (author != null && author.eIsProxy())
@@ -159,6 +162,7 @@ public class BookOnTapeImpl extends AudioVisualItemImpl implements BookOnTape
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAuthor(Writer newAuthor)
   {
     Writer oldAuthor = author;

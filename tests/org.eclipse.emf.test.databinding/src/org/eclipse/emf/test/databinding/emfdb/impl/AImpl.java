@@ -146,6 +146,7 @@ public class AImpl extends EObjectImpl implements A
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getString()
   {
     return string;
@@ -156,6 +157,7 @@ public class AImpl extends EObjectImpl implements A
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setString(String newString)
   {
     String oldString = string;
@@ -169,6 +171,7 @@ public class AImpl extends EObjectImpl implements A
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<B> getBlist()
   {
     if (blist == null)
@@ -183,6 +186,7 @@ public class AImpl extends EObjectImpl implements A
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<String, String> getCmap()
   {
     if (cmap == null)
@@ -197,6 +201,7 @@ public class AImpl extends EObjectImpl implements A
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getStrings()
   {
     if (strings == null)
@@ -211,6 +216,7 @@ public class AImpl extends EObjectImpl implements A
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Double> getPrimitiveValues()
   {
     if (primitiveValues == null)
@@ -225,6 +231,7 @@ public class AImpl extends EObjectImpl implements A
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Double> getNotUniqueValues()
   {
     if (notUniqueValues == null)

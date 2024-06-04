@@ -84,6 +84,7 @@ public class SupplierFactoryImpl extends EFactoryImpl implements SupplierFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public PurchaseOrder createPurchaseOrder()
   {
     PurchaseOrderImpl purchaseOrder = new PurchaseOrderImpl();
@@ -95,6 +96,7 @@ public class SupplierFactoryImpl extends EFactoryImpl implements SupplierFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Supplier createSupplier()
   {
     SupplierImpl supplier = new SupplierImpl();
@@ -106,6 +108,7 @@ public class SupplierFactoryImpl extends EFactoryImpl implements SupplierFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public SupplierPackage getSupplierPackage()
   {
     return (SupplierPackage)getEPackage();

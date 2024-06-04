@@ -73,7 +73,7 @@ public class DBPricePackageImpl extends EPackageImpl implements DBPricePackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link DBPricePackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -88,7 +88,8 @@ public class DBPricePackageImpl extends EPackageImpl implements DBPricePackage
     if (isInited) return (DBPricePackage)EPackage.Registry.INSTANCE.getEPackage(DBPricePackage.eNS_URI);
 
     // Obtain or create and register package
-    DBPricePackageImpl theDBPricePackage = (DBPricePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof DBPricePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new DBPricePackageImpl());
+    Object registeredDBPricePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    DBPricePackageImpl theDBPricePackage = registeredDBPricePackage instanceof DBPricePackageImpl ? (DBPricePackageImpl)registeredDBPricePackage : new DBPricePackageImpl();
 
     isInited = true;
 
@@ -96,7 +97,8 @@ public class DBPricePackageImpl extends EPackageImpl implements DBPricePackage
     XMLTypePackage.eINSTANCE.eClass();
 
     // Obtain or create and register interdependencies
-    DBItemPackageImpl theDBItemPackage = (DBItemPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DBItemPackage.eNS_URI) instanceof DBItemPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DBItemPackage.eNS_URI) : DBItemPackage.eINSTANCE);
+    Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(DBItemPackage.eNS_URI);
+    DBItemPackageImpl theDBItemPackage = (DBItemPackageImpl)(registeredPackage instanceof DBItemPackageImpl ? registeredPackage : DBItemPackage.eINSTANCE);
 
     // Create package meta-data objects
     theDBPricePackage.createPackageContents();
@@ -109,7 +111,6 @@ public class DBPricePackageImpl extends EPackageImpl implements DBPricePackage
     // Mark meta-data to indicate it can't be changed
     theDBPricePackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(DBPricePackage.eNS_URI, theDBPricePackage);
     return theDBPricePackage;
@@ -120,6 +121,7 @@ public class DBPricePackageImpl extends EPackageImpl implements DBPricePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getPencilType()
   {
     return pencilTypeEClass;
@@ -130,6 +132,7 @@ public class DBPricePackageImpl extends EPackageImpl implements DBPricePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getPencilType_Price()
   {
     return (EAttribute)pencilTypeEClass.getEStructuralFeatures().get(0);
@@ -140,6 +143,7 @@ public class DBPricePackageImpl extends EPackageImpl implements DBPricePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getPenType()
   {
     return penTypeEClass;
@@ -150,6 +154,7 @@ public class DBPricePackageImpl extends EPackageImpl implements DBPricePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getPenType_Price()
   {
     return (EAttribute)penTypeEClass.getEStructuralFeatures().get(0);
@@ -160,6 +165,7 @@ public class DBPricePackageImpl extends EPackageImpl implements DBPricePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public DBPriceFactory getDBPriceFactory()
   {
     return (DBPriceFactory)getEFactoryInstance();
@@ -248,39 +254,39 @@ public class DBPricePackageImpl extends EPackageImpl implements DBPricePackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
     addAnnotation
-      (pencilTypeEClass, 
-       source, 
-       new String[] 
+      (pencilTypeEClass,
+       source,
+       new String[]
        {
-       "name", "pencilType",
-       "kind", "elementOnly"
-       });	
+         "name", "pencilType",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getPencilType_Price(), 
-       source, 
-       new String[] 
+      (getPencilType_Price(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "price"
-       });	
+         "kind", "element",
+         "name", "price"
+       });
     addAnnotation
-      (penTypeEClass, 
-       source, 
-       new String[] 
+      (penTypeEClass,
+       source,
+       new String[]
        {
-       "name", "penType",
-       "kind", "elementOnly"
-       });	
+         "name", "penType",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getPenType_Price(), 
-       source, 
-       new String[] 
+      (getPenType_Price(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "price",
-       "namespace", "##targetNamespace"
+         "kind", "element",
+         "name", "price",
+         "namespace", "##targetNamespace"
        });
   }
 

@@ -90,6 +90,7 @@ public class Ecore2XMLFactoryImpl extends EFactoryImpl implements Ecore2XMLFacto
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XMLInfo createXMLInfo()
   {
     XMLInfoImpl xmlInfo = new XMLInfoImpl();
@@ -101,6 +102,7 @@ public class Ecore2XMLFactoryImpl extends EFactoryImpl implements Ecore2XMLFacto
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XMLMap createXMLMap()
   {
     XMLMapImpl xmlMap = new XMLMapImpl();
@@ -123,6 +125,7 @@ public class Ecore2XMLFactoryImpl extends EFactoryImpl implements Ecore2XMLFacto
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Ecore2XMLPackage getEcore2XMLPackage()
   {
     return (Ecore2XMLPackage)getEPackage();

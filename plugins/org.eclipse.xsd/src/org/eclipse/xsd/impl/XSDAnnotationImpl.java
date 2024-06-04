@@ -121,6 +121,7 @@ public class XSDAnnotationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Element> getApplicationInformation()
   {
     if (applicationInformation == null)
@@ -135,6 +136,7 @@ public class XSDAnnotationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Element> getUserInformation()
   {
     if (userInformation == null)
@@ -149,6 +151,7 @@ public class XSDAnnotationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Attr> getAttributes()
   {
     if (attributes == null)

@@ -123,6 +123,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isTypeSafeEnumCompatible()
   {
     return typeSafeEnumCompatible;
@@ -133,6 +134,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTypeSafeEnumCompatible(boolean newTypeSafeEnumCompatible)
   {
     boolean oldTypeSafeEnumCompatible = typeSafeEnumCompatible;
@@ -146,6 +148,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getEcoreEnum()
   {
     if (ecoreEnum != null && ecoreEnum.eIsProxy())
@@ -176,6 +179,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEcoreEnum(EEnum newEcoreEnum)
   {
     EEnum oldEcoreEnum = ecoreEnum;
@@ -189,6 +193,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<GenEnumLiteral> getGenEnumLiterals()
   {
     if (genEnumLiterals == null)

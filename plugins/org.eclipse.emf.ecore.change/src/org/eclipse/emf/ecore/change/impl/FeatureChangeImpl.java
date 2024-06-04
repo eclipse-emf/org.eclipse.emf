@@ -249,6 +249,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSet()
   {
     return set;
@@ -259,6 +260,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSet(boolean newSet)
   {
     boolean oldSet = set;
@@ -407,6 +409,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<ListChange> getListChanges()
   {
     if (listChanges == null)

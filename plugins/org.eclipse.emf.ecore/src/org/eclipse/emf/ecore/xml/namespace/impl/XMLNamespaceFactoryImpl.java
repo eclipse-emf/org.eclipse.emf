@@ -134,6 +134,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XMLNamespaceDocumentRoot createXMLNamespaceDocumentRoot()
   {
     XMLNamespaceDocumentRootImpl xmlNamespaceDocumentRoot = new XMLNamespaceDocumentRootImpl();
@@ -281,6 +282,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XMLNamespacePackage getXMLNamespacePackage()
   {
     return (XMLNamespacePackage)getEPackage();

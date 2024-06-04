@@ -182,6 +182,7 @@ public class JFieldImpl extends JMemberImpl implements JField
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isFinal()
   {
     return final_;
@@ -192,6 +193,7 @@ public class JFieldImpl extends JMemberImpl implements JField
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFinal(boolean newFinal)
   {
     boolean oldFinal = final_;
@@ -205,6 +207,7 @@ public class JFieldImpl extends JMemberImpl implements JField
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isTransient()
   {
     return transient_;
@@ -215,6 +218,7 @@ public class JFieldImpl extends JMemberImpl implements JField
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTransient(boolean newTransient)
   {
     boolean oldTransient = transient_;
@@ -228,6 +232,7 @@ public class JFieldImpl extends JMemberImpl implements JField
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isVolatile()
   {
     return volatile_;
@@ -238,6 +243,7 @@ public class JFieldImpl extends JMemberImpl implements JField
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setVolatile(boolean newVolatile)
   {
     boolean oldVolatile = volatile_;
@@ -251,6 +257,7 @@ public class JFieldImpl extends JMemberImpl implements JField
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Field getJavaField()
   {
     return javaField;
@@ -261,6 +268,7 @@ public class JFieldImpl extends JMemberImpl implements JField
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setJavaField(Field newJavaField)
   {
     Field oldJavaField = javaField;
@@ -274,6 +282,7 @@ public class JFieldImpl extends JMemberImpl implements JField
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getInitializer()
   {
     return initializer;
@@ -284,6 +293,7 @@ public class JFieldImpl extends JMemberImpl implements JField
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setInitializer(String newInitializer)
   {
     String oldInitializer = initializer;
@@ -297,6 +307,7 @@ public class JFieldImpl extends JMemberImpl implements JField
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JClass getType()
   {
     if (type != null && type.eIsProxy())
@@ -327,6 +338,7 @@ public class JFieldImpl extends JMemberImpl implements JField
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setType(JClass newType)
   {
     JClass oldType = type;

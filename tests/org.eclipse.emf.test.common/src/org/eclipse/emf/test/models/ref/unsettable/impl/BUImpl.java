@@ -100,6 +100,7 @@ public class BUImpl extends EObjectImpl implements BU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public AU getAu()
   {
     if (au != null && au.eIsProxy())
@@ -149,6 +150,7 @@ public class BUImpl extends EObjectImpl implements BU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAu(AU newAu)
   {
     if (newAu != au)
@@ -194,6 +196,7 @@ public class BUImpl extends EObjectImpl implements BU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetAu()
   {
     if (au != null)
@@ -217,6 +220,7 @@ public class BUImpl extends EObjectImpl implements BU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetAu()
   {
     return auESet;
@@ -227,6 +231,7 @@ public class BUImpl extends EObjectImpl implements BU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C2U getC2u()
   {
     if (eContainerFeatureID() != URefPackage.BU__C2U) return null;
@@ -249,6 +254,7 @@ public class BUImpl extends EObjectImpl implements BU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setC2u(C2U newC2u)
   {
     if (newC2u != eInternalContainer() || (eContainerFeatureID() != URefPackage.BU__C2U && newC2u != null))
@@ -272,6 +278,7 @@ public class BUImpl extends EObjectImpl implements BU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<DU> getDu()
   {
     if (du == null)
@@ -286,6 +293,7 @@ public class BUImpl extends EObjectImpl implements BU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetDu()
   {
     if (du != null) ((InternalEList.Unsettable<?>)du).unset();
@@ -296,6 +304,7 @@ public class BUImpl extends EObjectImpl implements BU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetDu()
   {
     return du != null && ((InternalEList.Unsettable<?>)du).isSet();

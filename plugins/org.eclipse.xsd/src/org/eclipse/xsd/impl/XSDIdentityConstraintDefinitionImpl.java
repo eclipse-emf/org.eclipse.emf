@@ -194,6 +194,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDIdentityConstraintCategory getIdentityConstraintCategory()
   {
     return IDENTITY_CONSTRAINT_CATEGORY_EFLAG_VALUES[(eFlags & IDENTITY_CONSTRAINT_CATEGORY_EFLAG) >>> IDENTITY_CONSTRAINT_CATEGORY_EFLAG_OFFSET];
@@ -204,6 +205,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setIdentityConstraintCategory(XSDIdentityConstraintCategory newIdentityConstraintCategory)
   {
     XSDIdentityConstraintCategory oldIdentityConstraintCategory = IDENTITY_CONSTRAINT_CATEGORY_EFLAG_VALUES[(eFlags & IDENTITY_CONSTRAINT_CATEGORY_EFLAG) >>> IDENTITY_CONSTRAINT_CATEGORY_EFLAG_OFFSET];
@@ -218,6 +220,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAnnotation getAnnotation()
   {
     return annotation;
@@ -228,6 +231,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAnnotation(XSDAnnotation newAnnotation)
   {
     if (newAnnotation != annotation)
@@ -266,6 +270,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDIdentityConstraintDefinition getReferencedKey()
   {
     return referencedKey;
@@ -276,6 +281,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setReferencedKey(XSDIdentityConstraintDefinition newReferencedKey)
   {
     XSDIdentityConstraintDefinition oldReferencedKey = referencedKey;
@@ -289,6 +295,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDXPathDefinition getSelector()
   {
     return selector;
@@ -299,6 +306,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSelector(XSDXPathDefinition newSelector)
   {
     if (newSelector != selector)
@@ -337,6 +345,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDXPathDefinition> getFields()
   {
     if (fields == null)

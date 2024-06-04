@@ -92,6 +92,7 @@ public class DImpl extends EObjectImpl implements D
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<E> getElist()
   {
     if (elist == null)
@@ -106,6 +107,7 @@ public class DImpl extends EObjectImpl implements D
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -116,6 +118,7 @@ public class DImpl extends EObjectImpl implements D
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;

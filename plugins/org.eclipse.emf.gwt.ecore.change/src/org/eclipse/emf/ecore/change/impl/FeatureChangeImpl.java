@@ -50,6 +50,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.FeatureChangeImpl#getFeatureName <em>Feature Name</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.FeatureChangeImpl#getDataValue <em>Data Value</em>}</li>
@@ -59,7 +60,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.ecore.change.impl.FeatureChangeImpl#getReferenceValue <em>Reference Value</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.FeatureChangeImpl#getListChanges <em>List Changes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -256,6 +256,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSet()
   {
     return set;
@@ -266,6 +267,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSet(boolean newSet)
   {
     boolean oldSet = set;
@@ -414,6 +416,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<ListChange> getListChanges()
   {
     if (listChanges == null)
@@ -874,7 +877,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (set: ");
     result.append(set);
     result.append(')');

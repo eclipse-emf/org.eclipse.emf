@@ -100,6 +100,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getMixed()
   {
     if (mixed == null)
@@ -114,6 +115,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<String, String> getXMLNSPrefixMap()
   {
     if (xMLNSPrefixMap == null)
@@ -128,6 +130,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<String, String> getXSISchemaLocation()
   {
     if (xSISchemaLocation == null)
@@ -142,6 +145,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CustomerOrder getOrder()
   {
     return (CustomerOrder)getMixed().get(OrderPackage.Literals.DOCUMENT_ROOT__ORDER, true);
@@ -162,6 +166,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setOrder(CustomerOrder newOrder)
   {
     ((FeatureMap.Internal)getMixed()).set(OrderPackage.Literals.DOCUMENT_ROOT__ORDER, newOrder);
@@ -298,7 +303,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (mixed: ");
     result.append(mixed);
     result.append(')');

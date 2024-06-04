@@ -1,9 +1,9 @@
 package org.eclipse.emf.ecore.xcore.scoping;
 
-import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Objects;
 import java.util.function.Consumer;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -40,7 +40,7 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
     {
       final EPackage ePackage = it.eClass().getEPackage();
       boolean _matched = false;
-      if (Objects.equal(ePackage, EcorePackage.eINSTANCE)) {
+      if (Objects.equals(ePackage, EcorePackage.eINSTANCE)) {
         _matched=true;
         this.ecoreResourceDescriptionStrategy.createEObjectDescriptions(it, acceptor);
         boolean _matched_1 = false;
@@ -64,7 +64,7 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
         }
       }
       if (!_matched) {
-        if (Objects.equal(ePackage, GenModelPackage.eINSTANCE)) {
+        if (Objects.equals(ePackage, GenModelPackage.eINSTANCE)) {
           _matched=true;
           boolean _matched_2 = false;
           if (it instanceof GenModel) {
@@ -92,7 +92,7 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
         }
       }
       if (!_matched) {
-        if (Objects.equal(ePackage, XcorePackage.eINSTANCE)) {
+        if (Objects.equals(ePackage, XcorePackage.eINSTANCE)) {
           _matched=true;
           boolean _matched_3 = false;
           if (it instanceof XPackage) {
@@ -111,7 +111,7 @@ public class XcoreResourceDescriptionStrategy extends XbaseResourceDescriptionSt
         }
       }
       if (!_matched) {
-        if (Objects.equal(ePackage, TypesPackage.eINSTANCE)) {
+        if (Objects.equals(ePackage, TypesPackage.eINSTANCE)) {
           _matched=true;
           if ((it instanceof JvmDeclaredType)) {
             super.createEObjectDescriptions(it, acceptor);

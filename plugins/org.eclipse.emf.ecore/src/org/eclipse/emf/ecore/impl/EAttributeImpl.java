@@ -157,6 +157,7 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setID(boolean newID)
   {
     boolean oldID = (eFlags & ID_EFLAG) != 0;

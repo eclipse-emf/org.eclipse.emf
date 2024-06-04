@@ -10,8 +10,11 @@ package org.eclipse.emf.test.models.dynamic.util;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
-
-import org.eclipse.emf.test.models.dynamic.*;
+import org.eclipse.emf.test.models.dynamic.Admin;
+import org.eclipse.emf.test.models.dynamic.Detail;
+import org.eclipse.emf.test.models.dynamic.DynamicPackage;
+import org.eclipse.emf.test.models.dynamic.Provider;
+import org.eclipse.emf.test.models.dynamic.Service;
 
 /**
  * <!-- begin-user-doc -->

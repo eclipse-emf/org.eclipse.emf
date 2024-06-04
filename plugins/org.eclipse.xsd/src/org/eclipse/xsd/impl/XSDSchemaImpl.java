@@ -846,6 +846,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Document getDocument()
   {
     return document;
@@ -856,6 +857,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setDocument(Document newDocument)
   {
     Document oldDocument = document;
@@ -869,6 +871,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getSchemaLocation()
   {
     return schemaLocation;
@@ -879,6 +882,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSchemaLocation(String newSchemaLocation)
   {
     String oldSchemaLocation = schemaLocation;
@@ -892,6 +896,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getTargetNamespace()
   {
     return targetNamespace;
@@ -902,6 +907,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTargetNamespace(String newTargetNamespace)
   {
     String oldTargetNamespace = targetNamespace;
@@ -915,6 +921,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDForm getAttributeFormDefault()
   {
     return ATTRIBUTE_FORM_DEFAULT_EFLAG_VALUES[(eFlags & ATTRIBUTE_FORM_DEFAULT_EFLAG) >>> ATTRIBUTE_FORM_DEFAULT_EFLAG_OFFSET];
@@ -925,6 +932,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAttributeFormDefault(XSDForm newAttributeFormDefault)
   {
     XSDForm oldAttributeFormDefault = ATTRIBUTE_FORM_DEFAULT_EFLAG_VALUES[(eFlags & ATTRIBUTE_FORM_DEFAULT_EFLAG) >>> ATTRIBUTE_FORM_DEFAULT_EFLAG_OFFSET];
@@ -941,6 +949,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetAttributeFormDefault()
   {
     XSDForm oldAttributeFormDefault = ATTRIBUTE_FORM_DEFAULT_EFLAG_VALUES[(eFlags & ATTRIBUTE_FORM_DEFAULT_EFLAG) >>> ATTRIBUTE_FORM_DEFAULT_EFLAG_OFFSET];
@@ -956,6 +965,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetAttributeFormDefault()
   {
     return (eFlags & ATTRIBUTE_FORM_DEFAULT_ESETFLAG) != 0;
@@ -966,6 +976,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDForm getElementFormDefault()
   {
     return ELEMENT_FORM_DEFAULT_EFLAG_VALUES[(eFlags & ELEMENT_FORM_DEFAULT_EFLAG) >>> ELEMENT_FORM_DEFAULT_EFLAG_OFFSET];
@@ -976,6 +987,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setElementFormDefault(XSDForm newElementFormDefault)
   {
     XSDForm oldElementFormDefault = ELEMENT_FORM_DEFAULT_EFLAG_VALUES[(eFlags & ELEMENT_FORM_DEFAULT_EFLAG) >>> ELEMENT_FORM_DEFAULT_EFLAG_OFFSET];
@@ -992,6 +1004,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetElementFormDefault()
   {
     XSDForm oldElementFormDefault = ELEMENT_FORM_DEFAULT_EFLAG_VALUES[(eFlags & ELEMENT_FORM_DEFAULT_EFLAG) >>> ELEMENT_FORM_DEFAULT_EFLAG_OFFSET];
@@ -1007,6 +1020,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetElementFormDefault()
   {
     return (eFlags & ELEMENT_FORM_DEFAULT_ESETFLAG) != 0;
@@ -1017,6 +1031,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDProhibitedSubstitutions> getFinalDefault()
   {
     if (finalDefault == null)
@@ -1031,6 +1046,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetFinalDefault()
   {
     if (finalDefault != null) ((InternalEList.Unsettable<?>)finalDefault).unset();
@@ -1041,6 +1057,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetFinalDefault()
   {
     return finalDefault != null && ((InternalEList.Unsettable<?>)finalDefault).isSet();
@@ -1051,6 +1068,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDDisallowedSubstitutions> getBlockDefault()
   {
     if (blockDefault == null)
@@ -1065,6 +1083,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetBlockDefault()
   {
     if (blockDefault != null) ((InternalEList.Unsettable<?>)blockDefault).unset();
@@ -1075,6 +1094,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetBlockDefault()
   {
     return blockDefault != null && ((InternalEList.Unsettable<?>)blockDefault).isSet();
@@ -1085,6 +1105,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getVersion()
   {
     return version;
@@ -1095,6 +1116,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setVersion(String newVersion)
   {
     String oldVersion = version;
@@ -1108,6 +1130,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDSchemaContent> getContents()
   {
     if (contents == null)
@@ -1220,6 +1243,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDAnnotation> getAnnotations()
   {
     if (annotations == null)
@@ -1234,6 +1258,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDDiagnostic> getAllDiagnostics()
   {
     if (allDiagnostics == null)
@@ -1248,6 +1273,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDSchemaDirective> getReferencingDirectives()
   {
     if (referencingDirectives == null)
@@ -1283,6 +1309,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDSchema> getIncorporatedVersions()
   {
     if (incorporatedVersions == null)

@@ -104,6 +104,7 @@ public class AUImpl extends EObjectImpl implements AU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public BU getBu()
   {
     if (bu != null && bu.eIsProxy())
@@ -153,6 +154,7 @@ public class AUImpl extends EObjectImpl implements AU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setBu(BU newBu)
   {
     if (newBu != bu)
@@ -198,6 +200,7 @@ public class AUImpl extends EObjectImpl implements AU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetBu()
   {
     if (bu != null)
@@ -221,6 +224,7 @@ public class AUImpl extends EObjectImpl implements AU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetBu()
   {
     return buESet;
@@ -231,6 +235,7 @@ public class AUImpl extends EObjectImpl implements AU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C2U getC2u()
   {
     if (eContainerFeatureID() != URefPackage.AU__C2U) return null;
@@ -253,6 +258,7 @@ public class AUImpl extends EObjectImpl implements AU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setC2u(C2U newC2u)
   {
     if (newC2u != eInternalContainer() || (eContainerFeatureID() != URefPackage.AU__C2U && newC2u != null))
@@ -276,6 +282,7 @@ public class AUImpl extends EObjectImpl implements AU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CU getCu()
   {
     if (cu != null && cu.eIsProxy())
@@ -306,6 +313,7 @@ public class AUImpl extends EObjectImpl implements AU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCu(CU newCu)
   {
     CU oldCu = cu;
@@ -321,6 +329,7 @@ public class AUImpl extends EObjectImpl implements AU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetCu()
   {
     CU oldCu = cu;
@@ -336,6 +345,7 @@ public class AUImpl extends EObjectImpl implements AU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetCu()
   {
     return cuESet;

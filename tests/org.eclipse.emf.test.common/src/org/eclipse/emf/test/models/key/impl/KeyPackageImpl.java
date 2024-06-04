@@ -71,7 +71,7 @@ public class KeyPackageImpl extends EPackageImpl implements KeyPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link KeyPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -86,7 +86,8 @@ public class KeyPackageImpl extends EPackageImpl implements KeyPackage
     if (isInited) return (KeyPackage)EPackage.Registry.INSTANCE.getEPackage(KeyPackage.eNS_URI);
 
     // Obtain or create and register package
-    KeyPackageImpl theKeyPackage = (KeyPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof KeyPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new KeyPackageImpl());
+    Object registeredKeyPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    KeyPackageImpl theKeyPackage = registeredKeyPackage instanceof KeyPackageImpl ? (KeyPackageImpl)registeredKeyPackage : new KeyPackageImpl();
 
     isInited = true;
 
@@ -99,7 +100,6 @@ public class KeyPackageImpl extends EPackageImpl implements KeyPackage
     // Mark meta-data to indicate it can't be changed
     theKeyPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(KeyPackage.eNS_URI, theKeyPackage);
     return theKeyPackage;
@@ -110,6 +110,7 @@ public class KeyPackageImpl extends EPackageImpl implements KeyPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getItem()
   {
     return itemEClass;
@@ -120,6 +121,7 @@ public class KeyPackageImpl extends EPackageImpl implements KeyPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getItem_Name()
   {
     return (EAttribute)itemEClass.getEStructuralFeatures().get(0);
@@ -130,6 +132,7 @@ public class KeyPackageImpl extends EPackageImpl implements KeyPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getItem_Signature()
   {
     return (EAttribute)itemEClass.getEStructuralFeatures().get(1);
@@ -140,6 +143,7 @@ public class KeyPackageImpl extends EPackageImpl implements KeyPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getItem_RelatedItems()
   {
     return (EReference)itemEClass.getEStructuralFeatures().get(2);
@@ -150,6 +154,7 @@ public class KeyPackageImpl extends EPackageImpl implements KeyPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getRoot()
   {
     return rootEClass;
@@ -160,6 +165,7 @@ public class KeyPackageImpl extends EPackageImpl implements KeyPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getRoot_Items()
   {
     return (EReference)rootEClass.getEStructuralFeatures().get(0);
@@ -170,6 +176,7 @@ public class KeyPackageImpl extends EPackageImpl implements KeyPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public KeyFactory getKeyFactory()
   {
     return (KeyFactory)getEFactoryInstance();

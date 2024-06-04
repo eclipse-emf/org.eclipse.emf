@@ -117,6 +117,7 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Order getMoviesToSee()
   {
     return moviesToSee;
@@ -144,6 +145,7 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMoviesToSee(Order newMoviesToSee)
   {
     if (newMoviesToSee != moviesToSee)
@@ -165,6 +167,7 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Order getMoviesSeen()
   {
     return moviesSeen;
@@ -192,6 +195,7 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMoviesSeen(Order newMoviesSeen)
   {
     if (newMoviesSeen != moviesSeen)
@@ -213,6 +217,7 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getAny()
   {
     if (any == null)
@@ -227,6 +232,7 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getCustomerID()
   {
     return customerID;
@@ -237,6 +243,7 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCustomerID(String newCustomerID)
   {
     String oldCustomerID = customerID;
@@ -372,7 +379,7 @@ public class CustomerOrderImpl extends EObjectImpl implements CustomerOrder
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (any: ");
     result.append(any);
     result.append(", customerID: ");

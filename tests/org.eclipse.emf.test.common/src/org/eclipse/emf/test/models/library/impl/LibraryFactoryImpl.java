@@ -122,6 +122,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Book createBook()
   {
     BookImpl book = new BookImpl();
@@ -133,6 +134,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Library createLibrary()
   {
     LibraryImpl library = new LibraryImpl();
@@ -144,6 +146,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Writer createWriter()
   {
     WriterImpl writer = new WriterImpl();
@@ -177,6 +180,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public LibraryPackage getLibraryPackage()
   {
     return (LibraryPackage)getEPackage();

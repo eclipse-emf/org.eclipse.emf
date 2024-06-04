@@ -38,13 +38,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ResourceChangeImpl#getResourceURI <em>Resource URI</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ResourceChangeImpl#getResource <em>Resource</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ResourceChangeImpl#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.ResourceChangeImpl#getListChanges <em>List Changes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -141,6 +141,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getResourceURI()
   {
     return resourceURI;
@@ -151,6 +152,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setResourceURI(String newResourceURI)
   {
     String oldResourceURI = resourceURI;
@@ -243,6 +245,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<ListChange> getListChanges()
   {
     if (listChanges == null)
@@ -445,7 +448,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (resourceURI: ");
     result.append(resourceURI);
     result.append(", resource: ");

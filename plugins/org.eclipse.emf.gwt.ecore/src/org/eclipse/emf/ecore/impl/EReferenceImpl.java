@@ -209,6 +209,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setResolveProxies(boolean newResolveProxies)
   {
     boolean oldResolveProxies = (eFlags & RESOLVE_PROXIES_EFLAG) != 0;
@@ -253,6 +254,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEOpposite(EReference newEOpposite)
   {
     EReference oldEOpposite = eOpposite;
@@ -319,6 +321,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<EAttribute> getEKeys()
   {
     if (eKeys == null)
@@ -604,7 +607,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (containment: ");
     result.append((eFlags & CONTAINMENT_EFLAG) != 0);
     result.append(", resolveProxies: ");

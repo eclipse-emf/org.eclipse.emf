@@ -100,6 +100,7 @@ public class FunctionNamePairImpl extends TypeConverterImpl implements FunctionN
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getIn2out()
   {
     return in2out;
@@ -110,6 +111,7 @@ public class FunctionNamePairImpl extends TypeConverterImpl implements FunctionN
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setIn2out(String newIn2out)
   {
     String oldIn2out = in2out;
@@ -123,6 +125,7 @@ public class FunctionNamePairImpl extends TypeConverterImpl implements FunctionN
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getOut2in()
   {
     return out2in;
@@ -133,6 +136,7 @@ public class FunctionNamePairImpl extends TypeConverterImpl implements FunctionN
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setOut2in(String newOut2in)
   {
     String oldOut2in = out2in;
@@ -227,7 +231,7 @@ public class FunctionNamePairImpl extends TypeConverterImpl implements FunctionN
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (in2out: ");
     result.append(in2out);
     result.append(", out2in: ");

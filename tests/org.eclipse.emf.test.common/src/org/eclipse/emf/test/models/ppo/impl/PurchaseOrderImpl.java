@@ -142,6 +142,7 @@ public class PurchaseOrderImpl extends EObjectImpl implements PurchaseOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Item> getItems()
   {
     if (items == null)
@@ -156,6 +157,7 @@ public class PurchaseOrderImpl extends EObjectImpl implements PurchaseOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getComment()
   {
     return comment;
@@ -166,6 +168,7 @@ public class PurchaseOrderImpl extends EObjectImpl implements PurchaseOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setComment(String newComment)
   {
     String oldComment = comment;
@@ -179,6 +182,7 @@ public class PurchaseOrderImpl extends EObjectImpl implements PurchaseOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Date getOrderDate()
   {
     return orderDate;
@@ -189,6 +193,7 @@ public class PurchaseOrderImpl extends EObjectImpl implements PurchaseOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setOrderDate(Date newOrderDate)
   {
     Date oldOrderDate = orderDate;
@@ -202,6 +207,7 @@ public class PurchaseOrderImpl extends EObjectImpl implements PurchaseOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public USAddress getBillTo()
   {
     return billTo;
@@ -229,6 +235,7 @@ public class PurchaseOrderImpl extends EObjectImpl implements PurchaseOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setBillTo(USAddress newBillTo)
   {
     if (newBillTo != billTo)
@@ -250,6 +257,7 @@ public class PurchaseOrderImpl extends EObjectImpl implements PurchaseOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public USAddress getShipTo()
   {
     return shipTo;
@@ -277,6 +285,7 @@ public class PurchaseOrderImpl extends EObjectImpl implements PurchaseOrder
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setShipTo(USAddress newShipTo)
   {
     if (newShipTo != shipTo)
@@ -431,7 +440,7 @@ public class PurchaseOrderImpl extends EObjectImpl implements PurchaseOrder
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (comment: ");
     result.append(comment);
     result.append(", orderDate: ");

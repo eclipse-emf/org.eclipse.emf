@@ -84,6 +84,7 @@ public class Switch2FactoryImpl extends EFactoryImpl implements Switch2Factory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass2 createEClass2()
   {
     EClass2Impl eClass2 = new EClass2Impl();
@@ -95,6 +96,7 @@ public class Switch2FactoryImpl extends EFactoryImpl implements Switch2Factory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass3 createEClass3()
   {
     EClass3Impl eClass3 = new EClass3Impl();
@@ -106,6 +108,7 @@ public class Switch2FactoryImpl extends EFactoryImpl implements Switch2Factory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Switch2Package getSwitch2Package()
   {
     return (Switch2Package)getEPackage();

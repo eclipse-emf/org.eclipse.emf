@@ -129,6 +129,7 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ChangeDescription createChangeDescription()
   {
     ChangeDescriptionImpl changeDescription = new ChangeDescriptionImpl();
@@ -151,6 +152,7 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureChange createFeatureChange()
   {
     FeatureChangeImpl featureChange = new FeatureChangeImpl();
@@ -168,6 +170,7 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ListChange createListChange()
   {
     ListChangeImpl listChange = new ListChangeImpl();
@@ -179,6 +182,7 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceChange createResourceChange()
   {
     ResourceChangeImpl resourceChange = new ResourceChangeImpl();
@@ -196,6 +200,7 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMapEntry createFeatureMapEntry()
   {
     FeatureMapEntryImpl featureMapEntry = new FeatureMapEntryImpl();
@@ -235,6 +240,7 @@ public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ChangePackage getChangePackage()
   {
     return (ChangePackage)getEPackage();

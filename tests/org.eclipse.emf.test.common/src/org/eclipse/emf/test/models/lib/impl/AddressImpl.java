@@ -78,6 +78,7 @@ public class AddressImpl extends EObjectImpl implements Address
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getPostalCode()
   {
     return postalCode;
@@ -88,6 +89,7 @@ public class AddressImpl extends EObjectImpl implements Address
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPostalCode(String newPostalCode)
   {
     String oldPostalCode = postalCode;
@@ -172,7 +174,7 @@ public class AddressImpl extends EObjectImpl implements Address
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (postalCode: ");
     result.append(postalCode);
     result.append(')');

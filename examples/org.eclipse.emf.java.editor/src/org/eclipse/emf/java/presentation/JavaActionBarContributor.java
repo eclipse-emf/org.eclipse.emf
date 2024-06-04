@@ -215,6 +215,7 @@ public class JavaActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void selectionChanged(SelectionChangedEvent event)
   {
     // Add your contributions.

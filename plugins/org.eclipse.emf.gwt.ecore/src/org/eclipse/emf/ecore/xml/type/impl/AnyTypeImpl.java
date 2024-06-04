@@ -27,12 +27,12 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.AnyTypeImpl#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.AnyTypeImpl#getAny <em>Any</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.AnyTypeImpl#getAnyAttribute <em>Any Attribute</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -86,6 +86,7 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getMixed()
   {
     if (mixed == null)
@@ -100,6 +101,7 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getAny()
   {
     return (FeatureMap)getMixed().<FeatureMap.Entry>list(XMLTypePackage.Literals.ANY_TYPE__ANY);
@@ -110,6 +112,7 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getAnyAttribute()
   {
     if (anyAttribute == null)
@@ -238,7 +241,7 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (mixed: ");
     result.append(mixed);
     result.append(", anyAttribute: ");

@@ -166,6 +166,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void init(IWorkbench workbench, IStructuredSelection selection)
   {
     this.workbench = workbench;
@@ -514,6 +515,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
     protected ModifyListener validator =
       new ModifyListener()
       {
+        @Override
         public void modifyText(ModifyEvent e)
         {
           setPageComplete(validatePage());

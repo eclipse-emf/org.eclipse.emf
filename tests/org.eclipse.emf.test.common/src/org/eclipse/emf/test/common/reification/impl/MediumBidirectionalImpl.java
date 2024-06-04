@@ -81,6 +81,7 @@ public class MediumBidirectionalImpl<T extends MediumBidirectional<T> & Medium> 
    * @generated
    */
   @SuppressWarnings("unchecked")
+  @Override
   public MediumBidirectional<T>[] getContents()
   {
     if (contents == null || contents.isEmpty()) return CONTENTS_EEMPTY_ARRAY;
@@ -94,6 +95,7 @@ public class MediumBidirectionalImpl<T extends MediumBidirectional<T> & Medium> 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public MediumBidirectional<T> getContents(int index)
   {
     return getContentsList().get(index);
@@ -104,6 +106,7 @@ public class MediumBidirectionalImpl<T extends MediumBidirectional<T> & Medium> 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getContentsLength()
   {
     return contents == null ? 0 : contents.size();
@@ -114,6 +117,7 @@ public class MediumBidirectionalImpl<T extends MediumBidirectional<T> & Medium> 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setContents(MediumBidirectional<T>[] newContents)
   {
     ((BasicEList<MediumBidirectional<T>>)getContentsList()).setData(newContents.length, newContents);
@@ -124,6 +128,7 @@ public class MediumBidirectionalImpl<T extends MediumBidirectional<T> & Medium> 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setContents(int index, MediumBidirectional<T> element)
   {
     getContentsList().set(index, element);
@@ -134,6 +139,7 @@ public class MediumBidirectionalImpl<T extends MediumBidirectional<T> & Medium> 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<MediumBidirectional<T>> getContentsList()
   {
     if (contents == null)

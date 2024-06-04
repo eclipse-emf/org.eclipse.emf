@@ -501,7 +501,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link XMLTypePackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -518,7 +518,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
     initializeRegistryHelpers();
 
     // Obtain or create and register package
-    XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof XMLTypePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new XMLTypePackageImpl());
+    Object registeredXMLTypePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    XMLTypePackageImpl theXMLTypePackage = registeredXMLTypePackage instanceof XMLTypePackageImpl ? (XMLTypePackageImpl)registeredXMLTypePackage : new XMLTypePackageImpl();
 
     isInited = true;
 
@@ -530,9 +531,10 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
 
     // Register package validator
     EValidator.Registry.INSTANCE.put
-      (theXMLTypePackage, 
+      (theXMLTypePackage,
        new EValidator.Descriptor()
        {
+         @Override
          public EValidator getEValidator()
          {
            return XMLTypeValidator.INSTANCE;
@@ -542,7 +544,6 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
     // Mark meta-data to indicate it can't be changed
     theXMLTypePackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(XMLTypePackage.eNS_URI, theXMLTypePackage);
     return theXMLTypePackage;
@@ -556,8 +557,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
   public static void initializeRegistryHelpers()
   {
     Reflect.register
-      (AnyType.class, 
-       new Reflect.Helper() 
+      (AnyType.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -570,8 +571,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
          }
        });
     Reflect.register
-      (ProcessingInstruction.class, 
-       new Reflect.Helper() 
+      (ProcessingInstruction.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -584,8 +585,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
          }
        });
     Reflect.register
-      (SimpleAnyType.class, 
-       new Reflect.Helper() 
+      (SimpleAnyType.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -598,8 +599,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
          }
        });
     Reflect.register
-      (XMLTypeDocumentRoot.class, 
-       new Reflect.Helper() 
+      (XMLTypeDocumentRoot.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -612,8 +613,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
          }
        });
     Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
+      (String.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -626,8 +627,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
          }
     });
     Reflect.register
-      (byte[].class, 
-       new Reflect.Helper() 
+      (byte[].class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -640,8 +641,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
          }
     });
     Reflect.register
-      (Boolean.class, 
-       new Reflect.Helper() 
+      (Boolean.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -654,8 +655,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
          }
     });
     Reflect.register
-      (Byte.class, 
-       new Reflect.Helper() 
+      (Byte.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -668,50 +669,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
          }
     });
     Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (Double.class, 
-       new Reflect.Helper() 
+      (Double.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -724,26 +683,12 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
          }
     });
     Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
+      (List.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (List.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof List<?>;
+           return instance instanceof List;
          }
 
          public Object newArrayInstance(int size)
@@ -752,36 +697,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
          }
     });
     Reflect.register
-      (List.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof List<?>;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new List[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (Float.class, 
-       new Reflect.Helper() 
+      (Float.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -794,162 +711,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
          }
     });
     Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (byte[].class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof byte[];
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new byte[size][];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (List.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof List<?>;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new List[size];
-         }
-    });
-    Reflect.register
-      (List.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof List<?>;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new List[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (Integer.class, 
-       new Reflect.Helper() 
+      (Integer.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -962,22 +725,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
          }
     });
     Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (Long.class, 
-       new Reflect.Helper() 
+      (Long.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -990,176 +739,8 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
          }
     });
     Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (List.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof List<?>;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new List[size];
-         }
-    });
-    Reflect.register
-      (List.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof List<?>;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new List[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (Short.class, 
-       new Reflect.Helper() 
+      (Short.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -1169,104 +750,6 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
          public Object newArrayInstance(int size)
          {
            return new Short[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (Short.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof Short;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new Short[size];
-         }
-    });
-    Reflect.register
-      (Long.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof Long;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new Long[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (Integer.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof Integer;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new Integer[size];
          }
     });
   }
@@ -1712,6 +1195,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getAnyType()
   {
     return anyTypeEClass;
@@ -1722,6 +1206,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getAnyType_Mixed()
   {
     return (EAttribute)anyTypeEClass.getEStructuralFeatures().get(0);
@@ -1732,6 +1217,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getAnyType_Any()
   {
     return (EAttribute)anyTypeEClass.getEStructuralFeatures().get(1);
@@ -1742,6 +1228,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getAnyType_AnyAttribute()
   {
     return (EAttribute)anyTypeEClass.getEStructuralFeatures().get(2);
@@ -1752,6 +1239,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getProcessingInstruction()
   {
     return processingInstructionEClass;
@@ -1762,6 +1250,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getProcessingInstruction_Data()
   {
     return (EAttribute)processingInstructionEClass.getEStructuralFeatures().get(0);
@@ -1772,6 +1261,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getProcessingInstruction_Target()
   {
     return (EAttribute)processingInstructionEClass.getEStructuralFeatures().get(1);
@@ -1782,6 +1272,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getSimpleAnyType()
   {
     return simpleAnyTypeEClass;
@@ -1792,6 +1283,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getSimpleAnyType_RawValue()
   {
     return (EAttribute)simpleAnyTypeEClass.getEStructuralFeatures().get(0);
@@ -1802,6 +1294,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getSimpleAnyType_Value()
   {
     return (EAttribute)simpleAnyTypeEClass.getEStructuralFeatures().get(1);
@@ -1812,6 +1305,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getSimpleAnyType_InstanceType()
   {
     return (EReference)simpleAnyTypeEClass.getEStructuralFeatures().get(2);
@@ -1822,6 +1316,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXMLTypeDocumentRoot()
   {
     return xmlTypeDocumentRootEClass;
@@ -1832,6 +1327,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLTypeDocumentRoot_Mixed()
   {
     return (EAttribute)xmlTypeDocumentRootEClass.getEStructuralFeatures().get(0);
@@ -1842,6 +1338,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXMLTypeDocumentRoot_XMLNSPrefixMap()
   {
     return (EReference)xmlTypeDocumentRootEClass.getEStructuralFeatures().get(1);
@@ -1852,6 +1349,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXMLTypeDocumentRoot_XSISchemaLocation()
   {
     return (EReference)xmlTypeDocumentRootEClass.getEStructuralFeatures().get(2);
@@ -1862,6 +1360,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLTypeDocumentRoot_CDATA()
   {
     return (EAttribute)xmlTypeDocumentRootEClass.getEStructuralFeatures().get(3);
@@ -1872,6 +1371,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLTypeDocumentRoot_Comment()
   {
     return (EAttribute)xmlTypeDocumentRootEClass.getEStructuralFeatures().get(4);
@@ -1882,6 +1382,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLTypeDocumentRoot_Text()
   {
     return (EAttribute)xmlTypeDocumentRootEClass.getEStructuralFeatures().get(6);
@@ -1892,6 +1393,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXMLTypeDocumentRoot_ProcessingInstruction()
   {
     return (EReference)xmlTypeDocumentRootEClass.getEStructuralFeatures().get(5);
@@ -1902,6 +1404,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getAnySimpleType()
   {
     return anySimpleTypeEDataType;
@@ -1912,6 +1415,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getAnyURI()
   {
     return anyURIEDataType;
@@ -1922,6 +1426,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getBase64Binary()
   {
     return base64BinaryEDataType;
@@ -1932,6 +1437,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getBoolean()
   {
     return booleanEDataType;
@@ -1942,6 +1448,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getBooleanObject()
   {
     return booleanObjectEDataType;
@@ -1952,6 +1459,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getDecimal()
   {
     return decimalEDataType;
@@ -1962,6 +1470,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getInteger()
   {
     return integerEDataType;
@@ -1972,6 +1481,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getIntObject()
   {
     return intObjectEDataType;
@@ -1982,6 +1492,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getLong()
   {
     return longEDataType;
@@ -1992,6 +1503,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getLongObject()
   {
     return longObjectEDataType;
@@ -2002,6 +1514,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getInt()
   {
     return intEDataType;
@@ -2012,6 +1525,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getShort()
   {
     return shortEDataType;
@@ -2022,6 +1536,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getShortObject()
   {
     return shortObjectEDataType;
@@ -2032,6 +1547,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getByte()
   {
     return byteEDataType;
@@ -2042,6 +1558,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getByteObject()
   {
     return byteObjectEDataType;
@@ -2052,6 +1569,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getDate()
   {
     return dateEDataType;
@@ -2062,6 +1580,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getDateTime()
   {
     return dateTimeEDataType;
@@ -2072,6 +1591,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getString()
   {
     return stringEDataType;
@@ -2082,6 +1602,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getDouble()
   {
     return doubleEDataType;
@@ -2092,6 +1613,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getDoubleObject()
   {
     return doubleObjectEDataType;
@@ -2102,6 +1624,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getDuration()
   {
     return durationEDataType;
@@ -2112,6 +1635,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getENTITIESBase()
   {
     return entitiesBaseEDataType;
@@ -2122,6 +1646,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getNormalizedString()
   {
     return normalizedStringEDataType;
@@ -2132,6 +1657,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getToken()
   {
     return tokenEDataType;
@@ -2142,6 +1668,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getName_()
   {
     return nameEDataType;
@@ -2152,6 +1679,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getNCName()
   {
     return ncNameEDataType;
@@ -2162,6 +1690,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getENTITY()
   {
     return entityEDataType;
@@ -2172,6 +1701,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getENTITIES()
   {
     return entitiesEDataType;
@@ -2182,6 +1712,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getFloat()
   {
     return floatEDataType;
@@ -2192,6 +1723,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getFloatObject()
   {
     return floatObjectEDataType;
@@ -2202,6 +1734,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getGDay()
   {
     return gDayEDataType;
@@ -2212,6 +1745,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getGMonth()
   {
     return gMonthEDataType;
@@ -2222,6 +1756,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getGMonthDay()
   {
     return gMonthDayEDataType;
@@ -2232,6 +1767,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getGYear()
   {
     return gYearEDataType;
@@ -2242,6 +1778,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getGYearMonth()
   {
     return gYearMonthEDataType;
@@ -2252,6 +1789,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getHexBinary()
   {
     return hexBinaryEDataType;
@@ -2262,6 +1800,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getID()
   {
     return idEDataType;
@@ -2272,6 +1811,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getIDREF()
   {
     return idrefEDataType;
@@ -2282,6 +1822,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getIDREFSBase()
   {
     return idrefsBaseEDataType;
@@ -2292,6 +1833,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getIDREFS()
   {
     return idrefsEDataType;
@@ -2302,6 +1844,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getLanguage()
   {
     return languageEDataType;
@@ -2312,6 +1855,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getNonPositiveInteger()
   {
     return nonPositiveIntegerEDataType;
@@ -2322,6 +1866,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getNegativeInteger()
   {
     return negativeIntegerEDataType;
@@ -2332,6 +1877,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getNMTOKEN()
   {
     return nmtokenEDataType;
@@ -2342,6 +1888,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getNMTOKENSBase()
   {
     return nmtokensBaseEDataType;
@@ -2352,6 +1899,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getNMTOKENS()
   {
     return nmtokensEDataType;
@@ -2362,6 +1910,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getNonNegativeInteger()
   {
     return nonNegativeIntegerEDataType;
@@ -2372,6 +1921,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getNOTATION()
   {
     return notationEDataType;
@@ -2382,6 +1932,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getPositiveInteger()
   {
     return positiveIntegerEDataType;
@@ -2392,6 +1943,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getQName()
   {
     return qNameEDataType;
@@ -2402,6 +1954,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getTime()
   {
     return timeEDataType;
@@ -2412,6 +1965,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getUnsignedLong()
   {
     return unsignedLongEDataType;
@@ -2422,6 +1976,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getUnsignedInt()
   {
     return unsignedIntEDataType;
@@ -2432,6 +1987,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getUnsignedIntObject()
   {
     return unsignedIntObjectEDataType;
@@ -2442,6 +1998,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getUnsignedShort()
   {
     return unsignedShortEDataType;
@@ -2452,6 +2009,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getUnsignedShortObject()
   {
     return unsignedShortObjectEDataType;
@@ -2462,6 +2020,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getUnsignedByte()
   {
     return unsignedByteEDataType;
@@ -2472,6 +2031,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getUnsignedByteObject()
   {
     return unsignedByteObjectEDataType;
@@ -2482,6 +2042,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XMLTypeFactory getXMLTypeFactory()
   {
     return (XMLTypeFactory)getEFactoryInstance();
@@ -2725,643 +2286,643 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
-    addAnnotation
-      (anySimpleTypeEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "anySimpleType"
-       });		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
+    addAnnotation
+      (anySimpleTypeEDataType,
+       source,
+       new String[]
+       {
+         "name", "anySimpleType"
+       });
     addAnnotation
-      (anyTypeEClass, 
-       source, 
-       new String[] 
+      (anyTypeEClass,
+       source,
+       new String[]
        {
-       "name", "anyType",
-       "kind", "mixed"
-       });		
+         "name", "anyType",
+         "kind", "mixed"
+       });
     addAnnotation
-      (getAnyType_Mixed(), 
-       source, 
-       new String[] 
+      (getAnyType_Mixed(),
+       source,
+       new String[]
        {
-       "kind", "elementWildcard",
-       "name", ":mixed"
-       });		
+         "kind", "elementWildcard",
+         "name", ":mixed"
+       });
     addAnnotation
-      (getAnyType_Any(), 
-       source, 
-       new String[] 
+      (getAnyType_Any(),
+       source,
+       new String[]
        {
-       "kind", "elementWildcard",
-       "wildcards", "##any",
-       "name", ":1",
-       "processing", "lax"
-       });		
-    addAnnotation
-      (getAnyType_AnyAttribute(), 
-       source, 
-       new String[] 
-       {
-       "kind", "attributeWildcard",
-       "wildcards", "##any",
-       "name", ":2",
-       "processing", "lax"
-       });		
+         "kind", "elementWildcard",
+         "wildcards", "##any",
+         "name", ":1",
+         "processing", "lax"
+       });
+    addAnnotation
+      (getAnyType_AnyAttribute(),
+       source,
+       new String[]
+       {
+         "kind", "attributeWildcard",
+         "wildcards", "##any",
+         "name", ":2",
+         "processing", "lax"
+       });
     addAnnotation
-      (anyURIEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "anyURI",
-       "whiteSpace", "collapse"
-       });		
-    addAnnotation
-      (base64BinaryEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "base64Binary",
-       "whiteSpace", "collapse"
-       });		
-    addAnnotation
-      (booleanEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "boolean",
-       "whiteSpace", "collapse"
-       });		
-    addAnnotation
-      (booleanObjectEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "boolean:Object",
-       "baseType", "boolean"
-       });		
-    addAnnotation
-      (byteEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "byte"
-       });		
-    addAnnotation
-      (byteObjectEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "byte:Object",
-       "baseType", "byte"
-       });		
-    addAnnotation
-      (dateEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "date",
-       "whiteSpace", "collapse"
-       });		
-    addAnnotation
-      (dateTimeEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "dateTime",
-       "whiteSpace", "collapse"
-       });		
-    addAnnotation
-      (decimalEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "decimal",
-       "whiteSpace", "collapse"
-       });		
-    addAnnotation
-      (doubleEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "double",
-       "whiteSpace", "collapse"
-       });		
-    addAnnotation
-      (doubleObjectEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "double:Object",
-       "baseType", "double"
-       });		
-    addAnnotation
-      (durationEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "duration",
-       "whiteSpace", "collapse"
-       });		
-    addAnnotation
-      (entitiesEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "ENTITIES",
-       "baseType", "ENTITIES_._base",
-       "minLength", "1"
-       });		
-    addAnnotation
-      (entitiesBaseEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "ENTITIES_._base",
-       "itemType", "ENTITY"
-       });		
-    addAnnotation
-      (entityEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "ENTITY",
-       "baseType", "NCName"
-       });		
-    addAnnotation
-      (floatEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "float",
-       "whiteSpace", "collapse"
-       });		
-    addAnnotation
-      (floatObjectEDataType, 
-       source, 
-       new String[] 
+      (anyURIEDataType,
+       source,
+       new String[]
+       {
+         "name", "anyURI",
+         "whiteSpace", "collapse"
+       });
+    addAnnotation
+      (base64BinaryEDataType,
+       source,
+       new String[]
+       {
+         "name", "base64Binary",
+         "whiteSpace", "collapse"
+       });
+    addAnnotation
+      (booleanEDataType,
+       source,
+       new String[]
+       {
+         "name", "boolean",
+         "whiteSpace", "collapse"
+       });
+    addAnnotation
+      (booleanObjectEDataType,
+       source,
+       new String[]
+       {
+         "name", "boolean:Object",
+         "baseType", "boolean"
+       });
+    addAnnotation
+      (byteEDataType,
+       source,
+       new String[]
+       {
+         "name", "byte"
+       });
+    addAnnotation
+      (byteObjectEDataType,
+       source,
+       new String[]
+       {
+         "name", "byte:Object",
+         "baseType", "byte"
+       });
+    addAnnotation
+      (dateEDataType,
+       source,
+       new String[]
+       {
+         "name", "date",
+         "whiteSpace", "collapse"
+       });
+    addAnnotation
+      (dateTimeEDataType,
+       source,
+       new String[]
+       {
+         "name", "dateTime",
+         "whiteSpace", "collapse"
+       });
+    addAnnotation
+      (decimalEDataType,
+       source,
+       new String[]
+       {
+         "name", "decimal",
+         "whiteSpace", "collapse"
+       });
+    addAnnotation
+      (doubleEDataType,
+       source,
+       new String[]
+       {
+         "name", "double",
+         "whiteSpace", "collapse"
+       });
+    addAnnotation
+      (doubleObjectEDataType,
+       source,
+       new String[]
+       {
+         "name", "double:Object",
+         "baseType", "double"
+       });
+    addAnnotation
+      (durationEDataType,
+       source,
+       new String[]
+       {
+         "name", "duration",
+         "whiteSpace", "collapse"
+       });
+    addAnnotation
+      (entitiesEDataType,
+       source,
+       new String[]
+       {
+         "name", "ENTITIES",
+         "baseType", "ENTITIES_._base",
+         "minLength", "1"
+       });
+    addAnnotation
+      (entitiesBaseEDataType,
+       source,
+       new String[]
+       {
+         "name", "ENTITIES_._base",
+         "itemType", "ENTITY"
+       });
+    addAnnotation
+      (entityEDataType,
+       source,
+       new String[]
+       {
+         "name", "ENTITY",
+         "baseType", "NCName"
+       });
+    addAnnotation
+      (floatEDataType,
+       source,
+       new String[]
+       {
+         "name", "float",
+         "whiteSpace", "collapse"
+       });
+    addAnnotation
+      (floatObjectEDataType,
+       source,
+       new String[]
        {
-       "name", "float:Object",
-       "baseType", "float"
-       });		
+         "name", "float:Object",
+         "baseType", "float"
+       });
     addAnnotation
-      (gDayEDataType, 
-       source, 
-       new String[] 
+      (gDayEDataType,
+       source,
+       new String[]
        {
-       "name", "gDay",
-       "whiteSpace", "collapse"
-       });		
+         "name", "gDay",
+         "whiteSpace", "collapse"
+       });
     addAnnotation
-      (gMonthEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "gMonth",
-       "whiteSpace", "collapse"
-       });		
-    addAnnotation
-      (gMonthDayEDataType, 
-       source, 
-       new String[] 
+      (gMonthEDataType,
+       source,
+       new String[]
+       {
+         "name", "gMonth",
+         "whiteSpace", "collapse"
+       });
+    addAnnotation
+      (gMonthDayEDataType,
+       source,
+       new String[]
        {
-       "name", "gMonthDay",
-       "whiteSpace", "collapse"
-       });		
+         "name", "gMonthDay",
+         "whiteSpace", "collapse"
+       });
     addAnnotation
-      (gYearEDataType, 
-       source, 
-       new String[] 
+      (gYearEDataType,
+       source,
+       new String[]
        {
-       "name", "gYear",
-       "whiteSpace", "collapse"
-       });		
+         "name", "gYear",
+         "whiteSpace", "collapse"
+       });
     addAnnotation
-      (gYearMonthEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "gYearMonth",
-       "whiteSpace", "collapse"
-       });		
-    addAnnotation
-      (hexBinaryEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "hexBinary",
-       "whiteSpace", "collapse"
-       });		
-    addAnnotation
-      (idEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "ID",
-       "baseType", "NCName"
-       });		
-    addAnnotation
-      (idrefEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "IDREF",
-       "baseType", "NCName"
-       });		
-    addAnnotation
-      (idrefsEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "IDREFS",
-       "baseType", "IDREFS_._base",
-       "minLength", "1"
-       });		
-    addAnnotation
-      (idrefsBaseEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "IDREFS_._base",
-       "itemType", "IDREF"
-       });		
-    addAnnotation
-      (intEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "int"
-       });		
-    addAnnotation
-      (integerEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "integer"
-       });		
-    addAnnotation
-      (intObjectEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "int:Object",
-       "baseType", "int"
-       });		
-    addAnnotation
-      (languageEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "language",
-       "baseType", "token",
-       "pattern", "[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*"
-       });		
-    addAnnotation
-      (longEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "long"
-       });		
-    addAnnotation
-      (longObjectEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "long:Object",
-       "baseType", "long"
-       });		
-    addAnnotation
-      (nameEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "Name",
-       "baseType", "token",
-       "pattern", "\\i\\c*"
-       });		
-    addAnnotation
-      (ncNameEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "NCName",
-       "baseType", "Name",
-       "pattern", "[\\i-[:]][\\c-[:]]*"
-       });		
-    addAnnotation
-      (negativeIntegerEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "negativeInteger",
-       "baseType", "nonPositiveInteger",
-       "maxInclusive", "-1"
-       });		
-    addAnnotation
-      (nmtokenEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "NMTOKEN",
-       "baseType", "token",
-       "pattern", "\\c+"
-       });		
-    addAnnotation
-      (nmtokensEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "NMTOKENS",
-       "baseType", "NMTOKENS_._base",
-       "minLength", "1"
-       });		
-    addAnnotation
-      (nmtokensBaseEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "NMTOKENS_._base",
-       "itemType", "NMTOKEN"
-       });		
-    addAnnotation
-      (nonNegativeIntegerEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "nonNegativeInteger",
-       "baseType", "integer",
-       "minInclusive", "0"
-       });		
-    addAnnotation
-      (nonPositiveIntegerEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "nonPositiveInteger",
-       "baseType", "integer",
-       "maxInclusive", "0"
-       });		
-    addAnnotation
-      (normalizedStringEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "normalizedString",
-       "baseType", "string",
-       "whiteSpace", "replace"
-       });		
-    addAnnotation
-      (notationEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "NOTATION",
-       "whiteSpace", "collapse"
-       });		
-    addAnnotation
-      (positiveIntegerEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "positiveInteger",
-       "baseType", "nonNegativeInteger",
-       "minInclusive", "1"
-       });		
-    addAnnotation
-      (processingInstructionEClass, 
-       source, 
-       new String[] 
-       {
-       "name", "processingInstruction_._type",
-       "kind", "empty"
-       });		
-    addAnnotation
-      (getProcessingInstruction_Data(), 
-       source, 
-       new String[] 
-       {
-       "kind", "attribute",
-       "name", "data"
-       });		
-    addAnnotation
-      (getProcessingInstruction_Target(), 
-       source, 
-       new String[] 
-       {
-       "kind", "attribute",
-       "name", "target"
-       });		
-    addAnnotation
-      (qNameEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "QName",
-       "whiteSpace", "collapse"
-       });		
-    addAnnotation
-      (shortEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "short"
-       });		
-    addAnnotation
-      (shortObjectEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "short:Object",
-       "baseType", "short"
-       });		
-    addAnnotation
-      (simpleAnyTypeEClass, 
-       source, 
-       new String[] 
-       {
-       "name", "simpleAnyType",
-       "kind", "simple"
-       });		
-    addAnnotation
-      (getSimpleAnyType_RawValue(), 
-       source, 
-       new String[] 
-       {
-       "name", ":3",
-       "kind", "simple"
-       });		
-    addAnnotation
-      (getSimpleAnyType_Value(), 
-       source, 
-       new String[] 
-       {
-       "name", ":4",
-       "kind", "simple"
-       });		
-    addAnnotation
-      (getSimpleAnyType_InstanceType(), 
-       source, 
-       new String[] 
-       {
-       "name", ":5",
-       "kind", "simple"
-       });		
-    addAnnotation
-      (stringEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "string",
-       "whiteSpace", "preserve"
-       });		
-    addAnnotation
-      (timeEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "time",
-       "whiteSpace", "collapse"
-       });		
-    addAnnotation
-      (tokenEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "token",
-       "baseType", "normalizedString",
-       "whiteSpace", "collapse"
-       });		
-    addAnnotation
-      (unsignedByteEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "unsignedByte",
-       "maxInclusive", "255",
-       "minInclusive", "0"
-       });		
-    addAnnotation
-      (unsignedByteObjectEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "unsignedByte:Object",
-       "baseType", "unsignedByte"
-       });		
-    addAnnotation
-      (unsignedIntEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "unsignedInt",
-       "maxInclusive", "4294967295",
-       "minInclusive", "0"
-       });		
-    addAnnotation
-      (unsignedIntObjectEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "unsignedInt:Object",
-       "baseType", "unsignedInt"
-       });		
-    addAnnotation
-      (unsignedLongEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "unsignedLong",
-       "baseType", "nonNegativeInteger",
-       "maxInclusive", "18446744073709551615",
-       "minInclusive", "0"
-       });		
-    addAnnotation
-      (unsignedShortEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "unsignedShort",
-       "maxInclusive", "65535",
-       "minInclusive", "0"
-       });		
-    addAnnotation
-      (unsignedShortObjectEDataType, 
-       source, 
-       new String[] 
-       {
-       "name", "unsignedShort:Object",
-       "baseType", "unsignedShort"
-       });		
-    addAnnotation
-      (xmlTypeDocumentRootEClass, 
-       source, 
-       new String[] 
-       {
-       "name", "",
-       "kind", "mixed"
-       });		
-    addAnnotation
-      (getXMLTypeDocumentRoot_Mixed(), 
-       source, 
-       new String[] 
-       {
-       "kind", "elementWildcard",
-       "name", ":mixed"
-       });		
-    addAnnotation
-      (getXMLTypeDocumentRoot_XMLNSPrefixMap(), 
-       source, 
-       new String[] 
-       {
-       "kind", "attribute",
-       "name", "xmlns:prefix"
-       });		
-    addAnnotation
-      (getXMLTypeDocumentRoot_XSISchemaLocation(), 
-       source, 
-       new String[] 
-       {
-       "kind", "attribute",
-       "name", "xsi:schemaLocation"
-       });		
-    addAnnotation
-      (getXMLTypeDocumentRoot_CDATA(), 
-       source, 
-       new String[] 
-       {
-       "kind", "element",
-       "name", "cDATA",
-       "namespace", "##targetNamespace"
-       });			
-    addAnnotation
-      (getXMLTypeDocumentRoot_Comment(), 
-       source, 
-       new String[] 
-       {
-       "kind", "element",
-       "name", "comment",
-       "namespace", "##targetNamespace"
-       });			
-    addAnnotation
-      (getXMLTypeDocumentRoot_ProcessingInstruction(), 
-       source, 
-       new String[] 
-       {
-       "kind", "element",
-       "name", "processingInstruction",
-       "namespace", "##targetNamespace"
-       });			
-    addAnnotation
-      (getXMLTypeDocumentRoot_Text(), 
-       source, 
-       new String[] 
-       {
-       "kind", "element",
-       "name", "text",
-       "namespace", "##targetNamespace"
-       });	
+      (gYearMonthEDataType,
+       source,
+       new String[]
+       {
+         "name", "gYearMonth",
+         "whiteSpace", "collapse"
+       });
+    addAnnotation
+      (hexBinaryEDataType,
+       source,
+       new String[]
+       {
+         "name", "hexBinary",
+         "whiteSpace", "collapse"
+       });
+    addAnnotation
+      (idEDataType,
+       source,
+       new String[]
+       {
+         "name", "ID",
+         "baseType", "NCName"
+       });
+    addAnnotation
+      (idrefEDataType,
+       source,
+       new String[]
+       {
+         "name", "IDREF",
+         "baseType", "NCName"
+       });
+    addAnnotation
+      (idrefsEDataType,
+       source,
+       new String[]
+       {
+         "name", "IDREFS",
+         "baseType", "IDREFS_._base",
+         "minLength", "1"
+       });
+    addAnnotation
+      (idrefsBaseEDataType,
+       source,
+       new String[]
+       {
+         "name", "IDREFS_._base",
+         "itemType", "IDREF"
+       });
+    addAnnotation
+      (intEDataType,
+       source,
+       new String[]
+       {
+         "name", "int"
+       });
+    addAnnotation
+      (integerEDataType,
+       source,
+       new String[]
+       {
+         "name", "integer"
+       });
+    addAnnotation
+      (intObjectEDataType,
+       source,
+       new String[]
+       {
+         "name", "int:Object",
+         "baseType", "int"
+       });
+    addAnnotation
+      (languageEDataType,
+       source,
+       new String[]
+       {
+         "name", "language",
+         "baseType", "token",
+         "pattern", "[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*"
+       });
+    addAnnotation
+      (longEDataType,
+       source,
+       new String[]
+       {
+         "name", "long"
+       });
+    addAnnotation
+      (longObjectEDataType,
+       source,
+       new String[]
+       {
+         "name", "long:Object",
+         "baseType", "long"
+       });
+    addAnnotation
+      (nameEDataType,
+       source,
+       new String[]
+       {
+         "name", "Name",
+         "baseType", "token",
+         "pattern", "\\i\\c*"
+       });
+    addAnnotation
+      (ncNameEDataType,
+       source,
+       new String[]
+       {
+         "name", "NCName",
+         "baseType", "Name",
+         "pattern", "[\\i-[:]][\\c-[:]]*"
+       });
+    addAnnotation
+      (negativeIntegerEDataType,
+       source,
+       new String[]
+       {
+         "name", "negativeInteger",
+         "baseType", "nonPositiveInteger",
+         "maxInclusive", "-1"
+       });
+    addAnnotation
+      (nmtokenEDataType,
+       source,
+       new String[]
+       {
+         "name", "NMTOKEN",
+         "baseType", "token",
+         "pattern", "\\c+"
+       });
+    addAnnotation
+      (nmtokensEDataType,
+       source,
+       new String[]
+       {
+         "name", "NMTOKENS",
+         "baseType", "NMTOKENS_._base",
+         "minLength", "1"
+       });
+    addAnnotation
+      (nmtokensBaseEDataType,
+       source,
+       new String[]
+       {
+         "name", "NMTOKENS_._base",
+         "itemType", "NMTOKEN"
+       });
+    addAnnotation
+      (nonNegativeIntegerEDataType,
+       source,
+       new String[]
+       {
+         "name", "nonNegativeInteger",
+         "baseType", "integer",
+         "minInclusive", "0"
+       });
+    addAnnotation
+      (nonPositiveIntegerEDataType,
+       source,
+       new String[]
+       {
+         "name", "nonPositiveInteger",
+         "baseType", "integer",
+         "maxInclusive", "0"
+       });
+    addAnnotation
+      (normalizedStringEDataType,
+       source,
+       new String[]
+       {
+         "name", "normalizedString",
+         "baseType", "string",
+         "whiteSpace", "replace"
+       });
+    addAnnotation
+      (notationEDataType,
+       source,
+       new String[]
+       {
+         "name", "NOTATION",
+         "whiteSpace", "collapse"
+       });
+    addAnnotation
+      (positiveIntegerEDataType,
+       source,
+       new String[]
+       {
+         "name", "positiveInteger",
+         "baseType", "nonNegativeInteger",
+         "minInclusive", "1"
+       });
+    addAnnotation
+      (processingInstructionEClass,
+       source,
+       new String[]
+       {
+         "name", "processingInstruction_._type",
+         "kind", "empty"
+       });
+    addAnnotation
+      (getProcessingInstruction_Data(),
+       source,
+       new String[]
+       {
+         "kind", "attribute",
+         "name", "data"
+       });
+    addAnnotation
+      (getProcessingInstruction_Target(),
+       source,
+       new String[]
+       {
+         "kind", "attribute",
+         "name", "target"
+       });
+    addAnnotation
+      (qNameEDataType,
+       source,
+       new String[]
+       {
+         "name", "QName",
+         "whiteSpace", "collapse"
+       });
+    addAnnotation
+      (shortEDataType,
+       source,
+       new String[]
+       {
+         "name", "short"
+       });
+    addAnnotation
+      (shortObjectEDataType,
+       source,
+       new String[]
+       {
+         "name", "short:Object",
+         "baseType", "short"
+       });
+    addAnnotation
+      (simpleAnyTypeEClass,
+       source,
+       new String[]
+       {
+         "name", "simpleAnyType",
+         "kind", "simple"
+       });
+    addAnnotation
+      (getSimpleAnyType_RawValue(),
+       source,
+       new String[]
+       {
+         "name", ":3",
+         "kind", "simple"
+       });
+    addAnnotation
+      (getSimpleAnyType_Value(),
+       source,
+       new String[]
+       {
+         "name", ":4",
+         "kind", "simple"
+       });
+    addAnnotation
+      (getSimpleAnyType_InstanceType(),
+       source,
+       new String[]
+       {
+         "name", ":5",
+         "kind", "simple"
+       });
+    addAnnotation
+      (stringEDataType,
+       source,
+       new String[]
+       {
+         "name", "string",
+         "whiteSpace", "preserve"
+       });
+    addAnnotation
+      (timeEDataType,
+       source,
+       new String[]
+       {
+         "name", "time",
+         "whiteSpace", "collapse"
+       });
+    addAnnotation
+      (tokenEDataType,
+       source,
+       new String[]
+       {
+         "name", "token",
+         "baseType", "normalizedString",
+         "whiteSpace", "collapse"
+       });
+    addAnnotation
+      (unsignedByteEDataType,
+       source,
+       new String[]
+       {
+         "name", "unsignedByte",
+         "maxInclusive", "255",
+         "minInclusive", "0"
+       });
+    addAnnotation
+      (unsignedByteObjectEDataType,
+       source,
+       new String[]
+       {
+         "name", "unsignedByte:Object",
+         "baseType", "unsignedByte"
+       });
+    addAnnotation
+      (unsignedIntEDataType,
+       source,
+       new String[]
+       {
+         "name", "unsignedInt",
+         "maxInclusive", "4294967295",
+         "minInclusive", "0"
+       });
+    addAnnotation
+      (unsignedIntObjectEDataType,
+       source,
+       new String[]
+       {
+         "name", "unsignedInt:Object",
+         "baseType", "unsignedInt"
+       });
+    addAnnotation
+      (unsignedLongEDataType,
+       source,
+       new String[]
+       {
+         "name", "unsignedLong",
+         "baseType", "nonNegativeInteger",
+         "maxInclusive", "18446744073709551615",
+         "minInclusive", "0"
+       });
+    addAnnotation
+      (unsignedShortEDataType,
+       source,
+       new String[]
+       {
+         "name", "unsignedShort",
+         "maxInclusive", "65535",
+         "minInclusive", "0"
+       });
+    addAnnotation
+      (unsignedShortObjectEDataType,
+       source,
+       new String[]
+       {
+         "name", "unsignedShort:Object",
+         "baseType", "unsignedShort"
+       });
+    addAnnotation
+      (xmlTypeDocumentRootEClass,
+       source,
+       new String[]
+       {
+         "name", "",
+         "kind", "mixed"
+       });
+    addAnnotation
+      (getXMLTypeDocumentRoot_Mixed(),
+       source,
+       new String[]
+       {
+         "kind", "elementWildcard",
+         "name", ":mixed"
+       });
+    addAnnotation
+      (getXMLTypeDocumentRoot_XMLNSPrefixMap(),
+       source,
+       new String[]
+       {
+         "kind", "attribute",
+         "name", "xmlns:prefix"
+       });
+    addAnnotation
+      (getXMLTypeDocumentRoot_XSISchemaLocation(),
+       source,
+       new String[]
+       {
+         "kind", "attribute",
+         "name", "xsi:schemaLocation"
+       });
+    addAnnotation
+      (getXMLTypeDocumentRoot_CDATA(),
+       source,
+       new String[]
+       {
+         "kind", "element",
+         "name", "cDATA",
+         "namespace", "##targetNamespace"
+       });
+    addAnnotation
+      (getXMLTypeDocumentRoot_Comment(),
+       source,
+       new String[]
+       {
+         "kind", "element",
+         "name", "comment",
+         "namespace", "##targetNamespace"
+       });
+    addAnnotation
+      (getXMLTypeDocumentRoot_ProcessingInstruction(),
+       source,
+       new String[]
+       {
+         "kind", "element",
+         "name", "processingInstruction",
+         "namespace", "##targetNamespace"
+       });
+    addAnnotation
+      (getXMLTypeDocumentRoot_Text(),
+       source,
+       new String[]
+       {
+         "kind", "element",
+         "name", "text",
+         "namespace", "##targetNamespace"
+       });
   }
 
   /**

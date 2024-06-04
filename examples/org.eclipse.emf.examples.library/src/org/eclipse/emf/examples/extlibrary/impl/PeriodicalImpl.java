@@ -102,6 +102,7 @@ public abstract class PeriodicalImpl extends ItemImpl implements Periodical
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getTitle()
   {
     return title;
@@ -112,6 +113,7 @@ public abstract class PeriodicalImpl extends ItemImpl implements Periodical
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTitle(String newTitle)
   {
     String oldTitle = title;
@@ -125,6 +127,7 @@ public abstract class PeriodicalImpl extends ItemImpl implements Periodical
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getIssuesPerYear()
   {
     return issuesPerYear;
@@ -135,6 +138,7 @@ public abstract class PeriodicalImpl extends ItemImpl implements Periodical
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setIssuesPerYear(int newIssuesPerYear)
   {
     int oldIssuesPerYear = issuesPerYear;

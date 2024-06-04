@@ -157,6 +157,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -167,6 +168,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -180,6 +182,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public AddressType getAddress()
   {
     return address;
@@ -207,6 +210,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAddress(AddressType newAddress)
   {
     if (newAddress != address)
@@ -228,6 +232,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CreditInfo getCreditCard()
   {
     return creditCard;
@@ -255,6 +260,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCreditCard(CreditInfo newCreditCard)
   {
     if (newCreditCard != creditCard)
@@ -276,6 +282,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XMLGregorianCalendar getPaymentDay()
   {
     return paymentDay;
@@ -286,6 +293,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPaymentDay(XMLGregorianCalendar newPaymentDay)
   {
     XMLGregorianCalendar oldPaymentDay = paymentDay;
@@ -301,6 +309,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetPaymentDay()
   {
     XMLGregorianCalendar oldPaymentDay = paymentDay;
@@ -316,6 +325,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetPaymentDay()
   {
     return paymentDayESet;
@@ -326,6 +336,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getID()
   {
     return iD;
@@ -336,6 +347,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setID(String newID)
   {
     String oldID = iD;
@@ -478,7 +490,7 @@ public class CustomerTypeImpl extends EObjectImpl implements CustomerType
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (name: ");
     result.append(name);
     result.append(", paymentDay: ");

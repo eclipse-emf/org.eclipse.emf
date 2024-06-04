@@ -70,6 +70,7 @@ public class ClassImpl extends NamedElementImpl implements org.eclipse.emf.test.
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Attribute> getAttribute() {
     if (attribute == null)
     {

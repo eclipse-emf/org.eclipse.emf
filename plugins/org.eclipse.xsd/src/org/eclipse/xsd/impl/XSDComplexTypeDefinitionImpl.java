@@ -445,6 +445,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDDerivationMethod getDerivationMethod()
   {
     return DERIVATION_METHOD_EFLAG_VALUES[(eFlags & DERIVATION_METHOD_EFLAG) >>> DERIVATION_METHOD_EFLAG_OFFSET];
@@ -455,6 +456,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setDerivationMethod(XSDDerivationMethod newDerivationMethod)
   {
     XSDDerivationMethod oldDerivationMethod = DERIVATION_METHOD_EFLAG_VALUES[(eFlags & DERIVATION_METHOD_EFLAG) >>> DERIVATION_METHOD_EFLAG_OFFSET];
@@ -471,6 +473,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetDerivationMethod()
   {
     XSDDerivationMethod oldDerivationMethod = DERIVATION_METHOD_EFLAG_VALUES[(eFlags & DERIVATION_METHOD_EFLAG) >>> DERIVATION_METHOD_EFLAG_OFFSET];
@@ -486,6 +489,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetDerivationMethod()
   {
     return (eFlags & DERIVATION_METHOD_ESETFLAG) != 0;
@@ -496,6 +500,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDComplexFinal> getFinal()
   {
     if (final_ == null)
@@ -510,6 +515,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isAbstract()
   {
     return (eFlags & ABSTRACT_EFLAG) != 0;
@@ -520,6 +526,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAbstract(boolean newAbstract)
   {
     boolean oldAbstract = (eFlags & ABSTRACT_EFLAG) != 0;
@@ -535,6 +542,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetAbstract()
   {
     boolean oldAbstract = (eFlags & ABSTRACT_EFLAG) != 0;
@@ -550,6 +558,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetAbstract()
   {
     return (eFlags & ABSTRACT_ESETFLAG) != 0;
@@ -560,6 +569,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDContentTypeCategory getContentTypeCategory()
   {
     return CONTENT_TYPE_CATEGORY_EFLAG_VALUES[(eFlags & CONTENT_TYPE_CATEGORY_EFLAG) >>> CONTENT_TYPE_CATEGORY_EFLAG_OFFSET];
@@ -570,6 +580,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setContentTypeCategory(XSDContentTypeCategory newContentTypeCategory)
   {
     XSDContentTypeCategory oldContentTypeCategory = CONTENT_TYPE_CATEGORY_EFLAG_VALUES[(eFlags & CONTENT_TYPE_CATEGORY_EFLAG) >>> CONTENT_TYPE_CATEGORY_EFLAG_OFFSET];
@@ -584,6 +595,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDProhibitedSubstitutions> getProhibitedSubstitutions()
   {
     if (prohibitedSubstitutions == null)
@@ -598,6 +610,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDComplexFinal> getLexicalFinal()
   {
     if (lexicalFinal == null)
@@ -612,6 +625,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetLexicalFinal()
   {
     if (lexicalFinal != null) ((InternalEList.Unsettable<?>)lexicalFinal).unset();
@@ -622,6 +636,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetLexicalFinal()
   {
     return lexicalFinal != null && ((InternalEList.Unsettable<?>)lexicalFinal).isSet();
@@ -632,6 +647,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDProhibitedSubstitutions> getBlock()
   {
     if (block == null)
@@ -646,6 +662,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetBlock()
   {
     if (block != null) ((InternalEList.Unsettable<?>)block).unset();
@@ -656,6 +673,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetBlock()
   {
     return block != null && ((InternalEList.Unsettable<?>)block).isSet();
@@ -666,6 +684,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isMixed()
   {
     return (eFlags & MIXED_EFLAG) != 0;
@@ -676,6 +695,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMixed(boolean newMixed)
   {
     boolean oldMixed = (eFlags & MIXED_EFLAG) != 0;
@@ -691,6 +711,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetMixed()
   {
     boolean oldMixed = (eFlags & MIXED_EFLAG) != 0;
@@ -706,6 +727,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetMixed()
   {
     return (eFlags & MIXED_ESETFLAG) != 0;
@@ -716,6 +738,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAnnotation getContentAnnotation()
   {
     return contentAnnotation;
@@ -726,6 +749,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setContentAnnotation(XSDAnnotation newContentAnnotation)
   {
     if (newContentAnnotation != contentAnnotation)
@@ -764,6 +788,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDTypeDefinition getBaseTypeDefinition()
   {
     return baseTypeDefinition;
@@ -774,6 +799,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setBaseTypeDefinition(XSDTypeDefinition newBaseTypeDefinition)
   {
     XSDTypeDefinition oldBaseTypeDefinition = baseTypeDefinition;
@@ -787,6 +813,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDComplexTypeContent getContent()
   {
     return content;
@@ -797,6 +824,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setContent(XSDComplexTypeContent newContent)
   {
     if (newContent != content)
@@ -835,6 +863,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDComplexTypeContent getContentType()
   {
     return contentType;
@@ -851,6 +880,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setContentType(XSDComplexTypeContent newContentType)
   {
     XSDComplexTypeContent oldContentType = contentType;
@@ -864,6 +894,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDAttributeUse> getAttributeUses()
   {
     if (attributeUses == null)
@@ -878,6 +909,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDAttributeGroupContent> getAttributeContents()
   {
     if (attributeContents == null)
@@ -892,6 +924,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDWildcard getAttributeWildcard()
   {
     return attributeWildcard;
@@ -902,6 +935,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAttributeWildcard(XSDWildcard newAttributeWildcard)
   {
     XSDWildcard oldAttributeWildcard = attributeWildcard;
@@ -915,6 +949,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDWildcard getAttributeWildcardContent()
   {
     return attributeWildcardContent;
@@ -925,6 +960,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAttributeWildcardContent(XSDWildcard newAttributeWildcardContent)
   {
     if (newAttributeWildcardContent != attributeWildcardContent)
@@ -2852,6 +2888,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDParticle getSyntheticParticle()
   {
     return syntheticParticle;
@@ -2879,6 +2916,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSyntheticParticle(XSDParticle newSyntheticParticle)
   {
     if (newSyntheticParticle != syntheticParticle)
@@ -2900,6 +2938,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDWildcard getSyntheticWildcard()
   {
     return syntheticWildcard;
@@ -2927,6 +2966,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSyntheticWildcard(XSDWildcard newSyntheticWildcard)
   {
     if (newSyntheticWildcard != syntheticWildcard)

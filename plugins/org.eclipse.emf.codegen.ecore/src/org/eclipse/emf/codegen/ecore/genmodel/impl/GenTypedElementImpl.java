@@ -128,6 +128,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
    * @since 2.14
    * @generated
    */
+  @Override
   public void setDocumentation(String newDocumentation)
   {
     String oldDocumentation = documentation;

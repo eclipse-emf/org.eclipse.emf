@@ -86,6 +86,7 @@ public class Ecore2EcoreFactoryImpl extends EFactoryImpl implements Ecore2EcoreF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Ecore2EcoreMappingRoot createEcore2EcoreMappingRoot()
   {
     Ecore2EcoreMappingRootImpl ecore2EcoreMappingRoot = new Ecore2EcoreMappingRootImpl();
@@ -97,6 +98,7 @@ public class Ecore2EcoreFactoryImpl extends EFactoryImpl implements Ecore2EcoreF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Ecore2EcorePackage getEcore2EcorePackage()
   {
     return (Ecore2EcorePackage)getEPackage();

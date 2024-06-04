@@ -122,6 +122,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -132,6 +133,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -145,6 +147,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Node getParent()
   {
     if (eContainerFeatureID() != TreePackage.NODE__PARENT) return null;
@@ -167,6 +170,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setParent(Node newParent)
   {
     if (newParent != eInternalContainer() || (eContainerFeatureID() != TreePackage.NODE__PARENT && newParent != null))
@@ -190,6 +194,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Node> getChildren()
   {
     if (children == null)
@@ -204,6 +209,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Data getData()
   {
     if (data != null && data.eIsProxy())
@@ -251,6 +257,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setData(Data newData)
   {
     if (newData != data)
@@ -272,6 +279,7 @@ public class NodeImpl extends EObjectImpl implements Node
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Node> getRelatedNodes()
   {
     if (relatedNodes == null)
@@ -462,7 +470,7 @@ public class NodeImpl extends EObjectImpl implements Node
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (name: ");
     result.append(name);
     result.append(')');

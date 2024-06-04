@@ -100,7 +100,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link PPOPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -115,7 +115,8 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
     if (isInited) return (PPOPackage)EPackage.Registry.INSTANCE.getEPackage(PPOPackage.eNS_URI);
 
     // Obtain or create and register package
-    PPOPackageImpl thePPOPackage = (PPOPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof PPOPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new PPOPackageImpl());
+    Object registeredPPOPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    PPOPackageImpl thePPOPackage = registeredPPOPackage instanceof PPOPackageImpl ? (PPOPackageImpl)registeredPPOPackage : new PPOPackageImpl();
 
     isInited = true;
 
@@ -127,9 +128,10 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
 
     // Register package validator
     EValidator.Registry.INSTANCE.put
-      (thePPOPackage, 
+      (thePPOPackage,
        new EValidator.Descriptor()
        {
+         @Override
          public EValidator getEValidator()
          {
            return PPOValidator.INSTANCE;
@@ -139,7 +141,6 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
     // Mark meta-data to indicate it can't be changed
     thePPOPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(PPOPackage.eNS_URI, thePPOPackage);
     return thePPOPackage;
@@ -150,6 +151,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getItem()
   {
     return itemEClass;
@@ -160,6 +162,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getItem_ProductName()
   {
     return (EAttribute)itemEClass.getEStructuralFeatures().get(0);
@@ -170,6 +173,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getItem_Quantity()
   {
     return (EAttribute)itemEClass.getEStructuralFeatures().get(1);
@@ -180,6 +184,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getItem_USPrice()
   {
     return (EAttribute)itemEClass.getEStructuralFeatures().get(2);
@@ -190,6 +195,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getItem_Comment()
   {
     return (EAttribute)itemEClass.getEStructuralFeatures().get(3);
@@ -200,6 +206,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getItem_ShipDate()
   {
     return (EAttribute)itemEClass.getEStructuralFeatures().get(4);
@@ -210,6 +217,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getItem_PartNum()
   {
     return (EAttribute)itemEClass.getEStructuralFeatures().get(5);
@@ -220,6 +228,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getUSAddress()
   {
     return usAddressEClass;
@@ -230,6 +239,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getUSAddress_Name()
   {
     return (EAttribute)usAddressEClass.getEStructuralFeatures().get(0);
@@ -240,6 +250,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getUSAddress_Street()
   {
     return (EAttribute)usAddressEClass.getEStructuralFeatures().get(1);
@@ -250,6 +261,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getUSAddress_City()
   {
     return (EAttribute)usAddressEClass.getEStructuralFeatures().get(2);
@@ -260,6 +272,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getUSAddress_State()
   {
     return (EAttribute)usAddressEClass.getEStructuralFeatures().get(3);
@@ -270,6 +283,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getUSAddress_Zip()
   {
     return (EAttribute)usAddressEClass.getEStructuralFeatures().get(4);
@@ -280,6 +294,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getUSAddress_Country()
   {
     return (EAttribute)usAddressEClass.getEStructuralFeatures().get(5);
@@ -290,6 +305,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getPurchaseOrder()
   {
     return purchaseOrderEClass;
@@ -300,6 +316,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getPurchaseOrder_Items()
   {
     return (EReference)purchaseOrderEClass.getEStructuralFeatures().get(0);
@@ -310,6 +327,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getPurchaseOrder_Comment()
   {
     return (EAttribute)purchaseOrderEClass.getEStructuralFeatures().get(1);
@@ -320,6 +338,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getPurchaseOrder_OrderDate()
   {
     return (EAttribute)purchaseOrderEClass.getEStructuralFeatures().get(2);
@@ -330,6 +349,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getPurchaseOrder_BillTo()
   {
     return (EReference)purchaseOrderEClass.getEStructuralFeatures().get(3);
@@ -340,6 +360,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getPurchaseOrder_ShipTo()
   {
     return (EReference)purchaseOrderEClass.getEStructuralFeatures().get(4);
@@ -350,6 +371,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getSKU()
   {
     return skuEDataType;
@@ -360,6 +382,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getDate()
   {
     return dateEDataType;
@@ -370,6 +393,7 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public PPOFactory getPPOFactory()
   {
     return (PPOFactory)getEFactoryInstance();
@@ -506,13 +530,13 @@ public class PPOPackageImpl extends EPackageImpl implements PPOPackage
    */
   protected void createEcoreAnnotations()
   {
-    String source = "http://www.eclipse.org/emf/2002/Ecore";	
+    String source = "http://www.eclipse.org/emf/2002/Ecore";
     addAnnotation
-      (itemEClass, 
-       source, 
-       new String[] 
+      (itemEClass,
+       source,
+       new String[]
        {
-       "constraints", "NonNegativeQuantity ValidShipDate"
+         "constraints", "NonNegativeQuantity ValidShipDate"
        });
   }
 

@@ -5,7 +5,7 @@
     creationCommands="false" editorDirectory="" modelPluginID="org.eclipse.emf.gwt.ecore.change"
     runtimeJar="true" modelName="Change" modelPluginClass="org.eclipse.emf.ecore.change.ChangePlugin"
     updateClasspath="false" testsDirectory="" importerID="org.eclipse.emf.importer.rose"
-    complianceLevel="5.0" language="en" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore"
+    complianceLevel="8.0" language="en" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore"
     runtimePlatform="GWT">
   <foreignModel>Change.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>

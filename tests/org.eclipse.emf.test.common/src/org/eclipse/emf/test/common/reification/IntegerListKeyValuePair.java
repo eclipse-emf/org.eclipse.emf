@@ -15,7 +15,7 @@ package org.eclipse.emf.test.common.reification;
  *
  *
  * @see org.eclipse.emf.test.common.reification.ReificationPackage#getIntegerListKeyValuePair()
- * @model superTypes="org.eclipse.emf.test.common.reification.TListKeyValuePair<org.eclipse.emf.ecore.EIntegerObject>"
+ * @model superTypes="org.eclipse.emf.test.common.reification.TListKeyValuePair&lt;org.eclipse.emf.ecore.EIntegerObject&gt;"
  * @generated
  */
 public interface IntegerListKeyValuePair extends TListKeyValuePair<Integer>

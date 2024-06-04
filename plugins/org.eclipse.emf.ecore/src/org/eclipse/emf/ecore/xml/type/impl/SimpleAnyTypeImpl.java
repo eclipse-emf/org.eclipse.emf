@@ -93,6 +93,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getRawValue()
   {
     return (String)getMixed().get(XMLTypePackage.Literals.SIMPLE_ANY_TYPE__RAW_VALUE, true);
@@ -103,6 +104,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRawValue(String newRawValue)
   {
     ((FeatureMap.Internal)getMixed()).set(XMLTypePackage.Literals.SIMPLE_ANY_TYPE__RAW_VALUE, newRawValue);
@@ -133,6 +135,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getInstanceType()
   {
     return instanceType;
@@ -143,6 +146,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setInstanceType(EDataType newInstanceType)
   {
     EDataType oldInstanceType = instanceType;

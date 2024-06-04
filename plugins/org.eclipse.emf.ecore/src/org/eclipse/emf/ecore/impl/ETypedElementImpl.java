@@ -203,6 +203,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isOrdered()
   {
     return (eFlags & ORDERED_EFLAG) != 0;
@@ -213,6 +214,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setOrdered(boolean newOrdered)
   {
     boolean oldOrdered = (eFlags & ORDERED_EFLAG) != 0;
@@ -226,6 +228,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isUnique()
   {
     return (eFlags & UNIQUE_EFLAG) != 0;
@@ -236,6 +239,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setUnique(boolean newUnique)
   {
     boolean oldUnique = (eFlags & UNIQUE_EFLAG) != 0;
@@ -249,6 +253,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getLowerBound()
   {
     return lowerBound;
@@ -259,6 +264,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLowerBound(int newLowerBound)
   {
     int oldLowerBound = lowerBound;
@@ -272,6 +278,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getUpperBound()
   {
     return upperBound;
@@ -282,6 +289,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setUpperBound(int newUpperBound)
   {
     int oldUpperBound = upperBound;

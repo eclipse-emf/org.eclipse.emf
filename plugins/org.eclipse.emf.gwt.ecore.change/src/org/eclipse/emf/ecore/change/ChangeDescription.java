@@ -25,13 +25,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.change.ChangeDescription#getObjectChanges <em>Object Changes</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.ChangeDescription#getObjectsToDetach <em>Objects To Detach</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.ChangeDescription#getObjectsToAttach <em>Objects To Attach</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.ChangeDescription#getResourceChanges <em>Resource Changes</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.ecore.change.ChangePackage#getChangeDescription()
  * @model
@@ -47,7 +47,7 @@ public interface ChangeDescription extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Object Changes</em>' map.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getChangeDescription_ObjectChanges()
-   * @model mapType="org.eclipse.emf.ecore.change.EObjectToChangesMapEntry<org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.change.FeatureChange>"
+   * @model mapType="org.eclipse.emf.ecore.change.EObjectToChangesMapEntry&lt;org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.change.FeatureChange&gt;"
    * @generated
    */
   EMap<EObject, EList<FeatureChange>> getObjectChanges();

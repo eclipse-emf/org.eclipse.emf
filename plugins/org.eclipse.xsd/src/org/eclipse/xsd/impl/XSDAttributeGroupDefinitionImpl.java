@@ -718,6 +718,7 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAnnotation getAnnotation()
   {
     return annotation;
@@ -728,6 +729,7 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAnnotation(XSDAnnotation newAnnotation)
   {
     if (newAnnotation != annotation)
@@ -766,6 +768,7 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDAttributeGroupContent> getContents()
   {
     if (contents == null)
@@ -780,6 +783,7 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDAttributeUse> getAttributeUses()
   {
     if (attributeUses == null)
@@ -794,6 +798,7 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDWildcard getAttributeWildcardContent()
   {
     return attributeWildcardContent;
@@ -804,6 +809,7 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAttributeWildcardContent(XSDWildcard newAttributeWildcardContent)
   {
     if (newAttributeWildcardContent != attributeWildcardContent)
@@ -842,6 +848,7 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDWildcard getAttributeWildcard()
   {
     return attributeWildcard;
@@ -852,6 +859,7 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAttributeWildcard(XSDWildcard newAttributeWildcard)
   {
     XSDWildcard oldAttributeWildcard = attributeWildcard;
@@ -865,6 +873,7 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAttributeGroupDefinition getResolvedAttributeGroupDefinition()
   {
     return resolvedAttributeGroupDefinition;
@@ -875,6 +884,7 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setResolvedAttributeGroupDefinition(XSDAttributeGroupDefinition newResolvedAttributeGroupDefinition)
   {
     XSDAttributeGroupDefinition oldResolvedAttributeGroupDefinition = resolvedAttributeGroupDefinition;
@@ -888,6 +898,7 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDWildcard getSyntheticWildcard()
   {
     return syntheticWildcard;
@@ -915,6 +926,7 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSyntheticWildcard(XSDWildcard newSyntheticWildcard)
   {
     if (newSyntheticWildcard != syntheticWildcard)

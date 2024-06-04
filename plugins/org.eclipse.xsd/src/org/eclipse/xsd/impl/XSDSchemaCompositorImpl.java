@@ -85,6 +85,7 @@ public abstract class XSDSchemaCompositorImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDSchema getIncorporatedSchema()
   {
     return incorporatedSchema;
@@ -95,6 +96,7 @@ public abstract class XSDSchemaCompositorImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setIncorporatedSchema(XSDSchema newIncorporatedSchema)
   {
     XSDSchema oldIncorporatedSchema = incorporatedSchema;

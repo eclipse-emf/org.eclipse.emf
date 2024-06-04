@@ -160,6 +160,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType, EDataTy
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSerializable()
   {
     return (eFlags & SERIALIZABLE_EFLAG) != 0;
@@ -170,6 +171,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType, EDataTy
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSerializable(boolean newSerializable)
   {
     boolean oldSerializable = (eFlags & SERIALIZABLE_EFLAG) != 0;
@@ -320,7 +322,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType, EDataTy
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (serializable: ");
     result.append((eFlags & SERIALIZABLE_EFLAG) != 0);
     result.append(')');

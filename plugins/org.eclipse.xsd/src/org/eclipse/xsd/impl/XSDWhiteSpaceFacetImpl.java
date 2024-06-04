@@ -135,6 +135,7 @@ public class XSDWhiteSpaceFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDWhiteSpace getValue()
   {
     return VALUE_EFLAG_VALUES[(eFlags & VALUE_EFLAG) >>> VALUE_EFLAG_OFFSET];
@@ -145,6 +146,7 @@ public class XSDWhiteSpaceFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValue(XSDWhiteSpace newValue)
   {
     XSDWhiteSpace oldValue = VALUE_EFLAG_VALUES[(eFlags & VALUE_EFLAG) >>> VALUE_EFLAG_OFFSET];

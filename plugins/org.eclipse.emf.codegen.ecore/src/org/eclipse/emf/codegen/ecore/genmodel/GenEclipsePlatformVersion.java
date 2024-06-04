@@ -393,7 +393,19 @@ public enum GenEclipsePlatformVersion implements Enumerator
    * @generated
    * @ordered
    */
-  ECLIPSE_2024_06(30, "Eclipse_2024_06", "2024-06");
+  ECLIPSE_2024_06(30, "Eclipse_2024_06", "2024-06"),
+  /**
+   * The '<em><b>Eclipse 2024 09</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.39
+   * <!-- end-model-doc -->
+   * @see #ECLIPSE_2024_09_VALUE
+   * @generated
+   * @ordered
+   */
+  ECLIPSE_2024_09(31, "Eclipse_2024_09", "2024-09");
 
   /**
    * The '<em><b>Juno</b></em>' literal value.
@@ -809,6 +821,20 @@ public enum GenEclipsePlatformVersion implements Enumerator
   public static final int ECLIPSE_2024_06_VALUE = 30;
 
   /**
+   * The '<em><b>Eclipse 2024 09</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.39
+   * <!-- end-model-doc -->
+   * @see #ECLIPSE_2024_09
+   * @model name="Eclipse_2024_09" literal="2024-09"
+   * @generated
+   * @ordered
+   */
+  public static final int ECLIPSE_2024_09_VALUE = 31;
+
+  /**
    * An array of all the '<em><b>Gen Eclipse Platform Version</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -848,6 +874,7 @@ public enum GenEclipsePlatformVersion implements Enumerator
       ECLIPSE_2023_12,
       ECLIPSE_2024_03,
       ECLIPSE_2024_06,
+      ECLIPSE_2024_09,
     };
 
   /**
@@ -943,6 +970,7 @@ public enum GenEclipsePlatformVersion implements Enumerator
       case ECLIPSE_2023_12_VALUE: return ECLIPSE_2023_12;
       case ECLIPSE_2024_03_VALUE: return ECLIPSE_2024_03;
       case ECLIPSE_2024_06_VALUE: return ECLIPSE_2024_06;
+      case ECLIPSE_2024_09_VALUE: return ECLIPSE_2024_09;
     }
     return null;
   }
@@ -986,6 +1014,7 @@ public enum GenEclipsePlatformVersion implements Enumerator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getValue()
   {
     return value;
@@ -996,6 +1025,7 @@ public enum GenEclipsePlatformVersion implements Enumerator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -1006,6 +1036,7 @@ public enum GenEclipsePlatformVersion implements Enumerator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getLiteral()
   {
     return literal;

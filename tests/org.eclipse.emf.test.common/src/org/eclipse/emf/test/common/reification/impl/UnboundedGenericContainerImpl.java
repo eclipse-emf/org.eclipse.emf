@@ -67,6 +67,7 @@ public class UnboundedGenericContainerImpl<T> extends EObjectImpl implements Unb
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public T getContent()
   {
     return content;
@@ -94,6 +95,7 @@ public class UnboundedGenericContainerImpl<T> extends EObjectImpl implements Unb
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setContent(T newContent)
   {
     if (newContent != content)

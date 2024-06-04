@@ -120,6 +120,7 @@ public class XSDRedefineImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDAnnotation> getAnnotations()
   {
     if (annotations == null)
@@ -134,6 +135,7 @@ public class XSDRedefineImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDRedefineContent> getContents()
   {
     if (contents == null)

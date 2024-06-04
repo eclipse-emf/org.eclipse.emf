@@ -77,6 +77,7 @@ public class CustomerReviewTypeImpl extends CriticsReviewTypeImpl implements Cus
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getComment()
   {
     return comment;
@@ -87,6 +88,7 @@ public class CustomerReviewTypeImpl extends CriticsReviewTypeImpl implements Cus
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setComment(String newComment)
   {
     String oldComment = comment;
@@ -171,7 +173,7 @@ public class CustomerReviewTypeImpl extends CriticsReviewTypeImpl implements Cus
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (comment: ");
     result.append(comment);
     result.append(')');

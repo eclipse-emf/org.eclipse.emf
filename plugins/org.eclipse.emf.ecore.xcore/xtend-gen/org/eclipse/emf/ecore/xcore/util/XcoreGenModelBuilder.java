@@ -7,11 +7,11 @@
  */
 package org.eclipse.emf.ecore.xcore.util;
 
-import com.google.common.base.Objects;
 import com.google.inject.Inject;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
@@ -262,7 +262,7 @@ public class XcoreGenModelBuilder {
           while (((i < resources.size()) && (!found))) {
             {
               final Resource resource = resources.get(i);
-              boolean _notEquals = (!Objects.equal(resource, genModelResource));
+              boolean _notEquals = (!Objects.equals(resource, genModelResource));
               if (_notEquals) {
                 final String fileExtension = resource.getURI().fileExtension();
                 boolean _equals = "xcore".equals(fileExtension);

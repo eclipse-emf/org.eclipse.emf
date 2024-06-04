@@ -105,6 +105,7 @@ public class DbTypeImpl extends EObjectImpl implements DbType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public PenType getRedPen()
   {
     return redPen;
@@ -132,6 +133,7 @@ public class DbTypeImpl extends EObjectImpl implements DbType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRedPen(PenType newRedPen)
   {
     if (newRedPen != redPen)
@@ -153,6 +155,7 @@ public class DbTypeImpl extends EObjectImpl implements DbType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public PenType getBluePen()
   {
     return bluePen;
@@ -180,6 +183,7 @@ public class DbTypeImpl extends EObjectImpl implements DbType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setBluePen(PenType newBluePen)
   {
     if (newBluePen != bluePen)
@@ -201,6 +205,7 @@ public class DbTypeImpl extends EObjectImpl implements DbType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public PencilType getRedPencil()
   {
     return redPencil;
@@ -228,6 +233,7 @@ public class DbTypeImpl extends EObjectImpl implements DbType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRedPencil(PencilType newRedPencil)
   {
     if (newRedPencil != redPencil)
@@ -249,6 +255,7 @@ public class DbTypeImpl extends EObjectImpl implements DbType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public PencilType getBluePencil()
   {
     return bluePencil;
@@ -276,6 +283,7 @@ public class DbTypeImpl extends EObjectImpl implements DbType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setBluePencil(PencilType newBluePencil)
   {
     if (newBluePencil != bluePencil)

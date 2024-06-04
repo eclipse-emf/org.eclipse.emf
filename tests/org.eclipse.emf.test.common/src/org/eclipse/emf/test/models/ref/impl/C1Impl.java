@@ -88,6 +88,7 @@ public class C1Impl extends EObjectImpl implements C1
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public A getA()
   {
     return a;
@@ -115,6 +116,7 @@ public class C1Impl extends EObjectImpl implements C1
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setA(A newA)
   {
     if (newA != a)
@@ -136,6 +138,7 @@ public class C1Impl extends EObjectImpl implements C1
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<B> getB()
   {
     if (b == null)

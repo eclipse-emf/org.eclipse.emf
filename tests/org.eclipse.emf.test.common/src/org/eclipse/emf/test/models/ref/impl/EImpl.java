@@ -121,6 +121,7 @@ public class EImpl extends EObjectImpl implements E
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -131,6 +132,7 @@ public class EImpl extends EObjectImpl implements E
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -144,6 +146,7 @@ public class EImpl extends EObjectImpl implements E
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getIds()
   {
     if (ids == null)
@@ -158,6 +161,7 @@ public class EImpl extends EObjectImpl implements E
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getLabels()
   {
     if (labels == null)
@@ -172,6 +176,7 @@ public class EImpl extends EObjectImpl implements E
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<D> getD()
   {
     if (d == null)
@@ -324,7 +329,7 @@ public class EImpl extends EObjectImpl implements E
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (name: ");
     result.append(name);
     result.append(", ids: ");

@@ -82,6 +82,7 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Mapping getIn2out()
   {
     if (in2out != null && in2out.eIsProxy())
@@ -112,6 +113,7 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setIn2out(Mapping newIn2out)
   {
     Mapping oldIn2out = in2out;
@@ -125,6 +127,7 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Mapping getOut2in()
   {
     if (out2in != null && out2in.eIsProxy())
@@ -155,6 +158,7 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setOut2in(Mapping newOut2in)
   {
     Mapping oldOut2in = out2in;

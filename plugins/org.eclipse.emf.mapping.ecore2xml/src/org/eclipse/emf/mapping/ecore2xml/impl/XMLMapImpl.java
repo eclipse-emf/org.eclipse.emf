@@ -122,6 +122,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<ENamedElement, XMLInfo> getEcoreToXMLInfo()
   {
     if (ecoreToXMLInfo == null)
@@ -136,6 +137,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EPackage getNoNamespacePackage()
   {
     EPackage noNamespacePackage = basicGetNoNamespacePackage();

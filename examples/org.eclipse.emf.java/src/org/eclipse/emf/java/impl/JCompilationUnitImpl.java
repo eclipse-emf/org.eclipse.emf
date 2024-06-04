@@ -157,6 +157,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JPackage getPackage()
   {
     if (package_ != null && package_.eIsProxy())
@@ -187,6 +188,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPackage(JPackage newPackage)
   {
     JPackage oldPackage = package_;
@@ -233,6 +235,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getImports()
   {
     if (imports == null)
@@ -247,6 +250,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getComment()
   {
     return comment;
@@ -257,6 +261,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setComment(String newComment)
   {
     String oldComment = comment;
@@ -270,6 +275,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<JClass> getTypes()
   {
     if (types == null)
@@ -284,6 +290,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<JPackage> getImportedPackages()
   {
     if (importedPackages == null)
@@ -298,6 +305,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<JClass> getImportedTypes()
   {
     if (importedTypes == null)

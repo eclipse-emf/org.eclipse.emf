@@ -10,12 +10,14 @@ package org.eclipse.emf.test.models.dynamic.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.emf.test.models.dynamic.*;
+import org.eclipse.emf.test.models.dynamic.Admin;
+import org.eclipse.emf.test.models.dynamic.Detail;
+import org.eclipse.emf.test.models.dynamic.DynamicFactory;
+import org.eclipse.emf.test.models.dynamic.DynamicPackage;
+import org.eclipse.emf.test.models.dynamic.Provider;
+import org.eclipse.emf.test.models.dynamic.Service;
 
 /**
  * <!-- begin-user-doc -->
@@ -84,6 +86,7 @@ public class DynamicFactoryImpl extends EFactoryImpl implements DynamicFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Provider createProvider()
   {
     ProviderImpl provider = new ProviderImpl();
@@ -95,6 +98,7 @@ public class DynamicFactoryImpl extends EFactoryImpl implements DynamicFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Admin createAdmin()
   {
     AdminImpl admin = new AdminImpl();
@@ -106,6 +110,7 @@ public class DynamicFactoryImpl extends EFactoryImpl implements DynamicFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Service createService()
   {
     ServiceImpl service = new ServiceImpl();
@@ -117,6 +122,7 @@ public class DynamicFactoryImpl extends EFactoryImpl implements DynamicFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Detail createDetail()
   {
     DetailImpl detail = new DetailImpl();
@@ -128,6 +134,7 @@ public class DynamicFactoryImpl extends EFactoryImpl implements DynamicFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject createBase()
   {
     BaseImpl base = new BaseImpl();
@@ -139,6 +146,7 @@ public class DynamicFactoryImpl extends EFactoryImpl implements DynamicFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public DynamicPackage getDynamicPackage()
   {
     return (DynamicPackage)getEPackage();

@@ -149,6 +149,7 @@ public abstract class XSDFixedFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isFixed()
   {
     return (eFlags & FIXED_EFLAG) != 0;
@@ -159,6 +160,7 @@ public abstract class XSDFixedFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFixed(boolean newFixed)
   {
     boolean oldFixed = (eFlags & FIXED_EFLAG) != 0;
@@ -174,6 +176,7 @@ public abstract class XSDFixedFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetFixed()
   {
     boolean oldFixed = (eFlags & FIXED_EFLAG) != 0;
@@ -189,6 +192,7 @@ public abstract class XSDFixedFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetFixed()
   {
     return (eFlags & FIXED_ESETFLAG) != 0;

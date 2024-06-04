@@ -107,6 +107,7 @@ public class XMLTypeDocumentRootImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getMixed()
   {
     if (mixed == null)
@@ -121,6 +122,7 @@ public class XMLTypeDocumentRootImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<String, String> getXMLNSPrefixMap()
   {
     if (xMLNSPrefixMap == null)
@@ -135,6 +137,7 @@ public class XMLTypeDocumentRootImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<String, String> getXSISchemaLocation()
   {
     if (xSISchemaLocation == null)

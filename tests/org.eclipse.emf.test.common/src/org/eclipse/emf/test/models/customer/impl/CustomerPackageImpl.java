@@ -151,7 +151,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link CustomerPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -166,7 +166,8 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
     if (isInited) return (CustomerPackage)EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI);
 
     // Obtain or create and register package
-    CustomerPackageImpl theCustomerPackage = (CustomerPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof CustomerPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new CustomerPackageImpl());
+    Object registeredCustomerPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    CustomerPackageImpl theCustomerPackage = registeredCustomerPackage instanceof CustomerPackageImpl ? (CustomerPackageImpl)registeredCustomerPackage : new CustomerPackageImpl();
 
     isInited = true;
 
@@ -174,8 +175,10 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
     XMLTypePackage.eINSTANCE.eClass();
 
     // Obtain or create and register interdependencies
-    DBPackageImpl theDBPackage = (DBPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DBPackage.eNS_URI) instanceof DBPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DBPackage.eNS_URI) : DBPackage.eINSTANCE);
-    OrderPackageImpl theOrderPackage = (OrderPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OrderPackage.eNS_URI) instanceof OrderPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OrderPackage.eNS_URI) : OrderPackage.eINSTANCE);
+    Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(DBPackage.eNS_URI);
+    DBPackageImpl theDBPackage = (DBPackageImpl)(registeredPackage instanceof DBPackageImpl ? registeredPackage : DBPackage.eINSTANCE);
+    registeredPackage = EPackage.Registry.INSTANCE.getEPackage(OrderPackage.eNS_URI);
+    OrderPackageImpl theOrderPackage = (OrderPackageImpl)(registeredPackage instanceof OrderPackageImpl ? registeredPackage : OrderPackage.eINSTANCE);
 
     // Create package meta-data objects
     theCustomerPackage.createPackageContents();
@@ -189,9 +192,10 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
 
     // Register package validator
     EValidator.Registry.INSTANCE.put
-      (theCustomerPackage, 
+      (theCustomerPackage,
        new EValidator.Descriptor()
        {
+         @Override
          public EValidator getEValidator()
          {
            return CustomerValidator.INSTANCE;
@@ -201,7 +205,6 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
     // Mark meta-data to indicate it can't be changed
     theCustomerPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(CustomerPackage.eNS_URI, theCustomerPackage);
     return theCustomerPackage;
@@ -212,6 +215,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getAddressType()
   {
     return addressTypeEClass;
@@ -222,6 +226,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getAddressType_Street()
   {
     return (EAttribute)addressTypeEClass.getEStructuralFeatures().get(0);
@@ -232,6 +237,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getAddressType_Town()
   {
     return (EAttribute)addressTypeEClass.getEStructuralFeatures().get(1);
@@ -242,6 +248,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getCanadaAddr()
   {
     return canadaAddrEClass;
@@ -252,6 +259,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCanadaAddr_Zip()
   {
     return (EAttribute)canadaAddrEClass.getEStructuralFeatures().get(0);
@@ -262,6 +270,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCanadaAddr_Province()
   {
     return (EAttribute)canadaAddrEClass.getEStructuralFeatures().get(1);
@@ -272,6 +281,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getCreditInfo()
   {
     return creditInfoEClass;
@@ -282,6 +292,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCreditInfo_Holder()
   {
     return (EAttribute)creditInfoEClass.getEStructuralFeatures().get(0);
@@ -292,6 +303,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCreditInfo_CcNumber()
   {
     return (EAttribute)creditInfoEClass.getEStructuralFeatures().get(1);
@@ -302,6 +314,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCreditInfo_ExpireDate()
   {
     return (EAttribute)creditInfoEClass.getEStructuralFeatures().get(2);
@@ -312,6 +325,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getCustomersType()
   {
     return customersTypeEClass;
@@ -322,6 +336,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCustomersType_Mixed()
   {
     return (EAttribute)customersTypeEClass.getEStructuralFeatures().get(0);
@@ -332,6 +347,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getCustomersType_Customer()
   {
     return (EReference)customersTypeEClass.getEStructuralFeatures().get(1);
@@ -342,6 +358,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getCustomerType()
   {
     return customerTypeEClass;
@@ -352,6 +369,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCustomerType_Name()
   {
     return (EAttribute)customerTypeEClass.getEStructuralFeatures().get(0);
@@ -362,6 +380,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getCustomerType_Address()
   {
     return (EReference)customerTypeEClass.getEStructuralFeatures().get(1);
@@ -372,6 +391,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getCustomerType_CreditCard()
   {
     return (EReference)customerTypeEClass.getEStructuralFeatures().get(2);
@@ -382,6 +402,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCustomerType_PaymentDay()
   {
     return (EAttribute)customerTypeEClass.getEStructuralFeatures().get(3);
@@ -392,6 +413,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCustomerType_ID()
   {
     return (EAttribute)customerTypeEClass.getEStructuralFeatures().get(4);
@@ -402,6 +424,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getDocumentRoot()
   {
     return documentRootEClass;
@@ -412,6 +435,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getDocumentRoot_Mixed()
   {
     return (EAttribute)documentRootEClass.getEStructuralFeatures().get(0);
@@ -422,6 +446,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDocumentRoot_XMLNSPrefixMap()
   {
     return (EReference)documentRootEClass.getEStructuralFeatures().get(1);
@@ -432,6 +457,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDocumentRoot_XSISchemaLocation()
   {
     return (EReference)documentRootEClass.getEStructuralFeatures().get(2);
@@ -442,6 +468,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDocumentRoot_Customers()
   {
     return (EReference)documentRootEClass.getEStructuralFeatures().get(3);
@@ -452,6 +479,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getDocumentRoot_ID()
   {
     return (EAttribute)documentRootEClass.getEStructuralFeatures().get(4);
@@ -462,6 +490,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getUSAddr()
   {
     return usAddrEClass;
@@ -472,6 +501,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getUSAddr_Zip()
   {
     return (EAttribute)usAddrEClass.getEStructuralFeatures().get(0);
@@ -482,6 +512,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getUSAddr_State()
   {
     return (EAttribute)usAddrEClass.getEStructuralFeatures().get(1);
@@ -492,6 +523,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getUSState()
   {
     return usStateEEnum;
@@ -502,6 +534,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getUSStateObject()
   {
     return usStateObjectEDataType;
@@ -512,6 +545,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getZipCodes()
   {
     return zipCodesEDataType;
@@ -522,6 +556,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getZipUnion()
   {
     return zipUnionEDataType;
@@ -532,6 +567,7 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CustomerFactory getCustomerFactory()
   {
     return (CustomerFactory)getEFactoryInstance();
@@ -699,267 +735,267 @@ public class CustomerPackageImpl extends EPackageImpl implements CustomerPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
     addAnnotation
-      (addressTypeEClass, 
-       source, 
-       new String[] 
+      (addressTypeEClass,
+       source,
+       new String[]
        {
-       "name", "addressType",
-       "kind", "elementOnly"
-       });	
+         "name", "addressType",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getAddressType_Street(), 
-       source, 
-       new String[] 
+      (getAddressType_Street(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "street"
-       });	
+         "kind", "element",
+         "name", "street"
+       });
     addAnnotation
-      (getAddressType_Town(), 
-       source, 
-       new String[] 
+      (getAddressType_Town(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "town"
-       });	
+         "kind", "element",
+         "name", "town"
+       });
     addAnnotation
-      (canadaAddrEClass, 
-       source, 
-       new String[] 
+      (canadaAddrEClass,
+       source,
+       new String[]
        {
-       "name", "canadaAddr",
-       "kind", "elementOnly"
-       });	
+         "name", "canadaAddr",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getCanadaAddr_Zip(), 
-       source, 
-       new String[] 
+      (getCanadaAddr_Zip(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "zip"
-       });	
+         "kind", "element",
+         "name", "zip"
+       });
     addAnnotation
-      (getCanadaAddr_Province(), 
-       source, 
-       new String[] 
+      (getCanadaAddr_Province(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "province"
-       });	
+         "kind", "element",
+         "name", "province"
+       });
     addAnnotation
-      (creditInfoEClass, 
-       source, 
-       new String[] 
+      (creditInfoEClass,
+       source,
+       new String[]
        {
-       "name", "creditInfo",
-       "kind", "elementOnly"
-       });	
+         "name", "creditInfo",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getCreditInfo_Holder(), 
-       source, 
-       new String[] 
+      (getCreditInfo_Holder(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "holder"
-       });	
+         "kind", "element",
+         "name", "holder"
+       });
     addAnnotation
-      (getCreditInfo_CcNumber(), 
-       source, 
-       new String[] 
+      (getCreditInfo_CcNumber(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "cc_number"
-       });	
+         "kind", "element",
+         "name", "cc_number"
+       });
     addAnnotation
-      (getCreditInfo_ExpireDate(), 
-       source, 
-       new String[] 
+      (getCreditInfo_ExpireDate(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "expireDate"
-       });	
+         "kind", "element",
+         "name", "expireDate"
+       });
     addAnnotation
-      (customersTypeEClass, 
-       source, 
-       new String[] 
+      (customersTypeEClass,
+       source,
+       new String[]
        {
-       "name", "customersType",
-       "kind", "mixed"
-       });	
+         "name", "customersType",
+         "kind", "mixed"
+       });
     addAnnotation
-      (getCustomersType_Mixed(), 
-       source, 
-       new String[] 
+      (getCustomersType_Mixed(),
+       source,
+       new String[]
        {
-       "kind", "elementWildcard",
-       "name", ":mixed"
-       });	
+         "kind", "elementWildcard",
+         "name", ":mixed"
+       });
     addAnnotation
-      (getCustomersType_Customer(), 
-       source, 
-       new String[] 
+      (getCustomersType_Customer(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "customer",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "element",
+         "name", "customer",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (customerTypeEClass, 
-       source, 
-       new String[] 
+      (customerTypeEClass,
+       source,
+       new String[]
        {
-       "name", "dbcustomer",
-       "kind", "elementOnly"
-       });	
+         "name", "dbcustomer",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getCustomerType_Name(), 
-       source, 
-       new String[] 
+      (getCustomerType_Name(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "name"
-       });	
+         "kind", "element",
+         "name", "name"
+       });
     addAnnotation
-      (getCustomerType_Address(), 
-       source, 
-       new String[] 
+      (getCustomerType_Address(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "address"
-       });	
+         "kind", "element",
+         "name", "address"
+       });
     addAnnotation
-      (getCustomerType_CreditCard(), 
-       source, 
-       new String[] 
+      (getCustomerType_CreditCard(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "creditCard"
-       });	
+         "kind", "element",
+         "name", "creditCard"
+       });
     addAnnotation
-      (getCustomerType_PaymentDay(), 
-       source, 
-       new String[] 
+      (getCustomerType_PaymentDay(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "paymentDay"
-       });	
+         "kind", "element",
+         "name", "paymentDay"
+       });
     addAnnotation
-      (getCustomerType_ID(), 
-       source, 
-       new String[] 
+      (getCustomerType_ID(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "ID",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "attribute",
+         "name", "ID",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (documentRootEClass, 
-       source, 
-       new String[] 
+      (documentRootEClass,
+       source,
+       new String[]
        {
-       "name", "",
-       "kind", "mixed"
-       });	
+         "name", "",
+         "kind", "mixed"
+       });
     addAnnotation
-      (getDocumentRoot_Mixed(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_Mixed(),
+       source,
+       new String[]
        {
-       "kind", "elementWildcard",
-       "name", ":mixed"
-       });	
+         "kind", "elementWildcard",
+         "name", ":mixed"
+       });
     addAnnotation
-      (getDocumentRoot_XMLNSPrefixMap(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_XMLNSPrefixMap(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "xmlns:prefix"
-       });	
+         "kind", "attribute",
+         "name", "xmlns:prefix"
+       });
     addAnnotation
-      (getDocumentRoot_XSISchemaLocation(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_XSISchemaLocation(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "xsi:schemaLocation"
-       });	
+         "kind", "attribute",
+         "name", "xsi:schemaLocation"
+       });
     addAnnotation
-      (getDocumentRoot_Customers(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_Customers(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "customers",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "element",
+         "name", "customers",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getDocumentRoot_ID(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_ID(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "ID",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "attribute",
+         "name", "ID",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (usAddrEClass, 
-       source, 
-       new String[] 
+      (usAddrEClass,
+       source,
+       new String[]
        {
-       "name", "USAddr",
-       "kind", "elementOnly"
-       });	
+         "name", "USAddr",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getUSAddr_Zip(), 
-       source, 
-       new String[] 
+      (getUSAddr_Zip(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "zip"
-       });	
+         "kind", "element",
+         "name", "zip"
+       });
     addAnnotation
-      (getUSAddr_State(), 
-       source, 
-       new String[] 
+      (getUSAddr_State(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "state"
-       });	
+         "kind", "element",
+         "name", "state"
+       });
     addAnnotation
-      (usStateEEnum, 
-       source, 
-       new String[] 
+      (usStateEEnum,
+       source,
+       new String[]
        {
-       "name", "USState"
-       });	
+         "name", "USState"
+       });
     addAnnotation
-      (usStateObjectEDataType, 
-       source, 
-       new String[] 
+      (usStateObjectEDataType,
+       source,
+       new String[]
        {
-       "name", "USState:Object",
-       "baseType", "USState"
-       });	
+         "name", "USState:Object",
+         "baseType", "USState"
+       });
     addAnnotation
-      (zipCodesEDataType, 
-       source, 
-       new String[] 
+      (zipCodesEDataType,
+       source,
+       new String[]
        {
-       "name", "zipCodes",
-       "baseType", "http://www.eclipse.org/emf/2003/XMLType#integer",
-       "minInclusive", "10000",
-       "maxInclusive", "99999"
-       });	
+         "name", "zipCodes",
+         "baseType", "http://www.eclipse.org/emf/2003/XMLType#integer",
+         "minInclusive", "10000",
+         "maxInclusive", "99999"
+       });
     addAnnotation
-      (zipUnionEDataType, 
-       source, 
-       new String[] 
+      (zipUnionEDataType,
+       source,
+       new String[]
        {
-       "name", "zipUnion",
-       "memberTypes", "USState zipCodes"
+         "name", "zipUnion",
+         "memberTypes", "USState zipCodes"
        });
   }
 

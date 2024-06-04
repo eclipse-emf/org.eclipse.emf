@@ -462,7 +462,19 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF238(36, "EMF238", "2.38");
+  EMF238(36, "EMF238", "2.38"),
+  /**
+   * The '<em><b>EMF239</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.39
+   * <!-- end-model-doc -->
+   * @see #EMF239_VALUE
+   * @generated
+   * @ordered
+   */
+  EMF239(37, "EMF239", "2.39");
 
   /**
    * The '<em><b>EMF22</b></em>' literal value.
@@ -961,6 +973,20 @@ public enum GenRuntimeVersion implements Enumerator
   public static final int EMF238_VALUE = 36;
 
   /**
+   * The '<em><b>EMF239</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.39
+   * <!-- end-model-doc -->
+   * @see #EMF239
+   * @model literal="2.39"
+   * @generated
+   * @ordered
+   */
+  public static final int EMF239_VALUE = 37;
+
+  /**
    * An array of all the '<em><b>Gen Runtime Version</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1006,6 +1032,7 @@ public enum GenRuntimeVersion implements Enumerator
       EMF236,
       EMF237,
       EMF238,
+      EMF239,
     };
 
   /**
@@ -1107,6 +1134,7 @@ public enum GenRuntimeVersion implements Enumerator
       case EMF236_VALUE: return EMF236;
       case EMF237_VALUE: return EMF237;
       case EMF238_VALUE: return EMF238;
+      case EMF239_VALUE: return EMF239;
     }
     return null;
   }
@@ -1150,6 +1178,7 @@ public enum GenRuntimeVersion implements Enumerator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getValue()
   {
     return value;
@@ -1160,6 +1189,7 @@ public enum GenRuntimeVersion implements Enumerator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -1170,6 +1200,7 @@ public enum GenRuntimeVersion implements Enumerator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getLiteral()
   {
     return literal;

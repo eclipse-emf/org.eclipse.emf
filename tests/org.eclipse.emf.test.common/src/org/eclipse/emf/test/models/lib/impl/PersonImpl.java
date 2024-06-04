@@ -83,6 +83,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -93,6 +94,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -106,6 +108,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Library getLibrary()
   {
     if (eContainerFeatureID() != LibPackage.PERSON__LIBRARY) return null;
@@ -139,6 +142,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLibrary(Library newLibrary)
   {
     if (newLibrary != eInternalContainer() || (eContainerFeatureID() != LibPackage.PERSON__LIBRARY && newLibrary != null))
@@ -294,7 +298,7 @@ public class PersonImpl extends EObjectImpl implements Person
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (name: ");
     result.append(name);
     result.append(')');

@@ -124,6 +124,7 @@ public class CreditInfoImpl extends EObjectImpl implements CreditInfo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getHolder()
   {
     return holder;
@@ -134,6 +135,7 @@ public class CreditInfoImpl extends EObjectImpl implements CreditInfo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setHolder(String newHolder)
   {
     String oldHolder = holder;
@@ -147,6 +149,7 @@ public class CreditInfoImpl extends EObjectImpl implements CreditInfo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public BigInteger getCcNumber()
   {
     return ccNumber;
@@ -157,6 +160,7 @@ public class CreditInfoImpl extends EObjectImpl implements CreditInfo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCcNumber(BigInteger newCcNumber)
   {
     BigInteger oldCcNumber = ccNumber;
@@ -170,6 +174,7 @@ public class CreditInfoImpl extends EObjectImpl implements CreditInfo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XMLGregorianCalendar getExpireDate()
   {
     return expireDate;
@@ -180,6 +185,7 @@ public class CreditInfoImpl extends EObjectImpl implements CreditInfo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setExpireDate(XMLGregorianCalendar newExpireDate)
   {
     XMLGregorianCalendar oldExpireDate = expireDate;
@@ -284,7 +290,7 @@ public class CreditInfoImpl extends EObjectImpl implements CreditInfo
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (holder: ");
     result.append(holder);
     result.append(", ccNumber: ");

@@ -123,6 +123,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getMixed()
   {
     if (mixed == null)
@@ -137,6 +138,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<String, String> getXMLNSPrefixMap()
   {
     if (xMLNSPrefixMap == null)
@@ -151,6 +153,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<String, String> getXSISchemaLocation()
   {
     if (xSISchemaLocation == null)
@@ -165,6 +168,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CustomersType getCustomers()
   {
     return (CustomersType)getMixed().get(CustomerPackage.Literals.DOCUMENT_ROOT__CUSTOMERS, true);
@@ -185,6 +189,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCustomers(CustomersType newCustomers)
   {
     ((FeatureMap.Internal)getMixed()).set(CustomerPackage.Literals.DOCUMENT_ROOT__CUSTOMERS, newCustomers);
@@ -195,6 +200,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getID()
   {
     return iD;
@@ -205,6 +211,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setID(String newID)
   {
     String oldID = iD;
@@ -354,7 +361,7 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (mixed: ");
     result.append(mixed);
     result.append(", iD: ");

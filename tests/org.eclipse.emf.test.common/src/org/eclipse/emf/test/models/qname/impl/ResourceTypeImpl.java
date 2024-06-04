@@ -181,6 +181,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object getUnionvalue()
   {
     return unionvalue;
@@ -191,6 +192,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setUnionvalue(Object newUnionvalue)
   {
     Object oldUnionvalue = unionvalue;
@@ -204,6 +206,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public List<QName> getQnamelist()
   {
     return qnamelist;
@@ -214,6 +217,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setQnamelist(List<QName> newQnamelist)
   {
     List<QName> oldQnamelist = qnamelist;
@@ -227,6 +231,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getIntvalue()
   {
     return intvalue;
@@ -237,6 +242,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setIntvalue(int newIntvalue)
   {
     int oldIntvalue = intvalue;
@@ -252,6 +258,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetIntvalue()
   {
     int oldIntvalue = intvalue;
@@ -267,6 +274,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetIntvalue()
   {
     return intvalueESet;
@@ -277,6 +285,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getAny()
   {
     if (any == null)
@@ -291,6 +300,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public List<QName> getMyQname()
   {
     return myQname;
@@ -301,6 +311,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMyQname(List<QName> newMyQname)
   {
     List<QName> oldMyQname = myQname;
@@ -314,6 +325,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getAnyAttribute()
   {
     if (anyAttribute == null)
@@ -470,7 +482,7 @@ public class ResourceTypeImpl extends EObjectImpl implements ResourceType
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (unionvalue: ");
     result.append(unionvalue);
     result.append(", qnamelist: ");

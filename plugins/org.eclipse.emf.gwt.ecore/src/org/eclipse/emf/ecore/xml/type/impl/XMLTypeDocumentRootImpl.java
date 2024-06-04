@@ -38,6 +38,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.XMLTypeDocumentRootImpl#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.XMLTypeDocumentRootImpl#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
@@ -47,7 +48,6 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.XMLTypeDocumentRootImpl#getProcessingInstruction <em>Processing Instruction</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.XMLTypeDocumentRootImpl#getText <em>Text</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -112,6 +112,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getMixed()
   {
     if (mixed == null)
@@ -126,6 +127,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<String, String> getXMLNSPrefixMap()
   {
     if (xMLNSPrefixMap == null)
@@ -140,6 +142,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<String, String> getXSISchemaLocation()
   {
     if (xSISchemaLocation == null)
@@ -355,7 +358,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (mixed: ");
     result.append(mixed);
     result.append(')');

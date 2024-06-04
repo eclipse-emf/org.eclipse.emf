@@ -95,6 +95,7 @@ public class XSDEnumerationFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Object> getValue()
   {
     if (value == null)

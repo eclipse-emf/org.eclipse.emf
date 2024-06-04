@@ -123,6 +123,7 @@ public abstract class AudioVisualItemImpl extends CirculatingItemImpl implements
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getTitle()
   {
     return title;
@@ -133,6 +134,7 @@ public abstract class AudioVisualItemImpl extends CirculatingItemImpl implements
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTitle(String newTitle)
   {
     String oldTitle = title;
@@ -146,6 +148,7 @@ public abstract class AudioVisualItemImpl extends CirculatingItemImpl implements
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getMinutesLength()
   {
     return minutesLength;
@@ -156,6 +159,7 @@ public abstract class AudioVisualItemImpl extends CirculatingItemImpl implements
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMinutesLength(int newMinutesLength)
   {
     int oldMinutesLength = minutesLength;
@@ -169,6 +173,7 @@ public abstract class AudioVisualItemImpl extends CirculatingItemImpl implements
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isDamaged()
   {
     return (eFlags & DAMAGED_EFLAG) != 0;
@@ -179,6 +184,7 @@ public abstract class AudioVisualItemImpl extends CirculatingItemImpl implements
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setDamaged(boolean newDamaged)
   {
     boolean oldDamaged = (eFlags & DAMAGED_EFLAG) != 0;

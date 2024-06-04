@@ -101,7 +101,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link XMLNamespacePackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -118,7 +118,8 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
     initializeRegistryHelpers();
 
     // Obtain or create and register package
-    XMLNamespacePackageImpl theXMLNamespacePackage = (XMLNamespacePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof XMLNamespacePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new XMLNamespacePackageImpl());
+    Object registeredXMLNamespacePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    XMLNamespacePackageImpl theXMLNamespacePackage = registeredXMLNamespacePackage instanceof XMLNamespacePackageImpl ? (XMLNamespacePackageImpl)registeredXMLNamespacePackage : new XMLNamespacePackageImpl();
 
     isInited = true;
 
@@ -133,9 +134,10 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
 
     // Register package validator
     EValidator.Registry.INSTANCE.put
-      (theXMLNamespacePackage, 
+      (theXMLNamespacePackage,
        new EValidator.Descriptor()
        {
+         @Override
          public EValidator getEValidator()
          {
            return XMLNamespaceValidator.INSTANCE;
@@ -145,7 +147,6 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
     // Mark meta-data to indicate it can't be changed
     theXMLNamespacePackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(XMLNamespacePackage.eNS_URI, theXMLNamespacePackage);
     return theXMLNamespacePackage;
@@ -159,8 +160,8 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
   public static void initializeRegistryHelpers()
   {
     Reflect.register
-      (XMLNamespaceDocumentRoot.class, 
-       new Reflect.Helper() 
+      (XMLNamespaceDocumentRoot.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -173,8 +174,8 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
          }
        });
     Reflect.register
-      (SpaceType.class, 
-       new Reflect.Helper() 
+      (SpaceType.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -187,8 +188,8 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
          }
     });
     Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
+      (String.class,
+       new Reflect.Helper()
        {
          public boolean isInstance(Object instance)
          {
@@ -198,34 +199,6 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
          public Object newArrayInstance(int size)
          {
            return new String[size];
-         }
-    });
-    Reflect.register
-      (String.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof String;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new String[size];
-         }
-    });
-    Reflect.register
-      (SpaceType.class, 
-       new Reflect.Helper() 
-       {
-         public boolean isInstance(Object instance)
-         {
-           return instance instanceof SpaceType;
-         }
-
-         public Object newArrayInstance(int size)
-         {
-           return new SpaceType[size];
          }
     });
   }
@@ -279,6 +252,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXMLNamespaceDocumentRoot()
   {
     return xmlNamespaceDocumentRootEClass;
@@ -289,6 +263,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLNamespaceDocumentRoot_Mixed()
   {
     return (EAttribute)xmlNamespaceDocumentRootEClass.getEStructuralFeatures().get(0);
@@ -299,6 +274,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXMLNamespaceDocumentRoot_XMLNSPrefixMap()
   {
     return (EReference)xmlNamespaceDocumentRootEClass.getEStructuralFeatures().get(1);
@@ -309,6 +285,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXMLNamespaceDocumentRoot_XSISchemaLocation()
   {
     return (EReference)xmlNamespaceDocumentRootEClass.getEStructuralFeatures().get(2);
@@ -319,6 +296,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLNamespaceDocumentRoot_Base()
   {
     return (EAttribute)xmlNamespaceDocumentRootEClass.getEStructuralFeatures().get(3);
@@ -329,6 +307,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLNamespaceDocumentRoot_Id()
   {
     return (EAttribute)xmlNamespaceDocumentRootEClass.getEStructuralFeatures().get(4);
@@ -339,6 +318,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLNamespaceDocumentRoot_Lang()
   {
     return (EAttribute)xmlNamespaceDocumentRootEClass.getEStructuralFeatures().get(5);
@@ -349,6 +329,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLNamespaceDocumentRoot_Space()
   {
     return (EAttribute)xmlNamespaceDocumentRootEClass.getEStructuralFeatures().get(6);
@@ -359,6 +340,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getSpaceType()
   {
     return spaceTypeEEnum;
@@ -369,6 +351,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getLangType()
   {
     return langTypeEDataType;
@@ -379,6 +362,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getLangTypeNull()
   {
     return langTypeNullEDataType;
@@ -389,6 +373,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getSpaceTypeObject()
   {
     return spaceTypeObjectEDataType;
@@ -399,6 +384,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XMLNamespaceFactory getXMLNamespaceFactory()
   {
     return (XMLNamespaceFactory)getEFactoryInstance();
@@ -513,14 +499,14 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    */
   protected void createNamespaceAnnotations()
   {
-    String source = "http://www.w3.org/XML/1998/namespace";		
+    String source = "http://www.w3.org/XML/1998/namespace";
     addAnnotation
-      (this, 
-       source, 
-       new String[] 
+      (this,
+       source,
+       new String[]
        {
-       "lang", "en"
-       });												
+         "lang", "en"
+       });
   }
 
   /**
@@ -531,106 +517,106 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";			
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
     addAnnotation
-      (langTypeEDataType, 
-       source, 
-       new String[] 
+      (langTypeEDataType,
+       source,
+       new String[]
        {
-       "name", "lang_._type",
-       "memberTypes", "http://www.eclipse.org/emf/2003/XMLType#language lang_._type_._member_._1"
-       });		
+         "name", "lang_._type",
+         "memberTypes", "http://www.eclipse.org/emf/2003/XMLType#language lang_._type_._member_._1"
+       });
     addAnnotation
-      (langTypeNullEDataType, 
-       source, 
-       new String[] 
+      (langTypeNullEDataType,
+       source,
+       new String[]
        {
-       "name", "lang_._type_._member_._1",
-       "baseType", "http://www.eclipse.org/emf/2003/XMLType#string",
-       "enumeration", ""
-       });		
+         "name", "lang_._type_._member_._1",
+         "baseType", "http://www.eclipse.org/emf/2003/XMLType#string",
+         "enumeration", ""
+       });
     addAnnotation
-      (spaceTypeEEnum, 
-       source, 
-       new String[] 
+      (spaceTypeEEnum,
+       source,
+       new String[]
        {
-       "name", "space_._type"
-       });		
+         "name", "space_._type"
+       });
     addAnnotation
-      (spaceTypeObjectEDataType, 
-       source, 
-       new String[] 
+      (spaceTypeObjectEDataType,
+       source,
+       new String[]
        {
-       "name", "space_._type:Object",
-       "baseType", "space_._type"
-       });		
+         "name", "space_._type:Object",
+         "baseType", "space_._type"
+       });
     addAnnotation
-      (xmlNamespaceDocumentRootEClass, 
-       source, 
-       new String[] 
+      (xmlNamespaceDocumentRootEClass,
+       source,
+       new String[]
        {
-       "name", "",
-       "kind", "mixed"
-       });		
+         "name", "",
+         "kind", "mixed"
+       });
     addAnnotation
-      (getXMLNamespaceDocumentRoot_Mixed(), 
-       source, 
-       new String[] 
+      (getXMLNamespaceDocumentRoot_Mixed(),
+       source,
+       new String[]
        {
-       "kind", "elementWildcard",
-       "name", ":mixed"
-       });		
+         "kind", "elementWildcard",
+         "name", ":mixed"
+       });
     addAnnotation
-      (getXMLNamespaceDocumentRoot_XMLNSPrefixMap(), 
-       source, 
-       new String[] 
+      (getXMLNamespaceDocumentRoot_XMLNSPrefixMap(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "xmlns:prefix"
-       });		
+         "kind", "attribute",
+         "name", "xmlns:prefix"
+       });
     addAnnotation
-      (getXMLNamespaceDocumentRoot_XSISchemaLocation(), 
-       source, 
-       new String[] 
+      (getXMLNamespaceDocumentRoot_XSISchemaLocation(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "xsi:schemaLocation"
-       });		
+         "kind", "attribute",
+         "name", "xsi:schemaLocation"
+       });
     addAnnotation
-      (getXMLNamespaceDocumentRoot_Base(), 
-       source, 
-       new String[] 
+      (getXMLNamespaceDocumentRoot_Base(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "base",
-       "namespace", "##targetNamespace"
-       });		
+         "kind", "attribute",
+         "name", "base",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getXMLNamespaceDocumentRoot_Id(), 
-       source, 
-       new String[] 
+      (getXMLNamespaceDocumentRoot_Id(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "id",
-       "namespace", "##targetNamespace"
-       });		
+         "kind", "attribute",
+         "name", "id",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getXMLNamespaceDocumentRoot_Lang(), 
-       source, 
-       new String[] 
+      (getXMLNamespaceDocumentRoot_Lang(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "lang",
-       "namespace", "##targetNamespace"
-       });		
+         "kind", "attribute",
+         "name", "lang",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getXMLNamespaceDocumentRoot_Space(), 
-       source, 
-       new String[] 
+      (getXMLNamespaceDocumentRoot_Space(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "space",
-       "namespace", "##targetNamespace"
+         "kind", "attribute",
+         "name", "space",
+         "namespace", "##targetNamespace"
        });
   }
 

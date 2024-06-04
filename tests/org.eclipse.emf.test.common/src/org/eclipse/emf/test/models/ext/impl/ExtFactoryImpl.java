@@ -84,6 +84,7 @@ public class ExtFactoryImpl extends EFactoryImpl implements ExtFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ExtE createExtE()
   {
     ExtEImpl extE = new ExtEImpl();
@@ -95,6 +96,7 @@ public class ExtFactoryImpl extends EFactoryImpl implements ExtFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public F createF()
   {
     FImpl f = new FImpl();
@@ -106,6 +108,7 @@ public class ExtFactoryImpl extends EFactoryImpl implements ExtFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ExtPackage getExtPackage()
   {
     return (ExtPackage)getEPackage();

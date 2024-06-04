@@ -98,6 +98,7 @@ public class EClass5Impl extends EClass4Impl implements EClass5
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getEAttribute10()
   {
     return eAttribute10;
@@ -108,6 +109,7 @@ public class EClass5Impl extends EClass4Impl implements EClass5
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEAttribute10(String newEAttribute10)
   {
     String oldEAttribute10 = eAttribute10;
@@ -121,6 +123,7 @@ public class EClass5Impl extends EClass4Impl implements EClass5
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getEAttribute11()
   {
     return eAttribute11;
@@ -131,6 +134,7 @@ public class EClass5Impl extends EClass4Impl implements EClass5
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEAttribute11(String newEAttribute11)
   {
     String oldEAttribute11 = eAttribute11;
@@ -225,7 +229,7 @@ public class EClass5Impl extends EClass4Impl implements EClass5
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (EAttribute10: ");
     result.append(eAttribute10);
     result.append(", EAttribute11: ");

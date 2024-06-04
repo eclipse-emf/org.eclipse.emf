@@ -72,7 +72,7 @@ public class SupplierPackageImpl extends EPackageImpl implements SupplierPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link SupplierPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -87,7 +87,8 @@ public class SupplierPackageImpl extends EPackageImpl implements SupplierPackage
     if (isInited) return (SupplierPackage)EPackage.Registry.INSTANCE.getEPackage(SupplierPackage.eNS_URI);
 
     // Obtain or create and register package
-    SupplierPackageImpl theSupplierPackage = (SupplierPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof SupplierPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new SupplierPackageImpl());
+    Object registeredSupplierPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    SupplierPackageImpl theSupplierPackage = registeredSupplierPackage instanceof SupplierPackageImpl ? (SupplierPackageImpl)registeredSupplierPackage : new SupplierPackageImpl();
 
     isInited = true;
 
@@ -103,7 +104,6 @@ public class SupplierPackageImpl extends EPackageImpl implements SupplierPackage
     // Mark meta-data to indicate it can't be changed
     theSupplierPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(SupplierPackage.eNS_URI, theSupplierPackage);
     return theSupplierPackage;
@@ -114,6 +114,7 @@ public class SupplierPackageImpl extends EPackageImpl implements SupplierPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getPurchaseOrder()
   {
     return purchaseOrderEClass;
@@ -124,6 +125,7 @@ public class SupplierPackageImpl extends EPackageImpl implements SupplierPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getPurchaseOrder_Id()
   {
     return (EAttribute)purchaseOrderEClass.getEStructuralFeatures().get(0);
@@ -134,6 +136,7 @@ public class SupplierPackageImpl extends EPackageImpl implements SupplierPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getSupplier()
   {
     return supplierEClass;
@@ -144,6 +147,7 @@ public class SupplierPackageImpl extends EPackageImpl implements SupplierPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getSupplier_Name()
   {
     return (EAttribute)supplierEClass.getEStructuralFeatures().get(0);
@@ -154,6 +158,7 @@ public class SupplierPackageImpl extends EPackageImpl implements SupplierPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getSupplier_Orders()
   {
     return (EAttribute)supplierEClass.getEStructuralFeatures().get(1);
@@ -164,6 +169,7 @@ public class SupplierPackageImpl extends EPackageImpl implements SupplierPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getSupplier_PreferredOrders()
   {
     return (EReference)supplierEClass.getEStructuralFeatures().get(2);
@@ -174,6 +180,7 @@ public class SupplierPackageImpl extends EPackageImpl implements SupplierPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getSupplier_StandardOrders()
   {
     return (EReference)supplierEClass.getEStructuralFeatures().get(3);
@@ -184,6 +191,7 @@ public class SupplierPackageImpl extends EPackageImpl implements SupplierPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public SupplierFactory getSupplierFactory()
   {
     return (SupplierFactory)getEFactoryInstance();
@@ -278,64 +286,64 @@ public class SupplierPackageImpl extends EPackageImpl implements SupplierPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
     addAnnotation
-      (purchaseOrderEClass, 
-       source, 
-       new String[] 
+      (purchaseOrderEClass,
+       source,
+       new String[]
        {
-       "name", "PurchaseOrder",
-       "kind", "elementOnly"
-       });	
+         "name", "PurchaseOrder",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getPurchaseOrder_Id(), 
-       source, 
-       new String[] 
+      (getPurchaseOrder_Id(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "id"
-       });	
+         "kind", "element",
+         "name", "id"
+       });
     addAnnotation
-      (supplierEClass, 
-       source, 
-       new String[] 
+      (supplierEClass,
+       source,
+       new String[]
        {
-       "name", "Supplier",
-       "kind", "elementOnly"
-       });	
+         "name", "Supplier",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getSupplier_Name(), 
-       source, 
-       new String[] 
+      (getSupplier_Name(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "name"
-       });	
+         "kind", "element",
+         "name", "name"
+       });
     addAnnotation
-      (getSupplier_Orders(), 
-       source, 
-       new String[] 
+      (getSupplier_Orders(),
+       source,
+       new String[]
        {
-       "kind", "group",
-       "name", "orders:1"
-       });	
+         "kind", "group",
+         "name", "orders:1"
+       });
     addAnnotation
-      (getSupplier_PreferredOrders(), 
-       source, 
-       new String[] 
+      (getSupplier_PreferredOrders(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "preferredOrders",
-       "group", "#orders:1"
-       });	
+         "kind", "element",
+         "name", "preferredOrders",
+         "group", "#orders:1"
+       });
     addAnnotation
-      (getSupplier_StandardOrders(), 
-       source, 
-       new String[] 
+      (getSupplier_StandardOrders(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "standardOrders",
-       "group", "#orders:1"
+         "kind", "element",
+         "name", "standardOrders",
+         "group", "#orders:1"
        });
   }
 

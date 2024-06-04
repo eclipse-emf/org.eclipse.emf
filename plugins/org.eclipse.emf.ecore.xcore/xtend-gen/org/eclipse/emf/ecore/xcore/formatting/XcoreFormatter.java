@@ -7,10 +7,10 @@
  */
 package org.eclipse.emf.ecore.xcore.formatting;
 
-import com.google.common.base.Objects;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
@@ -153,12 +153,12 @@ public class XcoreFormatter extends XbaseFormatter {
     boolean _not = (!_isEmpty);
     if (_not) {
       final XImportDirective first = IterableExtensions.<XImportDirective>head(xImportDirectives);
-      final XImportDirective last = IterableExtensions.<XImportDirective>last(xImportDirectives);
+      final XImportDirective last = XcoreFormatter.<XImportDirective>lastOrNull(xImportDirectives);
       for (final XImportDirective xImportDirective : xImportDirectives) {
         {
           final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
             int _xifexpression = (int) 0;
-            boolean _equals = Objects.equal(xImportDirective, first);
+            boolean _equals = Objects.equals(xImportDirective, first);
             if (_equals) {
               _xifexpression = 2;
             } else {
@@ -168,12 +168,12 @@ public class XcoreFormatter extends XbaseFormatter {
           };
           format.prepend(this.regionFor2(xImportDirective).keyword("import"), _function_2);
           this.format(xImportDirective, format);
-          boolean _equals = Objects.equal(xImportDirective, last);
+          boolean _equals = Objects.equals(xImportDirective, last);
           if (_equals) {
             final Procedure1<IHiddenRegionFormatter> _function_3 = (IHiddenRegionFormatter it) -> {
               it.setNewLines(2);
             };
-            format.append(IterableExtensions.<ISemanticRegion>last(this.regionForEObject2(xImportDirective).getAllSemanticRegions()), _function_3);
+            format.append(XcoreFormatter.<ISemanticRegion>lastOrNull(this.regionForEObject2(xImportDirective).getAllSemanticRegions()), _function_3);
           }
         }
       }
@@ -212,7 +212,7 @@ public class XcoreFormatter extends XbaseFormatter {
         final Procedure1<IHiddenRegionFormatter> _function_2 = (IHiddenRegionFormatter it) -> {
           it.newLine();
         };
-        format.append(IterableExtensions.<ISemanticRegion>last(this.regionForEObject2(xEnumLiteral).getAllSemanticRegions()), _function_2);
+        format.append(XcoreFormatter.<ISemanticRegion>lastOrNull(this.regionForEObject2(xEnumLiteral).getAllSemanticRegions()), _function_2);
       }
     }
   }
@@ -278,7 +278,7 @@ public class XcoreFormatter extends XbaseFormatter {
         final Procedure1<IHiddenRegionFormatter> _function_6 = (IHiddenRegionFormatter it) -> {
           it.newLine();
         };
-        format.append(IterableExtensions.<ISemanticRegion>last(this.regionForEObject2(xMember).getAllSemanticRegions()), _function_6);
+        format.append(XcoreFormatter.<ISemanticRegion>lastOrNull(this.regionForEObject2(xMember).getAllSemanticRegions()), _function_6);
       }
     }
   }
@@ -493,6 +493,14 @@ public class XcoreFormatter extends XbaseFormatter {
 
   private IEObjectRegion regionForEObject2(final EObject semanticElement) {
     return this.textRegionExtensions.regionForEObject(semanticElement);
+  }
+
+  private static <T extends Object> T lastOrNull(final Iterable<T> iterable) {
+    T result = null;
+    for (final T value : iterable) {
+      result = value;
+    }
+    return result;
   }
 
   public void format(final Object xAttribute, final IFormattableDocument format) {

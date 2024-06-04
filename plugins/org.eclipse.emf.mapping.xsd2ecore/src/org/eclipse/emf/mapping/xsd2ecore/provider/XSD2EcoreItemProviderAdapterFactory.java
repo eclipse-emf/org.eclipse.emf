@@ -112,6 +112,7 @@ public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ComposeableAdapterFactory getRootAdapterFactory()
   {
     return parentAdapterFactory == null ? this : parentAdapterFactory.getRootAdapterFactory();
@@ -123,6 +124,7 @@ public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setParentAdapterFactory(ComposedAdapterFactory parentAdapterFactory)
   {
     this.parentAdapterFactory = parentAdapterFactory;
@@ -177,6 +179,7 @@ public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void addListener(INotifyChangedListener notifyChangedListener)
   {
     changeNotifier.addListener(notifyChangedListener);
@@ -188,6 +191,7 @@ public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void removeListener(INotifyChangedListener notifyChangedListener)
   {
     changeNotifier.removeListener(notifyChangedListener);
@@ -199,6 +203,7 @@ public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void fireNotifyChanged(Notification notification)
   {
     changeNotifier.fireNotifyChanged(notification);
@@ -215,6 +220,7 @@ public class XSD2EcoreItemProviderAdapterFactory extends XSD2EcoreAdapterFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void dispose()
   {
     if (xsd2EcoreMappingRootItemProvider != null) xsd2EcoreMappingRootItemProvider.dispose();

@@ -83,7 +83,7 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
   
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link Ecore2XMLPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -98,7 +98,8 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
     if (isInited) return (Ecore2XMLPackage)EPackage.Registry.INSTANCE.getEPackage(Ecore2XMLPackage.eNS_URI);
 
     // Obtain or create and register package
-    Ecore2XMLPackageImpl theEcore2XMLPackage = (Ecore2XMLPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof Ecore2XMLPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new Ecore2XMLPackageImpl());
+    Object registeredEcore2XMLPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    Ecore2XMLPackageImpl theEcore2XMLPackage = registeredEcore2XMLPackage instanceof Ecore2XMLPackageImpl ? (Ecore2XMLPackageImpl)registeredEcore2XMLPackage : new Ecore2XMLPackageImpl();
 
     isInited = true;
 
@@ -114,7 +115,6 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
     // Mark meta-data to indicate it can't be changed
     theEcore2XMLPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(Ecore2XMLPackage.eNS_URI, theEcore2XMLPackage);
     return theEcore2XMLPackage;
@@ -125,6 +125,7 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXMLInfo()
   {
     return xmlInfoEClass;
@@ -135,6 +136,7 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLInfo_Name()
   {
     return (EAttribute)xmlInfoEClass.getEStructuralFeatures().get(0);
@@ -145,6 +147,7 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLInfo_TargetNamespace()
   {
     return (EAttribute)xmlInfoEClass.getEStructuralFeatures().get(1);
@@ -155,6 +158,7 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLInfo_XMLRepresentation()
   {
     return (EAttribute)xmlInfoEClass.getEStructuralFeatures().get(2);
@@ -165,6 +169,7 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXMLMap()
   {
     return xmlMapEClass;
@@ -175,6 +180,7 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLMap_IDAttributeName()
   {
     return (EAttribute)xmlMapEClass.getEStructuralFeatures().get(0);
@@ -185,6 +191,7 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXMLMap_EcoreToXMLInfo()
   {
     return (EReference)xmlMapEClass.getEStructuralFeatures().get(1);
@@ -195,6 +202,7 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXMLMap_NoNamespacePackage()
   {
     return (EReference)xmlMapEClass.getEStructuralFeatures().get(2);
@@ -205,6 +213,7 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getENamedElementToXMLInfoMapEntry()
   {
     return eNamedElementToXMLInfoMapEntryEClass;
@@ -215,6 +224,7 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getENamedElementToXMLInfoMapEntry_Key()
   {
     return (EReference)eNamedElementToXMLInfoMapEntryEClass.getEStructuralFeatures().get(0);
@@ -225,6 +235,7 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getENamedElementToXMLInfoMapEntry_Value()
   {
     return (EReference)eNamedElementToXMLInfoMapEntryEClass.getEStructuralFeatures().get(1);
@@ -235,6 +246,7 @@ public class Ecore2XMLPackageImpl extends EPackageImpl implements Ecore2XMLPacka
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Ecore2XMLFactory getEcore2XMLFactory()
   {
     return (Ecore2XMLFactory)getEFactoryInstance();

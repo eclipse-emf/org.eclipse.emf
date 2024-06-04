@@ -180,6 +180,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getEcoreDataType()
   {
     if (ecoreDataType != null && ecoreDataType.eIsProxy())
@@ -210,6 +211,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEcoreDataType(EDataType newEcoreDataType)
   {
     EDataType oldEcoreDataType = ecoreDataType;
@@ -366,6 +368,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
    * @since 2.14
    * @generated
    */
+  @Override
   public void setPropertyEditorFactory(String newPropertyEditorFactory)
   {
     String oldPropertyEditorFactory = propertyEditorFactory;

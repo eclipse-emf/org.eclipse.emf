@@ -98,6 +98,7 @@ public class RefFactoryImpl extends EFactoryImpl implements RefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public A createA()
   {
     AImpl a = new AImpl();
@@ -109,6 +110,7 @@ public class RefFactoryImpl extends EFactoryImpl implements RefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public B createB()
   {
     BImpl b = new BImpl();
@@ -120,6 +122,7 @@ public class RefFactoryImpl extends EFactoryImpl implements RefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C1 createC1()
   {
     C1Impl c1 = new C1Impl();
@@ -131,6 +134,7 @@ public class RefFactoryImpl extends EFactoryImpl implements RefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C2 createC2()
   {
     C2Impl c2 = new C2Impl();
@@ -142,6 +146,7 @@ public class RefFactoryImpl extends EFactoryImpl implements RefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C createC()
   {
     CImpl c = new CImpl();
@@ -153,6 +158,7 @@ public class RefFactoryImpl extends EFactoryImpl implements RefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public D createD()
   {
     DImpl d = new DImpl();
@@ -164,6 +170,7 @@ public class RefFactoryImpl extends EFactoryImpl implements RefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public E createE()
   {
     EImpl e = new EImpl();
@@ -175,6 +182,7 @@ public class RefFactoryImpl extends EFactoryImpl implements RefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C4 createC4()
   {
     C4Impl c4 = new C4Impl();
@@ -186,6 +194,7 @@ public class RefFactoryImpl extends EFactoryImpl implements RefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C3 createC3()
   {
     C3Impl c3 = new C3Impl();
@@ -197,6 +206,7 @@ public class RefFactoryImpl extends EFactoryImpl implements RefFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public RefPackage getRefPackage()
   {
     return (RefPackage)getEPackage();

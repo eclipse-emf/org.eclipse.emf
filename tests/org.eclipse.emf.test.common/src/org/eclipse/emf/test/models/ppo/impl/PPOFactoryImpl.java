@@ -127,6 +127,7 @@ public class PPOFactoryImpl extends EFactoryImpl implements PPOFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Item createItem()
   {
     ItemImpl item = new ItemImpl();
@@ -138,6 +139,7 @@ public class PPOFactoryImpl extends EFactoryImpl implements PPOFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public USAddress createUSAddress()
   {
     USAddressImpl usAddress = new USAddressImpl();
@@ -149,6 +151,7 @@ public class PPOFactoryImpl extends EFactoryImpl implements PPOFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public PurchaseOrder createPurchaseOrder()
   {
     PurchaseOrderImpl purchaseOrder = new PurchaseOrderImpl();
@@ -200,6 +203,7 @@ public class PPOFactoryImpl extends EFactoryImpl implements PPOFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public PPOPackage getPPOPackage()
   {
     return (PPOPackage)getEPackage();

@@ -2,24 +2,24 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.mapping.ecore2ecore.editor;singleton:=true
-Bundle-Version: 2.11.0.qualifier
+Bundle-Version: 2.12.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreEditorPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.emf.mapping.ecore2ecore.action;version="2.11.0",
- org.eclipse.emf.mapping.ecore2ecore.presentation;version="2.11.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.eclipse.emf.mapping.ecore2ecore.action;version="2.12.0",
+ org.eclipse.emf.mapping.ecore2ecore.presentation;version="2.12.0"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.core.resources;bundle-version="[3.8.0,4.0.0)";visibility:=reexport,
- org.eclipse.emf.mapping.ecore2ecore;bundle-version="[2.12.0,3.0.0)";visibility:=reexport,
- org.eclipse.emf.ecore.xmi;bundle-version="[2.18.0,3.0.0)";visibility:=reexport,
- org.eclipse.emf.edit.ui;bundle-version="[2.23.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.mapping.ecore2ecore;bundle-version="[2.13.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;bundle-version="[2.38.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.edit.ui;bundle-version="[2.24.0,3.0.0)";visibility:=reexport,
  org.eclipse.ui.ide;bundle-version="[3.9.0,4.0.0)";visibility:=reexport,
- org.eclipse.emf.mapping;bundle-version="[2.13.0,3.0.0)";visibility:=reexport,
- org.eclipse.emf.ecore.edit;bundle-version="[2.14.0,3.0.0)";visibility:=reexport,
- org.eclipse.emf.mapping.ui;bundle-version="[2.11.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.mapping;bundle-version="[2.14.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.ecore.edit;bundle-version="[2.15.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.mapping.ui;bundle-version="[2.12.0,3.0.0)";visibility:=reexport,
  org.eclipse.ui;bundle-version="[3.105.0,4.0.0)",
- org.eclipse.emf.ecore.editor;bundle-version="[2.18.0,3.0.0)"
+ org.eclipse.emf.ecore.editor;bundle-version="[2.19.0,3.0.0)"
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.eclipse.emf.mapping.ecore2ecore.editor

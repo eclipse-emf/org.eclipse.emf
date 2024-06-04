@@ -187,6 +187,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isUnsettable()
   {
     return (eFlags & UNSETTABLE_EFLAG) != 0;
@@ -197,6 +198,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setUnsettable(boolean newUnsettable)
   {
     boolean oldUnsettable = (eFlags & UNSETTABLE_EFLAG) != 0;
@@ -210,6 +212,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isDerived()
   {
     return (eFlags & DERIVED_EFLAG) != 0;
@@ -220,6 +223,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setDerived(boolean newDerived)
   {
     boolean oldDerived = (eFlags & DERIVED_EFLAG) != 0;
@@ -233,6 +237,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEContainingClass()
   {
     if (eContainerFeatureID() != EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS) return null;
@@ -375,6 +380,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isTransient()
   {
     return (eFlags & TRANSIENT_EFLAG) != 0;
@@ -385,6 +391,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTransient(boolean newTransient)
   {
     boolean oldTransient = (eFlags & TRANSIENT_EFLAG) != 0;
@@ -398,6 +405,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isVolatile()
   {
     return (eFlags & VOLATILE_EFLAG) != 0;
@@ -408,6 +416,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setVolatile(boolean newVolatile)
   {
     boolean oldVolatile = (eFlags & VOLATILE_EFLAG) != 0;
@@ -421,6 +430,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isChangeable()
   {
     return (eFlags & CHANGEABLE_EFLAG) != 0;
@@ -431,6 +441,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setChangeable(boolean newChangeable)
   {
     boolean oldChangeable = (eFlags & CHANGEABLE_EFLAG) != 0;
@@ -444,6 +455,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getDefaultValueLiteral()
   {
     return defaultValueLiteral;
@@ -459,7 +471,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (changeable: ");
     result.append((eFlags & CHANGEABLE_EFLAG) != 0);
     result.append(", volatile: ");

@@ -105,7 +105,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link QNamePackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -120,7 +120,8 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
     if (isInited) return (QNamePackage)EPackage.Registry.INSTANCE.getEPackage(QNamePackage.eNS_URI);
 
     // Obtain or create and register package
-    QNamePackageImpl theQNamePackage = (QNamePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof QNamePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new QNamePackageImpl());
+    Object registeredQNamePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    QNamePackageImpl theQNamePackage = registeredQNamePackage instanceof QNamePackageImpl ? (QNamePackageImpl)registeredQNamePackage : new QNamePackageImpl();
 
     isInited = true;
 
@@ -135,9 +136,10 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
 
     // Register package validator
     EValidator.Registry.INSTANCE.put
-      (theQNamePackage, 
+      (theQNamePackage,
        new EValidator.Descriptor()
        {
+         @Override
          public EValidator getEValidator()
          {
            return QNameValidator.INSTANCE;
@@ -147,7 +149,6 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
     // Mark meta-data to indicate it can't be changed
     theQNamePackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(QNamePackage.eNS_URI, theQNamePackage);
     return theQNamePackage;
@@ -158,6 +159,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getDocumentRoot()
   {
     return documentRootEClass;
@@ -168,6 +170,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getDocumentRoot_Mixed()
   {
     return (EAttribute)documentRootEClass.getEStructuralFeatures().get(0);
@@ -178,6 +181,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDocumentRoot_XMLNSPrefixMap()
   {
     return (EReference)documentRootEClass.getEStructuralFeatures().get(1);
@@ -188,6 +192,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDocumentRoot_XSISchemaLocation()
   {
     return (EReference)documentRootEClass.getEStructuralFeatures().get(2);
@@ -198,6 +203,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getDocumentRoot_AnyE()
   {
     return (EAttribute)documentRootEClass.getEStructuralFeatures().get(3);
@@ -208,6 +214,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getDocumentRoot_AnyEU()
   {
     return (EAttribute)documentRootEClass.getEStructuralFeatures().get(4);
@@ -218,6 +225,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDocumentRoot_Resource()
   {
     return (EReference)documentRootEClass.getEStructuralFeatures().get(5);
@@ -228,6 +236,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getDocumentRoot_AInt()
   {
     return (EAttribute)documentRootEClass.getEStructuralFeatures().get(6);
@@ -238,6 +247,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getDocumentRoot_AQname()
   {
     return (EAttribute)documentRootEClass.getEStructuralFeatures().get(7);
@@ -248,6 +258,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getDocumentRoot_AUnion()
   {
     return (EAttribute)documentRootEClass.getEStructuralFeatures().get(8);
@@ -258,6 +269,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getResourceType()
   {
     return resourceTypeEClass;
@@ -268,6 +280,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getResourceType_Unionvalue()
   {
     return (EAttribute)resourceTypeEClass.getEStructuralFeatures().get(0);
@@ -278,6 +291,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getResourceType_Qnamelist()
   {
     return (EAttribute)resourceTypeEClass.getEStructuralFeatures().get(1);
@@ -288,6 +302,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getResourceType_Intvalue()
   {
     return (EAttribute)resourceTypeEClass.getEStructuralFeatures().get(2);
@@ -298,6 +313,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getResourceType_Any()
   {
     return (EAttribute)resourceTypeEClass.getEStructuralFeatures().get(3);
@@ -308,6 +324,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getResourceType_MyQname()
   {
     return (EAttribute)resourceTypeEClass.getEStructuralFeatures().get(4);
@@ -318,6 +335,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getResourceType_AnyAttribute()
   {
     return (EAttribute)resourceTypeEClass.getEStructuralFeatures().get(5);
@@ -328,6 +346,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getIntQNameUnion()
   {
     return intQNameUnionEDataType;
@@ -338,6 +357,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getListUnion()
   {
     return listUnionEDataType;
@@ -348,6 +368,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getQnameList()
   {
     return qnameListEDataType;
@@ -358,6 +379,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getUnion()
   {
     return unionEDataType;
@@ -368,6 +390,7 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public QNameFactory getQNameFactory()
   {
     return (QNameFactory)getEFactoryInstance();
@@ -494,187 +517,187 @@ public class QNamePackageImpl extends EPackageImpl implements QNamePackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
     addAnnotation
-      (documentRootEClass, 
-       source, 
-       new String[] 
+      (documentRootEClass,
+       source,
+       new String[]
        {
-       "name", "",
-       "kind", "mixed"
-       });	
+         "name", "",
+         "kind", "mixed"
+       });
     addAnnotation
-      (getDocumentRoot_Mixed(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_Mixed(),
+       source,
+       new String[]
        {
-       "kind", "elementWildcard",
-       "name", ":mixed"
-       });	
+         "kind", "elementWildcard",
+         "name", ":mixed"
+       });
     addAnnotation
-      (getDocumentRoot_XMLNSPrefixMap(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_XMLNSPrefixMap(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "xmlns:prefix"
-       });	
+         "kind", "attribute",
+         "name", "xmlns:prefix"
+       });
     addAnnotation
-      (getDocumentRoot_XSISchemaLocation(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_XSISchemaLocation(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "xsi:schemaLocation"
-       });	
+         "kind", "attribute",
+         "name", "xsi:schemaLocation"
+       });
     addAnnotation
-      (getDocumentRoot_AnyE(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_AnyE(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "anyE",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "element",
+         "name", "anyE",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getDocumentRoot_AnyEU(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_AnyEU(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "anyEU",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "element",
+         "name", "anyEU",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getDocumentRoot_Resource(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_Resource(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "resource",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "element",
+         "name", "resource",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getDocumentRoot_AInt(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_AInt(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "aInt",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "attribute",
+         "name", "aInt",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getDocumentRoot_AQname(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_AQname(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "aQname",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "attribute",
+         "name", "aQname",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getDocumentRoot_AUnion(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_AUnion(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "aUnion",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "attribute",
+         "name", "aUnion",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (intQNameUnionEDataType, 
-       source, 
-       new String[] 
+      (intQNameUnionEDataType,
+       source,
+       new String[]
        {
-       "name", "intQNameUnion",
-       "memberTypes", "http://www.eclipse.org/emf/2003/XMLType#int http://www.eclipse.org/emf/2003/XMLType#QName"
-       });	
+         "name", "intQNameUnion",
+         "memberTypes", "http://www.eclipse.org/emf/2003/XMLType#int http://www.eclipse.org/emf/2003/XMLType#QName"
+       });
     addAnnotation
-      (listUnionEDataType, 
-       source, 
-       new String[] 
+      (listUnionEDataType,
+       source,
+       new String[]
        {
-       "name", "listUnion",
-       "itemType", "Union"
-       });	
+         "name", "listUnion",
+         "itemType", "Union"
+       });
     addAnnotation
-      (qnameListEDataType, 
-       source, 
-       new String[] 
+      (qnameListEDataType,
+       source,
+       new String[]
        {
-       "name", "qnameList",
-       "itemType", "http://www.eclipse.org/emf/2003/XMLType#QName"
-       });	
+         "name", "qnameList",
+         "itemType", "http://www.eclipse.org/emf/2003/XMLType#QName"
+       });
     addAnnotation
-      (resourceTypeEClass, 
-       source, 
-       new String[] 
+      (resourceTypeEClass,
+       source,
+       new String[]
        {
-       "name", "resourceType",
-       "kind", "elementOnly"
-       });	
+         "name", "resourceType",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getResourceType_Unionvalue(), 
-       source, 
-       new String[] 
+      (getResourceType_Unionvalue(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "unionvalue",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "element",
+         "name", "unionvalue",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getResourceType_Qnamelist(), 
-       source, 
-       new String[] 
+      (getResourceType_Qnamelist(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "qnamelist",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "element",
+         "name", "qnamelist",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getResourceType_Intvalue(), 
-       source, 
-       new String[] 
+      (getResourceType_Intvalue(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "intvalue",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "element",
+         "name", "intvalue",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getResourceType_Any(), 
-       source, 
-       new String[] 
+      (getResourceType_Any(),
+       source,
+       new String[]
        {
-       "kind", "elementWildcard",
-       "wildcards", "##any",
-       "name", ":3",
-       "processing", "strict"
-       });	
+         "kind", "elementWildcard",
+         "wildcards", "##any",
+         "name", ":3",
+         "processing", "strict"
+       });
     addAnnotation
-      (getResourceType_MyQname(), 
-       source, 
-       new String[] 
+      (getResourceType_MyQname(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "myQname"
-       });	
+         "kind", "attribute",
+         "name", "myQname"
+       });
     addAnnotation
-      (getResourceType_AnyAttribute(), 
-       source, 
-       new String[] 
+      (getResourceType_AnyAttribute(),
+       source,
+       new String[]
        {
-       "kind", "attributeWildcard",
-       "wildcards", "##any",
-       "name", ":5",
-       "processing", "strict"
-       });	
+         "kind", "attributeWildcard",
+         "wildcards", "##any",
+         "name", ":5",
+         "processing", "strict"
+       });
     addAnnotation
-      (unionEDataType, 
-       source, 
-       new String[] 
+      (unionEDataType,
+       source,
+       new String[]
        {
-       "name", "Union",
-       "memberTypes", "http://www.eclipse.org/emf/2003/XMLType#boolean intQNameUnion"
+         "name", "Union",
+         "memberTypes", "http://www.eclipse.org/emf/2003/XMLType#boolean intQNameUnion"
        });
   }
 

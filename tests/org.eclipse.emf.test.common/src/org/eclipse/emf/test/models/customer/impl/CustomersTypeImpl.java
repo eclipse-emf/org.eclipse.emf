@@ -76,6 +76,7 @@ public class CustomersTypeImpl extends EObjectImpl implements CustomersType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getMixed()
   {
     if (mixed == null)
@@ -90,6 +91,7 @@ public class CustomersTypeImpl extends EObjectImpl implements CustomersType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<CustomerType> getCustomer()
   {
     return getMixed().list(CustomerPackage.Literals.CUSTOMERS_TYPE__CUSTOMER);
@@ -202,7 +204,7 @@ public class CustomersTypeImpl extends EObjectImpl implements CustomersType
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (mixed: ");
     result.append(mixed);
     result.append(')');

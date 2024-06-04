@@ -83,6 +83,7 @@ public class FImpl extends EObjectImpl implements F
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getId()
   {
     return id;
@@ -93,6 +94,7 @@ public class FImpl extends EObjectImpl implements F
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setId(String newId)
   {
     String oldId = id;
@@ -106,6 +108,7 @@ public class FImpl extends EObjectImpl implements F
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ExtE getE()
   {
     if (eContainerFeatureID() != ExtPackage.F__E) return null;
@@ -128,6 +131,7 @@ public class FImpl extends EObjectImpl implements F
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setE(ExtE newE)
   {
     if (newE != eInternalContainer() || (eContainerFeatureID() != ExtPackage.F__E && newE != null))
@@ -282,7 +286,7 @@ public class FImpl extends EObjectImpl implements F
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (id: ");
     result.append(id);
     result.append(')');

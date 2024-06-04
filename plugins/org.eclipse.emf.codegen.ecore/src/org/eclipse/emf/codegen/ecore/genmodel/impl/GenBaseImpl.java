@@ -165,6 +165,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<GenAnnotation> getGenAnnotations()
   {
     if (genAnnotations == null)

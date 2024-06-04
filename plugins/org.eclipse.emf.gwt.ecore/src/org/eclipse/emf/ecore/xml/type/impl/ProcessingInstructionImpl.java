@@ -24,11 +24,11 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.ProcessingInstructionImpl#getData <em>Data</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.ProcessingInstructionImpl#getTarget <em>Target</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -102,6 +102,7 @@ public class ProcessingInstructionImpl extends EObjectImpl implements Processing
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getData()
   {
     return data;
@@ -112,6 +113,7 @@ public class ProcessingInstructionImpl extends EObjectImpl implements Processing
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setData(String newData)
   {
     String oldData = data;
@@ -125,6 +127,7 @@ public class ProcessingInstructionImpl extends EObjectImpl implements Processing
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getTarget()
   {
     return target;
@@ -135,6 +138,7 @@ public class ProcessingInstructionImpl extends EObjectImpl implements Processing
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTarget(String newTarget)
   {
     String oldTarget = target;
@@ -229,7 +233,7 @@ public class ProcessingInstructionImpl extends EObjectImpl implements Processing
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (data: ");
     result.append(data);
     result.append(", target: ");

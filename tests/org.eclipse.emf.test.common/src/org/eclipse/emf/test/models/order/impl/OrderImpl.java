@@ -124,6 +124,7 @@ public class OrderImpl extends EObjectImpl implements Order
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XMLGregorianCalendar getDateRequested()
   {
     return dateRequested;
@@ -134,6 +135,7 @@ public class OrderImpl extends EObjectImpl implements Order
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setDateRequested(XMLGregorianCalendar newDateRequested)
   {
     XMLGregorianCalendar oldDateRequested = dateRequested;
@@ -147,6 +149,7 @@ public class OrderImpl extends EObjectImpl implements Order
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XMLGregorianCalendar getLastUpdated()
   {
     return lastUpdated;
@@ -157,6 +160,7 @@ public class OrderImpl extends EObjectImpl implements Order
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLastUpdated(XMLGregorianCalendar newLastUpdated)
   {
     XMLGregorianCalendar oldLastUpdated = lastUpdated;
@@ -170,6 +174,7 @@ public class OrderImpl extends EObjectImpl implements Order
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public List<String> getMovies()
   {
     return movies;
@@ -180,6 +185,7 @@ public class OrderImpl extends EObjectImpl implements Order
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMovies(List<String> newMovies)
   {
     List<String> oldMovies = movies;
@@ -285,7 +291,7 @@ public class OrderImpl extends EObjectImpl implements Order
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (dateRequested: ");
     result.append(dateRequested);
     result.append(", lastUpdated: ");

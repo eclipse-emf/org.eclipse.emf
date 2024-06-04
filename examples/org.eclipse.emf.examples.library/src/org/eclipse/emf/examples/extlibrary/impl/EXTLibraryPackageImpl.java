@@ -219,6 +219,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getBook()
   {
     return bookEClass;
@@ -229,6 +230,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getBook_Title()
   {
     return (EAttribute)bookEClass.getEStructuralFeatures().get(0);
@@ -239,6 +241,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getBook_Pages()
   {
     return (EAttribute)bookEClass.getEStructuralFeatures().get(1);
@@ -249,6 +252,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getBook_Category()
   {
     return (EAttribute)bookEClass.getEStructuralFeatures().get(2);
@@ -259,6 +263,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getBook_Author()
   {
     return (EReference)bookEClass.getEStructuralFeatures().get(3);
@@ -269,6 +274,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getLibrary()
   {
     return libraryEClass;
@@ -279,6 +285,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getLibrary_Name()
   {
     return (EAttribute)libraryEClass.getEStructuralFeatures().get(0);
@@ -289,6 +296,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getLibrary_Writers()
   {
     return (EReference)libraryEClass.getEStructuralFeatures().get(1);
@@ -299,6 +307,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getLibrary_Employees()
   {
     return (EReference)libraryEClass.getEStructuralFeatures().get(2);
@@ -309,6 +318,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getLibrary_Borrowers()
   {
     return (EReference)libraryEClass.getEStructuralFeatures().get(3);
@@ -319,6 +329,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getLibrary_Stock()
   {
     return (EReference)libraryEClass.getEStructuralFeatures().get(4);
@@ -329,6 +340,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getLibrary_Books()
   {
     return (EReference)libraryEClass.getEStructuralFeatures().get(5);
@@ -339,6 +351,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getLibrary_Branches()
   {
     return (EReference)libraryEClass.getEStructuralFeatures().get(6);
@@ -349,6 +362,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getLibrary_ParentBranch()
   {
     return (EReference)libraryEClass.getEStructuralFeatures().get(7);
@@ -359,6 +373,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getLibrary_People()
   {
     return (EAttribute)libraryEClass.getEStructuralFeatures().get(8);
@@ -369,6 +384,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getWriter()
   {
     return writerEClass;
@@ -379,6 +395,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getWriter_Name()
   {
     return (EAttribute)writerEClass.getEStructuralFeatures().get(0);
@@ -389,6 +406,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getWriter_Books()
   {
     return (EReference)writerEClass.getEStructuralFeatures().get(1);
@@ -399,6 +417,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getItem()
   {
     return itemEClass;
@@ -409,6 +428,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getItem_PublicationDate()
   {
     return (EAttribute)itemEClass.getEStructuralFeatures().get(0);
@@ -419,6 +439,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getLendable()
   {
     return lendableEClass;
@@ -429,6 +450,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getLendable_Copies()
   {
     return (EAttribute)lendableEClass.getEStructuralFeatures().get(0);
@@ -439,6 +461,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getLendable_Borrowers()
   {
     return (EReference)lendableEClass.getEStructuralFeatures().get(1);
@@ -449,6 +472,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getCirculatingItem()
   {
     return circulatingItemEClass;
@@ -459,6 +483,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getPeriodical()
   {
     return periodicalEClass;
@@ -469,6 +494,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getPeriodical_Title()
   {
     return (EAttribute)periodicalEClass.getEStructuralFeatures().get(0);
@@ -479,6 +505,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getPeriodical_IssuesPerYear()
   {
     return (EAttribute)periodicalEClass.getEStructuralFeatures().get(1);
@@ -489,6 +516,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getAudioVisualItem()
   {
     return audioVisualItemEClass;
@@ -499,6 +527,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getAudioVisualItem_Title()
   {
     return (EAttribute)audioVisualItemEClass.getEStructuralFeatures().get(0);
@@ -509,6 +538,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getAudioVisualItem_MinutesLength()
   {
     return (EAttribute)audioVisualItemEClass.getEStructuralFeatures().get(1);
@@ -519,6 +549,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getAudioVisualItem_Damaged()
   {
     return (EAttribute)audioVisualItemEClass.getEStructuralFeatures().get(2);
@@ -529,6 +560,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getBookOnTape()
   {
     return bookOnTapeEClass;
@@ -539,6 +571,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getBookOnTape_Reader()
   {
     return (EReference)bookOnTapeEClass.getEStructuralFeatures().get(0);
@@ -549,6 +582,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getBookOnTape_Author()
   {
     return (EReference)bookOnTapeEClass.getEStructuralFeatures().get(1);
@@ -559,6 +593,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getVideoCassette()
   {
     return videoCassetteEClass;
@@ -569,6 +604,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getVideoCassette_Cast()
   {
     return (EReference)videoCassetteEClass.getEStructuralFeatures().get(0);
@@ -579,6 +615,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getBorrower()
   {
     return borrowerEClass;
@@ -589,6 +626,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getBorrower_Borrowed()
   {
     return (EReference)borrowerEClass.getEStructuralFeatures().get(0);
@@ -599,6 +637,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getPerson()
   {
     return personEClass;
@@ -609,6 +648,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getPerson_FirstName()
   {
     return (EAttribute)personEClass.getEStructuralFeatures().get(0);
@@ -619,6 +659,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getPerson_LastName()
   {
     return (EAttribute)personEClass.getEStructuralFeatures().get(1);
@@ -629,6 +670,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEmployee()
   {
     return employeeEClass;
@@ -639,6 +681,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEmployee_Manager()
   {
     return (EReference)employeeEClass.getEStructuralFeatures().get(0);
@@ -649,6 +692,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getAddressable()
   {
     return addressableEClass;
@@ -659,6 +703,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getAddressable_Address()
   {
     return (EAttribute)addressableEClass.getEStructuralFeatures().get(0);
@@ -669,6 +714,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getBookCategory()
   {
     return bookCategoryEEnum;
@@ -679,6 +725,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EXTLibraryFactory getEXTLibraryFactory()
   {
     return (EXTLibraryFactory)getEFactoryInstance();

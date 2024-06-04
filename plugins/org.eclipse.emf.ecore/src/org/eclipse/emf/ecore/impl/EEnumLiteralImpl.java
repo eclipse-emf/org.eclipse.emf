@@ -129,6 +129,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getValue()
   {
     return value;
@@ -139,6 +140,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValue(int newValue)
   {
     int oldValue = value;
@@ -231,6 +233,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLiteral(String newLiteral)
   {
     String oldLiteral = literal;

@@ -73,7 +73,7 @@ public interface EAnnotation extends EModelElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>Details</em>' map.
    * @see org.eclipse.emf.ecore.EcorePackage#getEAnnotation_Details()
-   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>"
+   * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry&lt;org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString&gt;"
    * @generated
    */
   EMap<String, String> getDetails();

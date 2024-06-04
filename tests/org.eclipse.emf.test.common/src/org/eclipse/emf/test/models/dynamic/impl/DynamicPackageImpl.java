@@ -12,9 +12,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.test.models.dynamic.Admin;
 import org.eclipse.emf.test.models.dynamic.Detail;
 import org.eclipse.emf.test.models.dynamic.DynamicFactory;
@@ -132,6 +130,7 @@ public class DynamicPackageImpl extends EPackageImpl implements DynamicPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getProvider()
   {
     return providerEClass;
@@ -142,6 +141,7 @@ public class DynamicPackageImpl extends EPackageImpl implements DynamicPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getProvider_Id()
   {
     return (EAttribute)providerEClass.getEStructuralFeatures().get(0);
@@ -152,6 +152,7 @@ public class DynamicPackageImpl extends EPackageImpl implements DynamicPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getProvider_Admin()
   {
     return (EReference)providerEClass.getEStructuralFeatures().get(1);
@@ -162,6 +163,7 @@ public class DynamicPackageImpl extends EPackageImpl implements DynamicPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getAdmin()
   {
     return adminEClass;
@@ -172,6 +174,7 @@ public class DynamicPackageImpl extends EPackageImpl implements DynamicPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getAdmin_Name()
   {
     return (EAttribute)adminEClass.getEStructuralFeatures().get(0);
@@ -182,6 +185,7 @@ public class DynamicPackageImpl extends EPackageImpl implements DynamicPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getAdmin_Location()
   {
     return (EAttribute)adminEClass.getEStructuralFeatures().get(1);
@@ -192,6 +196,7 @@ public class DynamicPackageImpl extends EPackageImpl implements DynamicPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getService()
   {
     return serviceEClass;
@@ -202,6 +207,7 @@ public class DynamicPackageImpl extends EPackageImpl implements DynamicPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getService_Details()
   {
     return (EReference)serviceEClass.getEStructuralFeatures().get(0);
@@ -212,6 +218,7 @@ public class DynamicPackageImpl extends EPackageImpl implements DynamicPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getDetail()
   {
     return detailEClass;
@@ -222,6 +229,7 @@ public class DynamicPackageImpl extends EPackageImpl implements DynamicPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getBase()
   {
     return baseEClass;
@@ -232,6 +240,7 @@ public class DynamicPackageImpl extends EPackageImpl implements DynamicPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public DynamicFactory getDynamicFactory()
   {
     return (DynamicFactory)getEFactoryInstance();

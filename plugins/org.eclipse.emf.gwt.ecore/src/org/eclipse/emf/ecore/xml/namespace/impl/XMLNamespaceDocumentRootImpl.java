@@ -37,6 +37,7 @@ import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespaceDocumentRootImpl#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespaceDocumentRootImpl#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
@@ -46,7 +47,6 @@ import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
  *   <li>{@link org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespaceDocumentRootImpl#getLang <em>Lang</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespaceDocumentRootImpl#getSpace <em>Space</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -205,6 +205,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getMixed()
   {
     if (mixed == null)
@@ -219,6 +220,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<String, String> getXMLNSPrefixMap()
   {
     if (xMLNSPrefixMap == null)
@@ -233,6 +235,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<String, String> getXSISchemaLocation()
   {
     if (xSISchemaLocation == null)
@@ -247,6 +250,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getBase()
   {
     return base;
@@ -257,6 +261,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setBase(String newBase)
   {
     String oldBase = base;
@@ -270,6 +275,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getId()
   {
     return id;
@@ -280,6 +286,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setId(String newId)
   {
     String oldId = id;
@@ -293,6 +300,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getLang()
   {
     return lang;
@@ -303,6 +311,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLang(String newLang)
   {
     String oldLang = lang;
@@ -316,6 +325,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public SpaceType getSpace()
   {
     return space;
@@ -326,6 +336,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSpace(SpaceType newSpace)
   {
     SpaceType oldSpace = space;
@@ -341,6 +352,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetSpace()
   {
     SpaceType oldSpace = space;
@@ -356,6 +368,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetSpace()
   {
     return spaceESet;
@@ -520,7 +533,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (mixed: ");
     result.append(mixed);
     result.append(", base: ");

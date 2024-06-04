@@ -225,6 +225,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getJClass()
   {
     return jClassEClass;
@@ -235,6 +236,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJClass_Abstract()
   {
     return (EAttribute)jClassEClass.getEStructuralFeatures().get(0);
@@ -245,6 +247,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJClass_Final()
   {
     return (EAttribute)jClassEClass.getEStructuralFeatures().get(1);
@@ -255,6 +258,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJClass_Interface()
   {
     return (EAttribute)jClassEClass.getEStructuralFeatures().get(2);
@@ -265,6 +269,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJClass_Throwable()
   {
     return (EAttribute)jClassEClass.getEStructuralFeatures().get(3);
@@ -275,6 +280,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJClass_JavaClass()
   {
     return (EAttribute)jClassEClass.getEStructuralFeatures().get(4);
@@ -285,6 +291,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJClass_Fields()
   {
     return (EReference)jClassEClass.getEStructuralFeatures().get(5);
@@ -295,6 +302,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJClass_Methods()
   {
     return (EReference)jClassEClass.getEStructuralFeatures().get(6);
@@ -305,6 +313,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJClass_SuperTypes()
   {
     return (EReference)jClassEClass.getEStructuralFeatures().get(7);
@@ -315,6 +324,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJClass_AllSuperTypes()
   {
     return (EReference)jClassEClass.getEStructuralFeatures().get(8);
@@ -325,6 +335,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJClass_Members()
   {
     return (EReference)jClassEClass.getEStructuralFeatures().get(9);
@@ -335,6 +346,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJClass_ComponentType()
   {
     return (EReference)jClassEClass.getEStructuralFeatures().get(10);
@@ -345,6 +357,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJClass_ArrayType()
   {
     return (EReference)jClassEClass.getEStructuralFeatures().get(11);
@@ -355,6 +368,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJClass_Unit()
   {
     return (EReference)jClassEClass.getEStructuralFeatures().get(12);
@@ -365,6 +379,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJClass_AllMethods()
   {
     return (EReference)jClassEClass.getEStructuralFeatures().get(13);
@@ -375,6 +390,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJClass_AllFields()
   {
     return (EReference)jClassEClass.getEStructuralFeatures().get(14);
@@ -385,6 +401,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJClass_Package()
   {
     return (EReference)jClassEClass.getEStructuralFeatures().get(15);
@@ -395,6 +412,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJClass_Types()
   {
     return (EReference)jClassEClass.getEStructuralFeatures().get(16);
@@ -405,6 +423,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJClass_AllTypes()
   {
     return (EReference)jClassEClass.getEStructuralFeatures().get(17);
@@ -415,6 +434,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getJCompilationUnit()
   {
     return jCompilationUnitEClass;
@@ -425,6 +445,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJCompilationUnit_Package()
   {
     return (EReference)jCompilationUnitEClass.getEStructuralFeatures().get(5);
@@ -435,6 +456,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJCompilationUnit_Imports()
   {
     return (EAttribute)jCompilationUnitEClass.getEStructuralFeatures().get(0);
@@ -445,6 +467,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJCompilationUnit_Comment()
   {
     return (EAttribute)jCompilationUnitEClass.getEStructuralFeatures().get(1);
@@ -455,6 +478,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJCompilationUnit_Types()
   {
     return (EReference)jCompilationUnitEClass.getEStructuralFeatures().get(2);
@@ -465,6 +489,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJCompilationUnit_ImportedPackages()
   {
     return (EReference)jCompilationUnitEClass.getEStructuralFeatures().get(3);
@@ -475,6 +500,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJCompilationUnit_ImportedTypes()
   {
     return (EReference)jCompilationUnitEClass.getEStructuralFeatures().get(4);
@@ -485,6 +511,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getJField()
   {
     return jFieldEClass;
@@ -495,6 +522,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJField_Final()
   {
     return (EAttribute)jFieldEClass.getEStructuralFeatures().get(0);
@@ -505,6 +533,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJField_Transient()
   {
     return (EAttribute)jFieldEClass.getEStructuralFeatures().get(1);
@@ -515,6 +544,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJField_Volatile()
   {
     return (EAttribute)jFieldEClass.getEStructuralFeatures().get(2);
@@ -525,6 +555,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJField_JavaField()
   {
     return (EAttribute)jFieldEClass.getEStructuralFeatures().get(3);
@@ -535,6 +566,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJField_Initializer()
   {
     return (EAttribute)jFieldEClass.getEStructuralFeatures().get(4);
@@ -545,6 +577,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJField_Type()
   {
     return (EReference)jFieldEClass.getEStructuralFeatures().get(5);
@@ -555,6 +588,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getJInitializer()
   {
     return jInitializerEClass;
@@ -565,6 +599,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJInitializer_Body()
   {
     return (EAttribute)jInitializerEClass.getEStructuralFeatures().get(0);
@@ -575,6 +610,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getJMember()
   {
     return jMemberEClass;
@@ -585,6 +621,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJMember_Static()
   {
     return (EAttribute)jMemberEClass.getEStructuralFeatures().get(0);
@@ -595,6 +632,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJMember_Visibility()
   {
     return (EAttribute)jMemberEClass.getEStructuralFeatures().get(1);
@@ -605,6 +643,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJMember_Comment()
   {
     return (EAttribute)jMemberEClass.getEStructuralFeatures().get(2);
@@ -615,6 +654,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJMember_ContainingType()
   {
     return (EReference)jMemberEClass.getEStructuralFeatures().get(3);
@@ -625,6 +665,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getJMethod()
   {
     return jMethodEClass;
@@ -635,6 +676,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJMethod_Abstract()
   {
     return (EAttribute)jMethodEClass.getEStructuralFeatures().get(0);
@@ -645,6 +687,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJMethod_Final()
   {
     return (EAttribute)jMethodEClass.getEStructuralFeatures().get(1);
@@ -655,6 +698,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJMethod_Native()
   {
     return (EAttribute)jMethodEClass.getEStructuralFeatures().get(2);
@@ -665,6 +709,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJMethod_Synchronized()
   {
     return (EAttribute)jMethodEClass.getEStructuralFeatures().get(3);
@@ -675,6 +720,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJMethod_JavaMethod()
   {
     return (EAttribute)jMethodEClass.getEStructuralFeatures().get(4);
@@ -685,6 +731,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJMethod_Constructor()
   {
     return (EAttribute)jMethodEClass.getEStructuralFeatures().get(5);
@@ -695,6 +742,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJMethod_JavaConstructor()
   {
     return (EAttribute)jMethodEClass.getEStructuralFeatures().get(6);
@@ -705,6 +753,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJMethod_Body()
   {
     return (EAttribute)jMethodEClass.getEStructuralFeatures().get(7);
@@ -715,6 +764,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJMethod_Parameters()
   {
     return (EReference)jMethodEClass.getEStructuralFeatures().get(8);
@@ -725,6 +775,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJMethod_Exceptions()
   {
     return (EReference)jMethodEClass.getEStructuralFeatures().get(9);
@@ -735,6 +786,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJMethod_ReturnType()
   {
     return (EReference)jMethodEClass.getEStructuralFeatures().get(10);
@@ -745,6 +797,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getJModelElement()
   {
     return jModelElementEClass;
@@ -755,6 +808,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJModelElement_Name()
   {
     return (EAttribute)jModelElementEClass.getEStructuralFeatures().get(0);
@@ -765,6 +819,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJModelElement_JNode()
   {
     return (EAttribute)jModelElementEClass.getEStructuralFeatures().get(1);
@@ -775,6 +830,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getJParameter()
   {
     return jParameterEClass;
@@ -785,6 +841,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJParameter_Final()
   {
     return (EAttribute)jParameterEClass.getEStructuralFeatures().get(0);
@@ -795,6 +852,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJParameter_Method()
   {
     return (EReference)jParameterEClass.getEStructuralFeatures().get(1);
@@ -805,6 +863,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJParameter_Type()
   {
     return (EReference)jParameterEClass.getEStructuralFeatures().get(2);
@@ -815,6 +874,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getJPackage()
   {
     return jPackageEClass;
@@ -825,6 +885,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getJPackage_JavaPackage()
   {
     return (EAttribute)jPackageEClass.getEStructuralFeatures().get(0);
@@ -835,6 +896,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getJPackage_Types()
   {
     return (EReference)jPackageEClass.getEStructuralFeatures().get(1);
@@ -845,6 +907,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getJVisibility()
   {
     return jVisibilityEEnum;
@@ -855,6 +918,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getJNode()
   {
     return jNodeEDataType;
@@ -865,6 +929,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getJavaClass()
   {
     return javaClassEDataType;
@@ -875,6 +940,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getJavaMethod()
   {
     return javaMethodEDataType;
@@ -885,6 +951,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getJavaConstructor()
   {
     return javaConstructorEDataType;
@@ -895,6 +962,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getJavaField()
   {
     return javaFieldEDataType;
@@ -905,6 +973,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getJavaPackage()
   {
     return javaPackageEDataType;
@@ -915,6 +984,7 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JavaFactory getJavaFactory()
   {
     return (JavaFactory)getEFactoryInstance();

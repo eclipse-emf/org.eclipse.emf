@@ -88,6 +88,7 @@ public class C2Impl extends EObjectImpl implements C2
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<B> getB()
   {
     if (b == null)
@@ -102,6 +103,7 @@ public class C2Impl extends EObjectImpl implements C2
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public A getA()
   {
     return a;
@@ -129,6 +131,7 @@ public class C2Impl extends EObjectImpl implements C2
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setA(A newA)
   {
     if (newA != a)

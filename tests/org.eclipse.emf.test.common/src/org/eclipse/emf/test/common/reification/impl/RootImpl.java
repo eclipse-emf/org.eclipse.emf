@@ -181,6 +181,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -191,6 +192,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -204,6 +206,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Container getContainer()
   {
     return container;
@@ -231,6 +234,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setContainer(Container newContainer)
   {
     if (newContainer != container)
@@ -252,6 +256,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public UnboundedGenericContainer getUnboundedGenericContainerWithRawType()
   {
     return unboundedGenericContainerWithRawType;
@@ -279,6 +284,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setUnboundedGenericContainerWithRawType(UnboundedGenericContainer newUnboundedGenericContainerWithRawType)
   {
     if (newUnboundedGenericContainerWithRawType != unboundedGenericContainerWithRawType)
@@ -300,6 +306,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public UnboundedGenericContainer<?> getUnboundedGenericContainerWithWildcard()
   {
     return unboundedGenericContainerWithWildcard;
@@ -327,6 +334,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setUnboundedGenericContainerWithWildcard(UnboundedGenericContainer<?> newUnboundedGenericContainerWithWildcard)
   {
     if (newUnboundedGenericContainerWithWildcard != unboundedGenericContainerWithWildcard)
@@ -348,6 +356,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public UnboundedGenericContainer<? super Medium> getUnboundedGenericContainerWithSuper()
   {
     return unboundedGenericContainerWithSuper;
@@ -375,6 +384,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setUnboundedGenericContainerWithSuper(UnboundedGenericContainer<? super Medium> newUnboundedGenericContainerWithSuper)
   {
     if (newUnboundedGenericContainerWithSuper != unboundedGenericContainerWithSuper)
@@ -396,6 +406,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public UnboundedGenericContainer<? extends Medium> getUnboundedGenericContainerWithExtends()
   {
     return unboundedGenericContainerWithExtends;
@@ -423,6 +434,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setUnboundedGenericContainerWithExtends(UnboundedGenericContainer<? extends Medium> newUnboundedGenericContainerWithExtends)
   {
     if (newUnboundedGenericContainerWithExtends != unboundedGenericContainerWithExtends)
@@ -444,6 +456,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public BoundedGenericContainer getBoundedGenericContainerWithRawType()
   {
     return boundedGenericContainerWithRawType;
@@ -471,6 +484,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setBoundedGenericContainerWithRawType(BoundedGenericContainer newBoundedGenericContainerWithRawType)
   {
     if (newBoundedGenericContainerWithRawType != boundedGenericContainerWithRawType)
@@ -492,6 +506,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public BoundedGenericContainer<?> getBoundedGenericContainerWithWildcard()
   {
     return boundedGenericContainerWithWildcard;
@@ -519,6 +534,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setBoundedGenericContainerWithWildcard(BoundedGenericContainer<?> newBoundedGenericContainerWithWildcard)
   {
     if (newBoundedGenericContainerWithWildcard != boundedGenericContainerWithWildcard)
@@ -540,6 +556,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public BoundedGenericContainer<? super Medium> getBoundedGenericContainerWithSuper()
   {
     return boundedGenericContainerWithSuper;
@@ -567,6 +584,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setBoundedGenericContainerWithSuper(BoundedGenericContainer<? super Medium> newBoundedGenericContainerWithSuper)
   {
     if (newBoundedGenericContainerWithSuper != boundedGenericContainerWithSuper)
@@ -588,6 +606,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public BoundedGenericContainer<? extends Medium> getBoundedGenericContainerWithExtends()
   {
     return boundedGenericContainerWithExtends;
@@ -615,6 +634,7 @@ public class RootImpl extends EObjectImpl implements Root
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setBoundedGenericContainerWithExtends(BoundedGenericContainer<? extends Medium> newBoundedGenericContainerWithExtends)
   {
     if (newBoundedGenericContainerWithExtends != boundedGenericContainerWithExtends)
@@ -830,7 +850,7 @@ public class RootImpl extends EObjectImpl implements Root
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (name: ");
     result.append(name);
     result.append(')');

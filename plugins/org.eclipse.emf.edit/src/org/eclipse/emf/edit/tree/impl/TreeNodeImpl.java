@@ -91,6 +91,7 @@ public class TreeNodeImpl extends MinimalEObjectImpl.Container implements TreeNo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public TreeNode getParent()
   {
     if (eContainerFeatureID() != TreePackage.TREE_NODE__PARENT) return null;
@@ -113,6 +114,7 @@ public class TreeNodeImpl extends MinimalEObjectImpl.Container implements TreeNo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setParent(TreeNode newParent)
   {
     if (newParent != eInternalContainer() || (eContainerFeatureID() != TreePackage.TREE_NODE__PARENT && newParent != null))
@@ -136,6 +138,7 @@ public class TreeNodeImpl extends MinimalEObjectImpl.Container implements TreeNo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<TreeNode> getChildren()
   {
     if (children == null)
@@ -150,6 +153,7 @@ public class TreeNodeImpl extends MinimalEObjectImpl.Container implements TreeNo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject getData()
   {
     if (data != null && data.eIsProxy())
@@ -180,6 +184,7 @@ public class TreeNodeImpl extends MinimalEObjectImpl.Container implements TreeNo
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setData(EObject newData)
   {
     EObject oldData = data;

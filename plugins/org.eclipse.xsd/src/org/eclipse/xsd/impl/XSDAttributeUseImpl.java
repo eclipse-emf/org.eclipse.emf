@@ -338,6 +338,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isRequired()
   {
     return (eFlags & REQUIRED_EFLAG) != 0;
@@ -348,6 +349,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRequired(boolean newRequired)
   {
     boolean oldRequired = (eFlags & REQUIRED_EFLAG) != 0;
@@ -361,6 +363,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object getValue()
   {
     return value;
@@ -371,6 +374,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValue(Object newValue)
   {
     Object oldValue = value;
@@ -384,6 +388,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDConstraint getConstraint()
   {
     return CONSTRAINT_EFLAG_VALUES[(eFlags & CONSTRAINT_EFLAG) >>> CONSTRAINT_EFLAG_OFFSET];
@@ -394,6 +399,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setConstraint(XSDConstraint newConstraint)
   {
     XSDConstraint oldConstraint = CONSTRAINT_EFLAG_VALUES[(eFlags & CONSTRAINT_EFLAG) >>> CONSTRAINT_EFLAG_OFFSET];
@@ -410,6 +416,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetConstraint()
   {
     XSDConstraint oldConstraint = CONSTRAINT_EFLAG_VALUES[(eFlags & CONSTRAINT_EFLAG) >>> CONSTRAINT_EFLAG_OFFSET];
@@ -425,6 +432,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetConstraint()
   {
     return (eFlags & CONSTRAINT_ESETFLAG) != 0;
@@ -435,6 +443,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAttributeUseCategory getUse()
   {
     return USE_EFLAG_VALUES[(eFlags & USE_EFLAG) >>> USE_EFLAG_OFFSET];
@@ -445,6 +454,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setUse(XSDAttributeUseCategory newUse)
   {
     XSDAttributeUseCategory oldUse = USE_EFLAG_VALUES[(eFlags & USE_EFLAG) >>> USE_EFLAG_OFFSET];
@@ -461,6 +471,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetUse()
   {
     XSDAttributeUseCategory oldUse = USE_EFLAG_VALUES[(eFlags & USE_EFLAG) >>> USE_EFLAG_OFFSET];
@@ -476,6 +487,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetUse()
   {
     return (eFlags & USE_ESETFLAG) != 0;
@@ -486,6 +498,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getLexicalValue()
   {
     return lexicalValue;
@@ -496,6 +509,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLexicalValue(String newLexicalValue)
   {
     String oldLexicalValue = lexicalValue;
@@ -509,6 +523,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAttributeDeclaration getAttributeDeclaration()
   {
     return attributeDeclaration;
@@ -519,6 +534,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAttributeDeclaration(XSDAttributeDeclaration newAttributeDeclaration)
   {
     XSDAttributeDeclaration oldAttributeDeclaration = attributeDeclaration;
@@ -532,6 +548,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAttributeDeclaration getContent()
   {
     return content;
@@ -542,6 +559,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setContent(XSDAttributeDeclaration newContent)
   {
     if (newContent != content)

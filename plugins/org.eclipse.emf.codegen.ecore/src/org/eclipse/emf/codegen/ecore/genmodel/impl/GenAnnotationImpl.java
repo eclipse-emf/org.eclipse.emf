@@ -127,6 +127,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getSource()
   {
     return source;
@@ -137,6 +138,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSource(String newSource)
   {
     String oldSource = source;
@@ -150,6 +152,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EMap<String, String> getDetails()
   {
     if (details == null)
@@ -164,6 +167,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenBase getGenBase()
   {
     if (eContainerFeatureID() != GenModelPackage.GEN_ANNOTATION__GEN_BASE) return null;
@@ -186,6 +190,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setGenBase(GenBase newGenBase)
   {
     if (newGenBase != eInternalContainer() || (eContainerFeatureID() != GenModelPackage.GEN_ANNOTATION__GEN_BASE && newGenBase != null))
@@ -209,6 +214,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<EObject> getReferences()
   {
     if (references == null)
@@ -223,6 +229,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<EObject> getContents()
   {
     if (contents == null)

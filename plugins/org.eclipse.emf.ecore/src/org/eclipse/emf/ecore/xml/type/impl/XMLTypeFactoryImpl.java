@@ -461,6 +461,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertENTITIES(List<? extends String> instanceValue)
   {
     return convertENTITIESBase(instanceValue);
@@ -481,6 +482,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public List<String> createENTITIESBase(String literal)
   {
     if (literal == null) return null;
@@ -507,6 +509,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertENTITIESBase(List<? extends String> instanceValue)
   {
     if (instanceValue == null) return null;
@@ -898,6 +901,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertIDREFS(List<? extends String> instanceValue)
   {
     return convertIDREFSBase(instanceValue);
@@ -918,6 +922,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public List<String> createIDREFSBase(String literal)
   {
     if (literal == null) return null;
@@ -944,6 +949,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertIDREFSBase(List<? extends String> instanceValue)
   {
     if (instanceValue == null) return null;
@@ -1153,6 +1159,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertNegativeInteger(BigInteger instanceValue)
   {
     return convertNonPositiveInteger(instanceValue);
@@ -1193,6 +1200,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public List<String> createNMTOKENS(String literal)
   {
     return createNMTOKENSBase(literal);
@@ -1213,6 +1221,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertNMTOKENS(List<? extends String> instanceValue)
   {
     return convertNMTOKENSBase(instanceValue);
@@ -1233,6 +1242,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public List<String> createNMTOKENSBase(String literal)
   {
     if (literal == null) return null;
@@ -1259,6 +1269,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertNMTOKENSBase(List<? extends String> instanceValue)
   {
     if (instanceValue == null) return null;
@@ -1377,6 +1388,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public BigInteger createPositiveInteger(String literal)
   {
     return createNonNegativeInteger(literal);
@@ -1397,6 +1409,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertPositiveInteger(BigInteger instanceValue)
   {
     return convertNonNegativeInteger(instanceValue);
@@ -1664,6 +1677,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public BigInteger createUnsignedLong(String literal)
   {
     return createNonNegativeInteger(literal);
@@ -1684,6 +1698,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertUnsignedLong(BigInteger instanceValue)
   {
     return convertNonNegativeInteger(instanceValue);
@@ -2065,6 +2080,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public AnyType createAnyType()
   {
     AnyTypeImpl anyType = new AnyTypeImpl();
@@ -2076,6 +2092,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ProcessingInstruction createProcessingInstruction()
   {
     ProcessingInstructionImpl processingInstruction = new ProcessingInstructionImpl();
@@ -2087,6 +2104,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public SimpleAnyType createSimpleAnyType()
   {
     SimpleAnyTypeImpl simpleAnyType = new SimpleAnyTypeImpl();
@@ -2098,6 +2116,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XMLTypeDocumentRoot createXMLTypeDocumentRoot()
   {
     XMLTypeDocumentRootImpl xmlTypeDocumentRoot = new XMLTypeDocumentRootImpl();
@@ -3071,6 +3090,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XMLTypePackage getXMLTypePackage()
   {
     return (XMLTypePackage)getEPackage();

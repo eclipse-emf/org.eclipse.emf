@@ -249,6 +249,7 @@ public class CImpl extends EObjectImpl implements BasicEMap.Entry<String,String>
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getHash()
   {
     if (hash == -1)
@@ -264,6 +265,7 @@ public class CImpl extends EObjectImpl implements BasicEMap.Entry<String,String>
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setHash(int hash)
   {
     this.hash = hash;
@@ -274,6 +276,7 @@ public class CImpl extends EObjectImpl implements BasicEMap.Entry<String,String>
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getKey()
   {
     return getTypedKey();
@@ -284,6 +287,7 @@ public class CImpl extends EObjectImpl implements BasicEMap.Entry<String,String>
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setKey(String key)
   {
     setTypedKey(key);
@@ -294,6 +298,7 @@ public class CImpl extends EObjectImpl implements BasicEMap.Entry<String,String>
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getValue()
   {
     return getTypedValue();
@@ -304,6 +309,7 @@ public class CImpl extends EObjectImpl implements BasicEMap.Entry<String,String>
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String setValue(String value)
   {
     String oldValue = getValue();

@@ -770,6 +770,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPrefix(String newPrefix)
   {
     String oldPrefix = prefix;
@@ -806,6 +807,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setBasePackage(String newBasePackage)
   {
     String oldBasePackage = basePackage;
@@ -819,6 +821,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenResourceKind getResource()
   {
     return resource;
@@ -829,6 +832,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setResource(GenResourceKind newResource)
   {
     GenResourceKind oldResource = resource;
@@ -842,6 +846,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isDisposableProviderFactory()
   {
     return disposableProviderFactory;
@@ -852,6 +857,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setDisposableProviderFactory(boolean newDisposableProviderFactory)
   {
     boolean oldDisposableProviderFactory = disposableProviderFactory;
@@ -865,6 +871,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isAdapterFactory()
   {
     return adapterFactory;
@@ -875,6 +882,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAdapterFactory(boolean newAdapterFactory)
   {
     boolean oldAdapterFactory = adapterFactory;
@@ -888,6 +896,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isLoadInitialization()
   {
     return loadInitialization;
@@ -898,6 +907,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLoadInitialization(boolean newLoadInitialization)
   {
     boolean oldLoadInitialization = loadInitialization;
@@ -911,6 +921,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getInterfacePackageSuffix()
   {
     return interfacePackageSuffix;
@@ -921,6 +932,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setInterfacePackageSuffix(String newInterfacePackageSuffix)
   {
     String oldInterfacePackageSuffix = interfacePackageSuffix;
@@ -934,6 +946,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getMetaDataPackageSuffix()
   {
     return metaDataPackageSuffix;
@@ -944,6 +957,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMetaDataPackageSuffix(String newMetaDataPackageSuffix)
   {
     String oldMetaDataPackageSuffix = metaDataPackageSuffix;
@@ -957,6 +971,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getClassPackageSuffix()
   {
     return classPackageSuffix;
@@ -967,6 +982,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setClassPackageSuffix(String newClassPackageSuffix)
   {
     String oldClassPackageSuffix = classPackageSuffix;
@@ -980,6 +996,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getUtilityPackageSuffix()
   {
     return utilityPackageSuffix;
@@ -990,6 +1007,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setUtilityPackageSuffix(String newUtilityPackageSuffix)
   {
     String oldUtilityPackageSuffix = utilityPackageSuffix;
@@ -1003,6 +1021,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getProviderPackageSuffix()
   {
     return providerPackageSuffix;
@@ -1013,6 +1032,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setProviderPackageSuffix(String newProviderPackageSuffix)
   {
     String oldProviderPackageSuffix = providerPackageSuffix;
@@ -1026,6 +1046,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getPresentationPackageSuffix()
   {
     return presentationPackageSuffix;
@@ -1036,6 +1057,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPresentationPackageSuffix(String newPresentationPackageSuffix)
   {
     String oldPresentationPackageSuffix = presentationPackageSuffix;
@@ -1049,6 +1071,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getTestsPackageSuffix()
   {
     return testsPackageSuffix;
@@ -1059,6 +1082,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTestsPackageSuffix(String newTestsPackageSuffix)
   {
     String oldTestsPackageSuffix = testsPackageSuffix;
@@ -1072,6 +1096,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isGenerateExampleClass()
   {
     return generateExampleClass;
@@ -1082,6 +1107,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setGenerateExampleClass(boolean newGenerateExampleClass)
   {
     boolean oldGenerateExampleClass = generateExampleClass;
@@ -1095,6 +1121,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isLiteralsInterface()
   {
     return literalsInterface;
@@ -1105,6 +1132,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLiteralsInterface(boolean newLiteralsInterface)
   {
     boolean oldLiteralsInterface = literalsInterface;
@@ -1118,6 +1146,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isDataTypeConverters()
   {
     return dataTypeConverters;
@@ -1128,6 +1157,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setDataTypeConverters(boolean newDataTypeConverters)
   {
     boolean oldDataTypeConverters = dataTypeConverters;
@@ -1141,6 +1171,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isMultipleEditorPages()
   {
     return multipleEditorPages;
@@ -1151,6 +1182,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMultipleEditorPages(boolean newMultipleEditorPages)
   {
     boolean oldMultipleEditorPages = multipleEditorPages;
@@ -1164,6 +1196,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isGenerateModelWizard()
   {
     return generateModelWizard;
@@ -1174,6 +1207,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setGenerateModelWizard(boolean newGenerateModelWizard)
   {
     boolean oldGenerateModelWizard = generateModelWizard;
@@ -1187,6 +1221,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isExtensibleProviderFactory()
   {
     return extensibleProviderFactory;
@@ -1197,6 +1232,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setExtensibleProviderFactory(boolean newExtensibleProviderFactory)
   {
     boolean oldExtensibleProviderFactory = extensibleProviderFactory;
@@ -1210,6 +1246,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isChildCreationExtenders()
   {
     return childCreationExtenders;
@@ -1220,6 +1257,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setChildCreationExtenders(boolean newChildCreationExtenders)
   {
     boolean oldChildCreationExtenders = childCreationExtenders;
@@ -1233,6 +1271,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getContentTypeIdentifier()
   {
     return contentTypeIdentifier;
@@ -1243,6 +1282,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setContentTypeIdentifier(String newContentTypeIdentifier)
   {
     String oldContentTypeIdentifier = contentTypeIdentifier;
@@ -1283,6 +1323,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFileExtensions(String newFileExtensions)
   {
     String oldFileExtensions = fileExtensions;
@@ -1308,6 +1349,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EPackage getEcorePackage()
   {
     if (ecorePackage != null && ecorePackage.eIsProxy())
@@ -1338,6 +1380,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEcorePackage(EPackage newEcorePackage)
   {
     EPackage oldEcorePackage = ecorePackage;
@@ -1402,6 +1445,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setGenModel(GenModel newGenModel)
   {
     if (newGenModel != eInternalContainer() || (eContainerFeatureID() != GenModelPackage.GEN_PACKAGE__GEN_MODEL && newGenModel != null))
@@ -1425,6 +1469,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<GenEnum> getGenEnums()
   {
     if (genEnums == null)
@@ -1439,6 +1484,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<GenDataType> getGenDataTypes()
   {
     if (genDataTypes == null)
@@ -1453,6 +1499,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<GenClass> getGenClasses()
   {
     if (genClasses == null)
@@ -1467,6 +1514,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<GenPackage> getNestedGenPackages()
   {
     if (nestedGenPackages == null)
@@ -1497,6 +1545,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getPublicationLocation()
   {
     return publicationLocation;
@@ -1507,6 +1556,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPublicationLocation(String newPublicationLocation)
   {
     String oldPublicationLocation = publicationLocation;
@@ -1538,6 +1588,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @since 2.14
    * @generated
    */
+  @Override
   public void setDocumentation(String newDocumentation)
   {
     String oldDocumentation = documentation;
@@ -1581,6 +1632,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @since 2.15
    * @generated
    */
+  @Override
   public String getLoadInitializationFileExtension()
   {
     return loadInitializationFileExtension;
@@ -1592,6 +1644,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @since 2.15
    * @generated
    */
+  @Override
   public void setLoadInitializationFileExtension(String newLoadInitializationFileExtension)
   {
     String oldLoadInitializationFileExtension = loadInitializationFileExtension;
@@ -1606,6 +1659,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @since 2.31
    * @generated
    */
+  @Override
   public boolean isFamilyTreeInitialization()
   {
     return familyTreeInitialization;
@@ -1617,6 +1671,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @since 2.31
    * @generated
    */
+  @Override
   public void setFamilyTreeInitialization(boolean newFamilyTreeInitialization)
   {
     boolean oldFamilyTreeInitialization = familyTreeInitialization;

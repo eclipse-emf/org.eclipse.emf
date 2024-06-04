@@ -116,6 +116,7 @@ public abstract class XSDMaxFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object getValue()
   {
     return value;
@@ -126,6 +127,7 @@ public abstract class XSDMaxFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValue(Object newValue)
   {
     Object oldValue = value;

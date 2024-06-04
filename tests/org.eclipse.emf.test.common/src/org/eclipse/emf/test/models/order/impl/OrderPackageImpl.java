@@ -84,7 +84,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link OrderPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -99,7 +99,8 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
     if (isInited) return (OrderPackage)EPackage.Registry.INSTANCE.getEPackage(OrderPackage.eNS_URI);
 
     // Obtain or create and register package
-    OrderPackageImpl theOrderPackage = (OrderPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof OrderPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new OrderPackageImpl());
+    Object registeredOrderPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    OrderPackageImpl theOrderPackage = registeredOrderPackage instanceof OrderPackageImpl ? (OrderPackageImpl)registeredOrderPackage : new OrderPackageImpl();
 
     isInited = true;
 
@@ -107,8 +108,10 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
     XMLTypePackage.eINSTANCE.eClass();
 
     // Obtain or create and register interdependencies
-    CustomerPackageImpl theCustomerPackage = (CustomerPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) instanceof CustomerPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI) : CustomerPackage.eINSTANCE);
-    DBPackageImpl theDBPackage = (DBPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DBPackage.eNS_URI) instanceof DBPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DBPackage.eNS_URI) : DBPackage.eINSTANCE);
+    Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(CustomerPackage.eNS_URI);
+    CustomerPackageImpl theCustomerPackage = (CustomerPackageImpl)(registeredPackage instanceof CustomerPackageImpl ? registeredPackage : CustomerPackage.eINSTANCE);
+    registeredPackage = EPackage.Registry.INSTANCE.getEPackage(DBPackage.eNS_URI);
+    DBPackageImpl theDBPackage = (DBPackageImpl)(registeredPackage instanceof DBPackageImpl ? registeredPackage : DBPackage.eINSTANCE);
 
     // Create package meta-data objects
     theOrderPackage.createPackageContents();
@@ -123,7 +126,6 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
     // Mark meta-data to indicate it can't be changed
     theOrderPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(OrderPackage.eNS_URI, theOrderPackage);
     return theOrderPackage;
@@ -134,6 +136,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getCustomerOrder()
   {
     return customerOrderEClass;
@@ -144,6 +147,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getCustomerOrder_MoviesToSee()
   {
     return (EReference)customerOrderEClass.getEStructuralFeatures().get(0);
@@ -154,6 +158,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getCustomerOrder_MoviesSeen()
   {
     return (EReference)customerOrderEClass.getEStructuralFeatures().get(1);
@@ -164,6 +169,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCustomerOrder_Any()
   {
     return (EAttribute)customerOrderEClass.getEStructuralFeatures().get(2);
@@ -174,6 +180,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCustomerOrder_CustomerID()
   {
     return (EAttribute)customerOrderEClass.getEStructuralFeatures().get(3);
@@ -184,6 +191,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getDocumentRoot()
   {
     return documentRootEClass;
@@ -194,6 +202,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getDocumentRoot_Mixed()
   {
     return (EAttribute)documentRootEClass.getEStructuralFeatures().get(0);
@@ -204,6 +213,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDocumentRoot_XMLNSPrefixMap()
   {
     return (EReference)documentRootEClass.getEStructuralFeatures().get(1);
@@ -214,6 +224,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDocumentRoot_XSISchemaLocation()
   {
     return (EReference)documentRootEClass.getEStructuralFeatures().get(2);
@@ -224,6 +235,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDocumentRoot_Order()
   {
     return (EReference)documentRootEClass.getEStructuralFeatures().get(3);
@@ -234,6 +246,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getOrder()
   {
     return orderEClass;
@@ -244,6 +257,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getOrder_DateRequested()
   {
     return (EAttribute)orderEClass.getEStructuralFeatures().get(0);
@@ -254,6 +268,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getOrder_LastUpdated()
   {
     return (EAttribute)orderEClass.getEStructuralFeatures().get(1);
@@ -264,6 +279,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getOrder_Movies()
   {
     return (EAttribute)orderEClass.getEStructuralFeatures().get(2);
@@ -274,6 +290,7 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public OrderFactory getOrderFactory()
   {
     return (OrderFactory)getEFactoryInstance();
@@ -386,121 +403,121 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
     addAnnotation
-      (customerOrderEClass, 
-       source, 
-       new String[] 
+      (customerOrderEClass,
+       source,
+       new String[]
        {
-       "name", "customerOrder",
-       "kind", "elementOnly"
-       });	
+         "name", "customerOrder",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getCustomerOrder_MoviesToSee(), 
-       source, 
-       new String[] 
+      (getCustomerOrder_MoviesToSee(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "moviesToSee"
-       });	
+         "kind", "element",
+         "name", "moviesToSee"
+       });
     addAnnotation
-      (getCustomerOrder_MoviesSeen(), 
-       source, 
-       new String[] 
+      (getCustomerOrder_MoviesSeen(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "moviesSeen"
-       });	
+         "kind", "element",
+         "name", "moviesSeen"
+       });
     addAnnotation
-      (getCustomerOrder_Any(), 
-       source, 
-       new String[] 
+      (getCustomerOrder_Any(),
+       source,
+       new String[]
        {
-       "kind", "elementWildcard",
-       "wildcards", "http:///org.eclipse.emf.test.models/Customer http:///org.eclipse.emf.test.models/MovieDB",
-       "name", ":2",
-       "processing", "strict"
-       });	
+         "kind", "elementWildcard",
+         "wildcards", "http:///org.eclipse.emf.test.models/Customer http:///org.eclipse.emf.test.models/MovieDB",
+         "name", ":2",
+         "processing", "strict"
+       });
     addAnnotation
-      (getCustomerOrder_CustomerID(), 
-       source, 
-       new String[] 
+      (getCustomerOrder_CustomerID(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "customerID"
-       });	
+         "kind", "attribute",
+         "name", "customerID"
+       });
     addAnnotation
-      (documentRootEClass, 
-       source, 
-       new String[] 
+      (documentRootEClass,
+       source,
+       new String[]
        {
-       "name", "",
-       "kind", "mixed"
-       });	
+         "name", "",
+         "kind", "mixed"
+       });
     addAnnotation
-      (getDocumentRoot_Mixed(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_Mixed(),
+       source,
+       new String[]
        {
-       "kind", "elementWildcard",
-       "name", ":mixed"
-       });	
+         "kind", "elementWildcard",
+         "name", ":mixed"
+       });
     addAnnotation
-      (getDocumentRoot_XMLNSPrefixMap(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_XMLNSPrefixMap(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "xmlns:prefix"
-       });	
+         "kind", "attribute",
+         "name", "xmlns:prefix"
+       });
     addAnnotation
-      (getDocumentRoot_XSISchemaLocation(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_XSISchemaLocation(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "xsi:schemaLocation"
-       });	
+         "kind", "attribute",
+         "name", "xsi:schemaLocation"
+       });
     addAnnotation
-      (getDocumentRoot_Order(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_Order(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "order",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "element",
+         "name", "order",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (orderEClass, 
-       source, 
-       new String[] 
+      (orderEClass,
+       source,
+       new String[]
        {
-       "name", "order",
-       "kind", "elementOnly"
-       });	
+         "name", "order",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getOrder_DateRequested(), 
-       source, 
-       new String[] 
+      (getOrder_DateRequested(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "dateRequested"
-       });	
+         "kind", "element",
+         "name", "dateRequested"
+       });
     addAnnotation
-      (getOrder_LastUpdated(), 
-       source, 
-       new String[] 
+      (getOrder_LastUpdated(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "lastUpdated"
-       });	
+         "kind", "element",
+         "name", "lastUpdated"
+       });
     addAnnotation
-      (getOrder_Movies(), 
-       source, 
-       new String[] 
+      (getOrder_Movies(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "movies"
+         "kind", "element",
+         "name", "movies"
        });
   }
 
@@ -512,13 +529,13 @@ public class OrderPackageImpl extends EPackageImpl implements OrderPackage
    */
   protected void createNullAnnotations()
   {
-    String source = null;	
+    String source = null;
     addAnnotation
-      (orderEClass, 
-       source, 
-       new String[] 
+      (orderEClass,
+       source,
+       new String[]
        {
-       "appinfo", "Information:<hasElement>date</hasElement>."
+         "appinfo", "Information:<hasElement>date</hasElement>."
        });
   }
 

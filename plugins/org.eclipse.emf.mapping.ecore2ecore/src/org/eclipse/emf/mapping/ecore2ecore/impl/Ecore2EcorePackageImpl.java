@@ -14,6 +14,7 @@ package org.eclipse.emf.mapping.ecore2ecore.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.mapping.MappingPackage;
@@ -67,7 +68,7 @@ public class Ecore2EcorePackageImpl extends EPackageImpl implements Ecore2EcoreP
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link Ecore2EcorePackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -82,12 +83,14 @@ public class Ecore2EcorePackageImpl extends EPackageImpl implements Ecore2EcoreP
     if (isInited) return (Ecore2EcorePackage)EPackage.Registry.INSTANCE.getEPackage(Ecore2EcorePackage.eNS_URI);
 
     // Obtain or create and register package
-    Ecore2EcorePackageImpl theEcore2EcorePackage = (Ecore2EcorePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof Ecore2EcorePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new Ecore2EcorePackageImpl());
+    Object registeredEcore2EcorePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    Ecore2EcorePackageImpl theEcore2EcorePackage = registeredEcore2EcorePackage instanceof Ecore2EcorePackageImpl ? (Ecore2EcorePackageImpl)registeredEcore2EcorePackage : new Ecore2EcorePackageImpl();
 
     isInited = true;
 
     // Initialize simple dependencies
     MappingPackage.eINSTANCE.eClass();
+    EcorePackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
     theEcore2EcorePackage.createPackageContents();
@@ -98,7 +101,6 @@ public class Ecore2EcorePackageImpl extends EPackageImpl implements Ecore2EcoreP
     // Mark meta-data to indicate it can't be changed
     theEcore2EcorePackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(Ecore2EcorePackage.eNS_URI, theEcore2EcorePackage);
     return theEcore2EcorePackage;
@@ -109,6 +111,7 @@ public class Ecore2EcorePackageImpl extends EPackageImpl implements Ecore2EcoreP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEcore2EcoreMappingRoot()
   {
     return ecore2EcoreMappingRootEClass;
@@ -119,6 +122,7 @@ public class Ecore2EcorePackageImpl extends EPackageImpl implements Ecore2EcoreP
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Ecore2EcoreFactory getEcore2EcoreFactory()
   {
     return (Ecore2EcoreFactory)getEFactoryInstance();

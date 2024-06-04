@@ -3,7 +3,7 @@
     modelDirectory="/org.eclipse.emf.mapping.ecore2ecore/src" creationCommands="false"
     editDirectory="/org.eclipse.emf.mapping.ecore2ecore/src" modelPluginID="org.eclipse.emf.mapping.ecore2ecore"
     runtimeJar="true" modelName="Ecore2Ecore" editPluginClass="org.eclipse.emf.mapping.ecore2ecore.Ecore2EcorePlugin"
-    testsDirectory="" importerID="org.eclipse.emf.importer.rose" complianceLevel="5.0"
+    testsDirectory="" importerID="org.eclipse.emf.importer.rose" complianceLevel="8.0"
     language="en" usedGenPackages="../../org.eclipse.emf.mapping/model/Mapping.genmodel#//mapping ../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore"
     oSGiCompatible="true">
   <foreignModel>Ecore2Ecore.mdl</foreignModel>

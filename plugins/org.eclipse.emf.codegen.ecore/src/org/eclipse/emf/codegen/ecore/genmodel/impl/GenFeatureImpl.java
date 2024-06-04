@@ -488,6 +488,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenPropertyKind getProperty()
   {
     return property;
@@ -503,6 +504,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setProperty(GenPropertyKind newProperty)
   {
     GenPropertyKind oldProperty = property;
@@ -516,6 +518,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isNotify()
   {
     return notify;
@@ -526,6 +529,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNotify(boolean newNotify)
   {
     boolean oldNotify = notify;
@@ -539,6 +543,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isChildren()
   {
     return children;
@@ -549,6 +554,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setChildren(boolean newChildren)
   {
     boolean oldChildren = children;
@@ -581,6 +587,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCreateChild(boolean newCreateChild)
   {
     boolean oldCreateChild = createChild;
@@ -596,6 +603,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetCreateChild()
   {
     boolean oldCreateChild = createChild;
@@ -630,6 +638,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getPropertyCategory()
   {
     return propertyCategory;
@@ -640,6 +649,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPropertyCategory(String newPropertyCategory)
   {
     String oldPropertyCategory = propertyCategory;
@@ -653,6 +663,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getPropertyFilterFlags()
   {
     if (propertyFilterFlags == null)
@@ -667,6 +678,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getPropertyDescription()
   {
     return propertyDescription;
@@ -677,6 +689,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPropertyDescription(String newPropertyDescription)
   {
     String oldPropertyDescription = propertyDescription;
@@ -690,6 +703,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isPropertyMultiLine()
   {
     return propertyMultiLine;
@@ -700,6 +714,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPropertyMultiLine(boolean newPropertyMultiLine)
   {
     boolean oldPropertyMultiLine = propertyMultiLine;
@@ -713,6 +728,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isPropertySortChoices()
   {
     return propertySortChoices;
@@ -723,6 +739,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPropertySortChoices(boolean newPropertySortChoices)
   {
     boolean oldPropertySortChoices = propertySortChoices;
@@ -744,6 +761,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenClass getGenClass()
   {
     if (eContainerFeatureID() != GenModelPackage.GEN_FEATURE__GEN_CLASS) return null;
@@ -766,6 +784,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setGenClass(GenClass newGenClass)
   {
     if (newGenClass != eInternalContainer() || (eContainerFeatureID() != GenModelPackage.GEN_FEATURE__GEN_CLASS && newGenClass != null))
@@ -789,6 +808,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EStructuralFeature getEcoreFeature()
   {
     if (ecoreFeature != null && ecoreFeature.eIsProxy())
@@ -819,6 +839,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEcoreFeature(EStructuralFeature newEcoreFeature)
   {
     EStructuralFeature oldEcoreFeature = ecoreFeature;
@@ -1850,6 +1871,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * @since 2.14
    * @generated
    */
+  @Override
   public void setSuppressedGetVisibility(boolean newSuppressedGetVisibility)
   {
     boolean oldSuppressedGetVisibility = suppressedGetVisibility;
@@ -1909,6 +1931,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * @since 2.14
    * @generated
    */
+  @Override
   public void setSuppressedSetVisibility(boolean newSuppressedSetVisibility)
   {
     boolean oldSuppressedSetVisibility = suppressedSetVisibility;
@@ -1968,6 +1991,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * @since 2.14
    * @generated
    */
+  @Override
   public void setSuppressedIsSetVisibility(boolean newSuppressedIsSetVisibility)
   {
     boolean oldSuppressedIsSetVisibility = suppressedIsSetVisibility;
@@ -2027,6 +2051,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * @since 2.14
    * @generated
    */
+  @Override
   public void setSuppressedUnsetVisibility(boolean newSuppressedUnsetVisibility)
   {
     boolean oldSuppressedUnsetVisibility = suppressedUnsetVisibility;
@@ -2157,6 +2182,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * @since 2.14
    * @generated
    */
+  @Override
   public void setPropertyEditorFactory(String newPropertyEditorFactory)
   {
     String oldPropertyEditorFactory = propertyEditorFactory;

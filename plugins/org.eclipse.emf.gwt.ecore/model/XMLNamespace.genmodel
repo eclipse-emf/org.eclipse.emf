@@ -4,7 +4,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.gwt.ecore/src"
     editDirectory="" editorDirectory="" modelPluginID="org.eclipse.emf.gwt.ecore"
     modelName="XMLNamespace" updateClasspath="false" testsDirectory="" importerID="org.eclipse.xsd.ecore.importer"
-    minimalReflectiveMethods="false" complianceLevel="5.0" language="en" interfaceNamePattern=""
+    minimalReflectiveMethods="false" complianceLevel="8.0" language="en" interfaceNamePattern=""
     runtimePlatform="GWT">
   <foreignModel>XMLNamespace.xsd</foreignModel>
   <genPackages prefix="XMLNamespace" basePackage="org.eclipse.emf.ecore.xml" disposableProviderFactory="true"

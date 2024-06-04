@@ -292,6 +292,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDDiagnosticSeverity getSeverity()
   {
     return SEVERITY_EFLAG_VALUES[(eFlags & SEVERITY_EFLAG) >>> SEVERITY_EFLAG_OFFSET];
@@ -302,6 +303,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSeverity(XSDDiagnosticSeverity newSeverity)
   {
     XSDDiagnosticSeverity oldSeverity = SEVERITY_EFLAG_VALUES[(eFlags & SEVERITY_EFLAG) >>> SEVERITY_EFLAG_OFFSET];
@@ -316,6 +318,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getMessage()
   {
     return message;
@@ -326,6 +329,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMessage(String newMessage)
   {
     String oldMessage = message;
@@ -371,6 +375,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLocationURI(String newLocationURI)
   {
     String oldLocationURI = locationURI;
@@ -409,6 +414,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLine(int newLine)
   {
     int oldLine = line;
@@ -447,6 +453,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setColumn(int newColumn)
   {
     int oldColumn = column;
@@ -460,6 +467,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Node getNode()
   {
     return node;
@@ -470,6 +478,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNode(Node newNode)
   {
     Node oldNode = node;
@@ -483,6 +492,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getAnnotationURI()
   {
     return annotationURI;
@@ -493,6 +503,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAnnotationURI(String newAnnotationURI)
   {
     String oldAnnotationURI = annotationURI;
@@ -506,6 +517,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getKey()
   {
     return key;
@@ -516,6 +528,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setKey(String newKey)
   {
     String oldKey = key;
@@ -529,6 +542,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getSubstitutions()
   {
     if (substitutions == null)
@@ -543,6 +557,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDConcreteComponent> getComponents()
   {
     if (components == null)

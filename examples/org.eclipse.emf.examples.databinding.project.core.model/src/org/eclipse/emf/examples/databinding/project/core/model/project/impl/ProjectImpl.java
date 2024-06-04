@@ -235,6 +235,7 @@ public class ProjectImpl extends EObjectImpl implements Project
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getShortname()
   {
     return shortname;
@@ -245,6 +246,7 @@ public class ProjectImpl extends EObjectImpl implements Project
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setShortname(String newShortname)
   {
     String oldShortname = shortname;
@@ -258,6 +260,7 @@ public class ProjectImpl extends EObjectImpl implements Project
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Project> getSubprojects()
   {
     if (subprojects == null)
@@ -272,6 +275,7 @@ public class ProjectImpl extends EObjectImpl implements Project
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<CommitterShip> getCommitters()
   {
     if (committers == null)
@@ -286,6 +290,7 @@ public class ProjectImpl extends EObjectImpl implements Project
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Project getParent()
   {
     if (eContainerFeatureID() != ProjectPackage.PROJECT__PARENT) return null;
@@ -308,6 +313,7 @@ public class ProjectImpl extends EObjectImpl implements Project
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setParent(Project newParent)
   {
     if (newParent != eInternalContainer() || (eContainerFeatureID() != ProjectPackage.PROJECT__PARENT && newParent != null))
@@ -331,6 +337,7 @@ public class ProjectImpl extends EObjectImpl implements Project
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Person> getProjectleads()
   {
     if (projectleads == null)
@@ -345,6 +352,7 @@ public class ProjectImpl extends EObjectImpl implements Project
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Date getStart()
   {
     return start;
@@ -355,6 +363,7 @@ public class ProjectImpl extends EObjectImpl implements Project
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setStart(Date newStart)
   {
     Date oldStart = start;
@@ -368,6 +377,7 @@ public class ProjectImpl extends EObjectImpl implements Project
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Date getEnd()
   {
     return end;
@@ -378,6 +388,7 @@ public class ProjectImpl extends EObjectImpl implements Project
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEnd(Date newEnd)
   {
     Date oldEnd = end;
@@ -391,6 +402,7 @@ public class ProjectImpl extends EObjectImpl implements Project
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getLongname()
   {
     return longname;
@@ -401,6 +413,7 @@ public class ProjectImpl extends EObjectImpl implements Project
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLongname(String newLongname)
   {
     String oldLongname = longname;
@@ -414,6 +427,7 @@ public class ProjectImpl extends EObjectImpl implements Project
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getDevmail()
   {
     return devmail;
@@ -424,6 +438,7 @@ public class ProjectImpl extends EObjectImpl implements Project
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setDevmail(String newDevmail)
   {
     String oldDevmail = devmail;
@@ -437,6 +452,7 @@ public class ProjectImpl extends EObjectImpl implements Project
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getHomepage()
   {
     return homepage;
@@ -447,6 +463,7 @@ public class ProjectImpl extends EObjectImpl implements Project
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setHomepage(String newHomepage)
   {
     String oldHomepage = homepage;
@@ -684,7 +701,7 @@ public class ProjectImpl extends EObjectImpl implements Project
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (shortname: ");
     result.append(shortname);
     result.append(", start: ");

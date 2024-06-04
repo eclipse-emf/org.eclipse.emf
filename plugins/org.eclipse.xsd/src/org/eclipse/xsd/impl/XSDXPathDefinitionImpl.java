@@ -168,6 +168,7 @@ public class XSDXPathDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDXPathVariety getVariety()
   {
     return VARIETY_EFLAG_VALUES[(eFlags & VARIETY_EFLAG) >>> VARIETY_EFLAG_OFFSET];
@@ -178,6 +179,7 @@ public class XSDXPathDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setVariety(XSDXPathVariety newVariety)
   {
     XSDXPathVariety oldVariety = VARIETY_EFLAG_VALUES[(eFlags & VARIETY_EFLAG) >>> VARIETY_EFLAG_OFFSET];
@@ -192,6 +194,7 @@ public class XSDXPathDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getValue()
   {
     return value;
@@ -202,6 +205,7 @@ public class XSDXPathDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValue(String newValue)
   {
     String oldValue = value;
@@ -215,6 +219,7 @@ public class XSDXPathDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAnnotation getAnnotation()
   {
     return annotation;
@@ -225,6 +230,7 @@ public class XSDXPathDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAnnotation(XSDAnnotation newAnnotation)
   {
     if (newAnnotation != annotation)

@@ -4,7 +4,7 @@
     modelDirectory="/org.eclipse.emf.test.core/src" editDirectory="" editorDirectory=""
     modelPluginID="org.eclipse.emf.test.core" modelName="XRefsOpposite" updateClasspath="false"
     rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" testsDirectory=""
-    importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
     language="" operationReflection="true" importOrganizing="true">
   <foreignModel>xrefsopposite.ecore</foreignModel>
   <genPackages prefix="XRefsOpposite" basePackage="org.eclipse.emf.test.core" disposableProviderFactory="true"

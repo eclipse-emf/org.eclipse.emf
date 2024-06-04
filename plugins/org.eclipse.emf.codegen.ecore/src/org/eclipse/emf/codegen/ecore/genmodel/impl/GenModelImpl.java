@@ -2374,6 +2374,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getCopyrightText()
   {
     return copyrightText;
@@ -2384,6 +2385,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCopyrightText(String newCopyrightText)
   {
     String oldCopyrightText = copyrightText;
@@ -2423,6 +2425,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setModelDirectory(String newModelDirectory)
   {
     String oldModelDirectory = modelDirectory;
@@ -2436,6 +2439,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isCreationCommands()
   {
     return creationCommands;
@@ -2446,6 +2450,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCreationCommands(boolean newCreationCommands)
   {
     boolean oldCreationCommands = creationCommands;
@@ -2459,6 +2464,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isCreationIcons()
   {
     return creationIcons;
@@ -2469,6 +2475,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCreationIcons(boolean newCreationIcons)
   {
     boolean oldCreationIcons = creationIcons;
@@ -4809,6 +4816,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEditDirectory(String newEditDirectory)
   {
     String oldEditDirectory = editDirectory;
@@ -4824,6 +4832,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetEditDirectory()
   {
     String oldEditDirectory = editDirectory;
@@ -4839,6 +4848,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetEditDirectory()
   {
     return editDirectoryESet;
@@ -4849,6 +4859,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isCreationSubmenus()
   {
     return creationSubmenus;
@@ -4859,6 +4870,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCreationSubmenus(boolean newCreationSubmenus)
   {
     boolean oldCreationSubmenus = creationSubmenus;
@@ -4887,6 +4899,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEditorDirectory(String newEditorDirectory)
   {
     String oldEditorDirectory = editorDirectory;
@@ -4902,6 +4915,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetEditorDirectory()
   {
     String oldEditorDirectory = editorDirectory;
@@ -4917,6 +4931,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetEditorDirectory()
   {
     return editorDirectoryESet;
@@ -4927,6 +4942,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getModelPluginID()
   {
     return modelPluginID;
@@ -4937,6 +4953,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setModelPluginID(String newModelPluginID)
   {
     String oldModelPluginID = modelPluginID;
@@ -4950,6 +4967,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getTemplateDirectory()
   {
     return templateDirectory;
@@ -4960,6 +4978,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTemplateDirectory(String newTemplateDirectory)
   {
     String oldTemplateDirectory = templateDirectory;
@@ -4973,6 +4992,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isRuntimeJar()
   {
     return runtimeJar;
@@ -4983,6 +5003,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRuntimeJar(boolean newRuntimeJar)
   {
     boolean oldRuntimeJar = runtimeJar;
@@ -4996,6 +5017,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getForeignModel()
   {
     if (foreignModel == null)
@@ -5010,6 +5032,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isDynamicTemplates()
   {
     return dynamicTemplates;
@@ -5020,6 +5043,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setDynamicTemplates(boolean newDynamicTemplates)
   {
     boolean oldDynamicTemplates = dynamicTemplates;
@@ -5033,6 +5057,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getRedirection()
   {
     return redirection;
@@ -5043,6 +5068,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRedirection(String newRedirection)
   {
     String oldRedirection = redirection;
@@ -5056,6 +5082,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isForceOverwrite()
   {
     return forceOverwrite;
@@ -5066,6 +5093,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setForceOverwrite(boolean newForceOverwrite)
   {
     boolean oldForceOverwrite = forceOverwrite;
@@ -5079,6 +5107,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getNonExternalizedStringTag()
   {
     return nonExternalizedStringTag;
@@ -5114,6 +5143,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getModelName()
   {
     return modelName;
@@ -5124,6 +5154,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setModelName(String newModelName)
   {
     String oldModelName = modelName;
@@ -5137,6 +5168,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getModelPluginClass()
   {
     return modelPluginClass;
@@ -5174,6 +5206,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setModelPluginClass(String newModelPluginClass)
   {
     String oldModelPluginClass = modelPluginClass;
@@ -5258,6 +5291,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEditPluginClass(String newEditPluginClass)
   {
     String oldEditPluginClass = editPluginClass;
@@ -5273,6 +5307,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetEditPluginClass()
   {
     String oldEditPluginClass = editPluginClass;
@@ -5288,6 +5323,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetEditPluginClass()
   {
     return editPluginClassESet;
@@ -5328,6 +5364,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEditorPluginClass(String newEditorPluginClass)
   {
     String oldEditorPluginClass = editorPluginClass;
@@ -5343,6 +5380,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetEditorPluginClass()
   {
     String oldEditorPluginClass = editorPluginClass;
@@ -5358,6 +5396,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetEditorPluginClass()
   {
     return editorPluginClassESet;
@@ -5368,6 +5407,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isUpdateClasspath()
   {
     return updateClasspath;
@@ -5378,6 +5418,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setUpdateClasspath(boolean newUpdateClasspath)
   {
     boolean oldUpdateClasspath = updateClasspath;
@@ -5391,6 +5432,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isGenerateSchema()
   {
     return generateSchema;
@@ -5401,6 +5443,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setGenerateSchema(boolean newGenerateSchema)
   {
     boolean oldGenerateSchema = generateSchema;
@@ -5414,6 +5457,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isNonNLSMarkers()
   {
     return nonNLSMarkers;
@@ -5474,6 +5518,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getModelPluginVariables()
   {
     if (modelPluginVariables == null)
@@ -5488,6 +5533,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getRootExtendsInterface()
   {
     return rootExtendsInterface;
@@ -5498,6 +5544,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRootExtendsInterface(String newRootExtendsInterface)
   {
     String oldRootExtendsInterface = rootExtendsInterface;
@@ -5511,6 +5558,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getRootExtendsClass()
   {
     return rootExtendsClass;
@@ -5521,6 +5569,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRootExtendsClass(String newRootExtendsClass)
   {
     String oldRootExtendsClass = rootExtendsClass;
@@ -5534,6 +5583,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getRootImplementsInterface()
   {
     return rootImplementsInterface;
@@ -5624,6 +5674,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSuppressEMFTypes()
   {
     return suppressEMFTypes;
@@ -5634,6 +5685,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSuppressEMFTypes(boolean newSuppressEMFTypes)
   {
     boolean oldSuppressEMFTypes = suppressEMFTypes;
@@ -5647,6 +5699,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSuppressEMFMetaData()
   {
     return suppressEMFMetaData;
@@ -5657,6 +5710,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSuppressEMFMetaData(boolean newSuppressEMFMetaData)
   {
     boolean oldSuppressEMFMetaData = suppressEMFMetaData;
@@ -5670,6 +5724,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSuppressEMFModelTags()
   {
     return suppressEMFModelTags;
@@ -5680,6 +5735,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSuppressEMFModelTags(boolean newSuppressEMFModelTags)
   {
     boolean oldSuppressEMFModelTags = suppressEMFModelTags;
@@ -5693,6 +5749,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSuppressInterfaces()
   {
     return suppressInterfaces;
@@ -5703,6 +5760,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSuppressInterfaces(boolean newSuppressInterfaces)
   {
     boolean oldSuppressInterfaces = suppressInterfaces;
@@ -5716,6 +5774,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getFeatureMapWrapperInterface()
   {
     return featureMapWrapperInterface;
@@ -5726,6 +5785,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFeatureMapWrapperInterface(String newFeatureMapWrapperInterface)
   {
     String oldFeatureMapWrapperInterface = featureMapWrapperInterface;
@@ -5739,6 +5799,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getFeatureMapWrapperInternalInterface()
   {
     return featureMapWrapperInternalInterface;
@@ -5749,6 +5810,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFeatureMapWrapperInternalInterface(String newFeatureMapWrapperInternalInterface)
   {
     String oldFeatureMapWrapperInternalInterface = featureMapWrapperInternalInterface;
@@ -5762,6 +5824,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getFeatureMapWrapperClass()
   {
     return featureMapWrapperClass;
@@ -5772,6 +5835,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFeatureMapWrapperClass(String newFeatureMapWrapperClass)
   {
     String oldFeatureMapWrapperClass = featureMapWrapperClass;
@@ -5785,6 +5849,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isRuntimeCompatibility()
   {
     return runtimeCompatibility;
@@ -5800,6 +5865,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRuntimeCompatibility(boolean newRuntimeCompatibility)
   {
     boolean oldRuntimeCompatibility = runtimeCompatibility;
@@ -5864,6 +5930,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isCodeFormatting()
   {
     return codeFormatting;
@@ -5874,6 +5941,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCodeFormatting(boolean newCodeFormatting)
   {
     boolean oldCodeFormatting = codeFormatting;
@@ -5887,6 +5955,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isCommentFormatting()
   {
     return commentFormatting;
@@ -5897,6 +5966,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCommentFormatting(boolean newCommentFormatting)
   {
     boolean oldCommentFormatting = commentFormatting;
@@ -5925,6 +5995,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTestsDirectory(String newTestsDirectory)
   {
     String oldTestsDirectory = testsDirectory;
@@ -5940,6 +6011,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetTestsDirectory()
   {
     String oldTestsDirectory = testsDirectory;
@@ -5955,6 +6027,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetTestsDirectory()
   {
     return testsDirectoryESet;
@@ -5995,6 +6068,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTestSuiteClass(String newTestSuiteClass)
   {
     String oldTestSuiteClass = testSuiteClass;
@@ -6010,6 +6084,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetTestSuiteClass()
   {
     String oldTestSuiteClass = testSuiteClass;
@@ -6025,6 +6100,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetTestSuiteClass()
   {
     return testSuiteClassESet;
@@ -6035,6 +6111,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getBooleanFlagsField()
   {
     return booleanFlagsField;
@@ -6045,6 +6122,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setBooleanFlagsField(String newBooleanFlagsField)
   {
     String oldBooleanFlagsField = booleanFlagsField;
@@ -6058,6 +6136,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getBooleanFlagsReservedBits()
   {
     return booleanFlagsReservedBits;
@@ -6068,6 +6147,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setBooleanFlagsReservedBits(int newBooleanFlagsReservedBits)
   {
     int oldBooleanFlagsReservedBits = booleanFlagsReservedBits;
@@ -6081,6 +6161,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getImporterID()
   {
     return importerID;
@@ -6091,6 +6172,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setImporterID(String newImporterID)
   {
     String oldImporterID = importerID;
@@ -6104,6 +6186,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isBundleManifest()
   {
     return bundleManifest;
@@ -6114,6 +6197,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setBundleManifest(boolean newBundleManifest)
   {
     boolean oldBundleManifest = bundleManifest;
@@ -6127,6 +6211,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenDelegationKind getFeatureDelegation()
   {
     return featureDelegation;
@@ -6137,6 +6222,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFeatureDelegation(GenDelegationKind newFeatureDelegation)
   {
     GenDelegationKind oldFeatureDelegation = featureDelegation;
@@ -6150,6 +6236,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isContainmentProxies()
   {
     return containmentProxies;
@@ -6160,6 +6247,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setContainmentProxies(boolean newContainmentProxies)
   {
     boolean oldContainmentProxies = containmentProxies;
@@ -6173,6 +6261,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isMinimalReflectiveMethods()
   {
     return minimalReflectiveMethods;
@@ -6183,6 +6272,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMinimalReflectiveMethods(boolean newMinimalReflectiveMethods)
   {
     boolean oldMinimalReflectiveMethods = minimalReflectiveMethods;
@@ -6196,6 +6286,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSuppressContainment()
   {
     return suppressContainment;
@@ -6206,6 +6297,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSuppressContainment(boolean newSuppressContainment)
   {
     boolean oldSuppressContainment = suppressContainment;
@@ -6219,6 +6311,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSuppressNotification()
   {
     return suppressNotification;
@@ -6229,6 +6322,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSuppressNotification(boolean newSuppressNotification)
   {
     boolean oldSuppressNotification = suppressNotification;
@@ -6242,6 +6336,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isArrayAccessors()
   {
     return arrayAccessors;
@@ -6252,6 +6347,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setArrayAccessors(boolean newArrayAccessors)
   {
     boolean oldArrayAccessors = arrayAccessors;
@@ -6265,6 +6361,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSuppressUnsettable()
   {
     return suppressUnsettable;
@@ -6275,6 +6372,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSuppressUnsettable(boolean newSuppressUnsettable)
   {
     boolean oldSuppressUnsettable = suppressUnsettable;
@@ -6288,6 +6386,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getFacadeHelperClass()
   {
     return facadeHelperClass;
@@ -6298,6 +6397,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFacadeHelperClass(String newFacadeHelperClass)
   {
     String oldFacadeHelperClass = facadeHelperClass;
@@ -6311,6 +6411,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenJDKLevel getComplianceLevel()
   {
     return complianceLevel;
@@ -6321,6 +6422,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setComplianceLevel(GenJDKLevel newComplianceLevel)
   {
     GenJDKLevel oldComplianceLevel = complianceLevel;
@@ -6334,6 +6436,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSuppressGenModelAnnotations()
   {
     return suppressGenModelAnnotations;
@@ -6344,6 +6447,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSuppressGenModelAnnotations(boolean newSuppressGenModelAnnotations)
   {
     boolean oldSuppressGenModelAnnotations = suppressGenModelAnnotations;
@@ -6357,6 +6461,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isCopyrightFields()
   {
     return copyrightFields;
@@ -6367,6 +6472,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCopyrightFields(boolean newCopyrightFields)
   {
     boolean oldCopyrightFields = copyrightFields;
@@ -6380,6 +6486,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isBinaryCompatibleReflectiveMethods()
   {
     return binaryCompatibleReflectiveMethods;
@@ -6390,6 +6497,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setBinaryCompatibleReflectiveMethods(boolean newBinaryCompatibleReflectiveMethods)
   {
     boolean oldBinaryCompatibleReflectiveMethods = binaryCompatibleReflectiveMethods;
@@ -6403,6 +6511,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isPublicConstructors()
   {
     return publicConstructors;
@@ -6413,6 +6522,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPublicConstructors(boolean newPublicConstructors)
   {
     boolean oldPublicConstructors = publicConstructors;
@@ -6426,6 +6536,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getTemplatePluginVariables()
   {
     if (templatePluginVariables == null)
@@ -6440,6 +6551,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getProviderRootExtendsClass()
   {
     return providerRootExtendsClass;
@@ -6450,6 +6562,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setProviderRootExtendsClass(String newProviderRootExtendsClass)
   {
     String oldProviderRootExtendsClass = providerRootExtendsClass;
@@ -6463,6 +6576,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<GenPackage> getGenPackages()
   {
     if (genPackages == null)
@@ -6580,6 +6694,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getInterfaceNamePattern()
   {
     return interfaceNamePattern;
@@ -6590,6 +6705,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setInterfaceNamePattern(String newInterfaceNamePattern)
   {
     String oldInterfaceNamePattern = interfaceNamePattern;
@@ -6603,6 +6719,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getClassNamePattern()
   {
     return classNamePattern;
@@ -6613,6 +6730,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setClassNamePattern(String newClassNamePattern)
   {
     String oldClassNamePattern = classNamePattern;
@@ -6641,6 +6759,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setOperationReflection(boolean newOperationReflection)
   {
     boolean oldOperationReflection = operationReflection;
@@ -6681,6 +6800,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenRuntimePlatform getRuntimePlatform()
   {
     return runtimePlatform;
@@ -6691,6 +6811,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRuntimePlatform(GenRuntimePlatform newRuntimePlatform)
   {
     GenRuntimePlatform oldRuntimePlatform = runtimePlatform;
@@ -6704,6 +6825,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isImportOrganizing()
   {
     return importOrganizing;
@@ -6714,6 +6836,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setImportOrganizing(boolean newImportOrganizing)
   {
     boolean oldImportOrganizing = importOrganizing;
@@ -6763,6 +6886,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPluginKey(String newPluginKey)
   {
     String oldPluginKey = pluginKey;
@@ -6791,6 +6915,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setDecoration(GenDecoration newDecoration)
   {
     GenDecoration oldDecoration = decoration;
@@ -6805,6 +6930,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isStyleProviders()
   {
     return styleProviders;
@@ -6816,6 +6942,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setStyleProviders(boolean newStyleProviders)
   {
     boolean oldStyleProviders = styleProviders;
@@ -6829,6 +6956,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isCleanup()
   {
     return cleanup;
@@ -6839,6 +6967,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCleanup(boolean newCleanup)
   {
     boolean oldCleanup = cleanup;
@@ -6852,6 +6981,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isOSGiCompatible()
   {
     return oSGiCompatible;
@@ -6862,6 +6992,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setOSGiCompatible(boolean newOSGiCompatible)
   {
     boolean oldOSGiCompatible = oSGiCompatible;
@@ -6876,6 +7007,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @since 2.14
    * @generated
    */
+  @Override
   public GenEclipsePlatformVersion getEclipsePlatformVersion()
   {
     return eclipsePlatformVersion;
@@ -6887,6 +7019,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @since 2.14
    * @generated
    */
+  @Override
   public void setEclipsePlatformVersion(GenEclipsePlatformVersion newEclipsePlatformVersion)
   {
     GenEclipsePlatformVersion oldEclipsePlatformVersion = eclipsePlatformVersion;
@@ -6962,6 +7095,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @since 2.14
    * @generated
    */
+  @Override
   public void setModelDocumentation(String newModelDocumentation)
   {
     String oldModelDocumentation = modelDocumentation;
@@ -7005,6 +7139,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @since 2.14
    * @generated
    */
+  @Override
   public boolean isAutoResizeProperties()
   {
     return autoResizeProperties;
@@ -7016,6 +7151,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @since 2.14
    * @generated
    */
+  @Override
   public void setAutoResizeProperties(boolean newAutoResizeProperties)
   {
     boolean oldAutoResizeProperties = autoResizeProperties;
@@ -7030,6 +7166,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @since 2.14
    * @generated
    */
+  @Override
   public int getAutoExpandProperties()
   {
     return autoExpandProperties;
@@ -7041,6 +7178,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @since 2.14
    * @generated
    */
+  @Override
   public void setAutoExpandProperties(int newAutoExpandProperties)
   {
     int oldAutoExpandProperties = autoExpandProperties;
@@ -7055,6 +7193,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @since 2.14
    * @generated
    */
+  @Override
   public boolean isFindAction()
   {
     return findAction;
@@ -7066,6 +7205,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @since 2.14
    * @generated
    */
+  @Override
   public void setFindAction(boolean newFindAction)
   {
     boolean oldFindAction = findAction;
@@ -7080,6 +7220,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @since 2.14
    * @generated
    */
+  @Override
   public boolean isExpandAllAction()
   {
     return expandAllAction;
@@ -7091,6 +7232,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @since 2.14
    * @generated
    */
+  @Override
   public void setExpandAllAction(boolean newExpandAllAction)
   {
     boolean oldExpandAllAction = expandAllAction;
@@ -7105,6 +7247,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @since 2.14
    * @generated
    */
+  @Override
   public boolean isCollapseAllAction()
   {
     return collapseAllAction;
@@ -7116,6 +7259,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @since 2.14
    * @generated
    */
+  @Override
   public void setCollapseAllAction(boolean newCollapseAllAction)
   {
     boolean oldCollapseAllAction = collapseAllAction;
@@ -7130,6 +7274,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @since 2.14
    * @generated
    */
+  @Override
   public boolean isRevertAction()
   {
     return revertAction;
@@ -7141,6 +7286,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @since 2.14
    * @generated
    */
+  @Override
   public void setRevertAction(boolean newRevertAction)
   {
     boolean oldRevertAction = revertAction;
@@ -7155,6 +7301,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @since 2.19
    * @generated
    */
+  @Override
   public EList<GenCodeStyle> getCodeStyle()
   {
     if (codeStyle == null)
@@ -7170,6 +7317,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @since 2.33
    * @generated
    */
+  @Override
   public EList<GenOSGiStyle> getOSGiStyle()
   {
     if (oSGiStyle == null)
@@ -8558,6 +8706,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEditPluginID(String newEditPluginID)
   {
     String oldEditPluginID = editPluginID;
@@ -8571,6 +8720,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getEditPluginVariables()
   {
     if (editPluginVariables == null)
@@ -8618,6 +8768,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEditorPluginID(String newEditorPluginID)
   {
     String oldEditorPluginID = editorPluginID;
@@ -8631,6 +8782,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getEditorPluginVariables()
   {
     if (editorPluginVariables == null)
@@ -8682,6 +8834,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTestsPluginID(String newTestsPluginID)
   {
     String oldTestsPluginID = testsPluginID;
@@ -8695,6 +8848,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getTestsPluginVariables()
   {
     if (testsPluginVariables == null)
@@ -8709,6 +8863,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isOptimizedHasChildren()
   {
     return optimizedHasChildren;
@@ -8719,6 +8874,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setOptimizedHasChildren(boolean newOptimizedHasChildren)
   {
     boolean oldOptimizedHasChildren = optimizedHasChildren;
@@ -8732,6 +8888,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isTableProviders()
   {
     return tableProviders;
@@ -8742,6 +8899,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setTableProviders(boolean newTableProviders)
   {
     boolean oldTableProviders = tableProviders;
@@ -8755,6 +8913,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isColorProviders()
   {
     return colorProviders;
@@ -8765,6 +8924,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setColorProviders(boolean newColorProviders)
   {
     boolean oldColorProviders = colorProviders;
@@ -8778,6 +8938,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isFontProviders()
   {
     return fontProviders;
@@ -8788,6 +8949,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFontProviders(boolean newFontProviders)
   {
     boolean oldFontProviders = fontProviders;
@@ -8819,6 +8981,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setRuntimeVersion(GenRuntimeVersion newRuntimeVersion)
   {
     GenRuntimeVersion oldRuntimeVersion = runtimeVersion;
@@ -8834,6 +8997,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetRuntimeVersion()
   {
     GenRuntimeVersion oldRuntimeVersion = runtimeVersion;
@@ -8849,6 +9013,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetRuntimeVersion()
   {
     return runtimeVersionESet;
@@ -8859,6 +9024,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getLanguage()
   {
     return language;
@@ -8888,6 +9054,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isPackedEnums()
   {
     return packedEnums;
@@ -8898,6 +9065,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPackedEnums(boolean newPackedEnums)
   {
     boolean oldPackedEnums = packedEnums;

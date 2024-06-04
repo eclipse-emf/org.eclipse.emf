@@ -73,6 +73,7 @@ public class EmployeeImpl extends PersonImpl implements Employee
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Employee getManager()
   {
     if (manager != null && manager.eIsProxy())
@@ -103,6 +104,7 @@ public class EmployeeImpl extends PersonImpl implements Employee
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setManager(Employee newManager)
   {
     Employee oldManager = manager;

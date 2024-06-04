@@ -96,6 +96,7 @@ public class LinkItemImpl extends BidirectionalImpl<LinkItem> implements LinkIte
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * This is specialized for the more specific element type known in this context.
+   * @see #getValuesList()
    * @generated
    */
   @Override

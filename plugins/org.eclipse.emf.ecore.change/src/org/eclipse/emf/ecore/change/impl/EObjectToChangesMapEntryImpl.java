@@ -291,6 +291,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getHash()
   {
     if (hash == -1)
@@ -306,6 +307,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setHash(int hash)
   {
     this.hash = hash;
@@ -316,6 +318,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject getKey()
   {
     return getTypedKey();
@@ -326,6 +329,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setKey(EObject key)
   {
     setTypedKey(key);
@@ -336,6 +340,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<FeatureChange> getValue()
   {
     return getTypedValue();
@@ -346,6 +351,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<FeatureChange> setValue(EList<FeatureChange> value)
   {
     EList<FeatureChange> oldValue = getValue();

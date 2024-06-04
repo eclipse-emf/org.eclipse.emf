@@ -127,6 +127,7 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<GenTypeParameter> getGenTypeParameters()
   {
     if (genTypeParameters == null)
@@ -159,6 +160,7 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
    * @since 2.14
    * @generated
    */
+  @Override
   public void setDocumentation(String newDocumentation)
   {
     String oldDocumentation = documentation;

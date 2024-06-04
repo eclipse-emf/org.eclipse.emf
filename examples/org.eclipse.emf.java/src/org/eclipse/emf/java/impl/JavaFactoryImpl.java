@@ -130,6 +130,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JClass createJClass()
   {
     JClassImpl jClass = new JClassImpl();
@@ -141,6 +142,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JCompilationUnit createJCompilationUnit()
   {
     JCompilationUnitImpl jCompilationUnit = new JCompilationUnitImpl();
@@ -152,6 +154,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JField createJField()
   {
     JFieldImpl jField = new JFieldImpl();
@@ -163,6 +166,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JInitializer createJInitializer()
   {
     JInitializerImpl jInitializer = new JInitializerImpl();
@@ -174,6 +178,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JMethod createJMethod()
   {
     JMethodImpl jMethod = new JMethodImpl();
@@ -185,6 +190,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JParameter createJParameter()
   {
     JParameterImpl jParameter = new JParameterImpl();
@@ -218,6 +224,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JPackage createJPackage()
   {
     JPackageImpl jPackage = new JPackageImpl();
@@ -249,6 +256,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public JavaPackage getJavaPackage()
   {
     return (JavaPackage)getEPackage();

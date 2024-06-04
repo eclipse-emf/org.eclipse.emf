@@ -22,12 +22,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.edit.tree.TreeNode#getParent <em>Parent</em>}</li>
  *   <li>{@link org.eclipse.emf.edit.tree.TreeNode#getChildren <em>Children</em>}</li>
  *   <li>{@link org.eclipse.emf.edit.tree.TreeNode#getData <em>Data</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.eclipse.emf.edit.tree.TreePackage#getTreeNode()
  * @model

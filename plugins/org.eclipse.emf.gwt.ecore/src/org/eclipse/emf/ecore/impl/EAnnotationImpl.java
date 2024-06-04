@@ -130,6 +130,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getSource()
   {
     return source;
@@ -199,6 +200,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EModelElement getEModelElement()
   {
     if (eContainerFeatureID() != EcorePackage.EANNOTATION__EMODEL_ELEMENT) return null;
@@ -221,6 +223,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEModelElement(EModelElement newEModelElement)
   {
     if (newEModelElement != eInternalContainer() || (eContainerFeatureID() != EcorePackage.EANNOTATION__EMODEL_ELEMENT && newEModelElement != null))
@@ -244,6 +247,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<EObject> getContents()
   {
     if (contents == null)
@@ -258,6 +262,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<EObject> getReferences()
   {
     if (references == null)
@@ -457,7 +462,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (source: ");
     result.append(source);
     result.append(')');

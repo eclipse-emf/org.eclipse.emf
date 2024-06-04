@@ -14,6 +14,7 @@ package org.eclipse.emf.mapping.xsd2ecore.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.mapping.MappingPackage;
 import org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreFactory;
@@ -65,7 +66,7 @@ public class XSD2EcorePackageImpl extends EPackageImpl implements XSD2EcorePacka
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link XSD2EcorePackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -80,12 +81,14 @@ public class XSD2EcorePackageImpl extends EPackageImpl implements XSD2EcorePacka
     if (isInited) return (XSD2EcorePackage)EPackage.Registry.INSTANCE.getEPackage(XSD2EcorePackage.eNS_URI);
 
     // Obtain or create and register package
-    XSD2EcorePackageImpl theXSD2EcorePackage = (XSD2EcorePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof XSD2EcorePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new XSD2EcorePackageImpl());
+    Object registeredXSD2EcorePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    XSD2EcorePackageImpl theXSD2EcorePackage = registeredXSD2EcorePackage instanceof XSD2EcorePackageImpl ? (XSD2EcorePackageImpl)registeredXSD2EcorePackage : new XSD2EcorePackageImpl();
 
     isInited = true;
 
     // Initialize simple dependencies
     MappingPackage.eINSTANCE.eClass();
+    EcorePackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
     theXSD2EcorePackage.createPackageContents();
@@ -96,7 +99,6 @@ public class XSD2EcorePackageImpl extends EPackageImpl implements XSD2EcorePacka
     // Mark meta-data to indicate it can't be changed
     theXSD2EcorePackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(XSD2EcorePackage.eNS_URI, theXSD2EcorePackage);
     return theXSD2EcorePackage;
@@ -107,6 +109,7 @@ public class XSD2EcorePackageImpl extends EPackageImpl implements XSD2EcorePacka
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSD2EcoreMappingRoot()
   {
     return xsd2EcoreMappingRootEClass;
@@ -117,6 +120,7 @@ public class XSD2EcorePackageImpl extends EPackageImpl implements XSD2EcorePacka
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSD2EcoreFactory getXSD2EcoreFactory()
   {
     return (XSD2EcoreFactory)getEFactoryInstance();

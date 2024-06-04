@@ -721,6 +721,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDAnnotation()
   {
     return xsdAnnotationEClass;
@@ -731,6 +732,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDAnnotation_ApplicationInformation()
   {
     return (EAttribute)xsdAnnotationEClass.getEStructuralFeatures().get(0);
@@ -741,6 +743,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDAnnotation_UserInformation()
   {
     return (EAttribute)xsdAnnotationEClass.getEStructuralFeatures().get(1);
@@ -751,6 +754,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDAnnotation_Attributes()
   {
     return (EAttribute)xsdAnnotationEClass.getEStructuralFeatures().get(2);
@@ -761,6 +765,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDAttributeDeclaration()
   {
     return xsdAttributeDeclarationEClass;
@@ -771,6 +776,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDAttributeDeclaration_AttributeDeclarationReference()
   {
     return (EAttribute)xsdAttributeDeclarationEClass.getEStructuralFeatures().get(0);
@@ -781,6 +787,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDAttributeDeclaration_Annotation()
   {
     return (EReference)xsdAttributeDeclarationEClass.getEStructuralFeatures().get(1);
@@ -791,6 +798,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDAttributeDeclaration_AnonymousTypeDefinition()
   {
     return (EReference)xsdAttributeDeclarationEClass.getEStructuralFeatures().get(2);
@@ -801,6 +809,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDAttributeDeclaration_TypeDefinition()
   {
     return (EReference)xsdAttributeDeclarationEClass.getEStructuralFeatures().get(3);
@@ -811,6 +820,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDAttributeDeclaration_ResolvedAttributeDeclaration()
   {
     return (EReference)xsdAttributeDeclarationEClass.getEStructuralFeatures().get(4);
@@ -821,6 +831,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDAttributeGroupContent()
   {
     return xsdAttributeGroupContentEClass;
@@ -831,6 +842,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDAttributeGroupDefinition()
   {
     return xsdAttributeGroupDefinitionEClass;
@@ -841,6 +853,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDAttributeGroupDefinition_AttributeGroupDefinitionReference()
   {
     return (EAttribute)xsdAttributeGroupDefinitionEClass.getEStructuralFeatures().get(0);
@@ -851,6 +864,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDAttributeGroupDefinition_Annotation()
   {
     return (EReference)xsdAttributeGroupDefinitionEClass.getEStructuralFeatures().get(1);
@@ -861,6 +875,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDAttributeGroupDefinition_Contents()
   {
     return (EReference)xsdAttributeGroupDefinitionEClass.getEStructuralFeatures().get(2);
@@ -871,6 +886,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDAttributeGroupDefinition_AttributeUses()
   {
     return (EReference)xsdAttributeGroupDefinitionEClass.getEStructuralFeatures().get(3);
@@ -881,6 +897,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDAttributeGroupDefinition_AttributeWildcardContent()
   {
     return (EReference)xsdAttributeGroupDefinitionEClass.getEStructuralFeatures().get(4);
@@ -891,6 +908,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDAttributeGroupDefinition_AttributeWildcard()
   {
     return (EReference)xsdAttributeGroupDefinitionEClass.getEStructuralFeatures().get(5);
@@ -901,6 +919,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDAttributeGroupDefinition_ResolvedAttributeGroupDefinition()
   {
     return (EReference)xsdAttributeGroupDefinitionEClass.getEStructuralFeatures().get(6);
@@ -911,6 +930,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDAttributeGroupDefinition_SyntheticWildcard()
   {
     return (EReference)xsdAttributeGroupDefinitionEClass.getEStructuralFeatures().get(7);
@@ -921,6 +941,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDAttributeUse()
   {
     return xsdAttributeUseEClass;
@@ -931,6 +952,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDAttributeUse_Required()
   {
     return (EAttribute)xsdAttributeUseEClass.getEStructuralFeatures().get(0);
@@ -941,6 +963,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDAttributeUse_Value()
   {
     return (EAttribute)xsdAttributeUseEClass.getEStructuralFeatures().get(1);
@@ -951,6 +974,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDAttributeUse_Constraint()
   {
     return (EAttribute)xsdAttributeUseEClass.getEStructuralFeatures().get(2);
@@ -961,6 +985,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDAttributeUse_Use()
   {
     return (EAttribute)xsdAttributeUseEClass.getEStructuralFeatures().get(3);
@@ -971,6 +996,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDAttributeUse_LexicalValue()
   {
     return (EAttribute)xsdAttributeUseEClass.getEStructuralFeatures().get(4);
@@ -981,6 +1007,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDAttributeUse_AttributeDeclaration()
   {
     return (EReference)xsdAttributeUseEClass.getEStructuralFeatures().get(5);
@@ -991,6 +1018,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDAttributeUse_Content()
   {
     return (EReference)xsdAttributeUseEClass.getEStructuralFeatures().get(6);
@@ -1001,6 +1029,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDBoundedFacet()
   {
     return xsdBoundedFacetEClass;
@@ -1011,6 +1040,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDBoundedFacet_Value()
   {
     return (EAttribute)xsdBoundedFacetEClass.getEStructuralFeatures().get(0);
@@ -1021,6 +1051,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDCardinalityFacet()
   {
     return xsdCardinalityFacetEClass;
@@ -1031,6 +1062,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDCardinalityFacet_Value()
   {
     return (EAttribute)xsdCardinalityFacetEClass.getEStructuralFeatures().get(0);
@@ -1041,6 +1073,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDComplexTypeContent()
   {
     return xsdComplexTypeContentEClass;
@@ -1051,6 +1084,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDComplexTypeDefinition()
   {
     return xsdComplexTypeDefinitionEClass;
@@ -1061,6 +1095,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDComplexTypeDefinition_DerivationMethod()
   {
     return (EAttribute)xsdComplexTypeDefinitionEClass.getEStructuralFeatures().get(0);
@@ -1071,6 +1106,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDComplexTypeDefinition_Final()
   {
     return (EAttribute)xsdComplexTypeDefinitionEClass.getEStructuralFeatures().get(1);
@@ -1081,6 +1117,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDComplexTypeDefinition_Abstract()
   {
     return (EAttribute)xsdComplexTypeDefinitionEClass.getEStructuralFeatures().get(2);
@@ -1091,6 +1128,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDComplexTypeDefinition_ContentTypeCategory()
   {
     return (EAttribute)xsdComplexTypeDefinitionEClass.getEStructuralFeatures().get(3);
@@ -1101,6 +1139,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDComplexTypeDefinition_ProhibitedSubstitutions()
   {
     return (EAttribute)xsdComplexTypeDefinitionEClass.getEStructuralFeatures().get(4);
@@ -1111,6 +1150,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDComplexTypeDefinition_LexicalFinal()
   {
     return (EAttribute)xsdComplexTypeDefinitionEClass.getEStructuralFeatures().get(5);
@@ -1121,6 +1161,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDComplexTypeDefinition_Block()
   {
     return (EAttribute)xsdComplexTypeDefinitionEClass.getEStructuralFeatures().get(6);
@@ -1131,6 +1172,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDComplexTypeDefinition_Mixed()
   {
     return (EAttribute)xsdComplexTypeDefinitionEClass.getEStructuralFeatures().get(7);
@@ -1141,6 +1183,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDComplexTypeDefinition_ContentAnnotation()
   {
     return (EReference)xsdComplexTypeDefinitionEClass.getEStructuralFeatures().get(8);
@@ -1151,6 +1194,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDComplexTypeDefinition_BaseTypeDefinition()
   {
     return (EReference)xsdComplexTypeDefinitionEClass.getEStructuralFeatures().get(9);
@@ -1161,6 +1205,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDComplexTypeDefinition_Content()
   {
     return (EReference)xsdComplexTypeDefinitionEClass.getEStructuralFeatures().get(10);
@@ -1171,6 +1216,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDComplexTypeDefinition_ContentType()
   {
     return (EReference)xsdComplexTypeDefinitionEClass.getEStructuralFeatures().get(11);
@@ -1181,6 +1227,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDComplexTypeDefinition_AttributeUses()
   {
     return (EReference)xsdComplexTypeDefinitionEClass.getEStructuralFeatures().get(12);
@@ -1191,6 +1238,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDComplexTypeDefinition_AttributeContents()
   {
     return (EReference)xsdComplexTypeDefinitionEClass.getEStructuralFeatures().get(13);
@@ -1201,6 +1249,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDComplexTypeDefinition_AttributeWildcard()
   {
     return (EReference)xsdComplexTypeDefinitionEClass.getEStructuralFeatures().get(14);
@@ -1211,6 +1260,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDComplexTypeDefinition_AttributeWildcardContent()
   {
     return (EReference)xsdComplexTypeDefinitionEClass.getEStructuralFeatures().get(15);
@@ -1221,6 +1271,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDComplexTypeDefinition_RootTypeDefinition()
   {
     return (EReference)xsdComplexTypeDefinitionEClass.getEStructuralFeatures().get(16);
@@ -1231,6 +1282,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDComplexTypeDefinition_SyntheticParticle()
   {
     return (EReference)xsdComplexTypeDefinitionEClass.getEStructuralFeatures().get(17);
@@ -1241,6 +1293,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDComplexTypeDefinition_SyntheticWildcard()
   {
     return (EReference)xsdComplexTypeDefinitionEClass.getEStructuralFeatures().get(18);
@@ -1251,6 +1304,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDComponent()
   {
     return xsdComponentEClass;
@@ -1261,6 +1315,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDConcreteComponent()
   {
     return xsdConcreteComponentEClass;
@@ -1271,6 +1326,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDConcreteComponent_Element()
   {
     return (EAttribute)xsdConcreteComponentEClass.getEStructuralFeatures().get(0);
@@ -1281,6 +1337,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDConcreteComponent_Container()
   {
     return (EReference)xsdConcreteComponentEClass.getEStructuralFeatures().get(1);
@@ -1291,6 +1348,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDConcreteComponent_RootContainer()
   {
     return (EReference)xsdConcreteComponentEClass.getEStructuralFeatures().get(2);
@@ -1301,6 +1359,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDConcreteComponent_Schema()
   {
     return (EReference)xsdConcreteComponentEClass.getEStructuralFeatures().get(3);
@@ -1311,6 +1370,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDConcreteComponent_Diagnostics()
   {
     return (EReference)xsdConcreteComponentEClass.getEStructuralFeatures().get(4);
@@ -1321,6 +1381,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDConstrainingFacet()
   {
     return xsdConstrainingFacetEClass;
@@ -1331,6 +1392,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDDiagnostic()
   {
     return xsdDiagnosticEClass;
@@ -1341,6 +1403,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDDiagnostic_Severity()
   {
     return (EAttribute)xsdDiagnosticEClass.getEStructuralFeatures().get(0);
@@ -1351,6 +1414,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDDiagnostic_Message()
   {
     return (EAttribute)xsdDiagnosticEClass.getEStructuralFeatures().get(1);
@@ -1361,6 +1425,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDDiagnostic_LocationURI()
   {
     return (EAttribute)xsdDiagnosticEClass.getEStructuralFeatures().get(2);
@@ -1371,6 +1436,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDDiagnostic_Line()
   {
     return (EAttribute)xsdDiagnosticEClass.getEStructuralFeatures().get(3);
@@ -1381,6 +1447,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDDiagnostic_Column()
   {
     return (EAttribute)xsdDiagnosticEClass.getEStructuralFeatures().get(4);
@@ -1391,6 +1458,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDDiagnostic_Node()
   {
     return (EAttribute)xsdDiagnosticEClass.getEStructuralFeatures().get(5);
@@ -1401,6 +1469,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDDiagnostic_AnnotationURI()
   {
     return (EAttribute)xsdDiagnosticEClass.getEStructuralFeatures().get(6);
@@ -1411,6 +1480,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDDiagnostic_Key()
   {
     return (EAttribute)xsdDiagnosticEClass.getEStructuralFeatures().get(7);
@@ -1421,6 +1491,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDDiagnostic_Substitutions()
   {
     return (EAttribute)xsdDiagnosticEClass.getEStructuralFeatures().get(8);
@@ -1431,6 +1502,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDDiagnostic_Components()
   {
     return (EReference)xsdDiagnosticEClass.getEStructuralFeatures().get(9);
@@ -1441,6 +1513,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDDiagnostic_PrimaryComponent()
   {
     return (EReference)xsdDiagnosticEClass.getEStructuralFeatures().get(10);
@@ -1451,6 +1524,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDElementDeclaration()
   {
     return xsdElementDeclarationEClass;
@@ -1461,6 +1535,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDElementDeclaration_Nillable()
   {
     return (EAttribute)xsdElementDeclarationEClass.getEStructuralFeatures().get(0);
@@ -1471,6 +1546,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDElementDeclaration_DisallowedSubstitutions()
   {
     return (EAttribute)xsdElementDeclarationEClass.getEStructuralFeatures().get(1);
@@ -1481,6 +1557,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDElementDeclaration_SubstitutionGroupExclusions()
   {
     return (EAttribute)xsdElementDeclarationEClass.getEStructuralFeatures().get(2);
@@ -1491,6 +1568,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDElementDeclaration_Abstract()
   {
     return (EAttribute)xsdElementDeclarationEClass.getEStructuralFeatures().get(3);
@@ -1501,6 +1579,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDElementDeclaration_LexicalFinal()
   {
     return (EAttribute)xsdElementDeclarationEClass.getEStructuralFeatures().get(4);
@@ -1511,6 +1590,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDElementDeclaration_Block()
   {
     return (EAttribute)xsdElementDeclarationEClass.getEStructuralFeatures().get(5);
@@ -1521,6 +1601,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDElementDeclaration_ElementDeclarationReference()
   {
     return (EAttribute)xsdElementDeclarationEClass.getEStructuralFeatures().get(6);
@@ -1531,6 +1612,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDElementDeclaration_Circular()
   {
     return (EAttribute)xsdElementDeclarationEClass.getEStructuralFeatures().get(7);
@@ -1541,6 +1623,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDElementDeclaration_Annotation()
   {
     return (EReference)xsdElementDeclarationEClass.getEStructuralFeatures().get(8);
@@ -1551,6 +1634,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDElementDeclaration_AnonymousTypeDefinition()
   {
     return (EReference)xsdElementDeclarationEClass.getEStructuralFeatures().get(9);
@@ -1561,6 +1645,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDElementDeclaration_TypeDefinition()
   {
     return (EReference)xsdElementDeclarationEClass.getEStructuralFeatures().get(10);
@@ -1571,6 +1656,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDElementDeclaration_IdentityConstraintDefinitions()
   {
     return (EReference)xsdElementDeclarationEClass.getEStructuralFeatures().get(11);
@@ -1581,6 +1667,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDElementDeclaration_ResolvedElementDeclaration()
   {
     return (EReference)xsdElementDeclarationEClass.getEStructuralFeatures().get(12);
@@ -1591,6 +1678,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDElementDeclaration_SubstitutionGroupAffiliation()
   {
     return (EReference)xsdElementDeclarationEClass.getEStructuralFeatures().get(13);
@@ -1601,6 +1689,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDElementDeclaration_SubstitutionGroup()
   {
     return (EReference)xsdElementDeclarationEClass.getEStructuralFeatures().get(14);
@@ -1611,6 +1700,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDEnumerationFacet()
   {
     return xsdEnumerationFacetEClass;
@@ -1621,6 +1711,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDEnumerationFacet_Value()
   {
     return (EAttribute)xsdEnumerationFacetEClass.getEStructuralFeatures().get(0);
@@ -1631,6 +1722,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDFacet()
   {
     return xsdFacetEClass;
@@ -1641,6 +1733,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDFacet_LexicalValue()
   {
     return (EAttribute)xsdFacetEClass.getEStructuralFeatures().get(0);
@@ -1651,6 +1744,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDFacet_FacetName()
   {
     return (EAttribute)xsdFacetEClass.getEStructuralFeatures().get(1);
@@ -1661,6 +1755,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDFacet_EffectiveValue()
   {
     return (EAttribute)xsdFacetEClass.getEStructuralFeatures().get(2);
@@ -1671,6 +1766,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDFacet_Annotation()
   {
     return (EReference)xsdFacetEClass.getEStructuralFeatures().get(3);
@@ -1681,6 +1777,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDFacet_SimpleTypeDefinition()
   {
     return (EReference)xsdFacetEClass.getEStructuralFeatures().get(4);
@@ -1691,6 +1788,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDFeature()
   {
     return xsdFeatureEClass;
@@ -1701,6 +1799,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDFeature_Value()
   {
     return (EAttribute)xsdFeatureEClass.getEStructuralFeatures().get(0);
@@ -1711,6 +1810,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDFeature_Constraint()
   {
     return (EAttribute)xsdFeatureEClass.getEStructuralFeatures().get(1);
@@ -1721,6 +1821,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDFeature_Form()
   {
     return (EAttribute)xsdFeatureEClass.getEStructuralFeatures().get(2);
@@ -1731,6 +1832,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDFeature_LexicalValue()
   {
     return (EAttribute)xsdFeatureEClass.getEStructuralFeatures().get(3);
@@ -1741,6 +1843,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDFeature_Global()
   {
     return (EAttribute)xsdFeatureEClass.getEStructuralFeatures().get(4);
@@ -1751,6 +1854,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDFeature_FeatureReference()
   {
     return (EAttribute)xsdFeatureEClass.getEStructuralFeatures().get(5);
@@ -1761,6 +1865,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDFeature_Scope()
   {
     return (EReference)xsdFeatureEClass.getEStructuralFeatures().get(6);
@@ -1771,6 +1876,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDFeature_ResolvedFeature()
   {
     return (EReference)xsdFeatureEClass.getEStructuralFeatures().get(7);
@@ -1781,6 +1887,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDFeature_Type()
   {
     return (EReference)xsdFeatureEClass.getEStructuralFeatures().get(8);
@@ -1791,6 +1898,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDFixedFacet()
   {
     return xsdFixedFacetEClass;
@@ -1801,6 +1909,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDFixedFacet_Fixed()
   {
     return (EAttribute)xsdFixedFacetEClass.getEStructuralFeatures().get(0);
@@ -1811,6 +1920,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDFractionDigitsFacet()
   {
     return xsdFractionDigitsFacetEClass;
@@ -1821,6 +1931,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDFractionDigitsFacet_Value()
   {
     return (EAttribute)xsdFractionDigitsFacetEClass.getEStructuralFeatures().get(0);
@@ -1831,6 +1942,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDFundamentalFacet()
   {
     return xsdFundamentalFacetEClass;
@@ -1841,6 +1953,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDIdentityConstraintDefinition()
   {
     return xsdIdentityConstraintDefinitionEClass;
@@ -1851,6 +1964,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDIdentityConstraintDefinition_IdentityConstraintCategory()
   {
     return (EAttribute)xsdIdentityConstraintDefinitionEClass.getEStructuralFeatures().get(0);
@@ -1861,6 +1975,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDIdentityConstraintDefinition_Annotation()
   {
     return (EReference)xsdIdentityConstraintDefinitionEClass.getEStructuralFeatures().get(1);
@@ -1871,6 +1986,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDIdentityConstraintDefinition_ReferencedKey()
   {
     return (EReference)xsdIdentityConstraintDefinitionEClass.getEStructuralFeatures().get(2);
@@ -1881,6 +1997,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDIdentityConstraintDefinition_Selector()
   {
     return (EReference)xsdIdentityConstraintDefinitionEClass.getEStructuralFeatures().get(3);
@@ -1891,6 +2008,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDIdentityConstraintDefinition_Fields()
   {
     return (EReference)xsdIdentityConstraintDefinitionEClass.getEStructuralFeatures().get(4);
@@ -1901,6 +2019,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDImport()
   {
     return xsdImportEClass;
@@ -1911,6 +2030,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDImport_Namespace()
   {
     return (EAttribute)xsdImportEClass.getEStructuralFeatures().get(0);
@@ -1921,6 +2041,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDImport_Annotation()
   {
     return (EReference)xsdImportEClass.getEStructuralFeatures().get(1);
@@ -1931,6 +2052,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDInclude()
   {
     return xsdIncludeEClass;
@@ -1941,6 +2063,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDInclude_Annotation()
   {
     return (EReference)xsdIncludeEClass.getEStructuralFeatures().get(0);
@@ -1951,6 +2074,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDLengthFacet()
   {
     return xsdLengthFacetEClass;
@@ -1961,6 +2085,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDLengthFacet_Value()
   {
     return (EAttribute)xsdLengthFacetEClass.getEStructuralFeatures().get(0);
@@ -1971,6 +2096,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDMaxExclusiveFacet()
   {
     return xsdMaxExclusiveFacetEClass;
@@ -1981,6 +2107,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDMaxFacet()
   {
     return xsdMaxFacetEClass;
@@ -1991,6 +2118,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDMaxFacet_Value()
   {
     return (EAttribute)xsdMaxFacetEClass.getEStructuralFeatures().get(0);
@@ -2001,6 +2129,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDMaxFacet_Inclusive()
   {
     return (EAttribute)xsdMaxFacetEClass.getEStructuralFeatures().get(1);
@@ -2011,6 +2140,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDMaxFacet_Exclusive()
   {
     return (EAttribute)xsdMaxFacetEClass.getEStructuralFeatures().get(2);
@@ -2021,6 +2151,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDMaxInclusiveFacet()
   {
     return xsdMaxInclusiveFacetEClass;
@@ -2031,6 +2162,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDMaxLengthFacet()
   {
     return xsdMaxLengthFacetEClass;
@@ -2041,6 +2173,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDMaxLengthFacet_Value()
   {
     return (EAttribute)xsdMaxLengthFacetEClass.getEStructuralFeatures().get(0);
@@ -2051,6 +2184,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDMinExclusiveFacet()
   {
     return xsdMinExclusiveFacetEClass;
@@ -2061,6 +2195,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDMinFacet()
   {
     return xsdMinFacetEClass;
@@ -2071,6 +2206,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDMinFacet_Value()
   {
     return (EAttribute)xsdMinFacetEClass.getEStructuralFeatures().get(0);
@@ -2081,6 +2217,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDMinFacet_Inclusive()
   {
     return (EAttribute)xsdMinFacetEClass.getEStructuralFeatures().get(1);
@@ -2091,6 +2228,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDMinFacet_Exclusive()
   {
     return (EAttribute)xsdMinFacetEClass.getEStructuralFeatures().get(2);
@@ -2101,6 +2239,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDMinInclusiveFacet()
   {
     return xsdMinInclusiveFacetEClass;
@@ -2111,6 +2250,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDMinLengthFacet()
   {
     return xsdMinLengthFacetEClass;
@@ -2121,6 +2261,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDMinLengthFacet_Value()
   {
     return (EAttribute)xsdMinLengthFacetEClass.getEStructuralFeatures().get(0);
@@ -2131,6 +2272,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDModelGroup()
   {
     return xsdModelGroupEClass;
@@ -2141,6 +2283,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDModelGroup_Compositor()
   {
     return (EAttribute)xsdModelGroupEClass.getEStructuralFeatures().get(0);
@@ -2151,6 +2294,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDModelGroup_Annotation()
   {
     return (EReference)xsdModelGroupEClass.getEStructuralFeatures().get(1);
@@ -2161,6 +2305,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDModelGroup_Contents()
   {
     return (EReference)xsdModelGroupEClass.getEStructuralFeatures().get(2);
@@ -2171,6 +2316,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDModelGroup_Particles()
   {
     return (EReference)xsdModelGroupEClass.getEStructuralFeatures().get(3);
@@ -2181,6 +2327,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDModelGroupDefinition()
   {
     return xsdModelGroupDefinitionEClass;
@@ -2191,6 +2338,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDModelGroupDefinition_ModelGroupDefinitionReference()
   {
     return (EAttribute)xsdModelGroupDefinitionEClass.getEStructuralFeatures().get(0);
@@ -2201,6 +2349,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDModelGroupDefinition_Annotation()
   {
     return (EReference)xsdModelGroupDefinitionEClass.getEStructuralFeatures().get(1);
@@ -2211,6 +2360,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDModelGroupDefinition_ModelGroup()
   {
     return (EReference)xsdModelGroupDefinitionEClass.getEStructuralFeatures().get(2);
@@ -2221,6 +2371,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDModelGroupDefinition_ResolvedModelGroupDefinition()
   {
     return (EReference)xsdModelGroupDefinitionEClass.getEStructuralFeatures().get(3);
@@ -2231,6 +2382,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDNamedComponent()
   {
     return xsdNamedComponentEClass;
@@ -2241,6 +2393,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDNamedComponent_Name()
   {
     return (EAttribute)xsdNamedComponentEClass.getEStructuralFeatures().get(0);
@@ -2251,6 +2404,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDNamedComponent_TargetNamespace()
   {
     return (EAttribute)xsdNamedComponentEClass.getEStructuralFeatures().get(1);
@@ -2261,6 +2415,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDNamedComponent_AliasName()
   {
     return (EAttribute)xsdNamedComponentEClass.getEStructuralFeatures().get(2);
@@ -2271,6 +2426,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDNamedComponent_URI()
   {
     return (EAttribute)xsdNamedComponentEClass.getEStructuralFeatures().get(3);
@@ -2281,6 +2437,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDNamedComponent_AliasURI()
   {
     return (EAttribute)xsdNamedComponentEClass.getEStructuralFeatures().get(4);
@@ -2291,6 +2448,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDNamedComponent_QName()
   {
     return (EAttribute)xsdNamedComponentEClass.getEStructuralFeatures().get(5);
@@ -2301,6 +2459,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDNotationDeclaration()
   {
     return xsdNotationDeclarationEClass;
@@ -2311,6 +2470,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDNotationDeclaration_SystemIdentifier()
   {
     return (EAttribute)xsdNotationDeclarationEClass.getEStructuralFeatures().get(0);
@@ -2321,6 +2481,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDNotationDeclaration_PublicIdentifier()
   {
     return (EAttribute)xsdNotationDeclarationEClass.getEStructuralFeatures().get(1);
@@ -2331,6 +2492,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDNotationDeclaration_Annotation()
   {
     return (EReference)xsdNotationDeclarationEClass.getEStructuralFeatures().get(2);
@@ -2341,6 +2503,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDNumericFacet()
   {
     return xsdNumericFacetEClass;
@@ -2351,6 +2514,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDNumericFacet_Value()
   {
     return (EAttribute)xsdNumericFacetEClass.getEStructuralFeatures().get(0);
@@ -2361,6 +2525,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDOrderedFacet()
   {
     return xsdOrderedFacetEClass;
@@ -2371,6 +2536,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDOrderedFacet_Value()
   {
     return (EAttribute)xsdOrderedFacetEClass.getEStructuralFeatures().get(0);
@@ -2381,6 +2547,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDParticle()
   {
     return xsdParticleEClass;
@@ -2391,6 +2558,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDParticle_MinOccurs()
   {
     return (EAttribute)xsdParticleEClass.getEStructuralFeatures().get(0);
@@ -2401,6 +2569,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDParticle_MaxOccurs()
   {
     return (EAttribute)xsdParticleEClass.getEStructuralFeatures().get(1);
@@ -2411,6 +2580,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDParticle_Content()
   {
     return (EReference)xsdParticleEClass.getEStructuralFeatures().get(2);
@@ -2421,6 +2591,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDParticle_Term()
   {
     return (EReference)xsdParticleEClass.getEStructuralFeatures().get(3);
@@ -2431,6 +2602,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDParticleContent()
   {
     return xsdParticleContentEClass;
@@ -2441,6 +2613,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDPatternFacet()
   {
     return xsdPatternFacetEClass;
@@ -2451,6 +2624,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDPatternFacet_Value()
   {
     return (EAttribute)xsdPatternFacetEClass.getEStructuralFeatures().get(0);
@@ -2461,6 +2635,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDRedefinableComponent()
   {
     return xsdRedefinableComponentEClass;
@@ -2471,6 +2646,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDRedefinableComponent_Circular()
   {
     return (EAttribute)xsdRedefinableComponentEClass.getEStructuralFeatures().get(0);
@@ -2481,6 +2657,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDRedefineContent()
   {
     return xsdRedefineContentEClass;
@@ -2491,6 +2668,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDRedefine()
   {
     return xsdRedefineEClass;
@@ -2501,6 +2679,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDRedefine_Annotations()
   {
     return (EReference)xsdRedefineEClass.getEStructuralFeatures().get(0);
@@ -2511,6 +2690,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDRedefine_Contents()
   {
     return (EReference)xsdRedefineEClass.getEStructuralFeatures().get(1);
@@ -2521,6 +2701,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDRepeatableFacet()
   {
     return xsdRepeatableFacetEClass;
@@ -2531,6 +2712,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDRepeatableFacet_Annotations()
   {
     return (EReference)xsdRepeatableFacetEClass.getEStructuralFeatures().get(0);
@@ -2541,6 +2723,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDSchema()
   {
     return xsdSchemaEClass;
@@ -2551,6 +2734,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDSchema_Document()
   {
     return (EAttribute)xsdSchemaEClass.getEStructuralFeatures().get(0);
@@ -2561,6 +2745,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDSchema_SchemaLocation()
   {
     return (EAttribute)xsdSchemaEClass.getEStructuralFeatures().get(1);
@@ -2571,6 +2756,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDSchema_TargetNamespace()
   {
     return (EAttribute)xsdSchemaEClass.getEStructuralFeatures().get(2);
@@ -2581,6 +2767,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDSchema_AttributeFormDefault()
   {
     return (EAttribute)xsdSchemaEClass.getEStructuralFeatures().get(3);
@@ -2591,6 +2778,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDSchema_ElementFormDefault()
   {
     return (EAttribute)xsdSchemaEClass.getEStructuralFeatures().get(4);
@@ -2601,6 +2789,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDSchema_FinalDefault()
   {
     return (EAttribute)xsdSchemaEClass.getEStructuralFeatures().get(5);
@@ -2611,6 +2800,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDSchema_BlockDefault()
   {
     return (EAttribute)xsdSchemaEClass.getEStructuralFeatures().get(6);
@@ -2621,6 +2811,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDSchema_Version()
   {
     return (EAttribute)xsdSchemaEClass.getEStructuralFeatures().get(7);
@@ -2631,6 +2822,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSchema_Contents()
   {
     return (EReference)xsdSchemaEClass.getEStructuralFeatures().get(8);
@@ -2641,6 +2833,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSchema_ElementDeclarations()
   {
     return (EReference)xsdSchemaEClass.getEStructuralFeatures().get(9);
@@ -2651,6 +2844,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSchema_AttributeDeclarations()
   {
     return (EReference)xsdSchemaEClass.getEStructuralFeatures().get(10);
@@ -2661,6 +2855,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSchema_AttributeGroupDefinitions()
   {
     return (EReference)xsdSchemaEClass.getEStructuralFeatures().get(11);
@@ -2671,6 +2866,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSchema_TypeDefinitions()
   {
     return (EReference)xsdSchemaEClass.getEStructuralFeatures().get(12);
@@ -2681,6 +2877,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSchema_ModelGroupDefinitions()
   {
     return (EReference)xsdSchemaEClass.getEStructuralFeatures().get(13);
@@ -2691,6 +2888,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSchema_IdentityConstraintDefinitions()
   {
     return (EReference)xsdSchemaEClass.getEStructuralFeatures().get(14);
@@ -2701,6 +2899,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSchema_NotationDeclarations()
   {
     return (EReference)xsdSchemaEClass.getEStructuralFeatures().get(15);
@@ -2711,6 +2910,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSchema_Annotations()
   {
     return (EReference)xsdSchemaEClass.getEStructuralFeatures().get(16);
@@ -2721,6 +2921,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSchema_AllDiagnostics()
   {
     return (EReference)xsdSchemaEClass.getEStructuralFeatures().get(17);
@@ -2731,6 +2932,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSchema_ReferencingDirectives()
   {
     return (EReference)xsdSchemaEClass.getEStructuralFeatures().get(18);
@@ -2741,6 +2943,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSchema_RootVersion()
   {
     return (EReference)xsdSchemaEClass.getEStructuralFeatures().get(19);
@@ -2751,6 +2954,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSchema_OriginalVersion()
   {
     return (EReference)xsdSchemaEClass.getEStructuralFeatures().get(20);
@@ -2761,6 +2965,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSchema_IncorporatedVersions()
   {
     return (EReference)xsdSchemaEClass.getEStructuralFeatures().get(21);
@@ -2771,6 +2976,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSchema_SchemaForSchema()
   {
     return (EReference)xsdSchemaEClass.getEStructuralFeatures().get(22);
@@ -2781,6 +2987,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDSchemaCompositor()
   {
     return xsdSchemaCompositorEClass;
@@ -2791,6 +2998,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSchemaCompositor_IncorporatedSchema()
   {
     return (EReference)xsdSchemaCompositorEClass.getEStructuralFeatures().get(0);
@@ -2801,6 +3009,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDSchemaContent()
   {
     return xsdSchemaContentEClass;
@@ -2811,6 +3020,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDSchemaDirective()
   {
     return xsdSchemaDirectiveEClass;
@@ -2821,6 +3031,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDSchemaDirective_SchemaLocation()
   {
     return (EAttribute)xsdSchemaDirectiveEClass.getEStructuralFeatures().get(0);
@@ -2831,6 +3042,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSchemaDirective_ResolvedSchema()
   {
     return (EReference)xsdSchemaDirectiveEClass.getEStructuralFeatures().get(1);
@@ -2841,6 +3053,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDScope()
   {
     return xsdScopeEClass;
@@ -2851,6 +3064,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDSimpleTypeDefinition()
   {
     return xsdSimpleTypeDefinitionEClass;
@@ -2861,6 +3075,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDSimpleTypeDefinition_Variety()
   {
     return (EAttribute)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(0);
@@ -2871,6 +3086,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDSimpleTypeDefinition_Final()
   {
     return (EAttribute)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(1);
@@ -2881,6 +3097,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDSimpleTypeDefinition_LexicalFinal()
   {
     return (EAttribute)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(2);
@@ -2891,6 +3108,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDSimpleTypeDefinition_ValidFacets()
   {
     return (EAttribute)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(3);
@@ -2901,6 +3119,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_Contents()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(4);
@@ -2911,6 +3130,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_FacetContents()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(5);
@@ -2921,6 +3141,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_Facets()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(6);
@@ -2931,6 +3152,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_MemberTypeDefinitions()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(7);
@@ -2941,6 +3163,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_FundamentalFacets()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(8);
@@ -2951,6 +3174,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_BaseTypeDefinition()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(9);
@@ -2961,6 +3185,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_PrimitiveTypeDefinition()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(10);
@@ -2971,6 +3196,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_ItemTypeDefinition()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(11);
@@ -2981,6 +3207,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_RootTypeDefinition()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(12);
@@ -2991,6 +3218,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_MinFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(13);
@@ -3001,6 +3229,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_MaxFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(14);
@@ -3011,6 +3240,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_MaxInclusiveFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(15);
@@ -3021,6 +3251,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_MinInclusiveFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(16);
@@ -3031,6 +3262,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_MinExclusiveFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(17);
@@ -3041,6 +3273,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_MaxExclusiveFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(18);
@@ -3051,6 +3284,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_LengthFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(19);
@@ -3061,6 +3295,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_WhiteSpaceFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(20);
@@ -3071,6 +3306,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_EnumerationFacets()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(21);
@@ -3081,6 +3317,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_PatternFacets()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(22);
@@ -3091,6 +3328,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_CardinalityFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(23);
@@ -3101,6 +3339,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_NumericFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(24);
@@ -3111,6 +3350,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_MaxLengthFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(25);
@@ -3121,6 +3361,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_MinLengthFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(26);
@@ -3131,6 +3372,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_TotalDigitsFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(27);
@@ -3141,6 +3383,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_FractionDigitsFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(28);
@@ -3151,6 +3394,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_OrderedFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(29);
@@ -3161,6 +3405,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_BoundedFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(30);
@@ -3171,6 +3416,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_EffectiveMaxFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(31);
@@ -3181,6 +3427,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_EffectiveWhiteSpaceFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(32);
@@ -3191,6 +3438,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_EffectiveMaxLengthFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(33);
@@ -3201,6 +3449,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_EffectiveFractionDigitsFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(34);
@@ -3211,6 +3460,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_EffectivePatternFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(35);
@@ -3221,6 +3471,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_EffectiveEnumerationFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(36);
@@ -3231,6 +3482,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_EffectiveTotalDigitsFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(37);
@@ -3241,6 +3493,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_EffectiveMinLengthFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(38);
@@ -3251,6 +3504,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_EffectiveLengthFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(39);
@@ -3261,6 +3515,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_EffectiveMinFacet()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(40);
@@ -3271,6 +3526,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDSimpleTypeDefinition_SyntheticFacets()
   {
     return (EReference)xsdSimpleTypeDefinitionEClass.getEStructuralFeatures().get(41);
@@ -3281,6 +3537,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDTerm()
   {
     return xsdTermEClass;
@@ -3291,6 +3548,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDTotalDigitsFacet()
   {
     return xsdTotalDigitsFacetEClass;
@@ -3301,6 +3559,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDTotalDigitsFacet_Value()
   {
     return (EAttribute)xsdTotalDigitsFacetEClass.getEStructuralFeatures().get(0);
@@ -3311,6 +3570,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDTypeDefinition()
   {
     return xsdTypeDefinitionEClass;
@@ -3321,6 +3581,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDTypeDefinition_Annotation()
   {
     return (EReference)xsdTypeDefinitionEClass.getEStructuralFeatures().get(0);
@@ -3331,6 +3592,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDTypeDefinition_DerivationAnnotation()
   {
     return (EReference)xsdTypeDefinitionEClass.getEStructuralFeatures().get(1);
@@ -3341,6 +3603,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDTypeDefinition_Annotations()
   {
     return (EReference)xsdTypeDefinitionEClass.getEStructuralFeatures().get(2);
@@ -3351,6 +3614,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDTypeDefinition_RootType()
   {
     return (EReference)xsdTypeDefinitionEClass.getEStructuralFeatures().get(3);
@@ -3361,6 +3625,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDTypeDefinition_BaseType()
   {
     return (EReference)xsdTypeDefinitionEClass.getEStructuralFeatures().get(4);
@@ -3371,6 +3636,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDTypeDefinition_SimpleType()
   {
     return (EReference)xsdTypeDefinitionEClass.getEStructuralFeatures().get(5);
@@ -3381,6 +3647,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDTypeDefinition_ComplexType()
   {
     return (EReference)xsdTypeDefinitionEClass.getEStructuralFeatures().get(6);
@@ -3391,6 +3658,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDWhiteSpaceFacet()
   {
     return xsdWhiteSpaceFacetEClass;
@@ -3401,6 +3669,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDWhiteSpaceFacet_Value()
   {
     return (EAttribute)xsdWhiteSpaceFacetEClass.getEStructuralFeatures().get(0);
@@ -3411,6 +3680,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDWildcard()
   {
     return xsdWildcardEClass;
@@ -3421,6 +3691,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDWildcard_NamespaceConstraintCategory()
   {
     return (EAttribute)xsdWildcardEClass.getEStructuralFeatures().get(0);
@@ -3431,6 +3702,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDWildcard_NamespaceConstraint()
   {
     return (EAttribute)xsdWildcardEClass.getEStructuralFeatures().get(1);
@@ -3441,6 +3713,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDWildcard_ProcessContents()
   {
     return (EAttribute)xsdWildcardEClass.getEStructuralFeatures().get(2);
@@ -3451,6 +3724,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDWildcard_LexicalNamespaceConstraint()
   {
     return (EAttribute)xsdWildcardEClass.getEStructuralFeatures().get(3);
@@ -3461,6 +3735,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDWildcard_Annotation()
   {
     return (EReference)xsdWildcardEClass.getEStructuralFeatures().get(4);
@@ -3471,6 +3746,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDWildcard_Annotations()
   {
     return (EReference)xsdWildcardEClass.getEStructuralFeatures().get(5);
@@ -3481,6 +3757,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXSDXPathDefinition()
   {
     return xsdxPathDefinitionEClass;
@@ -3491,6 +3768,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDXPathDefinition_Variety()
   {
     return (EAttribute)xsdxPathDefinitionEClass.getEStructuralFeatures().get(0);
@@ -3501,6 +3779,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXSDXPathDefinition_Value()
   {
     return (EAttribute)xsdxPathDefinitionEClass.getEStructuralFeatures().get(1);
@@ -3511,6 +3790,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXSDXPathDefinition_Annotation()
   {
     return (EReference)xsdxPathDefinitionEClass.getEStructuralFeatures().get(2);
@@ -3521,6 +3801,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDAttributeUseCategory()
   {
     return xsdAttributeUseCategoryEEnum;
@@ -3531,6 +3812,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDCardinality()
   {
     return xsdCardinalityEEnum;
@@ -3541,6 +3823,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDComplexFinal()
   {
     return xsdComplexFinalEEnum;
@@ -3551,6 +3834,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDCompositor()
   {
     return xsdCompositorEEnum;
@@ -3561,6 +3845,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDConstraint()
   {
     return xsdConstraintEEnum;
@@ -3571,6 +3856,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDContentTypeCategory()
   {
     return xsdContentTypeCategoryEEnum;
@@ -3581,6 +3867,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDDerivationMethod()
   {
     return xsdDerivationMethodEEnum;
@@ -3591,6 +3878,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDDiagnosticSeverity()
   {
     return xsdDiagnosticSeverityEEnum;
@@ -3601,6 +3889,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDDisallowedSubstitutions()
   {
     return xsdDisallowedSubstitutionsEEnum;
@@ -3611,6 +3900,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDForm()
   {
     return xsdFormEEnum;
@@ -3621,6 +3911,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDIdentityConstraintCategory()
   {
     return xsdIdentityConstraintCategoryEEnum;
@@ -3631,6 +3922,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDNamespaceConstraintCategory()
   {
     return xsdNamespaceConstraintCategoryEEnum;
@@ -3641,6 +3933,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDOrdered()
   {
     return xsdOrderedEEnum;
@@ -3651,6 +3944,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDProcessContents()
   {
     return xsdProcessContentsEEnum;
@@ -3661,6 +3955,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDProhibitedSubstitutions()
   {
     return xsdProhibitedSubstitutionsEEnum;
@@ -3671,6 +3966,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDSimpleFinal()
   {
     return xsdSimpleFinalEEnum;
@@ -3681,6 +3977,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDSubstitutionGroupExclusions()
   {
     return xsdSubstitutionGroupExclusionsEEnum;
@@ -3691,6 +3988,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDVariety()
   {
     return xsdVarietyEEnum;
@@ -3701,6 +3999,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDWhiteSpace()
   {
     return xsdWhiteSpaceEEnum;
@@ -3711,6 +4010,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EEnum getXSDXPathVariety()
   {
     return xsdxPathVarietyEEnum;
@@ -3721,6 +4021,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getDOMAttr()
   {
     return domAttrEDataType;
@@ -3731,6 +4032,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getDOMDocument()
   {
     return domDocumentEDataType;
@@ -3741,6 +4043,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getDOMElement()
   {
     return domElementEDataType;
@@ -3751,6 +4054,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getDOMNode()
   {
     return domNodeEDataType;
@@ -3761,6 +4065,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getValue()
   {
     return valueEDataType;
@@ -3771,6 +4076,7 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDFactory getXSDFactory()
   {
     return (XSDFactory)getEFactoryInstance();

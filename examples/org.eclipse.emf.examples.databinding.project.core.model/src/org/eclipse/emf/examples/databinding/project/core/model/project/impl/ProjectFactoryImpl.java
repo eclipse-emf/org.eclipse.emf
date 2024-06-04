@@ -87,6 +87,7 @@ public class ProjectFactoryImpl extends EFactoryImpl implements ProjectFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Foundation createFoundation()
   {
     FoundationImpl foundation = new FoundationImpl();
@@ -98,6 +99,7 @@ public class ProjectFactoryImpl extends EFactoryImpl implements ProjectFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Project createProject()
   {
     ProjectImpl project = new ProjectImpl();
@@ -109,6 +111,7 @@ public class ProjectFactoryImpl extends EFactoryImpl implements ProjectFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CommitterShip createCommitterShip()
   {
     CommitterShipImpl committerShip = new CommitterShipImpl();
@@ -120,6 +123,7 @@ public class ProjectFactoryImpl extends EFactoryImpl implements ProjectFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Person createPerson()
   {
     PersonImpl person = new PersonImpl();
@@ -131,6 +135,7 @@ public class ProjectFactoryImpl extends EFactoryImpl implements ProjectFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ProjectPackage getProjectPackage()
   {
     return (ProjectPackage)getEPackage();

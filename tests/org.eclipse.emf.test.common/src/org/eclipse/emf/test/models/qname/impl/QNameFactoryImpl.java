@@ -12,6 +12,7 @@ package org.eclipse.emf.test.models.qname.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import org.eclipse.emf.ecore.EClass;
@@ -138,6 +139,7 @@ public class QNameFactoryImpl extends EFactoryImpl implements QNameFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public DocumentRoot createDocumentRoot()
   {
     DocumentRootImpl documentRoot = new DocumentRootImpl();
@@ -149,6 +151,7 @@ public class QNameFactoryImpl extends EFactoryImpl implements QNameFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceType createResourceType()
   {
     ResourceTypeImpl resourceType = new ResourceTypeImpl();
@@ -378,6 +381,7 @@ public class QNameFactoryImpl extends EFactoryImpl implements QNameFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public QNamePackage getQNamePackage()
   {
     return (QNamePackage)getEPackage();

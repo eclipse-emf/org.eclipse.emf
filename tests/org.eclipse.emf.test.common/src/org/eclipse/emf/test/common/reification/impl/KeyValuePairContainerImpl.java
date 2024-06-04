@@ -81,6 +81,7 @@ public class KeyValuePairContainerImpl<K extends EList<?>, V extends KeyValuePai
    * @generated
    */
   @SuppressWarnings("unchecked")
+  @Override
   public KeyValuePair<K, V>[] getKeyValuePairs()
   {
     if (keyValuePairs == null || keyValuePairs.isEmpty()) return KEY_VALUE_PAIRS_EEMPTY_ARRAY;
@@ -94,6 +95,7 @@ public class KeyValuePairContainerImpl<K extends EList<?>, V extends KeyValuePai
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public KeyValuePair<K, V> getKeyValuePairs(int index)
   {
     return getKeyValuePairsList().get(index);
@@ -104,6 +106,7 @@ public class KeyValuePairContainerImpl<K extends EList<?>, V extends KeyValuePai
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getKeyValuePairsLength()
   {
     return keyValuePairs == null ? 0 : keyValuePairs.size();
@@ -114,6 +117,7 @@ public class KeyValuePairContainerImpl<K extends EList<?>, V extends KeyValuePai
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setKeyValuePairs(KeyValuePair<K, V>[] newKeyValuePairs)
   {
     ((BasicEList<KeyValuePair<K, V>>)getKeyValuePairsList()).setData(newKeyValuePairs.length, newKeyValuePairs);
@@ -124,6 +128,7 @@ public class KeyValuePairContainerImpl<K extends EList<?>, V extends KeyValuePai
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setKeyValuePairs(int index, KeyValuePair<K, V> element)
   {
     getKeyValuePairsList().set(index, element);
@@ -134,6 +139,7 @@ public class KeyValuePairContainerImpl<K extends EList<?>, V extends KeyValuePai
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<KeyValuePair<K, V>> getKeyValuePairsList()
   {
     if (keyValuePairs == null)

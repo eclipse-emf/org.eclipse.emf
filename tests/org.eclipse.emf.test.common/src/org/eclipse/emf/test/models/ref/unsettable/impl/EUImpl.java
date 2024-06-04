@@ -129,6 +129,7 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -139,6 +140,7 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -154,6 +156,7 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetName()
   {
     String oldName = name;
@@ -169,6 +172,7 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetName()
   {
     return nameESet;
@@ -179,6 +183,7 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getIds()
   {
     if (ids == null)
@@ -193,6 +198,7 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetIds()
   {
     if (ids != null) ((InternalEList.Unsettable<?>)ids).unset();
@@ -203,6 +209,7 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetIds()
   {
     return ids != null && ((InternalEList.Unsettable<?>)ids).isSet();
@@ -213,6 +220,7 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getLabels()
   {
     if (labels == null)
@@ -227,6 +235,7 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetLabels()
   {
     if (labels != null) ((InternalEList.Unsettable<?>)labels).unset();
@@ -237,6 +246,7 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetLabels()
   {
     return labels != null && ((InternalEList.Unsettable<?>)labels).isSet();
@@ -247,6 +257,7 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<DU> getDu()
   {
     if (du == null)
@@ -261,6 +272,7 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetDu()
   {
     if (du != null) ((InternalEList.Unsettable<?>)du).unset();
@@ -271,6 +283,7 @@ public class EUImpl extends EObjectImpl implements EU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetDu()
   {
     return du != null && ((InternalEList.Unsettable<?>)du).isSet();
@@ -419,7 +432,7 @@ public class EUImpl extends EObjectImpl implements EU
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (name: ");
     if (nameESet) result.append(name); else result.append("<unset>");
     result.append(", ids: ");

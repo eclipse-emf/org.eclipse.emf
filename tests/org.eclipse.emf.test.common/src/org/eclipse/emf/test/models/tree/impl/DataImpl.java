@@ -92,6 +92,7 @@ public class DataImpl extends EObjectImpl implements Data
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -102,6 +103,7 @@ public class DataImpl extends EObjectImpl implements Data
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -115,6 +117,7 @@ public class DataImpl extends EObjectImpl implements Data
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Node getNode()
   {
     if (node != null && node.eIsProxy())
@@ -162,6 +165,7 @@ public class DataImpl extends EObjectImpl implements Data
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setNode(Node newNode)
   {
     if (newNode != node)
@@ -299,7 +303,7 @@ public class DataImpl extends EObjectImpl implements Data
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (name: ");
     result.append(name);
     result.append(')');

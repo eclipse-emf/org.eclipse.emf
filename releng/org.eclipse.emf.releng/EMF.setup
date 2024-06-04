@@ -312,12 +312,12 @@
   </setupTask>
   <setupTask
       xsi:type="jdt:JRETask"
-      version="JavaSE-17"
-      location="${jre.location-17}"/>
+      version="JavaSE-21"
+      location="${jre.location-21}"/>
   <setupTask
       xsi:type="setup:StringSubstitutionTask"
       name="maven.build.java.home"
-      value="${jre.location-17}">
+      value="${jre.location-21}">
     <description>The location used to specify JAVA_HOME in the External Tools Configurations for Build EMF and Build EMF Releng</description>
   </setupTask>
   <setupTask
@@ -483,13 +483,13 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="xtext.latest.release.url"
-      value="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.34.0">
+      value="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.35.0">
     <description>The p2 update site URL for the last Xtext release.</description>
   </setupTask>
   <setupTask
       xsi:type="setup:VariableTask"
       name="mwe.latest.release.url"
-      value="https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.17.0">
+      value="https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.18.0">
     <description>The p2 update site URL for the last MWE release.</description>
   </setupTask>
   <setupTask

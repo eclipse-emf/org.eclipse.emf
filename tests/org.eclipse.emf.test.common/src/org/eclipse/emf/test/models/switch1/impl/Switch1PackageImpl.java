@@ -74,7 +74,7 @@ public class Switch1PackageImpl extends EPackageImpl implements Switch1Package
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link Switch1Package#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -89,13 +89,16 @@ public class Switch1PackageImpl extends EPackageImpl implements Switch1Package
     if (isInited) return (Switch1Package)EPackage.Registry.INSTANCE.getEPackage(Switch1Package.eNS_URI);
 
     // Obtain or create and register package
-    Switch1PackageImpl theSwitch1Package = (Switch1PackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof Switch1PackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new Switch1PackageImpl());
+    Object registeredSwitch1Package = EPackage.Registry.INSTANCE.get(eNS_URI);
+    Switch1PackageImpl theSwitch1Package = registeredSwitch1Package instanceof Switch1PackageImpl ? (Switch1PackageImpl)registeredSwitch1Package : new Switch1PackageImpl();
 
     isInited = true;
 
     // Obtain or create and register interdependencies
-    Switch2PackageImpl theSwitch2Package = (Switch2PackageImpl)(EPackage.Registry.INSTANCE.getEPackage(Switch2Package.eNS_URI) instanceof Switch2PackageImpl ? EPackage.Registry.INSTANCE.getEPackage(Switch2Package.eNS_URI) : Switch2Package.eINSTANCE);
-    Switch3PackageImpl theSwitch3Package = (Switch3PackageImpl)(EPackage.Registry.INSTANCE.getEPackage(Switch3Package.eNS_URI) instanceof Switch3PackageImpl ? EPackage.Registry.INSTANCE.getEPackage(Switch3Package.eNS_URI) : Switch3Package.eINSTANCE);
+    Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(Switch2Package.eNS_URI);
+    Switch2PackageImpl theSwitch2Package = (Switch2PackageImpl)(registeredPackage instanceof Switch2PackageImpl ? registeredPackage : Switch2Package.eINSTANCE);
+    registeredPackage = EPackage.Registry.INSTANCE.getEPackage(Switch3Package.eNS_URI);
+    Switch3PackageImpl theSwitch3Package = (Switch3PackageImpl)(registeredPackage instanceof Switch3PackageImpl ? registeredPackage : Switch3Package.eINSTANCE);
 
     // Create package meta-data objects
     theSwitch1Package.createPackageContents();
@@ -110,7 +113,6 @@ public class Switch1PackageImpl extends EPackageImpl implements Switch1Package
     // Mark meta-data to indicate it can't be changed
     theSwitch1Package.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(Switch1Package.eNS_URI, theSwitch1Package);
     return theSwitch1Package;
@@ -121,6 +123,7 @@ public class Switch1PackageImpl extends EPackageImpl implements Switch1Package
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEClass0()
   {
     return eClass0EClass;
@@ -131,6 +134,7 @@ public class Switch1PackageImpl extends EPackageImpl implements Switch1Package
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEClass0_EAttribute0()
   {
     return (EAttribute)eClass0EClass.getEStructuralFeatures().get(0);
@@ -141,6 +145,7 @@ public class Switch1PackageImpl extends EPackageImpl implements Switch1Package
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEClass0_EAttribute1()
   {
     return (EAttribute)eClass0EClass.getEStructuralFeatures().get(1);
@@ -151,6 +156,7 @@ public class Switch1PackageImpl extends EPackageImpl implements Switch1Package
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEClass1()
   {
     return eClass1EClass;
@@ -161,6 +167,7 @@ public class Switch1PackageImpl extends EPackageImpl implements Switch1Package
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEClass1_EAttribute2()
   {
     return (EAttribute)eClass1EClass.getEStructuralFeatures().get(0);
@@ -171,6 +178,7 @@ public class Switch1PackageImpl extends EPackageImpl implements Switch1Package
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getEClass1_EAttribute3()
   {
     return (EAttribute)eClass1EClass.getEStructuralFeatures().get(1);
@@ -181,6 +189,7 @@ public class Switch1PackageImpl extends EPackageImpl implements Switch1Package
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Switch1Factory getSwitch1Factory()
   {
     return (Switch1Factory)getEFactoryInstance();

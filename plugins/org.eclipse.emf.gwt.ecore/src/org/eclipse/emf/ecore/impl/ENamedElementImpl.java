@@ -111,7 +111,7 @@ public abstract class ENamedElementImpl extends EModelElementImpl implements ENa
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (name: ");
     result.append(name);
     result.append(')');
@@ -133,6 +133,7 @@ public abstract class ENamedElementImpl extends EModelElementImpl implements ENa
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;

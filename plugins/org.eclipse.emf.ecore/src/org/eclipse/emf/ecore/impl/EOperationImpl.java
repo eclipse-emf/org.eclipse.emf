@@ -154,6 +154,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation, EOp
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<EParameter> getEParameters()
   {
     if (eParameters == null)
@@ -782,6 +783,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation, EOp
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<ETypeParameter> getETypeParameters()
   {
     if (eTypeParameters == null)

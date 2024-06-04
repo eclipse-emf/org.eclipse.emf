@@ -191,6 +191,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -201,6 +202,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -214,6 +216,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getStreet()
   {
     return street;
@@ -224,6 +227,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setStreet(String newStreet)
   {
     String oldStreet = street;
@@ -237,6 +241,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getCity()
   {
     return city;
@@ -247,6 +252,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCity(String newCity)
   {
     String oldCity = city;
@@ -260,6 +266,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getState()
   {
     return state;
@@ -270,6 +277,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setState(String newState)
   {
     String oldState = state;
@@ -283,6 +291,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getZip()
   {
     return zip;
@@ -293,6 +302,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setZip(int newZip)
   {
     int oldZip = zip;
@@ -306,6 +316,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getCountry()
   {
     return country;
@@ -456,7 +467,7 @@ public class USAddressImpl extends EObjectImpl implements USAddress
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (name: ");
     result.append(name);
     result.append(", street: ");

@@ -97,6 +97,7 @@ public class C1UImpl extends EObjectImpl implements C1U
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public AU getAu()
   {
     return au;
@@ -126,6 +127,7 @@ public class C1UImpl extends EObjectImpl implements C1U
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAu(AU newAu)
   {
     if (newAu != au)
@@ -171,6 +173,7 @@ public class C1UImpl extends EObjectImpl implements C1U
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetAu()
   {
     if (au != null)
@@ -194,6 +197,7 @@ public class C1UImpl extends EObjectImpl implements C1U
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetAu()
   {
     return auESet;
@@ -204,6 +208,7 @@ public class C1UImpl extends EObjectImpl implements C1U
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<BU> getBu()
   {
     if (bu == null)
@@ -218,6 +223,7 @@ public class C1UImpl extends EObjectImpl implements C1U
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetBu()
   {
     if (bu != null) ((InternalEList.Unsettable<?>)bu).unset();
@@ -228,6 +234,7 @@ public class C1UImpl extends EObjectImpl implements C1U
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetBu()
   {
     return bu != null && ((InternalEList.Unsettable<?>)bu).isSet();

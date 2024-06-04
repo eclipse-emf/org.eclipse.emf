@@ -92,6 +92,7 @@ public class BImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getString()
   {
     return string;
@@ -102,6 +103,7 @@ public class BImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setString(String newString)
   {
     String oldString = string;
@@ -115,6 +117,7 @@ public class BImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public D getD()
   {
     return d;
@@ -142,6 +145,7 @@ public class BImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setD(D newD)
   {
     if (newD != d)

@@ -40,6 +40,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.FeatureMapEntryImpl#getFeatureName <em>Feature Name</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.FeatureMapEntryImpl#getDataValue <em>Data Value</em>}</li>
@@ -47,7 +48,6 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *   <li>{@link org.eclipse.emf.ecore.change.impl.FeatureMapEntryImpl#getFeature <em>Feature</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.change.impl.FeatureMapEntryImpl#getReferenceValue <em>Reference Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

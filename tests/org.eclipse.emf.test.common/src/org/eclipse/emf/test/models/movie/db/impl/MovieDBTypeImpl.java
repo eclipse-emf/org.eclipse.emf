@@ -87,6 +87,7 @@ public class MovieDBTypeImpl extends EObjectImpl implements MovieDBType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getMovieDBFeatureMap()
   {
     if (movieDBFeatureMap == null)
@@ -101,6 +102,7 @@ public class MovieDBTypeImpl extends EObjectImpl implements MovieDBType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<MovieType> getMovie()
   {
     return getMovieDBFeatureMap().list(DBPackage.Literals.MOVIE_DB_TYPE__MOVIE);
@@ -111,6 +113,7 @@ public class MovieDBTypeImpl extends EObjectImpl implements MovieDBType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getComment()
   {
     return (String)getMovieDBFeatureMap().get(DBPackage.Literals.MOVIE_DB_TYPE__COMMENT, true);
@@ -121,6 +124,7 @@ public class MovieDBTypeImpl extends EObjectImpl implements MovieDBType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setComment(String newComment)
   {
     ((FeatureMap.Internal)getMovieDBFeatureMap()).set(DBPackage.Literals.MOVIE_DB_TYPE__COMMENT, newComment);
@@ -243,7 +247,7 @@ public class MovieDBTypeImpl extends EObjectImpl implements MovieDBType
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (movieDBFeatureMap: ");
     result.append(movieDBFeatureMap);
     result.append(')');

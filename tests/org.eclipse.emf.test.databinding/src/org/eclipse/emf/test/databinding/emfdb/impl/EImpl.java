@@ -74,6 +74,7 @@ public class EImpl extends EObjectImpl implements E
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -84,6 +85,7 @@ public class EImpl extends EObjectImpl implements E
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;

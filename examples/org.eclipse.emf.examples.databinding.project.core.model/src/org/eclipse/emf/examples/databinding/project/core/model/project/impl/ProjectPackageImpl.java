@@ -90,7 +90,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link ProjectPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -105,7 +105,8 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
     if (isInited) return (ProjectPackage)EPackage.Registry.INSTANCE.getEPackage(ProjectPackage.eNS_URI);
 
     // Obtain or create and register package
-    ProjectPackageImpl theProjectPackage = (ProjectPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ProjectPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ProjectPackageImpl());
+    Object registeredProjectPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    ProjectPackageImpl theProjectPackage = registeredProjectPackage instanceof ProjectPackageImpl ? (ProjectPackageImpl)registeredProjectPackage : new ProjectPackageImpl();
 
     isInited = true;
 
@@ -118,7 +119,6 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
     // Mark meta-data to indicate it can't be changed
     theProjectPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(ProjectPackage.eNS_URI, theProjectPackage);
     return theProjectPackage;
@@ -129,6 +129,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getFoundation()
   {
     return foundationEClass;
@@ -139,6 +140,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getFoundation_Projects()
   {
     return (EReference)foundationEClass.getEStructuralFeatures().get(0);
@@ -149,6 +151,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getFoundation_Persons()
   {
     return (EReference)foundationEClass.getEStructuralFeatures().get(1);
@@ -159,6 +162,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getProject()
   {
     return projectEClass;
@@ -169,6 +173,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getProject_Shortname()
   {
     return (EAttribute)projectEClass.getEStructuralFeatures().get(0);
@@ -179,6 +184,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getProject_Subprojects()
   {
     return (EReference)projectEClass.getEStructuralFeatures().get(1);
@@ -189,6 +195,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getProject_Committers()
   {
     return (EReference)projectEClass.getEStructuralFeatures().get(2);
@@ -199,6 +206,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getProject_Parent()
   {
     return (EReference)projectEClass.getEStructuralFeatures().get(3);
@@ -209,6 +217,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getProject_Projectleads()
   {
     return (EReference)projectEClass.getEStructuralFeatures().get(4);
@@ -219,6 +228,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getProject_Start()
   {
     return (EAttribute)projectEClass.getEStructuralFeatures().get(5);
@@ -229,6 +239,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getProject_End()
   {
     return (EAttribute)projectEClass.getEStructuralFeatures().get(6);
@@ -239,6 +250,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getProject_Longname()
   {
     return (EAttribute)projectEClass.getEStructuralFeatures().get(7);
@@ -249,6 +261,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getProject_Devmail()
   {
     return (EAttribute)projectEClass.getEStructuralFeatures().get(8);
@@ -259,6 +272,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getProject_Homepage()
   {
     return (EAttribute)projectEClass.getEStructuralFeatures().get(9);
@@ -269,6 +283,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getCommitterShip()
   {
     return committerShipEClass;
@@ -279,6 +294,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCommitterShip_Start()
   {
     return (EAttribute)committerShipEClass.getEStructuralFeatures().get(0);
@@ -289,6 +305,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCommitterShip_End()
   {
     return (EAttribute)committerShipEClass.getEStructuralFeatures().get(1);
@@ -299,6 +316,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getCommitterShip_Project()
   {
     return (EReference)committerShipEClass.getEStructuralFeatures().get(2);
@@ -309,6 +327,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getCommitterShip_Person()
   {
     return (EReference)committerShipEClass.getEStructuralFeatures().get(3);
@@ -319,6 +338,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getPerson()
   {
     return personEClass;
@@ -329,6 +349,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getPerson_Lastname()
   {
     return (EAttribute)personEClass.getEStructuralFeatures().get(0);
@@ -339,6 +360,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getPerson_Firstname()
   {
     return (EAttribute)personEClass.getEStructuralFeatures().get(1);
@@ -349,6 +371,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getPerson_Email()
   {
     return (EAttribute)personEClass.getEStructuralFeatures().get(2);
@@ -359,6 +382,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getPerson_Committerships()
   {
     return (EReference)personEClass.getEStructuralFeatures().get(3);
@@ -369,6 +393,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getPerson_Image()
   {
     return (EAttribute)personEClass.getEStructuralFeatures().get(4);
@@ -379,6 +404,7 @@ public class ProjectPackageImpl extends EPackageImpl implements ProjectPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ProjectFactory getProjectFactory()
   {
     return (ProjectFactory)getEFactoryInstance();

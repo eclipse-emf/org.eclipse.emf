@@ -71,7 +71,7 @@ class XcoreFormatter extends XbaseFormatter
     if (!xImportDirectives.empty)
     {
       val first = xImportDirectives.head
-      val last = xImportDirectives.last
+      val last = lastOrNull(xImportDirectives)
       for (xImportDirective : xImportDirectives)
       {
         xImportDirective.regionFor2.keyword('import').prepend [
@@ -80,7 +80,7 @@ class XcoreFormatter extends XbaseFormatter
         xImportDirective.format(format)
         if (xImportDirective == last)
         {
-          xImportDirective.regionForEObject2.allSemanticRegions.last.append[newLines = 2]
+          lastOrNull(xImportDirective.regionForEObject2.allSemanticRegions).append[newLines = 2]
         }
       }
     }
@@ -106,7 +106,7 @@ class XcoreFormatter extends XbaseFormatter
     for (xEnumLiteral : xEnum.literals)
     {
       xEnumLiteral.format(format)
-      xEnumLiteral.regionForEObject2.allSemanticRegions.last.append[newLine]
+      lastOrNull(xEnumLiteral.regionForEObject2.allSemanticRegions).append[newLine]
     }
   }
 
@@ -145,7 +145,7 @@ class XcoreFormatter extends XbaseFormatter
     for (xMember : xClass.members)
     {
       xMember.format(format)
-      xMember.regionForEObject2.allSemanticRegions.last.append[newLine]
+      lastOrNull(xMember.regionForEObject2.allSemanticRegions).append[newLine]
     }
   }
 
@@ -321,5 +321,15 @@ class XcoreFormatter extends XbaseFormatter
   def private IEObjectRegion regionForEObject2(EObject semanticElement)
   {
     return textRegionExtensions.regionForEObject(semanticElement);
+  }
+
+  def private static <T> T lastOrNull(Iterable<T> iterable)
+  {
+    var T result = null;
+    for (value : iterable)
+    {
+      result = value;
+    }
+    return result;
   }
 }

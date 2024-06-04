@@ -177,6 +177,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenModel createGenModel()
   {
     GenModelImpl genModel = new GenModelImpl();
@@ -188,6 +189,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenPackage createGenPackage()
   {
     GenPackageImpl genPackage = new GenPackageImpl();
@@ -199,6 +201,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenClass createGenClass()
   {
     GenClassImpl genClass = new GenClassImpl();
@@ -210,6 +213,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenFeature createGenFeature()
   {
     GenFeatureImpl genFeature = new GenFeatureImpl();
@@ -221,6 +225,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenEnum createGenEnum()
   {
     GenEnumImpl genEnum = new GenEnumImpl();
@@ -232,6 +237,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenEnumLiteral createGenEnumLiteral()
   {
     GenEnumLiteralImpl genEnumLiteral = new GenEnumLiteralImpl();
@@ -243,6 +249,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenDataType createGenDataType()
   {
     GenDataTypeImpl genDataType = new GenDataTypeImpl();
@@ -254,6 +261,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenOperation createGenOperation()
   {
     GenOperationImpl genOperation = new GenOperationImpl();
@@ -265,6 +273,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenParameter createGenParameter()
   {
     GenParameterImpl genParameter = new GenParameterImpl();
@@ -276,6 +285,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenAnnotation createGenAnnotation()
   {
     GenAnnotationImpl genAnnotation = new GenAnnotationImpl();
@@ -287,6 +297,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenTypeParameter createGenTypeParameter()
   {
     GenTypeParameterImpl genTypeParameter = new GenTypeParameterImpl();
@@ -590,6 +601,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenModelPackage getGenModelPackage()
   {
     return (GenModelPackage)getEPackage();

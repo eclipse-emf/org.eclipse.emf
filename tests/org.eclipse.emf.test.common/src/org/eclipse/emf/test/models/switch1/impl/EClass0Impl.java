@@ -99,6 +99,7 @@ public class EClass0Impl extends EObjectImpl implements EClass0
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getEAttribute0()
   {
     return eAttribute0;
@@ -109,6 +110,7 @@ public class EClass0Impl extends EObjectImpl implements EClass0
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEAttribute0(String newEAttribute0)
   {
     String oldEAttribute0 = eAttribute0;
@@ -122,6 +124,7 @@ public class EClass0Impl extends EObjectImpl implements EClass0
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getEAttribute1()
   {
     return eAttribute1;
@@ -132,6 +135,7 @@ public class EClass0Impl extends EObjectImpl implements EClass0
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEAttribute1(String newEAttribute1)
   {
     String oldEAttribute1 = eAttribute1;
@@ -226,7 +230,7 @@ public class EClass0Impl extends EObjectImpl implements EClass0
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (EAttribute0: ");
     result.append(eAttribute0);
     result.append(", EAttribute1: ");

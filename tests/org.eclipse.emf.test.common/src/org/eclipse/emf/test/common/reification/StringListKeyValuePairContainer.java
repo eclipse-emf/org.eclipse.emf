@@ -16,7 +16,7 @@ import org.eclipse.emf.common.util.EList;
  *
  *
  * @see org.eclipse.emf.test.common.reification.ReificationPackage#getStringListKeyValuePairContainer()
- * @model superTypes="org.eclipse.emf.test.common.reification.KeyValuePairContainer<org.eclipse.emf.ecore.EEList<org.eclipse.emf.ecore.EString>, org.eclipse.emf.test.common.reification.StringListKeyValuePair>"
+ * @model superTypes="org.eclipse.emf.test.common.reification.KeyValuePairContainer&lt;org.eclipse.emf.ecore.EEList&lt;org.eclipse.emf.ecore.EString&gt;, org.eclipse.emf.test.common.reification.StringListKeyValuePair&gt;"
  * @generated
  */
 public interface StringListKeyValuePairContainer extends KeyValuePairContainer<EList<String>, StringListKeyValuePair>

@@ -91,6 +91,7 @@ public class FoundationImpl extends EObjectImpl implements Foundation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Project> getProjects()
   {
     if (projects == null)
@@ -105,6 +106,7 @@ public class FoundationImpl extends EObjectImpl implements Foundation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Person> getPersons()
   {
     if (persons == null)

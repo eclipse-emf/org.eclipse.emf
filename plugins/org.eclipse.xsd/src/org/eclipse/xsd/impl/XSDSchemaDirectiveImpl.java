@@ -118,6 +118,7 @@ public abstract class XSDSchemaDirectiveImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getSchemaLocation()
   {
     return schemaLocation;
@@ -128,6 +129,7 @@ public abstract class XSDSchemaDirectiveImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSchemaLocation(String newSchemaLocation)
   {
     String oldSchemaLocation = schemaLocation;
@@ -141,6 +143,7 @@ public abstract class XSDSchemaDirectiveImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDSchema getResolvedSchema()
   {
     return resolvedSchema;
@@ -151,6 +154,7 @@ public abstract class XSDSchemaDirectiveImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setResolvedSchema(XSDSchema newResolvedSchema)
   {
     XSDSchema oldResolvedSchema = resolvedSchema;

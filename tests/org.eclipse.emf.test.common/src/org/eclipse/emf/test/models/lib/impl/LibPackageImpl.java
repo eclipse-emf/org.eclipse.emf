@@ -95,7 +95,7 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link LibPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -110,7 +110,8 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
     if (isInited) return (LibPackage)EPackage.Registry.INSTANCE.getEPackage(LibPackage.eNS_URI);
 
     // Obtain or create and register package
-    LibPackageImpl theLibPackage = (LibPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof LibPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new LibPackageImpl());
+    Object registeredLibPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    LibPackageImpl theLibPackage = registeredLibPackage instanceof LibPackageImpl ? (LibPackageImpl)registeredLibPackage : new LibPackageImpl();
 
     isInited = true;
 
@@ -123,7 +124,6 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
     // Mark meta-data to indicate it can't be changed
     theLibPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(LibPackage.eNS_URI, theLibPackage);
     return theLibPackage;
@@ -134,6 +134,7 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getLibrary()
   {
     return libraryEClass;
@@ -144,6 +145,7 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getLibrary_Name()
   {
     return (EAttribute)libraryEClass.getEStructuralFeatures().get(0);
@@ -154,6 +156,7 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getLibrary_Books()
   {
     return (EReference)libraryEClass.getEStructuralFeatures().get(1);
@@ -164,6 +167,7 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getLibrary_Address()
   {
     return (EReference)libraryEClass.getEStructuralFeatures().get(2);
@@ -174,6 +178,7 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getLibrary_Writers()
   {
     return (EReference)libraryEClass.getEStructuralFeatures().get(3);
@@ -184,6 +189,7 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getLibrary_Cafeteria()
   {
     return (EReference)libraryEClass.getEStructuralFeatures().get(4);
@@ -194,6 +200,7 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getBook()
   {
     return bookEClass;
@@ -204,6 +211,7 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getBook_Title()
   {
     return (EAttribute)bookEClass.getEStructuralFeatures().get(0);
@@ -214,6 +222,7 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getAddress()
   {
     return addressEClass;
@@ -224,6 +233,7 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getAddress_PostalCode()
   {
     return (EAttribute)addressEClass.getEStructuralFeatures().get(0);
@@ -234,6 +244,7 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getPerson()
   {
     return personEClass;
@@ -244,6 +255,7 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getPerson_Name()
   {
     return (EAttribute)personEClass.getEStructuralFeatures().get(0);
@@ -254,6 +266,7 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getPerson_Library()
   {
     return (EReference)personEClass.getEStructuralFeatures().get(1);
@@ -264,6 +277,7 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getCafeteria()
   {
     return cafeteriaEClass;
@@ -274,6 +288,7 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getCafeteria_Name()
   {
     return (EAttribute)cafeteriaEClass.getEStructuralFeatures().get(0);
@@ -284,6 +299,7 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getCafeteria_Library()
   {
     return (EReference)cafeteriaEClass.getEStructuralFeatures().get(1);
@@ -294,6 +310,7 @@ public class LibPackageImpl extends EPackageImpl implements LibPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public LibFactory getLibFactory()
   {
     return (LibFactory)getEFactoryInstance();

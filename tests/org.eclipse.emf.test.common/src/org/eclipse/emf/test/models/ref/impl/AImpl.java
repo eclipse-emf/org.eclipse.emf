@@ -86,6 +86,7 @@ public class AImpl extends EObjectImpl implements A
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public B getB()
   {
     if (b != null && b.eIsProxy())
@@ -133,6 +134,7 @@ public class AImpl extends EObjectImpl implements A
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setB(B newB)
   {
     if (newB != b)
@@ -154,6 +156,7 @@ public class AImpl extends EObjectImpl implements A
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C2 getC2()
   {
     if (eContainerFeatureID() != RefPackage.A__C2) return null;
@@ -176,6 +179,7 @@ public class AImpl extends EObjectImpl implements A
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setC2(C2 newC2)
   {
     if (newC2 != eInternalContainer() || (eContainerFeatureID() != RefPackage.A__C2 && newC2 != null))
@@ -199,6 +203,7 @@ public class AImpl extends EObjectImpl implements A
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C getC()
   {
     if (c != null && c.eIsProxy())
@@ -229,6 +234,7 @@ public class AImpl extends EObjectImpl implements A
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setC(C newC)
   {
     C oldC = c;

@@ -198,6 +198,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ChangeKind getKind()
   {
     return kind;
@@ -208,6 +209,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setKind(ChangeKind newKind)
   {
     ChangeKind oldKind = kind;
@@ -221,6 +223,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getDataValues()
   {
     if (dataValues == null)
@@ -305,6 +308,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getIndex()
   {
     return index;
@@ -315,6 +319,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setIndex(int newIndex)
   {
     int oldIndex = index;
@@ -328,6 +333,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public int getMoveToIndex()
   {
     return moveToIndex;
@@ -338,6 +344,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setMoveToIndex(int newMoveToIndex)
   {
     int oldMoveToIndex = moveToIndex;
@@ -351,6 +358,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<EObject> getReferenceValues()
   {
     if (referenceValues == null)
@@ -422,6 +430,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<FeatureMapEntry> getFeatureMapEntryValues()
   {
     if (featureMapEntryValues == null)

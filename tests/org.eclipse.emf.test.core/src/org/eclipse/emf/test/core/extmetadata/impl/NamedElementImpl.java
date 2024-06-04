@@ -76,6 +76,7 @@ public class NamedElementImpl extends MinimalEObjectImpl.Container implements Na
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName() {
     return name;
   }
@@ -85,6 +86,7 @@ public class NamedElementImpl extends MinimalEObjectImpl.Container implements Na
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName) {
     String oldName = name;
     name = newName;
@@ -163,7 +165,7 @@ public class NamedElementImpl extends MinimalEObjectImpl.Container implements Na
   public String toString() {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (name: ");
     result.append(name);
     result.append(')');

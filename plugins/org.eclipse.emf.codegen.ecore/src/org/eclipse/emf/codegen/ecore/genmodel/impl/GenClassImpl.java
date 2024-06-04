@@ -211,6 +211,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public GenProviderKind getProvider()
   {
     return provider;
@@ -226,6 +227,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setProvider(GenProviderKind newProvider)
   {
     GenProviderKind oldProvider = provider;
@@ -239,6 +241,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isImage()
   {
     return image;
@@ -249,6 +252,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setImage(boolean newImage)
   {
     boolean oldImage = image;
@@ -262,6 +266,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isDynamic()
   {
     return dynamic;
@@ -272,6 +277,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setDynamic(boolean newDynamic)
   {
     boolean oldDynamic = dynamic;
@@ -285,6 +291,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getEcoreClass()
   {
     if (ecoreClass != null && ecoreClass.eIsProxy())
@@ -315,6 +322,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setEcoreClass(EClass newEcoreClass)
   {
     EClass oldEcoreClass = ecoreClass;
@@ -328,6 +336,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<GenFeature> getGenFeatures()
   {
     if (genFeatures == null)
@@ -342,6 +351,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<GenOperation> getGenOperations()
   {
     if (genOperations == null)
@@ -2624,6 +2634,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLabelFeature(GenFeature newLabelFeature)
   {
     GenFeature oldLabelFeature = labelFeature;

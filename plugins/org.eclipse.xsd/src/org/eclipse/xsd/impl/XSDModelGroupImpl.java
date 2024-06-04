@@ -197,6 +197,7 @@ public class XSDModelGroupImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDCompositor getCompositor()
   {
     return COMPOSITOR_EFLAG_VALUES[(eFlags & COMPOSITOR_EFLAG) >>> COMPOSITOR_EFLAG_OFFSET];
@@ -207,6 +208,7 @@ public class XSDModelGroupImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCompositor(XSDCompositor newCompositor)
   {
     XSDCompositor oldCompositor = COMPOSITOR_EFLAG_VALUES[(eFlags & COMPOSITOR_EFLAG) >>> COMPOSITOR_EFLAG_OFFSET];
@@ -221,6 +223,7 @@ public class XSDModelGroupImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAnnotation getAnnotation()
   {
     return annotation;
@@ -231,6 +234,7 @@ public class XSDModelGroupImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAnnotation(XSDAnnotation newAnnotation)
   {
     if (newAnnotation != annotation)
@@ -269,6 +273,7 @@ public class XSDModelGroupImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDParticle> getContents()
   {
     if (contents == null)
@@ -283,6 +288,7 @@ public class XSDModelGroupImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDParticle> getParticles()
   {
     if (particles == null)

@@ -109,6 +109,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -119,6 +120,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -132,6 +134,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Writer> getWriters()
   {
     if (writers == null)
@@ -146,6 +149,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Book> getBooks()
   {
     if (books == null)
@@ -272,7 +276,7 @@ public class LibraryImpl extends EObjectImpl implements Library
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (name: ");
     result.append(name);
     result.append(')');

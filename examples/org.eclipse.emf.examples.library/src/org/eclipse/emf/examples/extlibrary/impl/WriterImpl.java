@@ -155,6 +155,7 @@ public class WriterImpl extends PersonImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<Book> getBooks()
   {
     if (books == null)

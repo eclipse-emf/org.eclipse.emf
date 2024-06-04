@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  *
  * @see org.eclipse.emf.test.common.reification.ReificationPackage#getKeyValuePairContainer()
- * @model KBounds="org.eclipse.emf.ecore.EEList<?>"
+ * @model KBounds="org.eclipse.emf.ecore.EEList&lt;?&gt;"
  * @generated
  */
 public interface KeyValuePairContainer<K extends EList<?>, V extends KeyValuePair<K, V>> extends EObject
@@ -69,7 +69,7 @@ public interface KeyValuePairContainer<K extends EList<?>, V extends KeyValuePai
 
   /**
    * Returns the value of the '<em><b>Key Value Pairs</b></em>' reference list.
-   * The list contents are of type {@link org.eclipse.emf.test.common.reification.KeyValuePair}&lt;K, V>.
+   * The list contents are of type {@link org.eclipse.emf.test.common.reification.KeyValuePair}<code>&lt;K, V&gt;</code>.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Key Value Pairs</em>' reference list isn't clear,

@@ -124,6 +124,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getAddress()
   {
     return address;
@@ -134,6 +135,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAddress(String newAddress)
   {
     String oldAddress = address;
@@ -147,6 +149,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getFirstName()
   {
     return firstName;
@@ -157,6 +160,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFirstName(String newFirstName)
   {
     String oldFirstName = firstName;
@@ -170,6 +174,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getLastName()
   {
     return lastName;
@@ -180,6 +185,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setLastName(String newLastName)
   {
     String oldLastName = lastName;

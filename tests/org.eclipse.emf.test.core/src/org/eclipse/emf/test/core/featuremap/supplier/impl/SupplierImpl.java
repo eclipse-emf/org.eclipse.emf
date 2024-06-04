@@ -100,6 +100,7 @@ public class SupplierImpl extends EObjectImpl implements Supplier
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getName()
   {
     return name;
@@ -110,6 +111,7 @@ public class SupplierImpl extends EObjectImpl implements Supplier
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setName(String newName)
   {
     String oldName = name;
@@ -123,6 +125,7 @@ public class SupplierImpl extends EObjectImpl implements Supplier
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public FeatureMap getOrders()
   {
     if (orders == null)
@@ -137,6 +140,7 @@ public class SupplierImpl extends EObjectImpl implements Supplier
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<PurchaseOrder> getPreferredOrders()
   {
     return getOrders().list(SupplierPackage.Literals.SUPPLIER__PREFERRED_ORDERS);
@@ -147,6 +151,7 @@ public class SupplierImpl extends EObjectImpl implements Supplier
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<PurchaseOrder> getStandardOrders()
   {
     return getOrders().list(SupplierPackage.Literals.SUPPLIER__STANDARD_ORDERS);
@@ -282,7 +287,7 @@ public class SupplierImpl extends EObjectImpl implements Supplier
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (name: ");
     result.append(name);
     result.append(", orders: ");

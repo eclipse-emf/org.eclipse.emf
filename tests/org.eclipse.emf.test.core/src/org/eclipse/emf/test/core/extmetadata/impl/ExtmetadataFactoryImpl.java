@@ -82,6 +82,7 @@ public class ExtmetadataFactoryImpl extends EFactoryImpl implements ExtmetadataF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NamedElement createNamedElement() {
     NamedElementImpl namedElement = new NamedElementImpl();
     return namedElement;
@@ -92,6 +93,7 @@ public class ExtmetadataFactoryImpl extends EFactoryImpl implements ExtmetadataF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public org.eclipse.emf.test.core.extmetadata.Class createClass() {
     ClassImpl class_ = new ClassImpl();
     return class_;
@@ -102,6 +104,7 @@ public class ExtmetadataFactoryImpl extends EFactoryImpl implements ExtmetadataF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Attribute createAttribute() {
     AttributeImpl attribute = new AttributeImpl();
     return attribute;
@@ -112,6 +115,7 @@ public class ExtmetadataFactoryImpl extends EFactoryImpl implements ExtmetadataF
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ExtmetadataPackage getExtmetadataPackage() {
     return (ExtmetadataPackage)getEPackage();
   }

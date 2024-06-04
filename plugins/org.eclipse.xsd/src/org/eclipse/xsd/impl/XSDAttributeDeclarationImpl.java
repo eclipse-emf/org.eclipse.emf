@@ -704,6 +704,7 @@ public class XSDAttributeDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAnnotation getAnnotation()
   {
     return annotation;
@@ -714,6 +715,7 @@ public class XSDAttributeDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAnnotation(XSDAnnotation newAnnotation)
   {
     if (newAnnotation != annotation)
@@ -752,6 +754,7 @@ public class XSDAttributeDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDSimpleTypeDefinition getAnonymousTypeDefinition()
   {
     return anonymousTypeDefinition;
@@ -762,6 +765,7 @@ public class XSDAttributeDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAnonymousTypeDefinition(XSDSimpleTypeDefinition newAnonymousTypeDefinition)
   {
     if (newAnonymousTypeDefinition != anonymousTypeDefinition)
@@ -800,6 +804,7 @@ public class XSDAttributeDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDSimpleTypeDefinition getTypeDefinition()
   {
     return typeDefinition;
@@ -829,6 +834,7 @@ public class XSDAttributeDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAttributeDeclaration getResolvedAttributeDeclaration()
   {
     return resolvedAttributeDeclaration;
@@ -839,6 +845,7 @@ public class XSDAttributeDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setResolvedAttributeDeclaration(XSDAttributeDeclaration newResolvedAttributeDeclaration)
   {
     XSDAttributeDeclaration oldResolvedAttributeDeclaration = resolvedAttributeDeclaration;

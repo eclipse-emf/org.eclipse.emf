@@ -88,6 +88,7 @@ public class EmfdbFactoryImpl extends EFactoryImpl implements EmfdbFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public A createA()
   {
     AImpl a = new AImpl();
@@ -99,6 +100,7 @@ public class EmfdbFactoryImpl extends EFactoryImpl implements EmfdbFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public B createB()
   {
     BImpl b = new BImpl();
@@ -121,6 +123,7 @@ public class EmfdbFactoryImpl extends EFactoryImpl implements EmfdbFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public D createD()
   {
     DImpl d = new DImpl();
@@ -132,6 +135,7 @@ public class EmfdbFactoryImpl extends EFactoryImpl implements EmfdbFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public E createE()
   {
     EImpl e = new EImpl();
@@ -143,6 +147,7 @@ public class EmfdbFactoryImpl extends EFactoryImpl implements EmfdbFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EmfdbPackage getEmfdbPackage()
   {
     return (EmfdbPackage)getEPackage();

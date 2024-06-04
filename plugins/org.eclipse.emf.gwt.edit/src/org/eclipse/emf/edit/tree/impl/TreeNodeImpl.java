@@ -35,12 +35,12 @@ import org.eclipse.emf.edit.tree.TreePackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.eclipse.emf.edit.tree.impl.TreeNodeImpl#getParent <em>Parent</em>}</li>
  *   <li>{@link org.eclipse.emf.edit.tree.impl.TreeNodeImpl#getChildren <em>Children</em>}</li>
  *   <li>{@link org.eclipse.emf.edit.tree.impl.TreeNodeImpl#getData <em>Data</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -94,10 +94,11 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public TreeNode getParent()
   {
     if (eContainerFeatureID() != TreePackage.TREE_NODE__PARENT) return null;
-    return (TreeNode)eContainer();
+    return (TreeNode)eInternalContainer();
   }
 
   /**
@@ -116,6 +117,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setParent(TreeNode newParent)
   {
     if (newParent != eInternalContainer() || (eContainerFeatureID() != TreePackage.TREE_NODE__PARENT && newParent != null))
@@ -139,6 +141,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<TreeNode> getChildren()
   {
     if (children == null)
@@ -153,6 +156,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject getData()
   {
     if (data != null && data.eIsProxy())
@@ -183,6 +187,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setData(EObject newData)
   {
     EObject oldData = data;

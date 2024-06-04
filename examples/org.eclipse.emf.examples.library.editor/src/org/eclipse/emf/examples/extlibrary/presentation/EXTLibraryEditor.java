@@ -343,6 +343,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
   protected IPartListener partListener =
     new IPartListener()
     {
+      @Override
       public void partActivated(IWorkbenchPart p)
       {
         if (p instanceof ContentOutline)
@@ -367,18 +368,22 @@ public class EXTLibraryEditor extends MultiPageEditorPart
           handleActivate();
         }
       }
+      @Override
       public void partBroughtToTop(IWorkbenchPart p)
       {
         // Ignore.
       }
+      @Override
       public void partClosed(IWorkbenchPart p)
       {
         // Ignore.
       }
+      @Override
       public void partDeactivated(IWorkbenchPart p)
       {
         // Ignore.
       }
+      @Override
       public void partOpened(IWorkbenchPart p)
       {
         // Ignore.
@@ -470,6 +475,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
           getSite().getShell().getDisplay().asyncExec
             (new Runnable()
              {
+               @Override
                public void run()
                {
                  dispatching = false;
@@ -503,6 +509,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
   protected IResourceChangeListener resourceChangeListener =
     new IResourceChangeListener()
     {
+      @Override
       public void resourceChanged(IResourceChangeEvent event)
       {
         IResourceDelta delta = event.getDelta();
@@ -514,6 +521,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
             protected Collection<Resource> changedResources = new ArrayList<Resource>();
             protected Collection<Resource> removedResources = new ArrayList<Resource>();
 
+            @Override
             public boolean visit(IResourceDelta delta)
             {
               if (delta.getResource().getType() == IResource.FILE)
@@ -559,6 +567,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
             getSite().getShell().getDisplay().asyncExec
               (new Runnable()
                {
+                 @Override
                  public void run()
                  {
                    removedResources.addAll(visitor.getRemovedResources());
@@ -575,6 +584,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
             getSite().getShell().getDisplay().asyncExec
               (new Runnable()
                {
+                 @Override
                  public void run()
                  {
                    changedResources.addAll(visitor.getChangedResources());
@@ -793,11 +803,13 @@ public class EXTLibraryEditor extends MultiPageEditorPart
     commandStack.addCommandStackListener
       (new CommandStackListener()
        {
+         @Override
          public void commandStackChanged(final EventObject event)
          {
            getContainer().getDisplay().asyncExec
              (new Runnable()
               {
+                @Override
                 public void run()
                 {
                   firePropertyChange(IEditorPart.PROP_DIRTY);
@@ -859,6 +871,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
       Runnable runnable =
         new Runnable()
         {
+          @Override
           public void run()
           {
             // Try to select the items in the current content viewer of the editor.
@@ -881,6 +894,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EditingDomain getEditingDomain()
   {
     return editingDomain;
@@ -991,6 +1005,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
           {
             // This just notifies those things that are affected by the section.
             //
+            @Override
             public void selectionChanged(SelectionChangedEvent selectionChangedEvent)
             {
               setSelection(selectionChangedEvent.getSelection());
@@ -1028,6 +1043,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Viewer getViewer()
   {
     return currentViewer;
@@ -1364,6 +1380,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
       getSite().getShell().getDisplay().asyncExec
         (new Runnable()
          {
+           @Override
            public void run()
            {
              if (!getContainer().isDisposed())
@@ -1396,6 +1413,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
     getSite().getShell().getDisplay().asyncExec
       (new Runnable()
        {
+         @Override
          public void run()
          {
            updateProblemIndication();
@@ -1468,21 +1486,20 @@ public class EXTLibraryEditor extends MultiPageEditorPart
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings({ "rawtypes", "unchecked" })
   @Override
-  public Object getAdapter(Class key)
+  public <T> T getAdapter(Class<T> key)
   {
     if (key.equals(IContentOutlinePage.class))
     {
-      return showOutlineView() ? getContentOutlinePage() : null;
+      return showOutlineView() ? key.cast(getContentOutlinePage()) : null;
     }
     else if (key.equals(IPropertySheetPage.class))
     {
-      return getPropertySheetPage();
+      return key.cast(getPropertySheetPage());
     }
     else if (key.equals(IGotoMarker.class))
     {
-      return this;
+      return key.cast(this);
     }
     else
     {
@@ -1554,6 +1571,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
          {
            // This ensures that we handle selections correctly.
            //
+           @Override
            public void selectionChanged(SelectionChangedEvent event)
            {
              handleContentOutlineSelection(event.getSelection());
@@ -1810,6 +1828,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void gotoMarker(IMarker marker)
   {
     List<?> targetObjects = markerHelper.getTargetObjects(editingDomain, marker);
@@ -1860,6 +1879,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void addSelectionChangedListener(ISelectionChangedListener listener)
   {
     selectionChangedListeners.add(listener);
@@ -1871,6 +1891,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void removeSelectionChangedListener(ISelectionChangedListener listener)
   {
     selectionChangedListeners.remove(listener);
@@ -1882,6 +1903,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ISelection getSelection()
   {
     return editorSelection;
@@ -1894,6 +1916,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setSelection(ISelection selection)
   {
     editorSelection = selection;
@@ -1975,6 +1998,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void menuAboutToShow(IMenuManager menuManager)
   {
     ((IMenuListener)getEditorSite().getActionBarContributor()).menuAboutToShow(menuManager);

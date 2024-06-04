@@ -16,7 +16,7 @@ import org.eclipse.emf.common.util.EList;
  *
  *
  * @see org.eclipse.emf.test.common.reification.ReificationPackage#getTListKeyValuePair()
- * @model superTypes="org.eclipse.emf.test.common.reification.KeyValuePair<org.eclipse.emf.ecore.EEList<T>, org.eclipse.emf.test.common.reification.TListKeyValuePair<T>>"
+ * @model superTypes="org.eclipse.emf.test.common.reification.KeyValuePair&lt;org.eclipse.emf.ecore.EEList&lt;T&gt;, org.eclipse.emf.test.common.reification.TListKeyValuePair&lt;T&gt;&gt;"
  * @generated
  */
 public interface TListKeyValuePair<T> extends KeyValuePair<EList<T>, TListKeyValuePair<T>>

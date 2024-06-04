@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.examples.databinding.project.core.model/src"
     editDirectory="" editorDirectory="" modelPluginID="org.eclipse.emf.examples.databinding.project.core.model"
     modelName="Project" testsDirectory="" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="5.0" copyrightFields="false">
+    complianceLevel="8.0" copyrightFields="false">
   <foreignModel>Project.ecore</foreignModel>
   <genPackages prefix="Project" basePackage="org.eclipse.emf.examples.databinding.project.core.model"
       disposableProviderFactory="true" ecorePackage="Project.ecore#/">

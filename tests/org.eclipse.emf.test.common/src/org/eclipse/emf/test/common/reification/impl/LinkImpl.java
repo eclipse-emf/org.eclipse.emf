@@ -96,6 +96,7 @@ public class LinkImpl extends BidirectionalImpl<Link> implements Link
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * This is specialized for the more specific element type known in this context.
+   * @see #getValuesList()
    * @generated
    */
   @Override

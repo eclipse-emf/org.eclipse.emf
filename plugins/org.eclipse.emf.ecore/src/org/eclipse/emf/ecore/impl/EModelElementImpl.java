@@ -129,6 +129,7 @@ public abstract class EModelElementImpl extends MinimalEObjectImpl.Container imp
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<EAnnotation> getEAnnotations()
   {
     if (eAnnotations == null)

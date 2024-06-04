@@ -129,6 +129,7 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<EEnumLiteral> getELiterals()
   {
     if (eLiterals == null)

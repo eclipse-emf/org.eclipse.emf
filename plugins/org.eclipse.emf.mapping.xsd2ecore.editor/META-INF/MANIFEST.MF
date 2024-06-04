@@ -2,16 +2,16 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.mapping.xsd2ecore.editor; singleton:=true
-Bundle-Version: 2.10.0.qualifier
+Bundle-Version: 2.11.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.emf.mapping.xsd2ecore.presentation.XSD2EcoreEditorPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.emf.mapping.xsd2ecore.presentation;version="2.10.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.eclipse.emf.mapping.xsd2ecore.presentation;version="2.11.0"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
- org.eclipse.emf.mapping.ui;bundle-version="[2.11.0,3.0.0)";visibility:=reexport,
- org.eclipse.emf.mapping.xsd2ecore;bundle-version="[2.10.0,3.0.0)";visibility:=reexport,
- org.eclipse.xsd.edit;bundle-version="[2.12.0,3.0.0)";visibility:=reexport
+ org.eclipse.emf.mapping.ui;bundle-version="[2.12.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.mapping.xsd2ecore;bundle-version="[2.11.0,3.0.0)";visibility:=reexport,
+ org.eclipse.xsd.edit;bundle-version="[2.13.0,3.0.0)";visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.eclipse.emf.mapping.xsd2ecore.editor

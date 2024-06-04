@@ -129,6 +129,7 @@ public abstract class XSDTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAnnotation getAnnotation()
   {
     return annotation;
@@ -139,6 +140,7 @@ public abstract class XSDTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setAnnotation(XSDAnnotation newAnnotation)
   {
     if (newAnnotation != annotation)
@@ -177,6 +179,7 @@ public abstract class XSDTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDAnnotation getDerivationAnnotation()
   {
     return derivationAnnotation;
@@ -187,6 +190,7 @@ public abstract class XSDTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setDerivationAnnotation(XSDAnnotation newDerivationAnnotation)
   {
     if (newDerivationAnnotation != derivationAnnotation)
@@ -225,6 +229,7 @@ public abstract class XSDTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDAnnotation> getAnnotations()
   {
     if (annotations == null)

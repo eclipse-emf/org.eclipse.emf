@@ -98,6 +98,7 @@ public class USAddrImpl extends AddressTypeImpl implements USAddr
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object getZip()
   {
     return zip;
@@ -108,6 +109,7 @@ public class USAddrImpl extends AddressTypeImpl implements USAddr
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setZip(Object newZip)
   {
     Object oldZip = zip;
@@ -121,6 +123,7 @@ public class USAddrImpl extends AddressTypeImpl implements USAddr
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getState()
   {
     return state;
@@ -131,6 +134,7 @@ public class USAddrImpl extends AddressTypeImpl implements USAddr
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setState(String newState)
   {
     String oldState = state;
@@ -225,7 +229,7 @@ public class USAddrImpl extends AddressTypeImpl implements USAddr
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (zip: ");
     result.append(zip);
     result.append(", state: ");

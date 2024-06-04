@@ -100,6 +100,7 @@ public class DUImpl extends EObjectImpl implements DU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public CU getCu()
   {
     if (cu != null && cu.eIsProxy())
@@ -149,6 +150,7 @@ public class DUImpl extends EObjectImpl implements DU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setCu(CU newCu)
   {
     if (newCu != cu)
@@ -194,6 +196,7 @@ public class DUImpl extends EObjectImpl implements DU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetCu()
   {
     if (cu != null)
@@ -217,6 +220,7 @@ public class DUImpl extends EObjectImpl implements DU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetCu()
   {
     return cuESet;
@@ -227,6 +231,7 @@ public class DUImpl extends EObjectImpl implements DU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public C4U getC4u()
   {
     if (eContainerFeatureID() != URefPackage.DU__C4U) return null;
@@ -249,6 +254,7 @@ public class DUImpl extends EObjectImpl implements DU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setC4u(C4U newC4u)
   {
     if (newC4u != eInternalContainer() || (eContainerFeatureID() != URefPackage.DU__C4U && newC4u != null))
@@ -272,6 +278,7 @@ public class DUImpl extends EObjectImpl implements DU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<EU> getEu()
   {
     if (eu == null)
@@ -286,6 +293,7 @@ public class DUImpl extends EObjectImpl implements DU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetEu()
   {
     if (eu != null) ((InternalEList.Unsettable<?>)eu).unset();
@@ -296,6 +304,7 @@ public class DUImpl extends EObjectImpl implements DU
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetEu()
   {
     return eu != null && ((InternalEList.Unsettable<?>)eu).isSet();

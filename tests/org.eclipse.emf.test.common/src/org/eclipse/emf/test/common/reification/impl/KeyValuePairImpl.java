@@ -79,6 +79,7 @@ public class KeyValuePairImpl<K extends EList<?>, V extends KeyValuePair<K, V>> 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public K getKey()
   {
     return key;
@@ -89,6 +90,7 @@ public class KeyValuePairImpl<K extends EList<?>, V extends KeyValuePair<K, V>> 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setKey(K newKey)
   {
     K oldKey = key;
@@ -102,6 +104,7 @@ public class KeyValuePairImpl<K extends EList<?>, V extends KeyValuePair<K, V>> 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public V getValue()
   {
     return value;
@@ -129,6 +132,7 @@ public class KeyValuePairImpl<K extends EList<?>, V extends KeyValuePair<K, V>> 
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setValue(V newValue)
   {
     if (newValue != value)
@@ -248,7 +252,7 @@ public class KeyValuePairImpl<K extends EList<?>, V extends KeyValuePair<K, V>> 
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
+    StringBuilder result = new StringBuilder(super.toString());
     result.append(" (key: ");
     result.append(key);
     result.append(')');

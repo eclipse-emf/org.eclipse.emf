@@ -363,6 +363,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDVariety getVariety()
   {
     return VARIETY_EFLAG_VALUES[(eFlags & VARIETY_EFLAG) >>> VARIETY_EFLAG_OFFSET];
@@ -373,6 +374,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setVariety(XSDVariety newVariety)
   {
     XSDVariety oldVariety = VARIETY_EFLAG_VALUES[(eFlags & VARIETY_EFLAG) >>> VARIETY_EFLAG_OFFSET];
@@ -389,6 +391,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetVariety()
   {
     XSDVariety oldVariety = VARIETY_EFLAG_VALUES[(eFlags & VARIETY_EFLAG) >>> VARIETY_EFLAG_OFFSET];
@@ -404,6 +407,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetVariety()
   {
     return (eFlags & VARIETY_ESETFLAG) != 0;
@@ -414,6 +418,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDSimpleFinal> getFinal()
   {
     if (final_ == null)
@@ -428,6 +433,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDSimpleFinal> getLexicalFinal()
   {
     if (lexicalFinal == null)
@@ -442,6 +448,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void unsetLexicalFinal()
   {
     if (lexicalFinal != null) ((InternalEList.Unsettable<?>)lexicalFinal).unset();
@@ -452,6 +459,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSetLexicalFinal()
   {
     return lexicalFinal != null && ((InternalEList.Unsettable<?>)lexicalFinal).isSet();
@@ -462,6 +470,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<String> getValidFacets()
   {
     if (validFacets == null)
@@ -476,6 +485,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDSimpleTypeDefinition> getContents()
   {
     if (contents == null)
@@ -490,6 +500,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDConstrainingFacet> getFacetContents()
   {
     if (facetContents == null)
@@ -504,6 +515,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDConstrainingFacet> getFacets()
   {
     if (facets == null)
@@ -518,6 +530,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDSimpleTypeDefinition> getMemberTypeDefinitions()
   {
     if (memberTypeDefinitions == null)
@@ -532,6 +545,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDFundamentalFacet> getFundamentalFacets()
   {
     if (fundamentalFacets == null)
@@ -546,6 +560,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDSimpleTypeDefinition getBaseTypeDefinition()
   {
     return baseTypeDefinition;
@@ -556,6 +571,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setBaseTypeDefinition(XSDSimpleTypeDefinition newBaseTypeDefinition)
   {
     XSDSimpleTypeDefinition oldBaseTypeDefinition = baseTypeDefinition;
@@ -569,6 +585,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDSimpleTypeDefinition getPrimitiveTypeDefinition()
   {
     return primitiveTypeDefinition;
@@ -579,6 +596,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setPrimitiveTypeDefinition(XSDSimpleTypeDefinition newPrimitiveTypeDefinition)
   {
     XSDSimpleTypeDefinition oldPrimitiveTypeDefinition = primitiveTypeDefinition;
@@ -592,6 +610,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XSDSimpleTypeDefinition getItemTypeDefinition()
   {
     return itemTypeDefinition;
@@ -602,6 +621,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setItemTypeDefinition(XSDSimpleTypeDefinition newItemTypeDefinition)
   {
     XSDSimpleTypeDefinition oldItemTypeDefinition = itemTypeDefinition;
@@ -2508,6 +2528,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EList<XSDFacet> getSyntheticFacets()
   {
     if (syntheticFacets == null)

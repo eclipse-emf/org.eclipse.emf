@@ -538,6 +538,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
       (theXMLTypePackage,
        new EValidator.Descriptor()
        {
+         @Override
          public EValidator getEValidator()
          {
            return XMLTypeValidator.INSTANCE;
@@ -557,6 +558,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getAnyType()
   {
     return anyTypeEClass;
@@ -567,6 +569,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getAnyType_Mixed()
   {
     return (EAttribute)anyTypeEClass.getEStructuralFeatures().get(0);
@@ -577,6 +580,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getAnyType_Any()
   {
     return (EAttribute)anyTypeEClass.getEStructuralFeatures().get(1);
@@ -587,6 +591,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getAnyType_AnyAttribute()
   {
     return (EAttribute)anyTypeEClass.getEStructuralFeatures().get(2);
@@ -597,6 +602,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getProcessingInstruction()
   {
     return processingInstructionEClass;
@@ -607,6 +613,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getProcessingInstruction_Data()
   {
     return (EAttribute)processingInstructionEClass.getEStructuralFeatures().get(0);
@@ -617,6 +624,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getProcessingInstruction_Target()
   {
     return (EAttribute)processingInstructionEClass.getEStructuralFeatures().get(1);
@@ -627,6 +635,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getSimpleAnyType()
   {
     return simpleAnyTypeEClass;
@@ -637,6 +646,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getSimpleAnyType_RawValue()
   {
     return (EAttribute)simpleAnyTypeEClass.getEStructuralFeatures().get(0);
@@ -647,6 +657,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getSimpleAnyType_Value()
   {
     return (EAttribute)simpleAnyTypeEClass.getEStructuralFeatures().get(1);
@@ -657,6 +668,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getSimpleAnyType_InstanceType()
   {
     return (EReference)simpleAnyTypeEClass.getEStructuralFeatures().get(2);
@@ -667,6 +679,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getXMLTypeDocumentRoot()
   {
     return xmlTypeDocumentRootEClass;
@@ -677,6 +690,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLTypeDocumentRoot_Mixed()
   {
     return (EAttribute)xmlTypeDocumentRootEClass.getEStructuralFeatures().get(0);
@@ -687,6 +701,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXMLTypeDocumentRoot_XMLNSPrefixMap()
   {
     return (EReference)xmlTypeDocumentRootEClass.getEStructuralFeatures().get(1);
@@ -697,6 +712,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXMLTypeDocumentRoot_XSISchemaLocation()
   {
     return (EReference)xmlTypeDocumentRootEClass.getEStructuralFeatures().get(2);
@@ -707,6 +723,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLTypeDocumentRoot_CDATA()
   {
     return (EAttribute)xmlTypeDocumentRootEClass.getEStructuralFeatures().get(3);
@@ -717,6 +734,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLTypeDocumentRoot_Comment()
   {
     return (EAttribute)xmlTypeDocumentRootEClass.getEStructuralFeatures().get(4);
@@ -727,6 +745,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getXMLTypeDocumentRoot_Text()
   {
     return (EAttribute)xmlTypeDocumentRootEClass.getEStructuralFeatures().get(6);
@@ -737,6 +756,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getXMLTypeDocumentRoot_ProcessingInstruction()
   {
     return (EReference)xmlTypeDocumentRootEClass.getEStructuralFeatures().get(5);
@@ -747,6 +767,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getAnySimpleType()
   {
     return anySimpleTypeEDataType;
@@ -757,6 +778,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getAnyURI()
   {
     return anyURIEDataType;
@@ -767,6 +789,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getBase64Binary()
   {
     return base64BinaryEDataType;
@@ -777,6 +800,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getBoolean()
   {
     return booleanEDataType;
@@ -787,6 +811,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getBooleanObject()
   {
     return booleanObjectEDataType;
@@ -797,6 +822,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getDecimal()
   {
     return decimalEDataType;
@@ -807,6 +833,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getInteger()
   {
     return integerEDataType;
@@ -817,6 +844,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getIntObject()
   {
     return intObjectEDataType;
@@ -827,6 +855,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getLong()
   {
     return longEDataType;
@@ -837,6 +866,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getLongObject()
   {
     return longObjectEDataType;
@@ -847,6 +877,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getInt()
   {
     return intEDataType;
@@ -857,6 +888,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getShort()
   {
     return shortEDataType;
@@ -867,6 +899,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getShortObject()
   {
     return shortObjectEDataType;
@@ -877,6 +910,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getByte()
   {
     return byteEDataType;
@@ -887,6 +921,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getByteObject()
   {
     return byteObjectEDataType;
@@ -897,6 +932,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getDate()
   {
     return dateEDataType;
@@ -907,6 +943,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getDateTime()
   {
     return dateTimeEDataType;
@@ -917,6 +954,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getString()
   {
     return stringEDataType;
@@ -927,6 +965,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getDouble()
   {
     return doubleEDataType;
@@ -937,6 +976,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getDoubleObject()
   {
     return doubleObjectEDataType;
@@ -947,6 +987,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getDuration()
   {
     return durationEDataType;
@@ -957,6 +998,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getENTITIESBase()
   {
     return entitiesBaseEDataType;
@@ -967,6 +1009,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getNormalizedString()
   {
     return normalizedStringEDataType;
@@ -977,6 +1020,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getToken()
   {
     return tokenEDataType;
@@ -987,6 +1031,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getName_()
   {
     return nameEDataType;
@@ -997,6 +1042,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getNCName()
   {
     return ncNameEDataType;
@@ -1007,6 +1053,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getENTITY()
   {
     return entityEDataType;
@@ -1017,6 +1064,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getENTITIES()
   {
     return entitiesEDataType;
@@ -1027,6 +1075,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getFloat()
   {
     return floatEDataType;
@@ -1037,6 +1086,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getFloatObject()
   {
     return floatObjectEDataType;
@@ -1047,6 +1097,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getGDay()
   {
     return gDayEDataType;
@@ -1057,6 +1108,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getGMonth()
   {
     return gMonthEDataType;
@@ -1067,6 +1119,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getGMonthDay()
   {
     return gMonthDayEDataType;
@@ -1077,6 +1130,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getGYear()
   {
     return gYearEDataType;
@@ -1087,6 +1141,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getGYearMonth()
   {
     return gYearMonthEDataType;
@@ -1097,6 +1152,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getHexBinary()
   {
     return hexBinaryEDataType;
@@ -1107,6 +1163,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getID()
   {
     return idEDataType;
@@ -1117,6 +1174,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getIDREF()
   {
     return idrefEDataType;
@@ -1127,6 +1185,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getIDREFSBase()
   {
     return idrefsBaseEDataType;
@@ -1137,6 +1196,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getIDREFS()
   {
     return idrefsEDataType;
@@ -1147,6 +1207,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getLanguage()
   {
     return languageEDataType;
@@ -1157,6 +1218,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getNonPositiveInteger()
   {
     return nonPositiveIntegerEDataType;
@@ -1167,6 +1229,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getNegativeInteger()
   {
     return negativeIntegerEDataType;
@@ -1177,6 +1240,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getNMTOKEN()
   {
     return nmtokenEDataType;
@@ -1187,6 +1251,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getNMTOKENSBase()
   {
     return nmtokensBaseEDataType;
@@ -1197,6 +1262,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getNMTOKENS()
   {
     return nmtokensEDataType;
@@ -1207,6 +1273,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getNonNegativeInteger()
   {
     return nonNegativeIntegerEDataType;
@@ -1217,6 +1284,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getNOTATION()
   {
     return notationEDataType;
@@ -1227,6 +1295,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getPositiveInteger()
   {
     return positiveIntegerEDataType;
@@ -1237,6 +1306,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getQName()
   {
     return qNameEDataType;
@@ -1247,6 +1317,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getTime()
   {
     return timeEDataType;
@@ -1257,6 +1328,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getUnsignedLong()
   {
     return unsignedLongEDataType;
@@ -1267,6 +1339,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getUnsignedInt()
   {
     return unsignedIntEDataType;
@@ -1277,6 +1350,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getUnsignedIntObject()
   {
     return unsignedIntObjectEDataType;
@@ -1287,6 +1361,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getUnsignedShort()
   {
     return unsignedShortEDataType;
@@ -1297,6 +1372,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getUnsignedShortObject()
   {
     return unsignedShortObjectEDataType;
@@ -1307,6 +1383,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getUnsignedByte()
   {
     return unsignedByteEDataType;
@@ -1317,6 +1394,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EDataType getUnsignedByteObject()
   {
     return unsignedByteObjectEDataType;
@@ -1327,6 +1405,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public XMLTypeFactory getXMLTypeFactory()
   {
     return (XMLTypeFactory)getEFactoryInstance();

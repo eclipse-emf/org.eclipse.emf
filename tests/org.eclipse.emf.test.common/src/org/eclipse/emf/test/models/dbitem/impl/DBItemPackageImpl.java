@@ -73,7 +73,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
 
   /**
    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-   * 
+   *
    * <p>This method is used to initialize {@link DBItemPackage#eINSTANCE} when that field is accessed.
    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
    * <!-- begin-user-doc -->
@@ -88,12 +88,14 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
     if (isInited) return (DBItemPackage)EPackage.Registry.INSTANCE.getEPackage(DBItemPackage.eNS_URI);
 
     // Obtain or create and register package
-    DBItemPackageImpl theDBItemPackage = (DBItemPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof DBItemPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new DBItemPackageImpl());
+    Object registeredDBItemPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+    DBItemPackageImpl theDBItemPackage = registeredDBItemPackage instanceof DBItemPackageImpl ? (DBItemPackageImpl)registeredDBItemPackage : new DBItemPackageImpl();
 
     isInited = true;
 
     // Obtain or create and register interdependencies
-    DBPricePackageImpl theDBPricePackage = (DBPricePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(DBPricePackage.eNS_URI) instanceof DBPricePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(DBPricePackage.eNS_URI) : DBPricePackage.eINSTANCE);
+    Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(DBPricePackage.eNS_URI);
+    DBPricePackageImpl theDBPricePackage = (DBPricePackageImpl)(registeredPackage instanceof DBPricePackageImpl ? registeredPackage : DBPricePackage.eINSTANCE);
 
     // Create package meta-data objects
     theDBItemPackage.createPackageContents();
@@ -106,7 +108,6 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
     // Mark meta-data to indicate it can't be changed
     theDBItemPackage.freeze();
 
-  
     // Update the registry and return the package
     EPackage.Registry.INSTANCE.put(DBItemPackage.eNS_URI, theDBItemPackage);
     return theDBItemPackage;
@@ -117,6 +118,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getDbType()
   {
     return dbTypeEClass;
@@ -127,6 +129,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDbType_RedPen()
   {
     return (EReference)dbTypeEClass.getEStructuralFeatures().get(0);
@@ -137,6 +140,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDbType_BluePen()
   {
     return (EReference)dbTypeEClass.getEStructuralFeatures().get(1);
@@ -147,6 +151,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDbType_RedPencil()
   {
     return (EReference)dbTypeEClass.getEStructuralFeatures().get(2);
@@ -157,6 +162,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDbType_BluePencil()
   {
     return (EReference)dbTypeEClass.getEStructuralFeatures().get(3);
@@ -167,6 +173,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EClass getDocumentRoot()
   {
     return documentRootEClass;
@@ -177,6 +184,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EAttribute getDocumentRoot_Mixed()
   {
     return (EAttribute)documentRootEClass.getEStructuralFeatures().get(0);
@@ -187,6 +195,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDocumentRoot_XMLNSPrefixMap()
   {
     return (EReference)documentRootEClass.getEStructuralFeatures().get(1);
@@ -197,6 +206,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDocumentRoot_XSISchemaLocation()
   {
     return (EReference)documentRootEClass.getEStructuralFeatures().get(2);
@@ -207,6 +217,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getDocumentRoot_Dbitem()
   {
     return (EReference)documentRootEClass.getEStructuralFeatures().get(3);
@@ -217,6 +228,7 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public DBItemFactory getDBItemFactory()
   {
     return (DBItemFactory)getEFactoryInstance();
@@ -317,89 +329,89 @@ public class DBItemPackageImpl extends EPackageImpl implements DBItemPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
     addAnnotation
-      (dbTypeEClass, 
-       source, 
-       new String[] 
+      (dbTypeEClass,
+       source,
+       new String[]
        {
-       "name", "dbType",
-       "kind", "elementOnly"
-       });	
+         "name", "dbType",
+         "kind", "elementOnly"
+       });
     addAnnotation
-      (getDbType_RedPen(), 
-       source, 
-       new String[] 
+      (getDbType_RedPen(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "red_pen",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "element",
+         "name", "red_pen",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getDbType_BluePen(), 
-       source, 
-       new String[] 
+      (getDbType_BluePen(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "blue_pen"
-       });	
+         "kind", "element",
+         "name", "blue_pen"
+       });
     addAnnotation
-      (getDbType_RedPencil(), 
-       source, 
-       new String[] 
+      (getDbType_RedPencil(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "red_pencil",
-       "namespace", "##targetNamespace"
-       });	
+         "kind", "element",
+         "name", "red_pencil",
+         "namespace", "##targetNamespace"
+       });
     addAnnotation
-      (getDbType_BluePencil(), 
-       source, 
-       new String[] 
+      (getDbType_BluePencil(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "blue_pencil"
-       });	
+         "kind", "element",
+         "name", "blue_pencil"
+       });
     addAnnotation
-      (documentRootEClass, 
-       source, 
-       new String[] 
+      (documentRootEClass,
+       source,
+       new String[]
        {
-       "name", "",
-       "kind", "mixed"
-       });	
+         "name", "",
+         "kind", "mixed"
+       });
     addAnnotation
-      (getDocumentRoot_Mixed(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_Mixed(),
+       source,
+       new String[]
        {
-       "kind", "elementWildcard",
-       "name", ":mixed"
-       });	
+         "kind", "elementWildcard",
+         "name", ":mixed"
+       });
     addAnnotation
-      (getDocumentRoot_XMLNSPrefixMap(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_XMLNSPrefixMap(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "xmlns:prefix"
-       });	
+         "kind", "attribute",
+         "name", "xmlns:prefix"
+       });
     addAnnotation
-      (getDocumentRoot_XSISchemaLocation(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_XSISchemaLocation(),
+       source,
+       new String[]
        {
-       "kind", "attribute",
-       "name", "xsi:schemaLocation"
-       });	
+         "kind", "attribute",
+         "name", "xsi:schemaLocation"
+       });
     addAnnotation
-      (getDocumentRoot_Dbitem(), 
-       source, 
-       new String[] 
+      (getDocumentRoot_Dbitem(),
+       source,
+       new String[]
        {
-       "kind", "element",
-       "name", "dbitem",
-       "namespace", "##targetNamespace"
+         "kind", "element",
+         "name", "dbitem",
+         "namespace", "##targetNamespace"
        });
   }
 
