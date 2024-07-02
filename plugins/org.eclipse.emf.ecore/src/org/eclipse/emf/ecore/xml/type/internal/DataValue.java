@@ -70,6 +70,7 @@ package org.eclipse.emf.ecore.xml.type.internal;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Hashtable;
 
@@ -3438,14 +3439,8 @@ public static class EncodingMap {
       // we saw some non-ascii character
       if (i < len) {
           // get UTF-8 bytes for the remaining sub-string
-          byte[] bytes = null;
+          byte[] bytes = anyURI.substring(i).getBytes(StandardCharsets.UTF_8);
           byte b;
-          try {
-              bytes = anyURI.substring(i).getBytes("UTF-8");
-          } catch (java.io.UnsupportedEncodingException e) {
-              // should never happen
-              return anyURI;
-          }
           len = bytes.length;
 
           // for each byte
