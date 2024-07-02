@@ -20,6 +20,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.ListIterator;
 
@@ -245,7 +246,7 @@ public class StringSegment extends BasicEList<StringSegment.Element>
     {
       try
       {
-        temporaryFile = new OutputStreamWriter(new FileOutputStream(temporaryFileName), "UTF8");
+        temporaryFile = new OutputStreamWriter(new FileOutputStream(temporaryFileName), StandardCharsets.UTF_8);
       }
       catch (IOException exception)
       {
@@ -437,7 +438,7 @@ public class StringSegment extends BasicEList<StringSegment.Element>
     String temporaryFileName = this.temporaryFileName;
     if (temporaryFileName != null)
     {
-      InputStreamReader reader = new InputStreamReader(new FileInputStream(temporaryFileName), "UTF8");
+      InputStreamReader reader = new InputStreamReader(new FileInputStream(temporaryFileName), StandardCharsets.UTF_8);
       for (int length = reader.read(outputchars, 0, outputchars.length); length > 0; length = reader.read(
         outputchars,
         0,

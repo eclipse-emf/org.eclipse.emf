@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -386,7 +387,7 @@ public class EcorePlugin  extends EMFPlugin
                   bytes = new byte [available];
                 }
                 inputStream.read(bytes);
-                String contents = new String(bytes, "UTF-8");
+                String contents = new String(bytes, StandardCharsets.UTF_8);
                 Matcher matcher = bundleSymbolNamePattern.matcher(contents);
                 if (matcher.find())
                 {
