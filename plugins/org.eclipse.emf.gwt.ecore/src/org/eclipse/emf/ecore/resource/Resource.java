@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceFactoryRegistryImpl;
  * a resource set indirectly {@link ResourceSet#createResource(URI) creates} a resource using such a factory.
  * A resource is typically {@link #getResourceSet contained} by a resource set,
  * along with related resources.
- * It has a {@link #getURI URI} representing it's identity
+ * It has a {@link #getURI URI} representing its identity
  * and that URI is {@link org.eclipse.emf.ecore.resource.URIConverter used}
  * to determine where to {@link #save(Map) save} and {@link #load(Map) load}.
  * It provides modeled {@link #getContents contents},
@@ -223,8 +223,8 @@ public interface Resource extends Notifier
    * Removing an object will have the same effect as
    * {@link org.eclipse.emf.ecore.util.EcoreUtil#remove(EObject) EcoreUtil.remove(EObject)}.
    * Adding an object will remove it from the previous container;
-   * it's {@link EObject#eContainer container} will be <code>null</code>
-   * and it's {@link EObject#eResource resource} will the <code>this</code>.
+   * its {@link EObject#eContainer container} will be <code>null</code>
+   * and its {@link EObject#eResource resource} will be <code>this</code>.
    * </p>
    * @return the direct content objects.
    */
@@ -738,7 +738,7 @@ public interface Resource extends Notifier
   {
     /**
      * Called when the object is attached to this resource,
-     * i.e., when it's {@link EObject#eResource eResource} changes to be this one.
+     * i.e., when its {@link EObject#eResource eResource} changes to be this one.
      * <p>
      * An implementation that {@link Resource#getEObject resolves} based on IDs
      * will need to walk the {@link EObject#eAllContents tree} of this object
@@ -756,11 +756,11 @@ public interface Resource extends Notifier
 
     /**
      * Called when the object is detached from this resource,
-     * i.e., when it's {@link EObject#eResource eResource} changes to no longer be this one.
+     * i.e., when its {@link EObject#eResource eResource} changes to no longer be this one.
      * <p>
      * An implementation that {@link Resource#getEObject resolves} based on IDs
      * will need to walk the {@link EObject#eAllContents tree} of this object
-     * in order clean up it's index.
+     * in order clean up its index.
      * An implementation that needs to {@link Resource#isTrackingModification track modification}
      * will also need to walk the tree
      * in order to remove the added adapter.
