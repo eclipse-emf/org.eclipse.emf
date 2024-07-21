@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -157,7 +158,7 @@ public abstract class JMergerTest
         try
         {
           out = new FileOutputStream(updateFile);
-          out.write(actualMerge.getBytes("UTF-8"));
+          out.write(actualMerge.getBytes(StandardCharsets.UTF_8));
         }
         catch (Exception exception)
         {

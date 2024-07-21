@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -679,9 +680,9 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
         }
 
         String string = JETNature.toString(document);
-        string.getBytes("UTF-8");
+        string.getBytes(StandardCharsets.UTF_8);
         out = new FileOutputStream(stateFile);
-        out.write(string.getBytes("UTF-8"));
+        out.write(string.getBytes(StandardCharsets.UTF_8));
         out.close();
       }
       catch (IOException exception)

@@ -12,6 +12,7 @@ package org.eclipse.emf.exporter.html;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -575,7 +576,7 @@ public class HTMLExporter extends ModelExporter
   protected void save(String content) throws IOException
   {
     OutputStream outputStream = URIConverter.INSTANCE.createOutputStream(currentArtifactURI, null);
-    outputStream.write(content.getBytes("UTF-8"));
+    outputStream.write(content.getBytes(StandardCharsets.UTF_8));
     outputStream.close();
   }
   

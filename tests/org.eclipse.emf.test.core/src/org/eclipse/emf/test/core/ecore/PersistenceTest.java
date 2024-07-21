@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -922,7 +923,7 @@ public class PersistenceTest
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     OutputStream os = cipher.encrypt(baos);
-    os.write(originalMessage.toString().getBytes("UTF-8"));
+    os.write(originalMessage.toString().getBytes(StandardCharsets.UTF_8));
     cipher.finish(os);
     os.close();
 

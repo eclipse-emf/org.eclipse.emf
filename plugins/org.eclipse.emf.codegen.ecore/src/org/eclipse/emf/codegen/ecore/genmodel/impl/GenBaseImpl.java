@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -433,7 +434,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         }
 
         progressMonitor.worked(1);
-        byte [] bytes = emitterResult.toString().getBytes(isUnicodeEscapeEncoded ? "ISO-8859-1" : "UTF-8");
+        byte [] bytes = emitterResult.toString().getBytes(isUnicodeEscapeEncoded ? StandardCharsets.ISO_8859_1 : StandardCharsets.UTF_8);
         if (exists(targetFile))
         {
           // Don't overwrite exising file
@@ -459,7 +460,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
               mergedResult = propertyMerger.getTargetProperties();
             }
 
-            bytes = mergedResult.getBytes(isUnicodeEscapeEncoded ? "ISO-8859-1" : "UTF-8");
+            bytes = mergedResult.getBytes(isUnicodeEscapeEncoded ? StandardCharsets.ISO_8859_1 : StandardCharsets.UTF_8);
           }
         }
         else

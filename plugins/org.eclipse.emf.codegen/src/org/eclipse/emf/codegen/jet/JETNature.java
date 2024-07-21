@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -784,7 +785,7 @@ public class JETNature implements IJETNature
     writer.write("\n");
 
     IFile jetSettingsFile = getProject().getFile(JET_NATURE_PROPERTIES_FILE);
-    InputStream sourceStream = new ByteArrayInputStream(writer.toString().getBytes("UTF-8"));
+    InputStream sourceStream = new ByteArrayInputStream(writer.toString().getBytes(StandardCharsets.UTF_8));
     if (jetSettingsFile.exists())
     {
       jetSettingsFile.setContents(sourceStream, true, true, null);
@@ -801,7 +802,7 @@ public class JETNature implements IJETNature
   {
     String documentXML = toString(document);
     IFile jetSettingsFile = getProject().getFile(JET_NATURE_PROPERTIES_FILE);
-    InputStream sourceStream = new ByteArrayInputStream(documentXML.getBytes("UTF-8"));
+    InputStream sourceStream = new ByteArrayInputStream(documentXML.getBytes(StandardCharsets.UTF_8));
     if (jetSettingsFile.exists())
     {
       jetSettingsFile.setContents(sourceStream, true, true, null);

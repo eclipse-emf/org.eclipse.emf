@@ -10,11 +10,11 @@ package org.eclipse.emf.codegen.presentation;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -9040,14 +9040,7 @@ public final class JETEditor extends AbstractDecoratedTextEditor
         {
           IDocument document = buffer.getDocument();
           String contents = document.get();
-          try
-          {
-            return new ByteArrayInputStream(contents.getBytes("UTF-8"));
-          }
-          catch (UnsupportedEncodingException exception)
-          {
-            // UTF-8 is always supported.
-          }
+          return new ByteArrayInputStream(contents.getBytes(StandardCharsets.UTF_8));
         }
       }
 
