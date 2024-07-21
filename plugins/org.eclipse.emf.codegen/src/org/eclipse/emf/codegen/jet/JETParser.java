@@ -66,6 +66,7 @@ package org.eclipse.emf.codegen.jet;
 import java.io.ByteArrayInputStream;
 import java.io.CharArrayWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -712,7 +713,7 @@ public class JETParser
   {
     try
     {
-      JETReader reader = new JETReader("", new ByteArrayInputStream(directive.getBytes("UTF-8")), "UTF-8");
+      JETReader reader = new JETReader("", new ByteArrayInputStream(directive.getBytes(StandardCharsets.UTF_8)), "UTF-8");
       JETParseEventListener parseEventListener = new JETParseEventListener()
         {
           public void handleScriptlet(JETMark start, JETMark stop, Map<String, String> attributes) throws JETException
@@ -759,7 +760,7 @@ public class JETParser
   {
     try
     {
-      final JETReader reader = new JETReader("", new ByteArrayInputStream(content.getBytes("UTF-8")), "UTF-8");
+      final JETReader reader = new JETReader("", new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)), "UTF-8");
       final List<JETRootItem> result = new ArrayList<JETRootItem>();
 
       class Listener implements JETParseEventListener, JETParseEventListener.CommentListener
