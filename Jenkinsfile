@@ -149,7 +149,6 @@ ARCHIVE=${params.ARCHIVE}
                 promotion_argument='-Dpromote=false -Dorg.eclipse.justj.p2.manager.args='
               fi
               mvn  \
-                --fail-at-end \
                 --no-transfer-progress \
                 $promotion_argument \
                 -Dmaven.artifact.threads=16 \
