@@ -4901,9 +4901,6 @@ public abstract class URI
       return CommonUtil.STRING_POOL.intern(result);
     }
 
-    /**
-     * If the hash code is <code>0</code> then most likely we've got a pending lazy {@link LazyFragmentInitializer}.
-     */
     @Override
     public int hashCode()
     {
@@ -5479,28 +5476,6 @@ public abstract class URI
   /**
    * A weak reference for the external queue that when cleared will 
    */
-  private static class LazyFragmentInitializer extends WeakReference<URI.Fragment>
-  {
-    protected final String fragment;
-
-    public LazyFragmentInitializer(URI.Fragment uri, ReferenceQueue<? super URI> queue, String fragment)
-    {
-      super(uri, queue);
-      this.fragment = fragment;
-      enqueue();
-    }
-
-    @Override
-    public void clear()
-    {
-      URI.Fragment uri = get();
-      if (uri != null)
-      {
-        uri.fragment = splitInternFragment(fragment);
-        uri.hashCode = ((uri.uri.hashCode * 31) + FRAGMENT_SEPARATOR) * CommonUtil.powerOf31(fragment.length()) + uri.fragment.hashCode();
-      }
-    }
-  }
 
   /**
    * Returns the URI formed from this URI and the given fragment.
@@ -5519,9 +5494,7 @@ public abstract class URI
     {
       if (POOL.externalQueue != null)
       {
-        final Fragment result = new Fragment(0, this, fragment);
-        new LazyFragmentInitializer(result, POOL.externalQueue, fragment);
-        return result;
+        return new Fragment(0, this, fragment);
       }
       else
       {
