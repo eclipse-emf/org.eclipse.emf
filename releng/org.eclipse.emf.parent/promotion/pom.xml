@@ -96,6 +96,7 @@ SPDX-License-Identifier: EPL-2.0
                 -promote ${project.basedir}/../../org.eclipse.emf.site/target/repository
                 -timestamp ${build.timestamp}
                 -type ${build.type}
+                -favicon https://raw.githubusercontent.com/eclipse-emf/org.eclipse.emf/master/plugins/org.eclipse.emf/modeling32.png
                 -body-image https://www.eclipse.org/modeling/emf/images/emf_logo.png
                 -breadcrumb "Modeling https://www.eclipse.org/modeling"
                 -breadcrumb "EMF https://www.eclipse.org/modeling/emf"
