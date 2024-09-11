@@ -1,57 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <release>
-	<feature name="org.eclipse.emf.common" version="2.31.0">
+	<feature name="org.eclipse.emf.common" version="2.32.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<plugin name="org.eclipse.emf.common" version="2.30.0"/>
+		<plugin name="org.eclipse.emf.common" version="2.31.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.ecore" version="2.37.0">
+	<feature name="org.eclipse.emf.ecore" version="2.38.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<plugin name="org.eclipse.emf.ecore" version="2.36.0"/>
-		<plugin name="org.eclipse.emf.ecore.change" version="2.16.0"/>
-		<plugin name="org.eclipse.emf.ecore.xmi" version="2.37.0"/>
+		<plugin name="org.eclipse.emf.ecore" version="2.37.0"/>
+		<plugin name="org.eclipse.emf.ecore.change" version="2.17.0"/>
+		<plugin name="org.eclipse.emf.ecore.xmi" version="2.38.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.ecore.edit" version="2.16.0">
+	<feature name="org.eclipse.emf.ecore.edit" version="2.17.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<plugin name="org.eclipse.emf.ecore.edit" version="2.14.0"/>
-		<plugin name="org.eclipse.emf.ecore.change.edit" version="2.9.0"/>
+		<plugin name="org.eclipse.emf.ecore.edit" version="2.15.0"/>
+		<plugin name="org.eclipse.emf.ecore.change.edit" version="2.10.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.edit" version="2.22.0">
+	<feature name="org.eclipse.emf.edit" version="2.23.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<plugin name="org.eclipse.emf.edit" version="2.21.0"/>
+		<plugin name="org.eclipse.emf.edit" version="2.22.0"/>
 	</feature>
 	<feature name="org.eclipse.emf.license" version="2.11.0"/>
-	<feature name="org.eclipse.emf.rap" version="2.37.0">
+	<feature name="org.eclipse.emf.rap" version="2.38.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<feature name="org.eclipse.emf.common" version="2.31.0"/>
-		<feature name="org.eclipse.emf.ecore" version="2.37.0"/>
-		<feature name="org.eclipse.emf.edit" version="2.22.0"/>
-		<feature name="org.eclipse.emf.ecore.edit" version="2.16.0"/>
-		<feature name="org.eclipse.emf.rap.common.ui" version="2.14.0"/>
-		<feature name="org.eclipse.emf.rap.edit.ui" version="2.15.0"/>
+		<feature name="org.eclipse.emf.common" version="2.32.0"/>
+		<feature name="org.eclipse.emf.ecore" version="2.38.0"/>
+		<feature name="org.eclipse.emf.edit" version="2.23.0"/>
+		<feature name="org.eclipse.emf.ecore.edit" version="2.17.0"/>
+		<feature name="org.eclipse.emf.rap.common.ui" version="2.15.0"/>
+		<feature name="org.eclipse.emf.rap.edit.ui" version="2.16.0"/>
 		<plugin name="org.eclipse.emf.rap" version="2.9.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.rap.common.ui" version="2.14.0">
+	<feature name="org.eclipse.emf.rap.common.ui" version="2.15.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<plugin name="org.eclipse.emf.rap.common.ui" version="2.12.0"/>
+		<plugin name="org.eclipse.emf.rap.common.ui" version="2.13.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.rap.edit.ui" version="2.15.0">
+	<feature name="org.eclipse.emf.rap.edit.ui" version="2.16.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<plugin name="org.eclipse.emf.rap.edit.ui" version="2.13.0"/>
+		<plugin name="org.eclipse.emf.rap.edit.ui" version="2.14.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.rap.sdk" version="2.37.0">
+	<feature name="org.eclipse.emf.rap.sdk" version="2.38.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<feature name="org.eclipse.emf.rap" version="2.37.0"/>
+		<feature name="org.eclipse.emf.rap" version="2.38.0"/>
 		<feature name="org.eclipse.emf.rap.source" version="0.0.0"/> <!-- UNRESOLVED -->
 	</feature>
 	<feature name="org.eclipse.emf.rap.source" version="0.0.0"/> <!-- UNRESOLVED -->
-	<plugin name="org.eclipse.emf.common" version="2.30.0"/>
-	<plugin name="org.eclipse.emf.ecore" version="2.36.0"/>
-	<plugin name="org.eclipse.emf.ecore.change" version="2.16.0"/>
-	<plugin name="org.eclipse.emf.ecore.change.edit" version="2.9.0"/>
-	<plugin name="org.eclipse.emf.ecore.edit" version="2.14.0"/>
-	<plugin name="org.eclipse.emf.ecore.xmi" version="2.37.0"/>
-	<plugin name="org.eclipse.emf.edit" version="2.21.0"/>
+	<plugin name="org.eclipse.emf.common" version="2.31.0"/>
+	<plugin name="org.eclipse.emf.ecore" version="2.37.0"/>
+	<plugin name="org.eclipse.emf.ecore.change" version="2.17.0"/>
+	<plugin name="org.eclipse.emf.ecore.change.edit" version="2.10.0"/>
+	<plugin name="org.eclipse.emf.ecore.edit" version="2.15.0"/>
+	<plugin name="org.eclipse.emf.ecore.xmi" version="2.38.0"/>
+	<plugin name="org.eclipse.emf.edit" version="2.22.0"/>
 	<plugin name="org.eclipse.emf.rap" version="2.9.0"/>
-	<plugin name="org.eclipse.emf.rap.common.ui" version="2.12.0"/>
-	<plugin name="org.eclipse.emf.rap.edit.ui" version="2.13.0"/>
+	<plugin name="org.eclipse.emf.rap.common.ui" version="2.13.0"/>
+	<plugin name="org.eclipse.emf.rap.edit.ui" version="2.14.0"/>
 </release>

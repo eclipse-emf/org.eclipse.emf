@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <release>
-	<feature name="org.eclipse.xsd.example" version="2.13.0">
+	<feature name="org.eclipse.xsd.example" version="2.14.0">
 		<feature name="org.eclipse.xsd.license" version="2.12.0" license="true"/>
-		<plugin name="org.eclipse.xsd.example" version="2.9.0"/>
+		<plugin name="org.eclipse.xsd.example" version="2.10.0"/>
 	</feature>
 	<feature name="org.eclipse.xsd.license" version="2.12.0"/>
-	<plugin name="org.eclipse.xsd.example" version="2.9.0"/>
+	<plugin name="org.eclipse.xsd.example" version="2.10.0"/>
 </release>
