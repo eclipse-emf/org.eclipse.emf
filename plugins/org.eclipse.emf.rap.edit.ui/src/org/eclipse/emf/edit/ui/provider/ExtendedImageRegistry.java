@@ -25,6 +25,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.EMFPlugin;
+import org.eclipse.emf.common.util.CommonUtil;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.edit.EMFEditPlugin;
+import org.eclipse.emf.edit.provider.ComposedImage;
+import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
@@ -32,14 +39,6 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
-
-import org.eclipse.emf.common.CommonPlugin;
-import org.eclipse.emf.common.EMFPlugin;
-import org.eclipse.emf.common.util.URI;
-
-import org.eclipse.emf.edit.EMFEditPlugin;
-import org.eclipse.emf.edit.provider.ComposedImage;
-import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 
 
 /**
@@ -166,7 +165,7 @@ public class ExtendedImageRegistry
           {
             try
             {
-              URL url = new URL(urlString.substring(0, itemURLPrefix.length()));
+              URL url = CommonUtil.newURL(urlString.substring(0, itemURLPrefix.length()));
               String key1 = urlString.substring(itemURLPrefix.length());
               imageDescriptor = new URLImageDescriptor(url, key1, null);
             }
@@ -179,7 +178,7 @@ public class ExtendedImageRegistry
           {
             try
             {
-              URL url = new URL(urlString.substring(0, createChildURLPrefix.length()));
+              URL url = CommonUtil.newURL(urlString.substring(0, createChildURLPrefix.length()));
               String key1 = urlString.substring(createChildURLPrefix.length() + 1);
               String key2 = null;
               int index = key1.indexOf("/");
@@ -199,7 +198,7 @@ public class ExtendedImageRegistry
           {
             try
             {
-              imageDescriptor = ImageDescriptor.createFromURL(new URL(urlString));
+              imageDescriptor = ImageDescriptor.createFromURL(CommonUtil.newURL(urlString));
             }
             catch (IOException exception)
             {

@@ -30,6 +30,7 @@ import java.util.TreeMap;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.CommonUtil;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.osgi.service.resolver.BundleDescription;
@@ -255,7 +256,7 @@ public final class CommonPlugin extends EMFPlugin
       try
       {
         String fragment = uri.fragment();
-        URL url = FileLocator.toFileURL(new URL(uri.trimFragment().toString()));
+        URL url = FileLocator.toFileURL(CommonUtil.newURL(uri.trimFragment().toString()));
         return fix(url, fragment);
       }
       catch (IOException exception)
@@ -277,7 +278,7 @@ public final class CommonPlugin extends EMFPlugin
       URL url = null;
       try
       {
-        url = FileLocator.resolve(new URL(uriWithoutFragmentToString));
+        url = FileLocator.resolve(CommonUtil.newURL(uriWithoutFragmentToString));
       }
       catch (IOException exception1)
       {
@@ -286,7 +287,7 @@ public final class CommonPlugin extends EMFPlugin
         try
         {
           uriWithoutFragmentToString = URI.decode(uriWithoutFragmentToString);
-          url = FileLocator.resolve(new URL(uriWithoutFragmentToString));
+          url = FileLocator.resolve(CommonUtil.newURL(uriWithoutFragmentToString));
         }
         catch (IOException exception2)
         {

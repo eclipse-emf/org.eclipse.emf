@@ -154,19 +154,19 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     if (registration instanceof Descriptor)
     {
       final Descriptor descriptor = (Descriptor)registration;
-      final long threadId = Thread.currentThread().getId();
+      final long threadId = getCurrentThreadId();
       Registry.INSTANCE.put
         (packageURI, 
          new Descriptor()
          {
            public EPackage getEPackage()
            {
-             return Thread.currentThread().getId() == threadId ? EPackageImpl.this : descriptor.getEPackage();
+             return getCurrentThreadId() == threadId ? EPackageImpl.this : descriptor.getEPackage();
            }
 
            public EFactory getEFactory()
            {
-             return Thread.currentThread().getId() == threadId ? factory : descriptor.getEFactory();
+             return getCurrentThreadId() == threadId ? factory : descriptor.getEFactory();
            }
          });
     }
@@ -187,6 +187,12 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
       ecorePackage = EcorePackage.eINSTANCE;
       ecoreFactory = EcoreFactory.eINSTANCE;
     }
+  }
+
+  @SuppressWarnings("deprecation")
+  private static long getCurrentThreadId()
+  {
+    return Thread.currentThread().getId();
   }
 
   @Override

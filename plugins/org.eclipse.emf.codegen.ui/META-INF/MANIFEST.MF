@@ -2,16 +2,16 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.codegen.ui; singleton:=true
-Bundle-Version: 2.25.0.qualifier
+Bundle-Version: 2.26.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.emf.codegen.presentation.CodeGenUIPlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: org.eclipse.emf.codegen.action;version="2.25.0",
- org.eclipse.emf.codegen.presentation;version="2.25.0"
+Export-Package: org.eclipse.emf.codegen.action;version="2.26.0",
+ org.eclipse.emf.codegen.presentation;version="2.26.0"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
- org.eclipse.emf.codegen;bundle-version="[2.24.0,3.0.0)",
+ org.eclipse.emf.codegen;bundle-version="[2.25.0,3.0.0)",
  org.eclipse.core.resources;bundle-version="[3.8.0,4.0.0)",
  org.eclipse.jdt.core;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.jdt.launching;bundle-version="[3.5.0,4.0.0)",
@@ -23,6 +23,6 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.ui.views;bundle-version="[3.5.0,4.0.0)",
  org.eclipse.ui.workbench;bundle-version="[3.6.0,4.0.0)",
  org.eclipse.ui.workbench.texteditor;bundle-version="[3.6.0,4.0.0)",
- org.eclipse.emf.common.ui;bundle-version="[2.23.0,3.0.0)"
+ org.eclipse.emf.common.ui;bundle-version="[2.24.0,3.0.0)"
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.eclipse.emf.codegen.ui

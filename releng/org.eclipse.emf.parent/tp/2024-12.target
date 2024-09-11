@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Target Platform for 2024-09" sequenceNumber="1">
+<target name="Target Platform for 2024-12" sequenceNumber="1">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 
@@ -19,8 +19,8 @@
 
       <unit id="org.eclipse.xtext.xtext.generator" version="0.0.0"/> 
 
-      <repository location="https://download.eclipse.org/eclipse/updates/4.33/R-4.33-202409030240"/>
-      <repository location="https://download.eclipse.org/releases/2024-09"/>
+      <repository location="https://download.eclipse.org/eclipse/updates/4.34-I-builds"/>
+      <repository location="https://download.eclipse.org/releases/2024-12"/>
 
       <repository location="https://www.macromodeling.com/gwt"/>
 

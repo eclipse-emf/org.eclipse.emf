@@ -46,6 +46,7 @@ import org.eclipse.emf.codegen.merge.java.facade.NodeConverter;
 import org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.CommonUtil;
 import org.eclipse.emf.common.util.Monitor;
 
 
@@ -357,11 +358,11 @@ public class JMerger
       URL url = null;
       try
       {
-        url = new URL(uri);
+        url = CommonUtil.newURL(uri);
       }
       catch (MalformedURLException exception)
       {
-        url = new URL("file:" + uri);
+        url = CommonUtil.newURL("file:" + uri);
       }
   
       BufferedInputStream bufferedInputStream = new BufferedInputStream(url.openStream());

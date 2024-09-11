@@ -31,6 +31,9 @@ import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.codegen.CodeGenPlugin;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.emf.common.util.CommonUtil;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.jdom.DOMFactory;
 import org.eclipse.jdt.core.jdom.IDOMCompilationUnit;
@@ -42,9 +45,6 @@ import org.eclipse.jdt.core.jdom.IDOMMethod;
 import org.eclipse.jdt.core.jdom.IDOMNode;
 import org.eclipse.jdt.core.jdom.IDOMPackage;
 import org.eclipse.jdt.core.jdom.IDOMType;
-
-import org.eclipse.emf.codegen.CodeGenPlugin;
-import org.eclipse.emf.codegen.util.CodeGenUtil;
 
 
 /**
@@ -234,11 +234,11 @@ public class JMerger
       URL url = null;
       try
       {
-        url = new URL(uri);
+        url = CommonUtil.newURL(uri);
       }
       catch (MalformedURLException exception)
       {
-        url = new URL("file:" + uri);
+        url = CommonUtil.newURL("file:" + uri);
       }
 
       BufferedInputStream bufferedInputStream = new BufferedInputStream(url.openStream());

@@ -575,6 +575,7 @@ public class DateConversionDelegateFactory implements EDataType.Internal.Convers
       variant = "";
     }
 
+    @SuppressWarnings("deprecation")
     Locale locale = new Locale(language, country, variant);
     return locale;
   }

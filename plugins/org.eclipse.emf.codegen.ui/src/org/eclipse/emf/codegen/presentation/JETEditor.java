@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,6 +85,7 @@ import org.eclipse.emf.codegen.jet.JETValueElementItem;
 import org.eclipse.emf.codegen.jet.JETValueItem;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.util.CommonUtil;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.SegmentSequence;
 import org.eclipse.emf.common.util.URI;
@@ -9321,7 +9321,7 @@ public final class JETEditor extends AbstractDecoratedTextEditor
         {
           if (contents == null)
           {
-            return new URL(uri.toString()).openStream();
+            return CommonUtil.newURL(uri.toString()).openStream();
           }
           else
           {

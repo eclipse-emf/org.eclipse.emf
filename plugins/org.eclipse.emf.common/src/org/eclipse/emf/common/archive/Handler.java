@@ -16,6 +16,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
 
+import org.eclipse.emf.common.util.CommonUtil;
+
 /**
  * A URL stream handler that can be {@link #register() registered} to support archive access protocol.
  * It uses {@link ArchiveURLConnection} to implement the connection.
@@ -56,7 +58,7 @@ public class Handler extends URLStreamHandler
     
     for (int i = 0; i < args.length; ++i)
     {
-      InputStream inputStream = new URL(args[i]).openStream();
+      InputStream inputStream = CommonUtil.newURL(args[i]).openStream();
       byte [] bytes = new byte [4048];
       for (int size; (size = inputStream.read(bytes, 0, bytes.length)) > -1; )
       {

@@ -10,7 +10,6 @@
  */
 package org.eclipse.emf.converter.ui.contribution;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,14 +19,14 @@ import java.util.Map;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.CommonUtil;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardNode;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
-
-import org.eclipse.emf.common.util.URI;
 
 
 /**
@@ -293,7 +292,7 @@ public abstract class ModelConverterManager<D extends ModelConverterDescriptor>
           
           try
           {
-            ImageDescriptor imageDescriptor = ImageDescriptor.createFromURL(new URL(iconURI.toString()));
+            ImageDescriptor imageDescriptor = ImageDescriptor.createFromURL(CommonUtil.newURL(iconURI.toString()));
             descriptorImpl.setIcon(imageDescriptor.createImage());
           }
           catch (Exception e)

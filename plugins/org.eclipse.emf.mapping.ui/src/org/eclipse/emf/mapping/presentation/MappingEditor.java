@@ -38,6 +38,7 @@ import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.ui.ViewerPane;
+import org.eclipse.emf.common.util.CommonUtil;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -1936,7 +1937,7 @@ public abstract class MappingEditor
                   if (mappedObjectResources.add(mappedObjectResource))
                   {
                     mappedObjectResource.save(Collections.EMPTY_MAP);
-                    URL resolvedURL = FileLocator.resolve(new URL(mappedObjectResource.getURI().toString()));
+                    URL resolvedURL = FileLocator.resolve(CommonUtil.newURL(mappedObjectResource.getURI().toString()));
                     IFile mappedObjectFile = 
                       ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(new Path(resolvedURL.getFile()));
                     if (mappedObjectFile != null)

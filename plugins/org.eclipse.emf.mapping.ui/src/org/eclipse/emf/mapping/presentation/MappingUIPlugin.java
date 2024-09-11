@@ -16,13 +16,12 @@ import java.net.URL;
 import java.text.MessageFormat;
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.mapping.MappingFactory;
+import org.eclipse.emf.mapping.MappingRoot;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-
-import org.eclipse.emf.mapping.MappingFactory;
-import org.eclipse.emf.mapping.MappingRoot;
 
 
 /**
@@ -86,6 +85,7 @@ public class MappingUIPlugin extends AbstractUIPlugin
   {
     try
     {
+      @SuppressWarnings("deprecation")
       ImageDescriptor imageDescriptor = ImageDescriptor.createFromURL(new URL(getBundle().getEntry("/"), "icons/" + key + ".gif"));
       return imageDescriptor;
     }

@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.CommonUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ContentHandler;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -106,7 +107,7 @@ public class URIHandlerImpl implements URIHandler
   {
     try
     {
-      URL url = new URL(uri.toString());
+      URL url = CommonUtil.newURL(uri.toString());
       final URLConnection urlConnection = url.openConnection();
       urlConnection.setDoOutput(true);
       int timeout = getTimeout(options);
@@ -195,7 +196,7 @@ public class URIHandlerImpl implements URIHandler
   {
     try
     {
-      URL url = new URL(uri.toString());
+      URL url = CommonUtil.newURL(uri.toString());
       final URLConnection urlConnection = url.openConnection();
       int timeout = getTimeout(options);
       if (timeout != 0)
@@ -224,7 +225,7 @@ public class URIHandlerImpl implements URIHandler
   {
     try
     {
-      URL url = new URL(uri.toString());
+      URL url = CommonUtil.newURL(uri.toString());
       URLConnection urlConnection = url.openConnection();
       urlConnection.setDoOutput(true);
       int timeout = getTimeout(options);
@@ -339,7 +340,7 @@ public class URIHandlerImpl implements URIHandler
   {
     try
     {
-      URL url = new URL(uri.toString());
+      URL url = CommonUtil.newURL(uri.toString());
       URLConnection urlConnection = url.openConnection();
       int timeout = getTimeout(options);
       if (timeout != 0)
@@ -377,7 +378,7 @@ public class URIHandlerImpl implements URIHandler
     Set<String> requestedAttributes = getRequestedAttributes(options);
     try
     {
-      URL url = new URL(uri.toString());
+      URL url = CommonUtil.newURL(uri.toString());
       URLConnection urlConnection = null;
       if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_READ_ONLY))
       {

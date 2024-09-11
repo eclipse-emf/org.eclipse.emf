@@ -2,20 +2,20 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.test.xml;singleton:=true
-Bundle-Version: 2.17.0.qualifier
+Bundle-Version: 2.18.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: org.eclipse.emf.test.xml;version="2.17.0",
- org.eclipse.emf.test.xml.encoding;version="2.17.0",
- org.eclipse.emf.test.xml.rss;version="2.17.0",
- org.eclipse.emf.test.xml.xmi;version="2.17.0",
- org.eclipse.emf.test.xml.xsd;version="2.17.0",
- org.eclipse.emf.test.xml.xsdecore;version="2.17.0"
+Export-Package: org.eclipse.emf.test.xml;version="2.18.0",
+ org.eclipse.emf.test.xml.encoding;version="2.18.0",
+ org.eclipse.emf.test.xml.rss;version="2.18.0",
+ org.eclipse.emf.test.xml.xmi;version="2.18.0",
+ org.eclipse.emf.test.xml.xsd;version="2.18.0",
+ org.eclipse.emf.test.xml.xsdecore;version="2.18.0"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.core.resources;bundle-version="[3.8.0,4.0.0)",
- org.eclipse.emf.ecore;bundle-version="[2.37.0,3.0.0)",
+ org.eclipse.emf.ecore;bundle-version="[2.38.0,3.0.0)",
  org.eclipse.emf.ecore.xmi;bundle-version="[2.38.0,3.0.0)",
  org.eclipse.xsd;bundle-version="[2.20.0,3.0.0)",
  org.junit;bundle-version="[4.12.0,5.0.0)",

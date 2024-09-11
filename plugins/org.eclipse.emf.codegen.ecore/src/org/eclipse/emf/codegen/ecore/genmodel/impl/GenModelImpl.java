@@ -10620,7 +10620,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       }
       else
       {
-        locale = new Locale(getLanguage());
+        @SuppressWarnings("deprecation")
+        Locale newLocale = new Locale(getLanguage());
+        locale = newLocale;
       }
     }
     return locale;

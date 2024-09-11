@@ -28,6 +28,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.archive.ArchiveURLConnection;
+import org.eclipse.emf.common.util.CommonUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -377,7 +378,7 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
   {
     try
     {
-      URL url = new URL(uri.toString());
+      URL url = CommonUtil.newURL(uri.toString());
       URLConnection urlConnection = url.openConnection();
       urlConnection.setDoOutput(true);
       return urlConnection.getOutputStream();
@@ -586,7 +587,7 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
   {
     try
     {
-      URL url = new URL(uri.toString());
+      URL url = CommonUtil.newURL(uri.toString());
       URLConnection urlConnection = url.openConnection();
       return urlConnection.getInputStream();
     }

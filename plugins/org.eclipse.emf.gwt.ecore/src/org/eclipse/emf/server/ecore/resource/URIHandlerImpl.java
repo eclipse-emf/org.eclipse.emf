@@ -95,6 +95,7 @@ public class URIHandlerImpl implements URIHandler
   {
     try
     {
+      @SuppressWarnings("deprecation")
       URL url = new URL(uri.toString());
       final URLConnection urlConnection = url.openConnection();
       urlConnection.setDoOutput(true);
@@ -167,6 +168,7 @@ public class URIHandlerImpl implements URIHandler
   {
     try
     {
+      @SuppressWarnings("deprecation")
       URL url = new URL(uri.toString());
       final URLConnection urlConnection = url.openConnection();
       java.io.InputStream result = urlConnection.getInputStream();
@@ -190,6 +192,7 @@ public class URIHandlerImpl implements URIHandler
   {
     try
     {
+      @SuppressWarnings("deprecation")
       URL url = new URL(uri.toString());
       URLConnection urlConnection = url.openConnection();
       urlConnection.setDoOutput(true);
@@ -301,6 +304,7 @@ public class URIHandlerImpl implements URIHandler
   {
     try
     {
+      @SuppressWarnings("deprecation")
       URL url = new URL(uri.toString());
       URLConnection urlConnection = url.openConnection();
       if (urlConnection instanceof HttpURLConnection)
@@ -333,6 +337,7 @@ public class URIHandlerImpl implements URIHandler
     Set<String> requestedAttributes = getRequestedAttributes(options);
     try
     {
+      @SuppressWarnings("deprecation")
       URL url = new URL(uri.toString());
       URLConnection urlConnection = null;
       if (requestedAttributes == null || requestedAttributes.contains(URIConverter.ATTRIBUTE_READ_ONLY))

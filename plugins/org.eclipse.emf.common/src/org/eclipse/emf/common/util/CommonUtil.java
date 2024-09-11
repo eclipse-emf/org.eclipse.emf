@@ -10,6 +10,8 @@ package org.eclipse.emf.common.util;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Locale;
 
 import org.eclipse.emf.common.CommonPlugin;
@@ -1553,5 +1555,20 @@ public final class CommonUtil
   public static String intern(CharSequence value)
   {
     return value == null ? null : STRING_POOL.intern(value);
+  }
+
+  /**
+   * Creates a URL.
+   * @param literal the url literal.
+   * @return the corresponding new URL.
+   * @throws MalformedURLException
+   *
+   * @since 2.40
+   */
+  public static URL newURL(String literal) throws MalformedURLException
+  {
+    @SuppressWarnings("deprecation")
+    URL url = new URL(literal);
+    return url;
   }
 }

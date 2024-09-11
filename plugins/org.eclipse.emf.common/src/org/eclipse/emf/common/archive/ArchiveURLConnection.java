@@ -26,6 +26,7 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import org.eclipse.emf.common.util.CommonUtil;
 import org.eclipse.emf.common.util.URI;
 
 /**
@@ -313,7 +314,7 @@ public class ArchiveURLConnection extends URLConnection
    */
   protected InputStream createInputStream(String nestedURL) throws IOException
   {
-    return new URL(nestedURL).openStream();
+    return CommonUtil.newURL(nestedURL).openStream();
   }
   
   /**
@@ -603,7 +604,7 @@ public class ArchiveURLConnection extends URLConnection
    */
   protected OutputStream createOutputStream(String nestedURL) throws IOException
   {
-    URL url = new URL(nestedURL);
+    URL url = CommonUtil.newURL(nestedURL);
     URLConnection urlConnection = url.openConnection();
     urlConnection.setDoOutput(true);
     return urlConnection.getOutputStream(); 

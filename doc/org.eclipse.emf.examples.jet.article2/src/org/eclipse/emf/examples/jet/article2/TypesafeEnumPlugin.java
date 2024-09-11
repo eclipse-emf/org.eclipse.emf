@@ -2,9 +2,11 @@ package org.eclipse.emf.examples.jet.article2;
 
 
 import java.net.MalformedURLException;
-import java.net.URL;
 
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.CommonUtil;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
@@ -12,9 +14,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-
-import org.eclipse.emf.common.util.BasicDiagnostic;
-import org.eclipse.emf.common.util.Diagnostic;
 
 
 /**
@@ -44,7 +43,7 @@ public class TypesafeEnumPlugin extends AbstractUIPlugin
     {
       String base = getDefault().getBundle().getEntry("/").toString();
       String uri = base + name;
-      return ImageDescriptor.createFromURL(new URL(uri));
+      return ImageDescriptor.createFromURL(CommonUtil.newURL(uri));
 
     }
     catch (MalformedURLException e)

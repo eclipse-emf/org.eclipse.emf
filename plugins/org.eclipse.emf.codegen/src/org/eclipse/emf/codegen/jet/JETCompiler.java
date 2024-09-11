@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.EMFPlugin;
+import org.eclipse.emf.common.util.CommonUtil;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 
@@ -1309,7 +1310,7 @@ public class JETCompiler implements JETParseEventListener, JETParseEventListener
     URI uri = URI.createURI(locationURI);
     try
     {
-      new URL(locationURI);
+      CommonUtil.newURL(locationURI);
       uri = resolve(uri);
     }
     catch (MalformedURLException exception)
@@ -1438,11 +1439,11 @@ public class JETCompiler implements JETParseEventListener, JETParseEventListener
       try
       {
         uri = resolve(uri);
-        url = new URL(uri.toString());
+        url = CommonUtil.newURL(uri.toString());
       }
       catch (MalformedURLException exception)
       {
-        url = new URL("file:" + locationURI);
+        url = CommonUtil.newURL("file:" + locationURI);
       }
 
       URI resolvedURI;

@@ -26,6 +26,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.CommonUtil;
 import org.eclipse.emf.common.util.DelegatingResourceLocator;
 import org.eclipse.emf.common.util.Logger;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -382,7 +383,7 @@ public abstract class EMFPlugin extends DelegatingResourceLocator implements Res
      */
     public Object getImage(String key) throws IOException
     {
-      URL url = new URL(getBaseURL() + "icons/" + key + extensionFor(key));
+      URL url = CommonUtil.newURL(getBaseURL() + "icons/" + key + extensionFor(key));
       InputStream inputStream = url.openStream(); 
       inputStream.close();
       return url;
@@ -404,7 +405,7 @@ public abstract class EMFPlugin extends DelegatingResourceLocator implements Res
           String resourceName = getBaseURL().toString() + propertiesPath;
           try
           {
-            InputStream inputStream =  new URL(resourceName).openStream();
+            InputStream inputStream =  CommonUtil.newURL(resourceName).openStream();
             bundle = untranslatedResourceBundle = new PropertyResourceBundle(inputStream);
             inputStream.close();
           }
@@ -503,9 +504,9 @@ public abstract class EMFPlugin extends DelegatingResourceLocator implements Res
           // If we can open  an input stream, then the path is there, and we have a good URL.
           //
           String manifestURI = uri.appendSegments(relativePath).toString();
-          InputStream inputStream =  new URL(manifestURI).openStream();
+          InputStream inputStream =  CommonUtil.newURL(manifestURI).openStream();
           inputStream.close();
-          manifestURL = new URL(manifestURI);
+          manifestURL = CommonUtil.newURL(manifestURI);
         }
         catch (IOException exception)
         {
@@ -529,7 +530,7 @@ public abstract class EMFPlugin extends DelegatingResourceLocator implements Res
           uri = uri.trimSegments(1);
         }
         uri = uri.appendSegments(relativePath);
-        manifestURL = new URL(uri.toString());
+        manifestURL = CommonUtil.newURL(uri.toString());
       }
               
       Manifest manifest = new Manifest(manifestURL.openStream());

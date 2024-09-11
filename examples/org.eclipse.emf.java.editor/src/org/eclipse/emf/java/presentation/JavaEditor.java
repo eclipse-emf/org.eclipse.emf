@@ -13,7 +13,6 @@ package org.eclipse.emf.java.presentation;
 
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -42,6 +41,54 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.command.BasicCommandStack;
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CommandStack;
+import org.eclipse.emf.common.command.CommandStackListener;
+import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.ui.MarkerHelper;
+import org.eclipse.emf.common.ui.ViewerPane;
+import org.eclipse.emf.common.ui.editor.ProblemEditorPart;
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.CommonUtil;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.UniqueEList;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
+import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
+import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
+import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
+import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
+import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
+import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
+import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
+import org.eclipse.emf.edit.ui.util.EditUIUtil;
+import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
+import org.eclipse.emf.java.JClass;
+import org.eclipse.emf.java.JCompilationUnit;
+import org.eclipse.emf.java.provider.JavaItemProviderAdapterFactory;
+import org.eclipse.emf.java.util.JavaPackageResourceFactoryImpl;
+import org.eclipse.emf.java.util.JavaPackageResourceImpl;
+import org.eclipse.emf.java.util.JavaResourceFactoryImpl;
+import org.eclipse.emf.java.util.JavaUtil;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
@@ -101,58 +148,6 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
-
-import org.eclipse.emf.common.command.BasicCommandStack;
-import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.command.CommandStack;
-import org.eclipse.emf.common.command.CommandStackListener;
-import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.Notifier;
-
-import org.eclipse.emf.common.ui.MarkerHelper;
-import org.eclipse.emf.common.ui.ViewerPane;
-import org.eclipse.emf.common.ui.editor.ProblemEditorPart;
-
-import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-import org.eclipse.emf.common.util.BasicDiagnostic;
-import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.common.util.UniqueEList;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.util.EContentAdapter;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
-import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.edit.domain.IEditingDomainProvider;
-import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
-import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
-import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
-import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
-import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
-import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
-import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
-import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
-import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
-
-import org.eclipse.emf.edit.ui.util.EditUIUtil;
-import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
-
-import org.eclipse.emf.java.JClass;
-import org.eclipse.emf.java.JCompilationUnit;
-import org.eclipse.emf.java.provider.JavaItemProviderAdapterFactory;
-import org.eclipse.emf.java.util.JavaPackageResourceFactoryImpl;
-import org.eclipse.emf.java.util.JavaPackageResourceImpl;
-import org.eclipse.emf.java.util.JavaResourceFactoryImpl;
-import org.eclipse.emf.java.util.JavaUtil;
 
 //import org.eclipse.swt.events.ControlAdapter;
 //import org.eclipse.swt.events.ControlEvent;
@@ -2170,7 +2165,7 @@ public class JavaEditor
             case IClasspathEntry.CPE_LIBRARY:
             case IClasspathEntry.CPE_CONTAINER:
             {
-              libraryURLs.add(new URL(URI.createFileURI(classpathEntry.getPath().toString()).toString()));
+              libraryURLs.add(CommonUtil.newURL(URI.createFileURI(classpathEntry.getPath().toString()).toString()));
               break;
             }
             case IClasspathEntry.CPE_SOURCE:
@@ -2183,7 +2178,7 @@ public class JavaEditor
               IProject referencedProject = workspaceRoot.getProject(classpathEntry.getPath().segment(0));
               IJavaProject referencedJavaProject = JavaCore.create(referencedProject);
               IContainer container = workspaceRoot.getFolder(referencedJavaProject.getOutputLocation());
-              libraryURLs.add(new URL(URI.createFileURI(container.getLocation().toString() + "/").toString()));
+              libraryURLs.add(CommonUtil.newURL(URI.createFileURI(container.getLocation().toString() + "/").toString()));
 
               getAllReferencedProjects(libraryURLs, referencedProject.getDescription().getReferencedProjects());
               getAllReferencedProjects(libraryURLs, referencedProject.getDescription().getDynamicReferences());
@@ -2231,7 +2226,7 @@ public class JavaEditor
         IJavaProject referencedJavaProject = JavaCore.create(project);
         IContainer container = project.getWorkspace().getRoot().getFolder(referencedJavaProject.getOutputLocation());
 
-        libraryURLs.add(new URL(URI.createFileURI(container.getLocation().toString() + "/").toString()));
+        libraryURLs.add(CommonUtil.newURL(URI.createFileURI(container.getLocation().toString() + "/").toString()));
         getAllReferencedProjects(libraryURLs, project.getDescription().getReferencedProjects());
         getAllReferencedProjects(libraryURLs, project.getDescription().getDynamicReferences());
       }

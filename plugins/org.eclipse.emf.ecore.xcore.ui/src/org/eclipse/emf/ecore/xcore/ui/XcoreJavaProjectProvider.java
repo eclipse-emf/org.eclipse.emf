@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.common.util.CommonUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -147,7 +148,7 @@ public class XcoreJavaProjectProvider extends XtextResourceSetBasedProjectProvid
                 {
                   path = iProject.getLocation().append(path.removeFirstSegments(1));
                 }
-                libraryURLs.add(new URL(URI.createFileURI(path.toString()).toString()));
+                libraryURLs.add(CommonUtil.newURL(URI.createFileURI(path.toString()).toString()));
                 break;
               }
               case IClasspathEntry.CPE_PROJECT:
@@ -156,7 +157,7 @@ public class XcoreJavaProjectProvider extends XtextResourceSetBasedProjectProvid
                 IProject referencedProject = workspaceRoot.getProject(path.segment(0));
                 IJavaProject referencedJavaProject = JavaCore.create(referencedProject);
                 IContainer container = workspaceRoot.getFolder(referencedJavaProject.getOutputLocation());
-                libraryURLs.add(new URL(URI.createFileURI(container.getLocation().toString() + "/").toString()));
+                libraryURLs.add(CommonUtil.newURL(URI.createFileURI(container.getLocation().toString() + "/").toString()));
 
                 IProjectDescription description = referencedProject.getDescription();
                 getAllReferencedProjects(libraryURLs, description.getReferencedProjects());
@@ -248,7 +249,7 @@ public class XcoreJavaProjectProvider extends XtextResourceSetBasedProjectProvid
         IJavaProject referencedJavaProject = JavaCore.create(project);
         IContainer container = project.getWorkspace().getRoot().getFolder(referencedJavaProject.getOutputLocation());
 
-        if (libraryURLs.add(new URL(URI.createFileURI(container.getLocation().toString() + "/").toString())))
+        if (libraryURLs.add(CommonUtil.newURL(URI.createFileURI(container.getLocation().toString() + "/").toString())))
         {
           IProjectDescription description = project.getDescription();
           getAllReferencedProjects(libraryURLs, description.getReferencedProjects());

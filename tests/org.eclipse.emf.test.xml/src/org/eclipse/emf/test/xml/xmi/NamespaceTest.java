@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Collections;
 
+import org.eclipse.emf.common.util.CommonUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -71,7 +72,7 @@ public class NamespaceTest
     byte[] bbuffer = new byte [2064];
     int length = 0;
 
-    java.net.URL u = new java.net.URL("file:///" + file);
+    java.net.URL u = CommonUtil.newURL("file:///" + file);
     java.io.InputStream i = u.openStream();
     length = i.read(bbuffer, 0, 2064);
     i.close();

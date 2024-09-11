@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.codegen.jet.JETException;
 import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
 import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.CommonUtil;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
@@ -98,7 +99,7 @@ public class CodeGenUIPlugin extends AbstractUIPlugin
     try
     {
       String suffix = key.endsWith(".png") ? "" : ".gif";
-      return ImageDescriptor.createFromURL(new URL(getBundle().getEntry("/") + "icons/" + key + suffix));
+      return ImageDescriptor.createFromURL(CommonUtil.newURL(getBundle().getEntry("/") + "icons/" + key + suffix));
     }
     catch (MalformedURLException exception)
     {
@@ -112,7 +113,7 @@ public class CodeGenUIPlugin extends AbstractUIPlugin
     try
     {
       String suffix = key.endsWith(".png") ? "" : ".gif";
-      URL url = new URL(getBundle().getEntry("/") + "icons/" + key + suffix);
+      URL url = CommonUtil.newURL(getBundle().getEntry("/") + "icons/" + key + suffix);
       InputStream in = null;
       try
       {

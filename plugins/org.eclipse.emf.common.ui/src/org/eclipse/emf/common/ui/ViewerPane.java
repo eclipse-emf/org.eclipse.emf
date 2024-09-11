@@ -12,13 +12,13 @@ package org.eclipse.emf.common.ui;
 
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.ui.viewer.IUndecoratingLabelProvider;
+import org.eclipse.emf.common.util.CommonUtil;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.resource.FontDescriptor;
@@ -306,7 +306,7 @@ public abstract class ViewerPane implements IPropertyListener, Listener
       {
         pullDownImage = 
           ImageDescriptor.createFromURL
-            (new URL(CommonUIPlugin.INSTANCE.getImage("full/ctool16/ViewPullDown").toString())).createImage();
+            (CommonUtil.newURL(CommonUIPlugin.INSTANCE.getImage("full/ctool16/ViewPullDown").toString())).createImage();
         ti.setImage(pullDownImage);
         ti.addSelectionListener
           (new SelectionAdapter() 

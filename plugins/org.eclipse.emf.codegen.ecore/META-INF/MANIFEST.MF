@@ -2,29 +2,29 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.codegen.ecore;singleton:=true
-Bundle-Version: 2.39.0.qualifier
+Bundle-Version: 2.40.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: org.eclipse.emf.codegen.ecore;version="2.39.0",
- org.eclipse.emf.codegen.ecore.generator;version="2.39.0",
- org.eclipse.emf.codegen.ecore.genmodel;version="2.39.0",
- org.eclipse.emf.codegen.ecore.genmodel.generator;version="2.39.0",
- org.eclipse.emf.codegen.ecore.genmodel.impl;version="2.39.0",
- org.eclipse.emf.codegen.ecore.genmodel.util;version="2.39.0",
- org.eclipse.emf.codegen.ecore.gwt;version="2.39.0",
- org.eclipse.emf.codegen.ecore.templates.edit;version="2.39.0",
- org.eclipse.emf.codegen.ecore.templates.editor;version="2.39.0",
- org.eclipse.emf.codegen.ecore.templates.model;version="2.39.0",
- org.eclipse.emf.codegen.ecore.templates.model.tests;version="2.39.0"
+Export-Package: org.eclipse.emf.codegen.ecore;version="2.40.0",
+ org.eclipse.emf.codegen.ecore.generator;version="2.40.0",
+ org.eclipse.emf.codegen.ecore.genmodel;version="2.40.0",
+ org.eclipse.emf.codegen.ecore.genmodel.generator;version="2.40.0",
+ org.eclipse.emf.codegen.ecore.genmodel.impl;version="2.40.0",
+ org.eclipse.emf.codegen.ecore.genmodel.util;version="2.40.0",
+ org.eclipse.emf.codegen.ecore.gwt;version="2.40.0",
+ org.eclipse.emf.codegen.ecore.templates.edit;version="2.40.0",
+ org.eclipse.emf.codegen.ecore.templates.editor;version="2.40.0",
+ org.eclipse.emf.codegen.ecore.templates.model;version="2.40.0",
+ org.eclipse.emf.codegen.ecore.templates.model.tests;version="2.40.0"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.core.resources;bundle-version="[3.8.0,4.0.0)",
  org.eclipse.jdt.core;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.jdt.launching;bundle-version="[3.5.0,4.0.0)",
- org.eclipse.emf.ecore;bundle-version="[2.37.0,3.0.0)";visibility:=reexport,
- org.eclipse.emf.codegen;bundle-version="[2.24.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.ecore;bundle-version="[2.38.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.codegen;bundle-version="[2.25.0,3.0.0)";visibility:=reexport,
  org.eclipse.emf.ecore.xmi;bundle-version="[2.38.0,3.0.0)",
  org.eclipse.text;bundle-version="[3.5.0,4.0.0)"
 Provide-Capability: org.eclipse.emf.ecore.generated_package;uri="http://www.eclipse.org/emf/2002/GenModel";class=org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;genModel="model/GenModel.genmodel"

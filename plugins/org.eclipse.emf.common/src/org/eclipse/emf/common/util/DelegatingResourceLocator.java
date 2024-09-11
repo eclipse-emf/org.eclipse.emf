@@ -158,12 +158,12 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
             {
               try
               {
-                String bundleLocalization = getBundleLocalization(new URL(uri.appendSegment("META-INF").appendSegment("MANIFEST.MF").toString()));
+                String bundleLocalization = getBundleLocalization(CommonUtil.newURL(uri.appendSegment("META-INF").appendSegment("MANIFEST.MF").toString()));
                 if (bundleLocalization != null)
                 {
                   this.bundleLocalization = bundleLocalization;
                 }
-                baseURL = new URL(uri.toString());
+                baseURL = CommonUtil.newURL(uri.toString());
               }
               catch (IOException exception)
               {
@@ -171,9 +171,9 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
                 {
                   // If we can open  an input stream, then the plugin.properties is there, and we have a good base URL.
                   //
-                  InputStream inputStream =  new URL(uri.appendSegment("plugin.properties").toString()).openStream();
+                  InputStream inputStream =  CommonUtil.newURL(uri.appendSegment("plugin.properties").toString()).openStream();
                   inputStream.close();
-                  baseURL = new URL(uri.toString());
+                  baseURL = CommonUtil.newURL(uri.toString());
                 }
                 catch (IOException nestedException)
                 {
@@ -200,13 +200,13 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
 
               try
               {
-                String bundleLocalization = getBundleLocalization(new URL(uri.appendSegment("META-INF").appendSegment("MANIFEST.MF").toString()));
+                String bundleLocalization = getBundleLocalization(CommonUtil.newURL(uri.appendSegment("META-INF").appendSegment("MANIFEST.MF").toString()));
                 if (bundleLocalization != null)
                 {
                   this.bundleLocalization = bundleLocalization;
                 }
                 String baseURI = uri.toString();
-                baseURL = new URL(baseURI.endsWith("/") ? baseURI : baseURI + "/");
+                baseURL = CommonUtil.newURL(baseURI.endsWith("/") ? baseURI : baseURI + "/");
               }
               catch (IOException exception)
               {
@@ -215,9 +215,9 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
                 {
                   // If we can open  an input stream, then the plugin.properties is in the folder, and we have a good base URL.
                   //
-                  InputStream inputStream = new URL(uri.toString()).openStream();
+                  InputStream inputStream = CommonUtil.newURL(uri.toString()).openStream();
                   inputStream.close();
-                  baseURL = new URL(DOT.resolve(uri).toString());
+                  baseURL = CommonUtil.newURL(DOT.resolve(uri).toString());
                 }
                 catch (IOException nextedException)
                 {
@@ -239,7 +239,7 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
           }
           else
           {
-            baseURL = new URL(DOT.resolve(URI.createURI(pluginPropertiesURL.toString())).toString());
+            baseURL = CommonUtil.newURL(DOT.resolve(URI.createURI(pluginPropertiesURL.toString())).toString());
           }
         }
         catch (IOException exception)
@@ -335,7 +335,7 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
    */
   protected Object doGetImage(String key) throws IOException
   {
-    URL url = new URL(getBaseURL() + "icons/" + key + extensionFor(key));
+    URL url = CommonUtil.newURL(getBaseURL() + "icons/" + key + extensionFor(key));
     InputStream inputStream = url.openStream();
     inputStream.close();
     return url;
@@ -526,7 +526,7 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
             //
             try
             {
-              InputStream inputStream = new URL(baseURL.toString() + bundleLocalizations.get(i)).openStream();
+              InputStream inputStream = CommonUtil.newURL(baseURL.toString() + bundleLocalizations.get(i)).openStream();
               bundle = resourceBundle = new PropertyResourceBundle(inputStream);
               inputStream.close();
               break;
@@ -547,7 +547,7 @@ public abstract class DelegatingResourceLocator implements ResourceLocator
         String resourceName = baseURL.toString() + bundleLocalization;
         try
         {
-          InputStream inputStream = new URL(resourceName).openStream();
+          InputStream inputStream = CommonUtil.newURL(resourceName).openStream();
           bundle = untranslatedResourceBundle = new PropertyResourceBundle(inputStream);
           inputStream.close();
         }

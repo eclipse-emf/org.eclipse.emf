@@ -20,6 +20,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.emf.common.util.CommonUtil;
+
 /**
  * This implements the method {@link #run}, 
  * which is called just like main during headless workbench invocation.
@@ -74,11 +76,11 @@ public class PropertyMerger
       URL url = null;
       try
       {
-        url = new URL(uri);
+        url = CommonUtil.newURL(uri);
       }
       catch (MalformedURLException exception)
       {
-        url = new URL("file:" + uri);
+        url = CommonUtil.newURL("file:" + uri);
       }
       BufferedInputStream bufferedInputStream = new BufferedInputStream(url.openStream());
       byte [] input = new byte [bufferedInputStream.available()];

@@ -34,11 +34,6 @@ import java.util.StringTokenizer;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.osgi.framework.Bundle;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -55,20 +50,26 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.codegen.CodeGenPlugin;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.EMFPlugin;
+import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.CommonUtil;
+import org.eclipse.emf.common.util.Monitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.jdt.core.IClasspathAttribute;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.emf.codegen.CodeGenPlugin;
-import org.eclipse.emf.codegen.util.CodeGenUtil;
-import org.eclipse.emf.common.CommonPlugin;
-import org.eclipse.emf.common.EMFPlugin;
-import org.eclipse.emf.common.util.BasicMonitor;
-import org.eclipse.emf.common.util.Monitor;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.common.util.UniqueEList;
+import org.osgi.framework.Bundle;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
 
 
 /**
@@ -827,7 +828,7 @@ public class JETEmitter
             }
             // For any entry that doesn't correspond to a plugin in the running JVM, compute a URL for the classes.
             //
-            urls.add(new URL("platform:/resource" + jetEmitterClasspathEntry.getPath() + "/"));
+            urls.add(CommonUtil.newURL("platform:/resource" + jetEmitterClasspathEntry.getPath() + "/"));
           }
           
           // Define a class loader that looks up classes using the URLs or the parent class loader,
