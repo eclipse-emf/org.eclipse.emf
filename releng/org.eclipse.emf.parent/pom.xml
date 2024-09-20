@@ -11,7 +11,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <tycho.scmUrl>scm:git:https://github.com/eclipse-emf/org.eclipse.emf.git</tycho.scmUrl>
-    <tycho-version>4.0.8</tycho-version>
+    <tycho-version>4.0.9</tycho-version>
     <jarsigner-version>1.5.0</jarsigner-version>
     <javaVersion>11</javaVersion>
     <os-jvm-flags/>
