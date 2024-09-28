@@ -1263,6 +1263,24 @@
           defaultEditorID="org.eclipse.emf.codegen.presentation.JETEditorID"/>
       <description>Bindings for JET templates</description>
     </setupTask>
+    <setupTask
+        xsi:type="setup:CompoundTask"
+        name="org.eclipse.core.resources">
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.core.resources/missingNatureMarkerSeverity"
+          value="-1">
+        <description>EMF Core requires Xtext, but only when being used by Xcore. Therefore we can ignore missing Xtext tooling in an EMF Core only workspace.</description>
+      </setupTask>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:CompoundTask"
+        name="org.eclipse.epp.mpc.ui">
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.epp.mpc.ui/org.eclipse.epp.mpc.naturelookup"
+          value="false"/>
+    </setupTask>
     <stream
         name="master">
       <setupTask
