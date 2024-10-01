@@ -171,11 +171,17 @@ public final class FindAndReplaceTarget implements IFindReplaceTarget, IFindRepl
    */
   private static final Field F_TARGET_FIELD;
 
+  /**
+   * Provides access to the {@code findReplaceLogic} of a {@code org.eclipse.ui.texteditor.FindReplaceDialog}.
+   */
+  private static final Field FIND_REPLACE_LOGIC_FIELD;
+
   static
   {
     Field fIsRegExCheckBoxField = null;
     Field fSelectedRangeRadioButtonField = null;
     Field fTarget = null;
+    Field findReplaceLogic = null;
     try
     {
       Class<?> findReplaceDialogClass = CommonPlugin.loadClass("org.eclipse.ui.workbench.texteditor", "org.eclipse.ui.texteditor.FindReplaceDialog");
@@ -183,8 +189,16 @@ public final class FindAndReplaceTarget implements IFindReplaceTarget, IFindRepl
       fIsRegExCheckBoxField.setAccessible(true);
       fSelectedRangeRadioButtonField = findReplaceDialogClass.getDeclaredField("fSelectedRangeRadioButton");
       fSelectedRangeRadioButtonField.setAccessible(true);
-      fTarget = findReplaceDialogClass.getDeclaredField("fTarget");
-      fTarget.setAccessible(true);
+      try
+      {
+        fTarget = findReplaceDialogClass.getDeclaredField("fTarget");
+        fTarget.setAccessible(true);
+      }
+      catch (Throwable throwable)
+      {
+        findReplaceLogic = findReplaceDialogClass.getDeclaredField("findReplaceLogic");
+        findReplaceLogic.setAccessible(true);
+      }
     }
     catch (Throwable throwable)
     {
@@ -193,6 +207,7 @@ public final class FindAndReplaceTarget implements IFindReplaceTarget, IFindRepl
     F_IS_REGEX_CHECK_BOX_FIELD = fIsRegExCheckBoxField;
     F_SELECTED_RANGE_RADIO_BUTTON_FIELD = fSelectedRangeRadioButtonField;
     F_TARGET_FIELD = fTarget;
+    FIND_REPLACE_LOGIC_FIELD = findReplaceLogic;
   }
 
   /**
@@ -755,21 +770,41 @@ public final class FindAndReplaceTarget implements IFindReplaceTarget, IFindRepl
                 {
                   // It may be the case that the properties view has focus and the editor being closed is the last one.
                   // The find-and-replace target is not updated in this case.
-                  // So set it to null to ensure that the
+                  // So set it to null to ensure that the target is updated.
                   //
-                  Object fieldValue = getFieldValue(dialog, F_TARGET_FIELD);
-                  if (fieldValue == FindAndReplaceTarget.this)
+                  if (F_TARGET_FIELD != null)
                   {
-                    try
+                    Object fieldValue = getFieldValue(dialog, F_TARGET_FIELD);
+                    if (fieldValue == FindAndReplaceTarget.this)
                     {
-                      Method method = dialog.getClass().getMethod("updateTarget", IFindReplaceTarget.class, boolean.class, boolean.class);
-                      method.setAccessible(true);
-                      method.invoke(dialog, null, false, false);
+                      try
+                      {
+                        Method method = dialog.getClass().getMethod("updateTarget", IFindReplaceTarget.class, boolean.class, boolean.class);
+                        method.setAccessible(true);
+                        method.invoke(dialog, null, false, false);
+                      }
+                      catch (Exception exception)
+                      {
+                        // Ignore.
+                      }
                     }
-                    catch (Exception exception)
-                    {
-                      // Ignore.
-                    }
+                  }
+                  else
+                  {
+                      Object fieldValue = getFieldValue(dialog, FIND_REPLACE_LOGIC_FIELD);
+                      try
+                      {
+                         Object target = FIND_REPLACE_LOGIC_FIELD.getType().getMethod("getTarget").invoke(fieldValue);
+                         if (target == FindAndReplaceTarget.this)
+                         {
+                           fieldValue.getClass().getMethod("updateTarget", IFindReplaceTarget.class, boolean.class).invoke(fieldValue, null, false);
+                         }
+                      }
+                      catch (Exception exception)
+                      {
+                        // Ignore.
+                      }
+                    
                   }
                   disposeCleanup = null;
                 }
