@@ -1292,6 +1292,14 @@
           value="Ignore"/>
     </setupTask>
     <setupTask
+        xsi:type="setup:CompoundTask"
+        name="org.eclipse.xtend.core.Xtend">
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.xtend.core.Xtend/useXbaseGenerated"
+          value="false"/>
+    </setupTask>
+    <setupTask
         xsi:type="setup.p2:P2Task"
         label="Xtext/Xcore">
       <requirement
