@@ -11,7 +11,7 @@
   </parent>
   <groupId>org.eclipse.emf</groupId>
   <artifactId>org.eclipse.emf.ecore.xcore</artifactId>
-  <version>1.30.0-SNAPSHOT</version>
+  <version>1.31.0-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 
 </project>
