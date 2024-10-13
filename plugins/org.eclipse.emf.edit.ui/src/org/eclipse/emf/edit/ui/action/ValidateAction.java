@@ -338,7 +338,15 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     Resource resource = eclipseResourcesUtil != null ? resourceSet.getResources().get(0) : null;
     if (resource != null)
     {
-      eclipseResourcesUtil.deleteMarkers(resource);
+      List<?> datas = diagnostic.getData();
+      if (datas != null) {
+        for (Object data : datas) {
+          if (data instanceof EObject) {
+           Resource eResource = ((EObject)data).eResource();
+           eclipseResourcesUtil.deleteMarkers(eResource);  // Probably not enough root objects to justify filtering to once per Resource
+          }
+        }
+      }
     }
 
     if (result == Window.OK)
@@ -379,7 +387,18 @@ public class ValidateAction extends Action implements ISelectionChangedListener
               {
                 return;
               }
-              eclipseResourcesUtil.createMarkers(finalResource, childDiagnostic);
+              Resource eResource = null;
+              List<?> datas = childDiagnostic.getData();
+              if ((datas != null) && (datas.size() >= 1)) {
+                Object data = datas.get(0);
+                if (data instanceof EObject) {
+                  eResource = ((EObject)data).eResource();
+                }
+              }
+              if (eResource == null) {
+                eResource = finalResource;
+              }
+              eclipseResourcesUtil.createMarkers(eResource, childDiagnostic);
             }
           }
         };
