@@ -14,8 +14,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
@@ -335,8 +337,16 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     }
 
     ResourceSet resourceSet = domain.getResourceSet();
-    Resource resource = eclipseResourcesUtil != null ? resourceSet.getResources().get(0) : null;
-    if (resource != null)
+    final Set<Resource> resources = new LinkedHashSet<Resource>();
+    if (eclipseResourcesUtil != null)
+    {
+      for (Object data : diagnostic.getData())
+      {
+        resources.add(data instanceof EObject ? ((EObject)data).eResource() : null);
+      }
+      resources.remove(null);
+    }
+    for (Resource resource : resources)
     {
       eclipseResourcesUtil.deleteMarkers(resource);
     }
@@ -364,30 +374,35 @@ public class ValidateAction extends Action implements ISelectionChangedListener
         }
       }
 
-      if (resource != null)
+      if (eclipseResourcesUtil != null)
       {
-        final Resource finalResource = resource;
         IRunnableWithProgress runnable = new IRunnableWithProgress()
-        {
-          public void run(IProgressMonitor progressMonitor)
           {
-            int count = 0;
-            int limit = getLimit();
-            for (Diagnostic childDiagnostic : diagnostic.getChildren())
+            public void run(IProgressMonitor progressMonitor)
             {
-              if (progressMonitor.isCanceled() || ++count > limit)
+              int count = 0;
+              int limit = getLimit();
+              for (Diagnostic childDiagnostic : diagnostic.getChildren())
               {
-                return;
+                if (progressMonitor.isCanceled() || ++count > limit)
+                {
+                  return;
+                }
+                List<?> data = childDiagnostic.getData();
+                if (!data.isEmpty())
+                {
+                  Object object = data.get(0);
+                  Resource resource = object instanceof EObject ? ((EObject)object).eResource() : null;
+                  if (resource != null)
+                  {
+                    eclipseResourcesUtil.createMarkers(resource, childDiagnostic);
+                  }
+                }
               }
-              eclipseResourcesUtil.createMarkers(finalResource, childDiagnostic);
             }
-          }
-        };
+          };
 
-        if (eclipseResourcesUtil != null)
-        {
-          runnable = eclipseResourcesUtil.getWorkspaceModifyOperation(runnable);
-        }
+        runnable = eclipseResourcesUtil.getWorkspaceModifyOperation(runnable);
 
         try
         {
@@ -403,10 +418,10 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     {
       // Trigger direct updating of decorations, if there are adapters.
       //
-      resource = null;
+      resources.clear();
     }
 
-    if (resource == null)
+    if (resources.isEmpty())
     {
       // If no markers are produced the decorator won't be able to respond to marker resource deltas, so inform it directly.
       //
