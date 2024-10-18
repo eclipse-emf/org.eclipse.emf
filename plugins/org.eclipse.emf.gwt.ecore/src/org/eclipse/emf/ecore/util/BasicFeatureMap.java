@@ -2548,7 +2548,12 @@ public class BasicFeatureMap
   @Override
   public void set(Object newValue)
   {
-    super.set(newValue instanceof FeatureMap ? newValue : ((FeatureMap.Internal.Wrapper)newValue).featureMap());
+    super.set
+      (newValue instanceof FeatureMap ?
+         newValue :
+         newValue instanceof FeatureMap.Internal.Wrapper ?
+           ((FeatureMap.Internal.Wrapper)newValue).featureMap() :
+           newValue);
   }
 
 }
