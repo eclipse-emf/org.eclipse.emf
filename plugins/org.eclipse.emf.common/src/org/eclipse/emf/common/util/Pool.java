@@ -24,7 +24,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * to support multiple simultaneous readers while ensuring that writes are properly serial.
  * The locks are held for the minimal period to allow maximal concurrency.
  * Removals, i.e., {@link #remove(Object) remove}, {@link #removeAll(Collection) removeAll}, {@link #clear() clear}, and {@link #retainAll(Collection) retainAll}, are not supported.
- * 
+ *
  * @since 2.9
  */
 public class Pool<E> extends WeakInterningHashSet<E>
@@ -105,25 +105,25 @@ public class Pool<E> extends WeakInterningHashSet<E>
           @Override
           protected E getValue()
           {
-            throw new UnsupportedOperationException(); 
+            throw new UnsupportedOperationException();
           }
 
           @Override
           protected void setValue(E value)
           {
-            throw new UnsupportedOperationException(); 
+            throw new UnsupportedOperationException();
           }
 
           @Override
           protected boolean setArbitraryValue(Object value)
           {
-            throw new UnsupportedOperationException(); 
+            throw new UnsupportedOperationException();
           }
 
           @Override
-          public void reset(boolean isExclusive) 
+          public void reset(boolean isExclusive)
           {
-            throw new UnsupportedOperationException(); 
+            throw new UnsupportedOperationException();
           }
         };
 
@@ -774,7 +774,7 @@ public class Pool<E> extends WeakInterningHashSet<E>
 
     // Periodically poll the queue to clean up garbage collected entries.
     // It doesn't matter that this access count increment isn't thread safe, it just means we might take a little longer to poll the queue.
-    // Note that cleanup will acquire the write lock, so we mustn't call if if we're holding the read lock.
+    // Note that cleanup will acquire the write lock, so we mustn't call if we're holding the read lock.
     //
     if (!isReadLocked && internalQueue != null && ++accessCount == cleanupPeriod)
     {

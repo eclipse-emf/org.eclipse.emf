@@ -119,7 +119,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
   /**
    * A queue used when {@link #newExternalEntry(Object, int) creating} external entries and subsequently for cleaning garbage collected references.
    * {@link SelfCleaningEntry#clear() Cleaning} garbage collected references is the responsibility of this external queue provider.
-   * All calls to {@link #cleanup()} are guarded by whether {@link #internalQueue} value is <code>null</code>, so no cleanup takes plac when there is an external reference queue.
+   * All calls to {@link #cleanup()} are guarded by whether {@link #internalQueue} value is <code>null</code>, so no cleanup takes place when there is an external reference queue.
    */
   transient final protected ReferenceQueue<Object> externalQueue;
 
@@ -991,7 +991,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
 
   /**
    * Adds a new entry to the set at the given given index in the {@link #entries}.
-   * It {@link #ensureCapacity() ensures} the capacity is sufficient, 
+   * It {@link #ensureCapacity() ensures} the capacity is sufficient,
    * increases the {@link #size} of the set, increments the {@link #modCount},
    * and {@link #putEntry(int, Entry) puts} the entry into the set.
    */
