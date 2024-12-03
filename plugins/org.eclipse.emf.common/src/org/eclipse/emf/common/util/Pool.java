@@ -11,9 +11,13 @@ import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -30,6 +34,19 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class Pool<E> extends WeakInterningHashSet<E>
 {
   private static final long serialVersionUID = 1L;
+
+/**
+ *  Calculate the lowest power-of-two segmentCount that exceeds the concurrencyLevel property.
+ *  If the property is not set, it defaults to one.
+ */
+  private int calculateNumberOfSegmets() {
+    int segmentCount = 1;
+    int concurrencyLevel = Integer.getInteger("org.eclipse.emf.common.util.Pool.concurrencyLevel", 1);
+    while (segmentCount < concurrencyLevel) {
+      segmentCount <<= 1;
+    }
+    return segmentCount;
+  }
 
   private interface TestEnqueued
   {
@@ -456,17 +473,80 @@ public class Pool<E> extends WeakInterningHashSet<E>
    */
   protected int cleanupPeriod = 1000;
 
-  protected final ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+  /**
+   * The a lock that consist of a list of locks. All the operations are delegated to the locks
+   * in the list by iterating through the list and doing the requested operation on each lock.
+   *
+   * It is possible to get one of the locks for a particular hashCode using {@link #get(int)}
+   * to do an operation on single look.
+   */
+  final class MultiLock implements Lock {
+      private final List<? extends Lock> locks;
 
+      MultiLock(List<? extends Lock> locks){
+        this.locks = locks;
+      }
+
+      public Lock get(int hashCode) {
+        return locks.get(Math.abs(hashCode) % numberOfSegmets);
+      }
+
+      @Override
+      public void lock() {
+        for (Lock lock: locks) {
+          lock.lock();
+        }
+      }
+
+      @Override
+      public void lockInterruptibly() throws InterruptedException {
+        for (Lock lock: locks) {
+          lock.lockInterruptibly();
+        }
+      }
+
+      @Override
+      public boolean tryLock() {
+        for (Lock lock: locks) {
+          if (!lock.tryLock()) {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      @Override
+      public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
+        for (Lock lock: locks) {
+          if (!lock.tryLock(time, unit)) {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      @Override
+      public void unlock() {
+        for (Lock lock: locks) {
+          lock.unlock();
+        }
+      }
+
+      @Override
+      public Condition newCondition() {
+        throw new UnsupportedOperationException();
+      }
+
+  }
   /**
    * To support maximum concurrency, a pair of read and write locks is maintained; this is the {@link ReadWriteLock#readLock() read lock}.
    */
-  protected final Lock readLock = readWriteLock.readLock();
+  protected final MultiLock readLock;
 
   /**
    * To support maximum concurrency, a pair of read and write locks is maintained; this is the {@link ReadWriteLock#readLock() write lock}.
    */
-  protected final Lock writeLock = readWriteLock.writeLock();
+  protected final MultiLock writeLock;
 
   protected final AccessUnit.Queue<E> primaryAccessUnits;
 
@@ -486,16 +566,40 @@ public class Pool<E> extends WeakInterningHashSet<E>
     this(minimumCapacity, null);
   }
 
+  private Lock getReadLock(int hashCode) {
+    return readLock.get(hashCode % numberOfSegmets);
+  }
+
+  private Lock getWriteLock(int hashCode) {
+      return writeLock.get(hashCode % numberOfSegmets);
+  }
+
+  private int numberOfSegmets;
   protected Pool(int minimumCapacity, AccessUnit.Queue<E> primaryAccessUnits)
   {
     super(minimumCapacity);
     this.primaryAccessUnits = primaryAccessUnits == null ? newDefaultAccessUnits() : primaryAccessUnits;
+    numberOfSegmets = calculateNumberOfSegmets();
+
+    List<ReentrantReadWriteLock> readWriteLocks = new ArrayList<>(numberOfSegmets);
+    for (int i = 0; i < numberOfSegmets; i++) {
+      readWriteLocks.add(new ReentrantReadWriteLock());
+    }
+    readLock = new MultiLock(readWriteLocks.stream().map(ReentrantReadWriteLock::readLock).toList());
+    writeLock = new MultiLock(readWriteLocks.stream().map(ReentrantReadWriteLock::writeLock).toList());
   }
 
   protected Pool(int minimumCapacity, AccessUnit.Queue<E> primaryAccessUnits, ReferenceQueue<Object> queue)
   {
     super(minimumCapacity, queue == null ? CommonUtil.REFERENCE_CLEARING_QUEUE : queue);
     this.primaryAccessUnits = primaryAccessUnits == null ? newDefaultAccessUnits() : primaryAccessUnits;
+    numberOfSegmets = calculateNumberOfSegmets();
+    List<ReentrantReadWriteLock> readWriteLocks = new ArrayList<>(numberOfSegmets);
+    for (int i = 0; i < numberOfSegmets; i++) {
+      readWriteLocks.add(new ReentrantReadWriteLock());
+    }
+    readLock = new MultiLock(readWriteLocks.stream().map(ReentrantReadWriteLock::readLock).toList());
+    writeLock = new MultiLock(readWriteLocks.stream().map(ReentrantReadWriteLock::writeLock).toList());
   }
 
   protected static class ExternalRehasher<E> extends WeakReference<Pool<E>>
@@ -677,14 +781,15 @@ public class Pool<E> extends WeakInterningHashSet<E>
     public void clear()
     {
       Pool<E> pool = this.pool;
-      pool.writeLock.lock();
+      Lock lock = pool.writeLock.get(hashCode);
+      lock.lock();
       try
       {
         clear(pool);
       }
       finally
       {
-        pool.writeLock.unlock();
+        lock.unlock();
       }
     }
   }
@@ -794,15 +899,17 @@ public class Pool<E> extends WeakInterningHashSet<E>
   {
     // Acquire exclusive update access.
     //
+    int hashCode = accessUnit.hashCode;
+    Lock writeLock = null;
     if (!isExclusive)
     {
+      writeLock = getWriteLock(hashCode);
       writeLock.lock();
     }
     try
     {
       // We need to double check whether or not another thread has added the value since we originally checked while holding the shared read lock or no lock at all.
       //
-      int hashCode = accessUnit.hashCode;
       int index = index(hashCode, entries.length);
       for (Entry<E> entry = entries[index]; entry != null; entry = entry.next)
       {
@@ -1005,7 +1112,8 @@ public class Pool<E> extends WeakInterningHashSet<E>
     //
     accessUnit.setValue(value);
 
-    readLock.lock();
+    Lock lock = getReadLock(accessUnit.hashCode);
+    lock.lock();
     try
     {
       // Retrieve all the values with this hash code.
@@ -1018,7 +1126,7 @@ public class Pool<E> extends WeakInterningHashSet<E>
     }
     finally
     {
-      readLock.unlock();
+      lock.unlock();
 
       // Release the access unit for reuse in subsequent calls, perhaps on other threads.
       //
