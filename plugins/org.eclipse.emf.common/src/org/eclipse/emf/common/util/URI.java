@@ -679,11 +679,11 @@ public abstract class URI
         URI resultURI;
         if (hasExpectedHashCode)
         {
-          resultURI = pool.intern(true, true, scheme, authority, device, absolutePath, segments, query, hashCode);
+          resultURI = pool.intern(false, true, scheme, authority, device, absolutePath, segments, query, hashCode);
         }
         else
         {
-          resultURI = pool.intern(true, URIPool.URIComponentsAccessUnit.VALIDATE_NONE, true, scheme, authority, device, absolutePath, segments, query);
+          resultURI = pool.intern(false, URIPool.URIComponentsAccessUnit.VALIDATE_NONE, true, scheme, authority, device, absolutePath, segments, query);
 
           // If something tries to add an entry for this access unit, we'd better be sure that the hash code is that of the transformed URI.
           //
@@ -1931,23 +1931,15 @@ public abstract class URI
           }
         }
 
-        writeLock.lock();
-        try
-        {
-          StringAccessUnit accessUnit = stringAccessUnits.pop(true);
-          accessUnit.setValue(string, hashCode);
+        StringAccessUnit accessUnit = stringAccessUnits.pop(false);
+        accessUnit.setValue(string, hashCode);
 
-          // The implementation returns an internalized value that's already pooled as a side effect.
-          //
-          URI result = accessUnit.getInternalizedValue();
+        // The implementation returns an internalized value that's already pooled as a side effect.
+        //
+        URI result = accessUnit.getInternalizedValue();
 
-          accessUnit.reset(true);
-          return result;
-        }
-        finally
-        {
-          writeLock.unlock();
-        }
+        accessUnit.reset(true);
+        return result;
       }
     }
 
@@ -2616,10 +2608,10 @@ public abstract class URI
    * </li>
    * </ul>
    * <p>
-   * Furthermore, any application that uses a relative URI to locate some associated resource will generally map the relative URI to an absolute URI in some manner, 
+   * Furthermore, any application that uses a relative URI to locate some associated resource will generally map the relative URI to an absolute URI in some manner,
    * likely depending on the system's state, e.g., the current user directory that can change over time,
    * exactly as is the case for {@code new File(path).getAbsolutePath()}.
-   * Not only that, when an accessed resource itself contains URIs, 
+   * Not only that, when an accessed resource itself contains URIs,
    * the general XML interpretation of any such contained relative URI is to {@link #resolve(URI) resolve} it to an absolute URI based on the absolute URI of the containing resource;
    * that resolution isn't possible (well-defined) unless the base URI of the resource is an absolute URI.
    * </p>
@@ -4158,7 +4150,7 @@ public abstract class URI
       {
         throw new IllegalArgumentException("invalid segment: null");
       }
-      
+
       boolean isEmptySegment = segment.length() == 0;
       if (isEmptySegment && scheme != null && authority == null && device == null && segments.length == 0)
       {
@@ -4168,10 +4160,10 @@ public abstract class URI
 
       // absolute path or no path -> absolute path
       boolean newAbsolutePath = !hasRelativePath();
-      
+
       String[] newSegments;
       String newDevice = device;
-      
+
       if (isEmptySegment && segments.length == 0)
       {
         // Turn it into trailing separator.
@@ -4214,7 +4206,7 @@ public abstract class URI
           String[] newSegments = SegmentSequence.STRING_ARRAY_POOL.intern(segments, 1, segments.length - 1);
           return appendSegment(segments[0]).appendSegments(newSegments);
         }
-        
+
         for (String segment : segments)
         {
           if (segment == null)
@@ -5474,7 +5466,7 @@ public abstract class URI
   }
 
   /**
-   * A weak reference for the external queue that when cleared will 
+   * A weak reference for the external queue that when cleared will
    */
 
   /**
@@ -6151,7 +6143,7 @@ public abstract class URI
 
     return 0;
   }
-  
+
   public static void main(String[] args)
   {
     System.out.println("###" + URI.createURI("d:a/b"));
@@ -6159,6 +6151,6 @@ public abstract class URI
     System.out.println("###" + URI.createURI("d:a/b").toFileString());
     File file = new File("a");
     System.out.println(new File(URI.createFileURI(file.getPath()).toFileString()).equals(new File("a").getAbsoluteFile()));
-    
+
   }
 }
