@@ -1301,19 +1301,11 @@ public final class CommonUtil
           }
         }
 
-        writeLock.lock();
-        try
-        {
-          StringAccessUnit accessUnit = stringAccessUnits.pop(true);
-          accessUnit.setValue(string, hashCode);
-          String result = addEntry(true, accessUnit.getInternalizedValue(), accessUnit);
-          accessUnit.reset(true);
-          return result;
-        }
-        finally
-        {
-          writeLock.unlock();
-        }
+        StringAccessUnit accessUnit = stringAccessUnits.pop(false);
+        accessUnit.setValue(string, hashCode);
+        String result = addEntry(false, accessUnit.getInternalizedValue(), accessUnit);
+        accessUnit.reset(true);
+        return result;
       }
     }
 
