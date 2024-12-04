@@ -33,7 +33,7 @@ def targetPlatforms = targetPlatformToJavaVersionMap.keySet() as List
 
 pipeline {
   agent {
-    label 'centos-latest'
+    label 'ubuntu-latest'
   }
 
   options {
