@@ -1175,7 +1175,7 @@ public final class CommonUtil
       // Ensure that null is initially in the pool.
       //
       containsNull = true;
-      size = 1;
+      size.set(1);
 
       // Ensure that the empty string is in the pool.
       //

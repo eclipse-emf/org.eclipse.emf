@@ -616,7 +616,7 @@ public class Pool<E> extends WeakInterningHashSet<E>
       if (pool != null)
       {
         int expectedCapacityIndex = pool.capacityIndex;
-        int expectedSize = pool.size;
+        int expectedSize = pool.size.get();
         int expectedCapacity = PRIME_CAPACITIES[expectedCapacityIndex + 1];
         Entry<E>[] oldEntries = pool.entries;
 
@@ -645,12 +645,12 @@ public class Pool<E> extends WeakInterningHashSet<E>
           {
             int newCapacity = PRIME_CAPACITIES[pool.capacityIndex + 1];
             int newThreshold = newCapacity * 3 / 4;
-            if (pool.size > newThreshold)
+            if (pool.size.get() > newThreshold)
             {
               // It's growing so fast it's outstripped the capacity we were intending to provide.
               // So do a full rehash based on the current size while holding the write lock.
               //
-              pool.grow(2 * pool.size);
+              pool.grow(2 * pool.size.get());
             }
             else
             {
@@ -710,9 +710,9 @@ public class Pool<E> extends WeakInterningHashSet<E>
                 }
               }
 
-              pool.size = newSize;
+              pool.size.set(newSize);
               pool.threshold = newThreshold;
-              ++pool.modCount;
+              pool.modCount.addAndGet(1);
             }
           }
         }
@@ -727,11 +727,11 @@ public class Pool<E> extends WeakInterningHashSet<E>
   }
 
   @Override
-  protected boolean ensureCapacity()
+  protected synchronized boolean ensureCapacity()
   {
     // If the current size is more the threshold..
     //
-    if (size > threshold)
+    if (size.get() > threshold)
     {
       if (externalQueue != null)
       {
@@ -742,7 +742,7 @@ public class Pool<E> extends WeakInterningHashSet<E>
         {
           // If it's the same as the current threshold, then the external queue's thread has not been able to keep up with rehashing, so do the work on the main thread.
           //
-          grow(2 * size);
+          grow(2 * size.get());
           return true;
         }
         else
