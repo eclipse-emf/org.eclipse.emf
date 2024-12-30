@@ -21,6 +21,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.WeakHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * An implementation of an {@link InterningSet interning set} that keeps weak references to its element.
@@ -82,7 +83,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
   /**
    * The current size of the set.
    */
-  protected int size;
+  protected AtomicInteger size = new AtomicInteger();
 
   /**
    * The current index within {@link #PRIME_CAPACITIES} for the length of the {@link #entries}.
@@ -102,7 +103,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
   /**
    * The modification count for fail fast iteration with {@link ConcurrentModificationException}.
    */
-  transient protected int modCount;
+  transient AtomicInteger modCount = new AtomicInteger();
 
   /**
    * The table of linked entries.
@@ -245,7 +246,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
       cleanup();
     }
 
-    return size;
+    return size.get();
   }
 
   /**
@@ -273,7 +274,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
       if (capacity >= minimumCapacity)
       {
         capacityIndex = i;
-        ++modCount;
+        modCount.addAndGet(1);
         rehash(newEntries(capacity));
         break;
       }
@@ -337,7 +338,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
   {
     // If the current size is more the threshold..
     //
-    if (size > threshold)
+    if (size.get() > threshold)
     {
       rehash(newEntries(PRIME_CAPACITIES[++capacityIndex]));
       return true;
@@ -416,8 +417,8 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
       else
       {
         containsNull = false;
-        ++modCount;
-        --size;
+        modCount.addAndGet(1);
+        size.decrementAndGet();
         return true;
       }
     }
@@ -475,7 +476,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
   public void clear()
   {
     containsNull = false;
-    size = 0;
+    size.set(0);
     for (int i = 0; i < entries.length; ++i)
     {
       entries[i] = null;
@@ -500,8 +501,8 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
       if (!containsNull)
       {
         containsNull = true;
-        ++modCount;
-        ++size;
+        modCount.addAndGet(1);
+        size.addAndGet(1);
         return true;
       }
       else
@@ -555,8 +556,8 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
       if (!containsNull)
       {
         containsNull = true;
-        ++modCount;
-        ++size;
+        modCount.addAndGet(1);
+        size.addAndGet(1);
       }
       return null;
     }
@@ -707,7 +708,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
         /**
          * The expected modCount for fail fast concurrent modification testing.
          */
-        int expectedModCount = modCount;
+        int expectedModCount = modCount.get();
 
         /**
          * The current index in the {@link WeakInterningHashSet#entries}.
@@ -738,7 +739,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
         {
           // Set up the initial next entry...
           //
-          if (size > 0)
+          if (size.get() > 0)
           {
             if (containsNull)
             {
@@ -779,7 +780,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
 
         public boolean hasNext()
         {
-          if (modCount != expectedModCount)
+          if (modCount.get() != expectedModCount)
           {
             throw new ConcurrentModificationException();
           }
@@ -853,7 +854,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
 
         public void remove()
         {
-          if (modCount != expectedModCount)
+          if (modCount.get() != expectedModCount)
           {
             throw new ConcurrentModificationException();
           }
@@ -880,7 +881,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
             //
             removeEntry.clear();
           }
-          expectedModCount = WeakInterningHashSet.this.modCount;
+          expectedModCount = WeakInterningHashSet.this.modCount.get();
 
           // Forget the remove entry and its referent.
           //
@@ -1001,8 +1002,8 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
     {
       index = index(entry.hashCode, entries.length);
     }
-    ++size;
-    ++modCount;
+    size.addAndGet(1);
+    modCount.addAndGet(1);
     putEntry(index, entry);
   }
 
@@ -1014,8 +1015,8 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
   {
     if (removeEntry(index(entry.hashCode, entries.length), entry))
     {
-      --size;
-      ++modCount;
+      size.decrementAndGet();
+      modCount.addAndGet(1);
     }
   }
 
@@ -1053,7 +1054,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
    */
   public void dump()
   {
-    int[] collisions = new int[size + 1];
+    int[] collisions = new int[size.get() + 1];
     int maxCollisions = 0;
     System.out.println("size = " + size);
     System.out.println("null = " + containsNull);
@@ -1096,7 +1097,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
       {
         System.out.print(", ");
       }
-      System.out.print(percentInstance.format(100.0 * i * collisions[i] / size));
+      System.out.print(percentInstance.format(100.0 * i * collisions[i] / size.get()));
       System.out.print("% ");
     }
     System.out.println("}");
@@ -1109,7 +1110,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
   {
     objectOutputStream.defaultWriteObject();
     objectOutputStream.writeByte(capacityIndex);
-    if (size > 0)
+    if (size.get() > 0)
     {
       for (Object object : this)
       {
@@ -1129,9 +1130,9 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
     int capacity = PRIME_CAPACITIES[capacityIndex];
     entries = newEntries(capacity);
     threshold = capacity * 3 / 4;
-    if (size > 0)
+    if (size.get() > 0)
     {
-      for (int i = 0; i < size; ++i)
+      for (int i = 0; i < size.get(); ++i)
       {
         @SuppressWarnings("unchecked") E object = (E)objectInputStream.readObject();
         if (object == null)

@@ -1175,7 +1175,7 @@ public final class CommonUtil
       // Ensure that null is initially in the pool.
       //
       containsNull = true;
-      size = 1;
+      size.set(1);
 
       // Ensure that the empty string is in the pool.
       //
@@ -1301,19 +1301,11 @@ public final class CommonUtil
           }
         }
 
-        writeLock.lock();
-        try
-        {
-          StringAccessUnit accessUnit = stringAccessUnits.pop(true);
-          accessUnit.setValue(string, hashCode);
-          String result = addEntry(true, accessUnit.getInternalizedValue(), accessUnit);
-          accessUnit.reset(true);
-          return result;
-        }
-        finally
-        {
-          writeLock.unlock();
-        }
+        StringAccessUnit accessUnit = stringAccessUnits.pop(false);
+        accessUnit.setValue(string, hashCode);
+        String result = addEntry(false, accessUnit.getInternalizedValue(), accessUnit);
+        accessUnit.reset(true);
+        return result;
       }
     }
 
