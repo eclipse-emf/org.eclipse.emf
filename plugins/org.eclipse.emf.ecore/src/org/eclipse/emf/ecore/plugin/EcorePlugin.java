@@ -57,6 +57,8 @@ import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.util.tracker.ServiceTracker;
+import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 
 /**
@@ -586,13 +588,18 @@ public class EcorePlugin  extends EMFPlugin
    */
   static public class Implementation extends EclipsePlugin
   {
-    /**
+    
+    
+    private PlainOSGiBundleActivator plainOSGiBundleActivator;
+
+  /**
      * Creates the singleton instance.
      */
     public Implementation()
     {
       super();
       plugin = this;
+      plainOSGiBundleActivator = new PlainOSGiBundleActivator();
     }
   
     /**
@@ -656,10 +663,60 @@ public class EcorePlugin  extends EMFPlugin
     public void start(BundleContext context) throws Exception
     {
       super.start(context);
-      ExtensionProcessor.internalProcessExtensions();
-      
+      try {
+        ExtensionProcessor.internalProcessExtensions();
+      } catch (NoClassDefFoundError e) {
+        // If EMF runs in a non Equinox OSGi Framework, it occasionally runs in some NoClassDefFoundError Exceptions, that can safely be ignored.  
+      }
+      plainOSGiBundleActivator.start(context);
+    }
+    
+    /* 
+     * (non-Javadoc)
+     * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
+     */
+    @Override
+    public void stop(BundleContext context) throws Exception {
+      super.stop(context);
+      plainOSGiBundleActivator.stop(context);
     }
 
+    /**
+     * In Case we are not running in Eclipse, this BundleActivator will be used
+     * @since 2.40
+     */
+    public static class PlainOSGiBundleActivator implements BundleActivator {
+
+    private ServiceTracker<EPackage.Registry, Object> osgiEpackageRegistryTracker = null;
+      
+    /* 
+     * (non-Javadoc)
+     * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public void start(BundleContext context) throws Exception {
+      if(getDefaultRegistryImplementation() != null && getDefaultRegistryImplementation() instanceof OSGiDelegatEPackageRegistry) 
+      {
+        osgiEpackageRegistryTracker = new ServiceTracker<>(context, OSGiDelegatEPackageRegistry.FILTER, (ServiceTrackerCustomizer<EPackage.Registry, Object>) getDefaultRegistryImplementation());
+        osgiEpackageRegistryTracker.open();
+      }
+    }
+
+    /* 
+     * (non-Javadoc)
+     * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+     */
+    @Override
+    public void stop(BundleContext context) throws Exception {
+      if(osgiEpackageRegistryTracker != null)
+      {
+        osgiEpackageRegistryTracker.close();
+      }
+    }
+      
+    }
+    
     /**
      * @since 2.10
      */
@@ -668,7 +725,12 @@ public class EcorePlugin  extends EMFPlugin
       @Override
       protected BundleActivator createBundle()
       {
-        return new Implementation();
+        try 
+        {
+          return new Implementation();
+        } catch (Throwable t) {
+          return new PlainOSGiBundleActivator();
+        }
       }
     }
   }
@@ -1098,6 +1160,11 @@ public class EcorePlugin  extends EMFPlugin
    */
   public static EPackage.Registry getDefaultRegistryImplementation()
   {
+    if(defaultRegistryImplementation == null && EMFPlugin.IS_OSGI_RUNNING) 
+    {
+      OSGiDelegatEPackageRegistry delegatorRegsitry = new OSGiDelegatEPackageRegistry();
+      defaultRegistryImplementation = delegatorRegsitry;
+    }
     return defaultRegistryImplementation;
   }
 
