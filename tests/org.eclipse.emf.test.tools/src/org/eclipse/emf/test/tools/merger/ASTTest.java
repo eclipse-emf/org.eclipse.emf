@@ -415,7 +415,7 @@ public class ASTTest
  {
    // read
     String source = TestUtil.readFile(CLASS_FILE, true);
-    ASTParser astParser = CodeGenUtil.EclipseUtil.newASTParser(false);
+    ASTParser astParser = CodeGenUtil.EclipseUtil.newASTParser(true);
     astParser.setSource(source.toCharArray());
     CompilationUnit sourceCu = (CompilationUnit)astParser.createAST(null);
     astParser.setSource(source.toCharArray());
@@ -449,12 +449,9 @@ public class ASTTest
    rewriter.replace(targetClass.getMethods()[6].getBody(), targetMethodBodyToCopy, null);
 
    // setExceptions() replace all exceptions
-   @SuppressWarnings("deprecation")
-  List<?> exceptionsToSet = sourceClass.getMethods()[5].thrownExceptions();
-   @SuppressWarnings("deprecation")
-  List<?> targetExceptins = targetClass.getMethods()[6].thrownExceptions();
-   @SuppressWarnings("deprecation")
-  ListRewrite listRewrite = rewriter.getListRewrite(targetClass.getMethods()[6], MethodDeclaration.THROWN_EXCEPTIONS_PROPERTY);
+  List<?> exceptionsToSet = sourceClass.getMethods()[5].thrownExceptionTypes();
+  List<?> targetExceptins = targetClass.getMethods()[6].thrownExceptionTypes();
+  ListRewrite listRewrite = rewriter.getListRewrite(targetClass.getMethods()[6], MethodDeclaration.THROWN_EXCEPTION_TYPES_PROPERTY);
   lrw = listRewrite;
    // remove all exceptions
    for(Iterator<?> it = targetExceptins.iterator(); it.hasNext();)
