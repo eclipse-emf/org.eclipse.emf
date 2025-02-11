@@ -9,7 +9,7 @@ Bundle-SymbolicName: org.eclipse.emf.ecore.xcore;singleton:=true
 Bundle-Activator: org.eclipse.emf.ecore.xcore.XcorePlugin$Implementation
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext;bundle-version="[2.13.0,3.0.0)";visibility:=reexport,
- org.eclipse.emf.ecore;bundle-version="[2.38.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.ecore;bundle-version="[2.39.0,3.0.0)";visibility:=reexport,
  org.eclipse.xtext.util;bundle-version="[2.18.0,3.0.0)",
  org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
  org.eclipse.xtext.xbase;bundle-version="[2.18.0,3.0.0)";visibility:=reexport,
