@@ -1437,7 +1437,8 @@
         xsi:type="setup.targlets:TargletTask">
       <targlet
           name="EMF GWT"
-          activeRepositoryList="GWT">
+          activeRepositoryList="GWT"
+          includeNegativeRequirements="false">
         <requirement
             name="org.eclipse.emf.gwt.sdk.feature.group"/>
         <requirement
