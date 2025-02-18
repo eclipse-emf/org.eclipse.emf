@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 
 /**
@@ -278,6 +279,11 @@ public class DynamicEObjectImpl extends EObjectImpl implements EStructuralFeatur
   @Override
   public EClass eClass()
   {
+    if(eClass.eIsProxy()) 
+    {
+      eClass = (EClass) EcoreUtil.resolve(eClass, this);
+    }
+    
     return eClass;
   }
 
