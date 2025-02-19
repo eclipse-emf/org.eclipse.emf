@@ -5,9 +5,10 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <version.tycho>4.0.5</version.tycho>
+    <version.tycho>4.0.11</version.tycho>
     <version.emf>2.33</version.emf>
     <p2.emf>https://download.eclipse.org/modeling/emf/emf/builds/release/${version.emf}</p2.emf>
+    <javaVersion>21</javaVersion>
   </properties>
 
   <groupId>org.eclipse.emf</groupId>
@@ -66,7 +67,7 @@
               <url>https://download.eclipse.org/cbi/updates/p2-aggregator/products/nightly/latest</url>
             </repository>
           </repositories>
-          <executionEnvironment>JavaSE-17</executionEnvironment>
+          <executionEnvironment>JavaSE-${javaVersion}</executionEnvironment>
         </configuration>
       </plugin>
       <plugin>
