@@ -4405,6 +4405,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           getEcorePackage().getName().equals(oldGenPackageVersion.getEcorePackage().getName()) :
           getEcorePackage().getNsURI().equals(oldGenPackageVersion.getEcorePackage().getNsURI()))
     {
+      reconcileSettings(oldGenPackageVersion);
+
       for (GenClassifier genClassifier : getGenClassifiers())
       {
         for (GenClassifier oldGenClassifierVersion : oldGenPackageVersion.getGenClassifiers())
@@ -4447,7 +4449,6 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           }
         }
       }
-      reconcileSettings(oldGenPackageVersion);
       return true;
     }
     else
