@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <release>
-	<feature name="org.eclipse.emf" version="2.40.0">
+	<feature name="org.eclipse.emf" version="2.41.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<feature name="org.eclipse.emf.common" version="2.33.0"/>
+		<feature name="org.eclipse.emf.common" version="2.34.0"/>
 		<feature name="org.eclipse.emf.common.ui" version="2.23.0"/>
 		<feature name="org.eclipse.emf.ecore" version="2.39.0"/>
 		<feature name="org.eclipse.emf.edit" version="2.23.0"/>
@@ -11,8 +11,8 @@
 		<feature name="org.eclipse.emf.ecore.editor" version="2.20.0"/>
 		<feature name="org.eclipse.emf.codegen" version="2.26.0"/>
 		<feature name="org.eclipse.emf.codegen.ui" version="2.27.0"/>
-		<feature name="org.eclipse.emf.codegen.ecore" version="2.40.0"/>
-		<feature name="org.eclipse.emf.codegen.ecore.ui" version="2.40.0"/>
+		<feature name="org.eclipse.emf.codegen.ecore" version="2.41.0"/>
+		<feature name="org.eclipse.emf.codegen.ecore.ui" version="2.41.0"/>
 		<feature name="org.eclipse.emf.converter" version="2.22.0"/>
 		<feature name="org.eclipse.emf.databinding" version="1.12.0"/>
 		<feature name="org.eclipse.emf.databinding.edit" version="1.12.0"/>
@@ -26,22 +26,22 @@
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
 		<plugin name="org.eclipse.emf.codegen" version="2.25.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.codegen.ecore" version="2.40.0">
+	<feature name="org.eclipse.emf.codegen.ecore" version="2.41.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<plugin name="org.eclipse.emf.codegen.ecore" version="2.40.0"/>
+		<plugin name="org.eclipse.emf.codegen.ecore" version="2.41.0"/>
 		<plugin name="org.eclipse.emf.ant" version="2.13.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.codegen.ecore.ui" version="2.40.0">
+	<feature name="org.eclipse.emf.codegen.ecore.ui" version="2.41.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<plugin name="org.eclipse.emf.codegen.ecore.ui" version="2.40.0"/>
+		<plugin name="org.eclipse.emf.codegen.ecore.ui" version="2.41.0"/>
 	</feature>
 	<feature name="org.eclipse.emf.codegen.ui" version="2.27.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
 		<plugin name="org.eclipse.emf.codegen.ui" version="2.26.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.common" version="2.33.0">
+	<feature name="org.eclipse.emf.common" version="2.34.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<plugin name="org.eclipse.emf.common" version="2.40.0"/>
+		<plugin name="org.eclipse.emf.common" version="2.41.0"/>
 	</feature>
 	<feature name="org.eclipse.emf.common.ui" version="2.23.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
@@ -113,9 +113,9 @@
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
 		<plugin name="org.eclipse.emf.mapping.ui" version="2.13.0"/>
 	</feature>
-	<feature name="org.eclipse.emf.sdk" version="2.40.0">
+	<feature name="org.eclipse.emf.sdk" version="2.41.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
-		<feature name="org.eclipse.emf" version="2.40.0"/>
+		<feature name="org.eclipse.emf" version="2.41.0"/>
 		<feature name="org.eclipse.emf.source" version="0.0.0"/> <!-- UNRESOLVED -->
 		<feature name="org.eclipse.emf.doc" version="2.34.0"/>
 		<plugin name="org.eclipse.emf.example.installer" version="1.13.0"/>
@@ -125,10 +125,10 @@
 	<plugin name="org.eclipse.emf.ant" version="2.13.0"/>
 	<plugin name="org.eclipse.emf.cheatsheets" version="2.10.0"/>
 	<plugin name="org.eclipse.emf.codegen" version="2.25.0"/>
-	<plugin name="org.eclipse.emf.codegen.ecore" version="2.40.0"/>
-	<plugin name="org.eclipse.emf.codegen.ecore.ui" version="2.40.0"/>
+	<plugin name="org.eclipse.emf.codegen.ecore" version="2.41.0"/>
+	<plugin name="org.eclipse.emf.codegen.ecore.ui" version="2.41.0"/>
 	<plugin name="org.eclipse.emf.codegen.ui" version="2.26.0"/>
-	<plugin name="org.eclipse.emf.common" version="2.40.0"/>
+	<plugin name="org.eclipse.emf.common" version="2.41.0"/>
 	<plugin name="org.eclipse.emf.common.ui" version="2.24.0"/>
 	<plugin name="org.eclipse.emf.converter" version="2.15.0"/>
 	<plugin name="org.eclipse.emf.databinding" version="1.9.0"/>
