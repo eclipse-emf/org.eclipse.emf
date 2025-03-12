@@ -69,7 +69,8 @@ import org.junit.runners.Suite;
       org.eclipse.emf.test.core.common.util.PoolTest.class,
       org.eclipse.emf.test.core.common.util.StringPoolTest.class,
       org.eclipse.emf.test.core.common.util.SegmentSequenceTest.class,
-      org.eclipse.emf.test.core.common.util.URITest.class
+      org.eclipse.emf.test.core.common.util.URITest.class,
+      org.eclipse.emf.test.core.ecore.ServiceBasedEPackageRegistryTest.class
   })
 public class AllSuites
 {
