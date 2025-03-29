@@ -23,8 +23,6 @@ import org.eclipse.emf.common.util.ResourceLocator;
  * or just stand-alone as part of some other application.
  * To support this, all resource access should be directed to the resource locator,
  * which can redirect the service as appropriate to the runtime.
- * During stand-alone invocation no plugin initialization takes place.
- * In this case, common.resources.jar must be on the CLASSPATH.
  * @see #INSTANCE
  */
 public final class CommonUIPlugin extends EMFPlugin 
