@@ -17,16 +17,27 @@ import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.regex.Matcher;
@@ -52,11 +63,19 @@ import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
+import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.Constants;
+import org.osgi.framework.Filter;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
+import org.osgi.util.tracker.ServiceTracker;
+import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 
 /**
@@ -668,7 +687,16 @@ public class EcorePlugin  extends EMFPlugin
       @Override
       protected BundleActivator createBundle()
       {
-        return new Implementation();
+        if (IS_ECLIPSE_RUNNING)
+        {
+          return new Implementation();
+        }
+        else
+        {
+          // If we are running in OSGi but not in Eclipse, i.e., no extension registry.
+          //
+          return new PlainOSGiBundleActivator();
+        }
       }
     }
   }
@@ -1309,4 +1337,361 @@ public class EcorePlugin  extends EMFPlugin
    * Since 2.14
    */
   public static final String ANNOTATION_VALIDATOR_PPID = "annotation_validator";
+
+  /**
+   * In case we are not running in Eclipse, this BundleActivator will be used.
+   */
+  private static class PlainOSGiBundleActivator implements BundleActivator
+  {
+    private ServiceTracker<EPackage.Registry, Object> osgiEPackageRegistryTracker;
+
+    @Override
+    public void start(BundleContext context) throws Exception
+    {
+      if (defaultRegistryImplementation == null)
+      {
+        OSGiDelegatEPackageRegistry osgiDelegateEPackageRegistry = new OSGiDelegatEPackageRegistry(context);
+        osgiEPackageRegistryTracker = new ServiceTracker<>(context, OSGiDelegatEPackageRegistry.FILTER, osgiDelegateEPackageRegistry);
+        osgiEPackageRegistryTracker.open();
+        defaultRegistryImplementation = osgiDelegateEPackageRegistry;
+      }
+    }
+
+    @Override
+    public void stop(BundleContext context) throws Exception
+    {
+      if (osgiEPackageRegistryTracker != null)
+      {
+        osgiEPackageRegistryTracker.close();
+      }
+    }
+  }
+
+  /**
+   * A {@link org.eclipse.emf.ecore.EPackage.Registry} implementation that looks for an OSGi service that provides a global registry.
+   * Due  to the dynamic nature of OSGi services and the static nature of the default registry
+   * {@link org.eclipse.emf.ecore.EPackage.Registry#INSTANCE} this implementation provides an internal backup registry.
+   * 
+   * The backup is used until the service becomes available.
+   * All write operations will be stored with the backup as well,
+   * so it can restore its role, when the service stops.
+   * When a suitable service becomes available, all {@link EPackage}s will be added to the new service registry.
+   * 
+   * Only services with the property <code>emf.default.epackage.registry=true</code> will be considered.
+   * If multiple such services are available, the one with the highest service rank will be used
+   * or, if no rank is specified, the first one will be used.
+   */
+  private static class OSGiDelegatEPackageRegistry extends AbstractMap<String, Object> implements EPackage.Registry, ServiceTrackerCustomizer<EPackage.Registry, Object>
+  {
+    public static final Filter FILTER;
+
+    static
+    {
+      Filter filter = null;
+      try
+      {
+        filter = FrameworkUtil.createFilter("(&(" + Constants.OBJECTCLASS + "=" + EPackage.Registry.class.getName() + ")(emf.default.epackage.registry=true))");
+      }
+      catch (InvalidSyntaxException exception)
+      {
+        throw new RuntimeException(exception);
+      }
+      FILTER = filter;
+    }
+
+    private final BundleContext context;
+
+    private final EPackage.Registry backup = new EPackageRegistryImpl();
+
+    private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+
+    private final List<ServiceReference<EPackage.Registry>> knownReferences = new ArrayList<>();
+
+    private ServiceReference<EPackage.Registry> delegateServiceReference;
+
+    private EPackage.Registry delegate;
+
+    public OSGiDelegatEPackageRegistry(BundleContext context)
+    {
+      this.context = context;
+    }
+
+    private EPackage.Registry getEffectiveRegistry()
+    {
+      return delegate == null ? backup : delegate;
+    }
+
+    private <T> T whileLocked(Supplier<T> operation)
+    {
+      ReadLock readLock = lock.readLock();
+      readLock.lock();
+      try
+      {
+        return operation.get();
+      }
+      finally
+      {
+        readLock.unlock();
+      }
+    }
+
+    private <T> T whileLocked(Function<EPackage.Registry, T> operation)
+    {
+      ReadLock readLock = lock.readLock();
+      readLock.lock();
+      try
+      {
+        return operation.apply(getEffectiveRegistry());
+      }
+      finally
+      {
+        readLock.unlock();
+      }
+    }
+
+    private <U, R> R whileLocked(BiFunction<EPackage.Registry, U, R> operation, U value)
+    {
+
+      ReadLock readLock = lock.readLock();
+      readLock.lock();
+      try
+      {
+        return operation.apply(getEffectiveRegistry(), value);
+      }
+      finally
+      {
+        readLock.unlock();
+      }
+    }
+
+    @Override
+    public int size()
+    {
+      return whileLocked(EPackage.Registry::size);
+    }
+
+    @Override
+    public boolean isEmpty()
+    {
+      return whileLocked(EPackage.Registry::isEmpty);
+    }
+
+    @Override
+    public boolean containsKey(Object key)
+    {
+      return whileLocked(EPackage.Registry::containsKey, key);
+    }
+
+    @Override
+    public boolean containsValue(Object value)
+    {
+      return whileLocked(EPackage.Registry::containsValue, value);
+    }
+
+    @Override
+    public Object get(Object key)
+    {
+      return whileLocked(EPackage.Registry::get, key);
+    }
+
+    @Override
+    public Object put(String key, Object value)
+    {
+      ReadLock readLock = lock.readLock();
+      readLock.lock();
+      try
+      {
+        if (delegate != null)
+        {
+          delegate.put(key, value);
+        }
+        return backup.put(key, value);
+      }
+      finally
+      {
+        readLock.unlock();
+      }
+    }
+
+    @Override
+    public Object remove(Object key)
+    {
+      ReadLock readLock = lock.readLock();
+      readLock.lock();
+      try
+      {
+        if (delegate != null)
+        {
+          delegate.remove(key);
+        }
+        return backup.remove(key);
+      }
+      finally
+      {
+        readLock.unlock();
+      }
+    }
+
+    @Override
+    public void putAll(Map<? extends String, ? extends Object> m)
+    {
+      ReadLock readLock = lock.readLock();
+      readLock.lock();
+      try
+      {
+        if (delegate != null)
+        {
+          delegate.putAll(m);
+        }
+        backup.putAll(m);
+      }
+      finally
+      {
+        readLock.unlock();
+      }
+    }
+
+    @Override
+    public void clear()
+    {
+      ReadLock readLock = lock.readLock();
+      readLock.lock();
+      try
+      {
+        if (delegate != null)
+        {
+          delegate.clear();
+        }
+        backup.clear();
+      }
+      finally
+      {
+        readLock.unlock();
+      }
+    }
+
+    @Override
+    public Set<String> keySet()
+    {
+      return whileLocked(() -> Collections.unmodifiableSet(new LinkedHashSet<>(getEffectiveRegistry().keySet())));
+    }
+
+    @Override
+    public Collection<Object> values()
+    {
+      return whileLocked(() -> Collections.unmodifiableCollection(new ArrayList<>(getEffectiveRegistry().values())));
+    }
+
+    @Override
+    public Set<Entry<String, Object>> entrySet()
+    {
+      return whileLocked(() -> Collections.unmodifiableSet(new LinkedHashMap<>(getEffectiveRegistry()).entrySet()));
+    }
+
+    @Override
+    public EPackage getEPackage(String nsURI)
+    {
+      return whileLocked(EPackage.Registry::getEPackage, nsURI);
+    }
+
+    @Override
+    public EFactory getEFactory(String nsURI)
+    {
+      return whileLocked(EPackage.Registry::getEFactory, nsURI);
+    }
+
+    @Override
+    public Object addingService(ServiceReference<EPackage.Registry> reference)
+    {
+      knownReferences.add(reference);
+      handleDelegateRegistryChange();
+      return new Object();
+    }
+
+    @Override
+    public void modifiedService(ServiceReference<EPackage.Registry> reference, Object service)
+    {
+      handleDelegateRegistryChange();
+    }
+
+    @Override
+    public void removedService(ServiceReference<EPackage.Registry> reference, Object service)
+    {
+      knownReferences.remove(reference);
+      handleDelegateRegistryChange();
+    }
+
+    private void handleDelegateRegistryChange()
+    {
+      Collections.sort(knownReferences, Comparator.comparingInt(this::getServiceRank).reversed());
+      if (knownReferences.isEmpty() && delegate != null)
+      {
+        unsetDelegateSafe();
+      }
+      else
+      {
+        ServiceReference<EPackage.Registry> reference = knownReferences.get(0);
+        if (!reference.equals(delegateServiceReference))
+        {
+          handleDelegateUpdate(reference);
+        }
+      }
+    }
+
+    private void handleDelegateUpdate(ServiceReference<EPackage.Registry> newReference)
+    {
+      EPackage.Registry newDelegate = context.getService(newReference);
+      if (newDelegate != null)
+      {
+        lock.writeLock().lock();
+        try
+        {
+          unsetDelegate();
+          delegateServiceReference = newReference;
+          delegate = newDelegate;
+          newDelegate.putAll(backup);
+        }
+        finally
+        {
+          lock.writeLock().unlock();
+        }
+      }
+    }
+
+    private void unsetDelegateSafe()
+    {
+      lock.writeLock().lock();
+      try
+      {
+        unsetDelegate();
+      }
+      finally
+      {
+        lock.writeLock().unlock();
+      }
+    }
+
+    private void unsetDelegate()
+    {
+      if (delegateServiceReference != null)
+      {
+        context.ungetService(delegateServiceReference);
+        delegateServiceReference = null;
+        delegate = null;
+      }
+    }
+
+    private int getServiceRank(ServiceReference<EPackage.Registry> serviceReference)
+    {
+      Object serviceRank = serviceReference.getProperty(Constants.SERVICE_RANKING);
+      if (serviceRank != null && serviceRank instanceof Integer)
+      {
+        return (Integer)serviceRank;
+      }
+      else
+      {
+        return Integer.valueOf(0);
+      }
+    }
+  }
 }
