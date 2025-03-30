@@ -65,6 +65,7 @@ import org.junit.runners.Suite;
       org.eclipse.emf.test.core.ecore.ECrossReferenceAdapterTest.class,
       org.eclipse.emf.test.core.ecore.ECrossReferenceAdapterStressTest.class,
       org.eclipse.emf.test.core.ecore.ECrossReferenceAdapterByFeatureTest.class,
+      org.eclipse.emf.test.core.ecore.OSGiDelegatEPackageRegistryTest.class,
       org.eclipse.emf.test.core.common.util.WeakInterningHashSetTest.class,
       org.eclipse.emf.test.core.common.util.PoolTest.class,
       org.eclipse.emf.test.core.common.util.StringPoolTest.class,
