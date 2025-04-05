@@ -2090,7 +2090,7 @@ public final class FindAndReplaceTarget implements IFindReplaceTarget, IFindRepl
         {
           boolean useLabel = false;
           // Always create a list.
-          if (eAttribute.isMany())
+          if (eAttribute.isMany() && propertyValue instanceof List<?>)
           {
             // Add the textual representation of each value.
             for (Object item : (List<?>)propertyValue)
