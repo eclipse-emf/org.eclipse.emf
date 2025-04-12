@@ -321,7 +321,12 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
                       String schemaLocation = EcoreUtil.getAnnotation(ePackage, EcorePackage.eNS_URI, "schemaLocation");
                       if (schemaLocation != null)
                       {
-                        return URI.createURI(schemaLocation).appendFragment(uri.fragment());
+                        String fragment = uri.fragment();
+                        if ("xcore".equals(uri.fileExtension()) && schemaLocation.endsWith(".ecore") && fragment.startsWith("/EPackage"))
+                        {
+                          fragment = fragment.replaceFirst("/EPackage", "/");
+                        }
+                        return URI.createURI(schemaLocation).appendFragment(fragment);
                       }
                       else
                       {
