@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -502,6 +503,20 @@ public abstract class JMergerTest
 
     assertFalse("Subdirectories " + JMergerTest.DIRECTORY_NAMES_TO_JAVA_VERSIONS.keySet().toString() + " under "
       + DEFAULT_ROOT_DIRECTORY.getAbsolutePath() + " must contain subdirectories with source, target and output files.", tests.isEmpty());
+
+    if ("JDOM".equals(prefix))
+    {
+      // JDOM compilation unit header processing is broken during the 4.36 cycle.
+      for (Iterator<Object[]> i = tests.iterator(); i.hasNext();)
+      {
+        Object[] test = i.next();
+        if (test[0].equals("deprecated/merge3"))
+        {
+          i.remove();
+          break;
+        }
+      }
+    }
 
     return tests;
   }
