@@ -221,6 +221,12 @@ public class XMLContentHandlerImpl extends ContentHandlerImpl
           (new BufferedInputStream(inputStream)
            {
              @Override
+             public synchronized int available() throws IOException
+             {
+               return inputStream.available() + 1;
+             }
+
+             @Override
              public void close() throws IOException
              {
                // Ignore close since we don't want to let the parser close the stream when it's done.
