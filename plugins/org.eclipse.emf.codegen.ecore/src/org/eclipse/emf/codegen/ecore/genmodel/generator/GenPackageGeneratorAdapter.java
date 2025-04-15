@@ -322,7 +322,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
                       if (schemaLocation != null)
                       {
                         String fragment = uri.fragment();
-                        if ("xcore".equals(uri.fileExtension()) && schemaLocation.endsWith(".ecore") && fragment.startsWith("/EPackage"))
+                        if ("xcore".equals(uri.fileExtension()) && fragment.startsWith("/EPackage"))
                         {
                           fragment = fragment.replaceFirst("/EPackage", "/");
                         }
