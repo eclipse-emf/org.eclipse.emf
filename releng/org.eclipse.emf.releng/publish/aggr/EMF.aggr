@@ -1,60 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<aggregator:Aggregation xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:aggregator="http://www.eclipse.org/cbi/p2repo/2011/aggregator/1.1.0" label="EMF Repository Aggregation" buildRoot="../repository" packedStrategy="SKIP" type="R" mavenResult="true" versionFormat="MavenRelease">
+<aggregator:Aggregation xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:aggregator="http://www.eclipse.org/cbi/p2repo/2011/aggregator/1.1.0" label="EMF Repository Aggregation" buildRoot="../repository" packedStrategy="SKIP" type="R" mavenResult="true" versionFormat="MavenRelease" includeSources="true" excludeFeatures="true" includedIUPattern="org.eclipse.emf.*|org.eclipse.xsd.*" validateNexusPublishingRequirements="true">
   <validationSets label="Main">
     <contributions label="EMF ${version.emf}">
       <repositories location="${p2.emf}">
         <bundles name="org.eclipse.emf.ant"/>
-        <bundles name="org.eclipse.emf.ant.source"/>
         <bundles name="org.eclipse.emf.codegen"/>
-        <bundles name="org.eclipse.emf.codegen.source"/>
         <bundles name="org.eclipse.emf.codegen.ecore"/>
-        <bundles name="org.eclipse.emf.codegen.ecore.source"/>
         <bundles name="org.eclipse.emf.codegen.ecore.xtext"/>
-        <bundles name="org.eclipse.emf.codegen.ecore.xtext.source"/>
         <bundles name="org.eclipse.emf.common"/>
-        <bundles name="org.eclipse.emf.common.source"/>
         <bundles name="org.eclipse.emf.databinding"/>
-        <bundles name="org.eclipse.emf.databinding.source"/>
         <bundles name="org.eclipse.emf.ecore"/>
-        <bundles name="org.eclipse.emf.ecore.source"/>
         <bundles name="org.eclipse.emf.ecore.change"/>
-        <bundles name="org.eclipse.emf.ecore.change.source"/>
         <bundles name="org.eclipse.emf.ecore.edit"/>
-        <bundles name="org.eclipse.emf.ecore.edit.source"/>
         <bundles name="org.eclipse.emf.ecore.xcore"/>
-        <bundles name="org.eclipse.emf.ecore.xcore.source"/>
         <bundles name="org.eclipse.emf.ecore.xcore.lib"/>
-        <bundles name="org.eclipse.emf.ecore.xcore.lib.source"/>
         <bundles name="org.eclipse.emf.ecore.xmi"/>
-        <bundles name="org.eclipse.emf.ecore.xmi.source"/>
         <bundles name="org.eclipse.emf.edit"/>
-        <bundles name="org.eclipse.emf.edit.source"/>
         <bundles name="org.eclipse.emf.mapping"/>
-        <bundles name="org.eclipse.emf.mapping.source"/>
         <bundles name="org.eclipse.emf.mapping.ecore2ecore"/>
-        <bundles name="org.eclipse.emf.mapping.ecore2ecore.source"/>
         <bundles name="org.eclipse.emf.mapping.ecore2xml"/>
-        <bundles name="org.eclipse.emf.mapping.ecore2xml.source"/>
         <bundles name="org.eclipse.emf.mapping.xsd2ecore"/>
-        <bundles name="org.eclipse.emf.mapping.xsd2ecore.source"/>
         <bundles name="org.eclipse.emf.gwt.common"/>
-        <bundles name="org.eclipse.emf.gwt.common.source"/>
         <bundles name="org.eclipse.emf.gwt.ecore"/>
-        <bundles name="org.eclipse.emf.gwt.ecore.source"/>
         <bundles name="org.eclipse.emf.gwt.ecore.change"/>
-        <bundles name="org.eclipse.emf.gwt.ecore.change.source"/>
         <bundles name="org.eclipse.emf.gwt.ecore.edit"/>
-        <bundles name="org.eclipse.emf.gwt.ecore.edit.source"/>
         <bundles name="org.eclipse.emf.gwt.edit"/>
-        <bundles name="org.eclipse.emf.gwt.edit.source"/>
         <bundles name="org.eclipse.emf.gwt.edit.ui"/>
-        <bundles name="org.eclipse.emf.gwt.edit.ui.source"/>
         <bundles name="org.eclipse.xsd"/>
-        <bundles name="org.eclipse.xsd.source"/>
         <bundles name="org.eclipse.xsd.edit"/>
-        <bundles name="org.eclipse.xsd.edit.source"/>
       </repositories>
-      <mavenMappings namePattern="org\.eclipse\.(xsd.*|emf|core\.resources|text).*" groupId="\$maven-groupId\$" artifactId="\$maven-artifactId\$"/>
+      <mavenMappings namePattern="org\.eclipse\.(xsd.*|emf).*" groupId="\$maven-groupId\$" artifactId="\$maven-artifactId\$" snapshot="true"/>
+      <mavenMappings namePattern="org\.eclipse\.(core\.resources|text).*" groupId="\$maven-groupId\$" artifactId="\$maven-artifactId\$"/>
       <mavenMappings namePattern="org.apache.ant" groupId="org.apache.ant" artifactId="ant"/>
       <mavenMappings namePattern="org.eclipse.ant.core" groupId="org.eclipse.platform" artifactId="org.eclipse.ant.core"/>
       <mavenMappings namePattern="org.eclipse.debug.(.*)" groupId="org.eclipse.platform" artifactId="org.eclipse.debug.$1"/>
@@ -62,10 +38,11 @@
       <mavenMappings namePattern="org.antlr.runtime" groupId="org.antlr" artifactId="antlr-runtime" versionPattern="3.2" versionTemplate=".*"/>
       <mavenMappings namePattern="org.objectweb.asm" groupId="org.ow2.asm" artifactId="asm"/>
       <mavenMappings namePattern=".*" groupId="\$maven-groupId\$" artifactId="\$maven-artifactId\$" versionPattern=".*" versionTemplate="\$maven-version\$"/>
+      <mavenDependencyMapping namespacePattern="osgi\.bundle|org\.eclipse\.equinox\.p2\.iu" namePattern="org\.eclipse\.(emf\.(ant|codegen|common|databinding|ecore|edit|gwt|mapping)|xsd).*" groupId="*" artifactId="*" versionRangePattern=".*" versionRangeTemplate="major.minor.micro-qualifier"/>
       <mavenDependencyMapping namespacePattern="java\.package" namePattern="org.osgi.framework" groupId="!" artifactId="!" versionRangePattern=".*"/>
       <mavenDependencyMapping namespacePattern="java\.package" namePattern=".*" groupId="*" artifactId="*" versionRangePattern=".*" versionRangeTemplate="major.minor.micro-qualifier"/>
     </contributions>
-    <validationRepositories location="https://download.eclipse.org/releases/2023-12"/>
+    <validationRepositories location="https://download.eclipse.org/releases/2025-06"/>
   </validationSets>
   <configurations architecture="x86_64"/>
   <configurations operatingSystem="linux" windowSystem="gtk" architecture="x86_64"/>
