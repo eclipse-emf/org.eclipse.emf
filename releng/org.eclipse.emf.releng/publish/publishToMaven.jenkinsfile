@@ -157,6 +157,7 @@ PROMOTE=${params.PROMOTE}
 									fi
 								fi
 
+								pomFolder="${REPO}/${pomFolder}"
 								pomFile="${REPO}/${pomFile}"
 								file=$(echo "${pomFile}" | sed -e "s|\\(.*\\)\\.pom|\\1.jar|")
 								sourcesFile=$(echo "${pomFile}" | sed -e "s|\\(.*\\)\\.pom|\\1-sources.jar|")
@@ -196,6 +197,7 @@ PROMOTE=${params.PROMOTE}
 									-Durl=${URL} \\
 									-DrepositoryId=${REPO_ID} \\
 									-DpomFile=${pomFile} \\
+									-Dgpg.ascDirectory=${pomFolder} \\
 									-Dfile=${file} \\
 									${SOURCES_ARG} \\
 									${JAVADOC_ARG}
