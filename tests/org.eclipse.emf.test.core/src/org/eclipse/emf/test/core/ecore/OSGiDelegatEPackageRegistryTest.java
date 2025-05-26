@@ -18,9 +18,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Dictionary;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
+import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.ecore.EPackage;
@@ -107,10 +106,10 @@ public class OSGiDelegatEPackageRegistryTest
 
   private Dictionary<String, Object> newDictionary(int serviceRanking)
   {
-    Map<String, Object> properties = new LinkedHashMap<>();
+    Dictionary<String, Object> properties = new Hashtable<>();
     properties.put("emf.default.epackage.registry", Boolean.TRUE);
     properties.put(Constants.SERVICE_RANKING, serviceRanking);
-    return FrameworkUtil.asDictionary(properties);
+    return properties;
   }
 
   private ServiceRegistration<Registry> newServiceRegistration(EPackage.Registry registry, int serviceRanking)
