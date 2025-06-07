@@ -1,4 +1,4 @@
-<img src="https://eclipse.dev/modeling/emf/images/emf_logo.png" width="20%">
+<img src="https://eclipse.dev/emf/emf.png" width="20%">
 
 # Eclipse Modeling Framework
 
@@ -12,6 +12,7 @@ Most important of all, EMF provides the foundation for interoperability with oth
 Eclipse XSD is a library that provides an API for manipulating the components of an XML Schema as described by the W3C XML Schema specifications, 
 as well as anAPI for manipulating the DOM-accessible representation of XML.
 
+* https://eclipse.dev/emf
 * https://projects.eclipse.org/projects/modeling.emf.emf
 
 # Contributing
