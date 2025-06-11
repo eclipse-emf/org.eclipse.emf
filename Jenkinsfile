@@ -1,4 +1,5 @@
 def targetPlatformToJavaVersionMap = [
+  '2025-09' : '21',
   '2025-06' : '21',
   '2025-03' : '21',
   '2024-12' : '17',
