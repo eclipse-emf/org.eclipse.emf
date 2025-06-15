@@ -1389,7 +1389,7 @@
         <repositoryList
             name="Xtext">
           <repository
-              url="https://download.itemis.com/updates/releases/2.1.0"/>
+              url="https://xtext.github.io/download/updates/releases/2.1.1"/>
           <repository
               url="${xtext.latest.release.url}"/>
           <repository
