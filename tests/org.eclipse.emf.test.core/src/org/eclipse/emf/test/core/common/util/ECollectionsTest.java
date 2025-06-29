@@ -101,6 +101,70 @@ public class ECollectionsTest
   }
 
   @Test
+  public void testEListSortMethod()
+  {
+    Comparator<String> comparator = new Comparator<String>()
+    {
+      public int compare(String c1, String c2)
+      {
+        return -1 * c1.compareTo(c2);
+      }
+
+      @Override
+      public boolean equals(Object obj)
+      {
+        return obj == this;
+      }
+    };
+
+    List<String> initialList = new ArrayList<String>();
+    initialList.add("k");
+    initialList.add("a");
+    initialList.add("f");
+    initialList.add("b");
+    initialList.add("z");
+    initialList.add("a");
+    initialList.add("b");
+    List<String> sortedList = new ArrayList<String>(initialList);
+    Collections.sort(sortedList);
+
+    EList<String> eList = new BasicEList<String>(initialList);
+    assertTrue(TestUtil.areEqual(initialList, eList));
+    eList.sort(null);
+    assertTrue(TestUtil.areEqual(sortedList, eList));
+
+    sortedList = new ArrayList<String>(initialList);
+    Collections.sort(sortedList, comparator);
+
+    eList = new BasicEList<String>(initialList);
+    assertTrue(TestUtil.areEqual(initialList, eList));
+    eList.sort(comparator);
+    assertTrue(TestUtil.areEqual(sortedList, eList));
+
+    initialList = new ArrayList<String>();
+    initialList.add("k");
+    initialList.add("f");
+    initialList.add("b");
+    initialList.add("z");
+    initialList.add("a");
+    sortedList = new ArrayList<String>(initialList);
+    Collections.sort(sortedList);
+
+    eList = new UniqueEList<String>(initialList);
+    assertTrue(TestUtil.areEqual(initialList, eList));
+    eList.sort(null);
+    assertTrue(TestUtil.areEqual(sortedList, eList));
+
+    sortedList = new ArrayList<String>(initialList);
+    Collections.sort(sortedList, comparator);
+
+    eList = new BasicEList<String>(initialList);
+    assertTrue(TestUtil.areEqual(initialList, eList));
+    eList.sort(comparator);
+    assertTrue(TestUtil.areEqual(sortedList, eList));
+  }
+
+  @Test
   public void testIndexOf1()
   {
     EList<String> eList = new BasicEList<String>();

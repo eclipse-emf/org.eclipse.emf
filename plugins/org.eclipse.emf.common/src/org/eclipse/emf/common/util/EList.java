@@ -11,6 +11,7 @@
 package org.eclipse.emf.common.util;
 
 
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -33,4 +34,13 @@ public interface EList<E> extends List<E>
    * @return the moved object.
    */
   E move(int newPosition, int oldPosition);
+
+  /**
+   * Sorts the list using {@link ECollections#sort(EList, Comparator)}.
+   * @param comparator the comparator used for sorting, which may be {@code null} to use the natural order of the elements.
+   */
+  default void sort(Comparator<? super E> comparator)
+  {
+    ECollections.sort(this, comparator);
+  }
 }
