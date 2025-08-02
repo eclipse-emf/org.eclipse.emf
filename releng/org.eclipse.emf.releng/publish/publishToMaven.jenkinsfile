@@ -55,7 +55,7 @@ pipeline {
 			steps {
 				script {
 					def description = """
-BUILD_TYPE=${params.REPOSITORY}
+REPOSITORY=${params.REPOSITORY}
 PROMOTE=${params.PROMOTE}
 """.trim()
 					echo description
@@ -77,7 +77,7 @@ PROMOTE=${params.PROMOTE}
 					fi
 
 					repoRaw="${WORKSPACE}/repo-raw"
-					mkdir ${repoRaw}
+					mkdir -p ${repoRaw}
 
 					echo "Running the aggregator with build model ${FILE_SDK_AGGR} ..."
 					"${CBI_AGGR}" aggregate \\
@@ -147,8 +147,11 @@ PROMOTE=${params.PROMOTE}
 										echo "The released version of file "${pomFile}" is already present at $MAVEN_CENTRAL_URL."
 									fi
 								else
-									URL=https://oss.sonatype.org/service/local/staging/deploy/maven2/
-									REPO_ID=ossrh # server-id in the settings.xml, used for authentication
+									# URL=https://central.sonatype.com/service/local/staging/deploy/maven2/
+									REPO_ID=central  # server-id in the settings.xml, used for authentication
+									# Use file location for manual deployment to central.
+									URL=file:${WORKSPACE}/repo-deployment
+									mkdir -p repo-deployment
 									MAVEN_CENTRAL_URL=https://repo1.maven.org/maven2/${pomFolder}
 									echo "Checking ${MAVEN_CENTRAL_URL}"
 									if curl --output /dev/null --silent --head --fail "$MAVEN_CENTRAL_URL"; then
@@ -213,20 +216,21 @@ PROMOTE=${params.PROMOTE}
 		always {
 			archiveArtifacts allowEmptyArchive: true, artifacts: '\
 				repo/**, \
+				repo-deployment/**, \
+				**/log, \
 				coordinates*.txt, artifacts*.txt'
 		}
-		/*
 		unsuccessful {
 			emailext subject: "Publication of Maven artifacts failed",
 				body: "Please go to ${BUILD_URL}console and check the build failure.", mimeType: 'text/plain',
 				to: 'ed.merks@gmail.com', from:'genie.releng@eclipse.org'
 		}
-		*/
 	}
 }
 
 def installMavenDaemon(String version) {
-	return install('mvnd', "https://downloads.apache.org/maven/mvnd/${version}/maven-mvnd-${version}-linux-amd64.tar.gz")
+	// return install('mvnd', "https://downloads.apache.org/maven/mvnd/${version}/maven-mvnd-${version}-linux-amd64.tar.gz")
+	return install('mvnd', "https://download.eclipse.org/oomph/archive/maven-mvnd-1.0.2-linux-amd64.tar.gz")
 }
 
 def installLatestCbiAggr(){
