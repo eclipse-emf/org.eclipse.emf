@@ -37,6 +37,7 @@ import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.ParameterizedType;
 import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.QualifiedType;
+import org.eclipse.jdt.core.dom.RecordDeclaration;
 import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
@@ -702,6 +703,9 @@ public class ASTFacadeHelper extends FacadeHelper
           break;
         case ASTNode.TYPE_DECLARATION:
           node = new ASTJType((TypeDeclaration)object);
+          break;
+        case ASTNode.RECORD_DECLARATION:
+          node = new ASTJRecord((RecordDeclaration)object);
           break;
         case ASTNode.MARKER_ANNOTATION:
         case ASTNode.NORMAL_ANNOTATION:

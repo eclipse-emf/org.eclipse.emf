@@ -1227,32 +1227,16 @@ public class CodeGenUtil
         // Ignore the absence of the new version support in older runtimes.
       }
       JLS4 = jls;
-      try
-      {
-        Field field = AST.class.getField("JLS8");
-        jls = (Integer)field.get(null);
-      }
-      catch (Throwable exception)
-      {
-        // Ignore the absence of the new version support in older runtimes.
-      }
-      try
-      {
-        Field field = AST.class.getField("JLS9");
-        jls = (Integer)field.get(null);
-      }
-      catch (Throwable exception)
-      {
-        // Ignore the absence of the new version support in older runtimes.
-      }
-      try
-      {
-        Field field = AST.class.getField("JLS10");
-        jls = (Integer)field.get(null);
-      }
-      catch (Throwable exception)
-      {
-        // Ignore the absence of the new version support in older runtimes.
+      for (int i = 8; i < 40; ++i) {
+        try
+        {
+          Field field = AST.class.getField("JLS" + i);
+          jls = (Integer)field.get(null);
+        }
+        catch (Throwable exception)
+        {
+          // Ignore the absence of the new version support in older runtimes.
+        }
       }
       JLS = jls;
     }
