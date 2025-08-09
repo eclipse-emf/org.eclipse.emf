@@ -18,6 +18,7 @@ import java.util.Collection;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.junit.Assume;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
@@ -66,5 +67,18 @@ public class JMergerJDOMTest extends JMergerTest
   protected File getTestSpecificExpectedOutput()
   {
     return new File(dataDirectory, JDOM_EXPECTED_OUTPUT_FILENAME);
+  }
+
+  @Override
+  public void merge() throws Exception
+  {
+    if (dataDirectory.toString().contains(File.separator + "java16" + File.separator))
+    {
+      Assume.assumeFalse("Not applicable for Java 16", true);
+    }
+    else
+    {
+      super.merge();
+    }
   }
 }

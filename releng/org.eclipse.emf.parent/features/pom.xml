@@ -17,10 +17,6 @@
 
   <modules>
 
-    <module>../../../examples/org.eclipse.emf.examples-feature</module>
-
-    <module>../../../features/org.eclipse.emf-feature</module>
-    <module>../../../features/org.eclipse.emf.all-feature</module>
     <module>../../../features/org.eclipse.emf.base-feature</module>
     <module>../../../features/org.eclipse.emf.license-feature</module>
     <module>../../../features/org.eclipse.emf.common-feature</module>
@@ -30,18 +26,12 @@
     <module>../../../features/org.eclipse.emf.ecore.editor-feature</module>
     <module>../../../features/org.eclipse.emf.edit-feature</module>
     <module>../../../features/org.eclipse.emf.edit.ui-feature</module>
-    <module>../../../features/org.eclipse.emf.codegen-feature</module>
-    <module>../../../features/org.eclipse.emf.codegen.ui-feature</module>
-    <module>../../../features/org.eclipse.emf.codegen.ecore-feature</module>
-    <module>../../../features/org.eclipse.emf.codegen.ecore.ui-feature</module>
-    <module>../../../features/org.eclipse.emf.converter-feature</module>
     <module>../../../features/org.eclipse.emf.databinding-feature</module>
     <module>../../../features/org.eclipse.emf.databinding.edit-feature</module>
     <module>../../../features/org.eclipse.emf.mapping-feature</module>
     <module>../../../features/org.eclipse.emf.mapping.ui-feature</module>
     <module>../../../features/org.eclipse.emf.mapping.ecore-feature</module>
     <module>../../../features/org.eclipse.emf.mapping.ecore.editor-feature</module>
-    <module>../../../features/org.eclipse.emf.sdk-feature</module>
 
     <module>../../../features/org.eclipse.emf.oda-feature</module>
     <module>../../../features/org.eclipse.emf.oda.ecore-feature</module>
@@ -61,22 +51,14 @@
     <module>../../../features/org.eclipse.emf.gwt.edit.ui-feature</module>
     <module>../../../features/org.eclipse.emf.gwt.sdk-feature</module>
 
-    <module>../../../doc/org.eclipse.emf.doc-feature</module>
-
-    <module>../../../tests/org.eclipse.emf.tests-feature</module>
-
     <module>../../../features/org.eclipse.xsd.example-feature</module>
 
     <module>../../../features/org.eclipse.xsd-feature</module>
-    <module>../../../features/org.eclipse.xsd.ecore.converter-feature</module>
     <module>../../../features/org.eclipse.xsd.edit-feature</module>
     <module>../../../features/org.eclipse.xsd.editor-feature</module>
     <module>../../../features/org.eclipse.xsd.license-feature</module>
     <module>../../../features/org.eclipse.xsd.mapping-feature</module>
     <module>../../../features/org.eclipse.xsd.mapping.editor-feature</module>
-    <module>../../../features/org.eclipse.xsd.sdk-feature</module>
-
-    <module>../../../doc/org.eclipse.xsd.doc-feature</module>
 
   </modules>
 
@@ -210,6 +192,26 @@
         <module>../../../features/org.eclipse.emf.ecore.xcore.ui-feature</module>
 
         <module>../../../tests/org.eclipse.emf.test.ecore.xcore-feature</module>
+
+        <module>../../../examples/org.eclipse.emf.examples-feature</module>
+
+        <module>../../../features/org.eclipse.emf-feature</module>
+        <module>../../../features/org.eclipse.emf.all-feature</module>
+        <module>../../../features/org.eclipse.emf.sdk-feature</module>
+
+        <module>../../../features/org.eclipse.emf.codegen-feature</module>
+        <module>../../../features/org.eclipse.emf.codegen.ui-feature</module>
+        <module>../../../features/org.eclipse.emf.codegen.ecore-feature</module>
+        <module>../../../features/org.eclipse.emf.codegen.ecore.ui-feature</module>
+        <module>../../../features/org.eclipse.emf.converter-feature</module>
+
+        <module>../../../tests/org.eclipse.emf.tests-feature</module>
+
+        <module>../../../doc/org.eclipse.emf.doc-feature</module>
+
+        <module>../../../features/org.eclipse.xsd.ecore.converter-feature</module>
+        <module>../../../features/org.eclipse.xsd.sdk-feature</module>
+        <module>../../../doc/org.eclipse.xsd.doc-feature</module>
       </modules>
     </profile>
   </profiles>

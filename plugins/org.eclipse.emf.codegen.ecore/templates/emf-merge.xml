@@ -85,6 +85,20 @@
     targetPut="Type/addSuperInterface"/>
 
   <merge:pull 
+    sourceGet="Record/getTypeParameters"
+    targetMarkup="^lastgen$|^gen$|^modifiable$|^model$"
+    targetPut="Record/setTypeParameters"/>
+  <merge:pull 
+    sourceGet="Record/getSuperInterfaces"
+    sourceTransfer="(\s*@\s*extends|\s*@\s*implements)(.*?)(?:&lt;!--|(?:\n\r?|\r\n?))"
+    targetMarkup="^lastgen$|^gen$|^modifiable$|^model$"
+    targetPut="Record/addSuperInterface"/>
+  <merge:pull 
+    sourceGet="Record/getRecordComponents"
+    targetMarkup="^lastgen$|^gen$|^modifiable$|^model$"
+    targetPut="Record/setRecordComponents"/>
+
+  <merge:pull 
     sourceGet="Enum/getSuperInterfaces"
     sourceTransfer="(\s*@\s*extends|\s*@\s*implements)(.*?)(?:&lt;!--|(?:\n\r?|\r\n?))"
     targetMarkup="^lastgen$|^gen$|^modifiable$|^model$"
