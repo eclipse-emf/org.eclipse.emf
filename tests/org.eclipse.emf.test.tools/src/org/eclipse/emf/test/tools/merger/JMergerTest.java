@@ -87,6 +87,7 @@ public abstract class JMergerTest
     Map<String, String> directoryNamesMap = new HashMap<String, String>(4);
     directoryNamesMap.put("java1.4", JavaCore.VERSION_1_4);
     directoryNamesMap.put("java5", JavaCore.VERSION_1_5);
+    directoryNamesMap.put("java16", JavaCore.VERSION_16);
     DIRECTORY_NAMES_TO_JAVA_VERSIONS = Collections.unmodifiableMap(directoryNamesMap);
   }
 
