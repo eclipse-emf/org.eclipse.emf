@@ -22,14 +22,9 @@
     <module>../../../examples/org.eclipse.emf.examples.databinding.project.core</module>
     <module>../../../examples/org.eclipse.emf.examples.databinding.project.core.model</module>
     <module>../../../examples/org.eclipse.emf.examples.databinding.project.ui.rcp</module>
-    <module>../../../examples/org.eclipse.emf.examples.generator.validator</module>
     <module>../../../examples/org.eclipse.emf.examples.library</module>
     <module>../../../examples/org.eclipse.emf.examples.library.edit</module>
     <module>../../../examples/org.eclipse.emf.examples.library.editor</module>
-    <module>../../../examples/org.eclipse.emf.exporter.html</module>
-    <module>../../../examples/org.eclipse.emf.java</module>
-    <module>../../../examples/org.eclipse.emf.java.edit</module>
-    <module>../../../examples/org.eclipse.emf.java.editor</module>
 
     <module>../../../plugins/org.eclipse.emf</module>
     <module>../../../plugins/org.eclipse.emf.common</module>
@@ -42,17 +37,6 @@
     <module>../../../plugins/org.eclipse.emf.ecore.change.edit</module>
     <module>../../../plugins/org.eclipse.emf.edit</module>
     <module>../../../plugins/org.eclipse.emf.edit.ui</module>
-    <module>../../../plugins/org.eclipse.emf.codegen</module>
-    <module>../../../plugins/org.eclipse.emf.codegen.ui</module>
-    <module>../../../plugins/org.eclipse.emf.ant</module>
-    <module>../../../plugins/org.eclipse.emf.codegen.ecore</module>
-    <module>../../../plugins/org.eclipse.emf.codegen.ecore.ui</module>
-    <module>../../../plugins/org.eclipse.emf.converter</module>
-    <module>../../../plugins/org.eclipse.emf.exporter</module>
-    <module>../../../plugins/org.eclipse.emf.importer</module>
-    <module>../../../plugins/org.eclipse.emf.importer.ecore</module>
-    <module>../../../plugins/org.eclipse.emf.importer.java</module>
-    <module>../../../plugins/org.eclipse.emf.importer.rose</module>
     <module>../../../plugins/org.eclipse.emf.databinding</module>
     <module>../../../plugins/org.eclipse.emf.databinding.edit</module>
     <module>../../../plugins/org.eclipse.emf.mapping</module>
@@ -74,13 +58,8 @@
     <module>../../../tests/org.eclipse.emf.test.edit</module>
     <module>../../../tests/org.eclipse.emf.test.edit.ui.platform</module>
     <module>../../../tests/org.eclipse.emf.test.edit.ui.rap</module>
-    <module>../../../tests/org.eclipse.emf.test.examples</module>
-    <module>../../../tests/org.eclipse.emf.test.tools</module>
     <module>../../../tests/org.eclipse.emf.test.xml</module>
 
-    <module>../../../doc/org.eclipse.emf.examples.jet.article2</module>
-    <module>../../../doc/org.eclipse.emf.doc</module>
-    <module>../../../doc/org.eclipse.emf.cheatsheets</module>
 
     <module>../../../plugins/org.eclipse.emf.gwt</module>
     <module>../../../plugins/org.eclipse.emf.gwt.common</module>
@@ -103,9 +82,6 @@
     <module>../../../plugins/org.eclipse.emf.mapping.xsd2ecore</module>
     <module>../../../plugins/org.eclipse.emf.mapping.xsd2ecore.editor</module>
     <module>../../../plugins/org.eclipse.xsd</module>
-    <module>../../../plugins/org.eclipse.xsd.ecore.converter</module>
-    <module>../../../plugins/org.eclipse.xsd.ecore.exporter</module>
-    <module>../../../plugins/org.eclipse.xsd.ecore.importer</module>
     <module>../../../plugins/org.eclipse.xsd.edit</module>
     <module>../../../plugins/org.eclipse.xsd.editor</module>
     <module>../../../plugins/org.eclipse.xsd.mapping</module>
@@ -113,7 +89,6 @@
 
     <module>../../../plugins/org.eclipse.xsd.example.installer</module>
 
-    <module>../../../doc/org.eclipse.xsd.cheatsheets</module>
     <module>../../../doc/org.eclipse.xsd.doc</module>
 
   </modules>
@@ -247,6 +222,37 @@
 
         <module>../../../tests//org.eclipse.emf.test.ecore.xcore</module>
         <module>../../../tests//org.eclipse.emf.test.codegen.ecore.xtext</module>
+
+        <module>../../../plugins/org.eclipse.emf.ant</module>
+        <module>../../../plugins/org.eclipse.emf.codegen</module>
+        <module>../../../plugins/org.eclipse.emf.codegen.ui</module>
+        <module>../../../plugins/org.eclipse.emf.codegen.ecore</module>
+        <module>../../../plugins/org.eclipse.emf.codegen.ecore.ui</module>
+        <module>../../../plugins/org.eclipse.emf.converter</module>
+        <module>../../../plugins/org.eclipse.emf.exporter</module>
+        <module>../../../plugins/org.eclipse.emf.importer</module>
+        <module>../../../plugins/org.eclipse.emf.importer.ecore</module>
+        <module>../../../plugins/org.eclipse.emf.importer.java</module>
+        <module>../../../plugins/org.eclipse.emf.importer.rose</module>
+
+        <module>../../../examples/org.eclipse.emf.java</module>
+        <module>../../../examples/org.eclipse.emf.java.edit</module>
+        <module>../../../examples/org.eclipse.emf.java.editor</module>
+        <module>../../../examples/org.eclipse.emf.examples.generator.validator</module>
+        <module>../../../examples/org.eclipse.emf.exporter.html</module>
+
+        <module>../../../doc/org.eclipse.emf.cheatsheets</module>
+        <module>../../../doc/org.eclipse.emf.doc</module>
+        <module>../../../doc/org.eclipse.emf.examples.jet.article2</module>
+
+        <module>../../../tests/org.eclipse.emf.test.tools</module>
+        <module>../../../tests/org.eclipse.emf.test.examples</module>
+
+        <module>../../../plugins/org.eclipse.xsd.ecore.converter</module>
+        <module>../../../plugins/org.eclipse.xsd.ecore.exporter</module>
+        <module>../../../plugins/org.eclipse.xsd.ecore.importer</module>
+
+        <module>../../../doc/org.eclipse.xsd.cheatsheets</module>
       </modules>
     </profile>
   </profiles>

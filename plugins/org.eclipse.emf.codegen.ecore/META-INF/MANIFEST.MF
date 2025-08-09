@@ -21,10 +21,10 @@ Export-Package: org.eclipse.emf.codegen.ecore;version="2.43.0",
  org.eclipse.emf.codegen.ecore.templates.model.tests;version="2.43.0"
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
  org.eclipse.core.resources;bundle-version="[3.8.0,4.0.0)",
- org.eclipse.jdt.core;bundle-version="[3.9.0,4.0.0)",
+ org.eclipse.jdt.core;bundle-version="[3.26.0,4.0.0)",
  org.eclipse.jdt.launching;bundle-version="[3.5.0,4.0.0)",
  org.eclipse.emf.ecore;bundle-version="[2.40.0,3.0.0)";visibility:=reexport,
- org.eclipse.emf.codegen;bundle-version="[2.26.0,3.0.0)";visibility:=reexport,
+ org.eclipse.emf.codegen;bundle-version="[2.27.0,3.0.0)";visibility:=reexport,
  org.eclipse.emf.ecore.xmi;bundle-version="[2.39.0,3.0.0)",
  org.eclipse.text;bundle-version="[3.5.0,4.0.0)"
 Provide-Capability: org.eclipse.emf.ecore.generated_package;uri="http://www.eclipse.org/emf/2002/GenModel";class=org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;genModel="model/GenModel.genmodel"
