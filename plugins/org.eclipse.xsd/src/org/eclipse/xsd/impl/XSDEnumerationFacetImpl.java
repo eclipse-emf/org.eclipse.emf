@@ -126,7 +126,7 @@ public class XSDEnumerationFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("all")
   @Override
   public void eSet(int featureID, Object newValue)
   {
