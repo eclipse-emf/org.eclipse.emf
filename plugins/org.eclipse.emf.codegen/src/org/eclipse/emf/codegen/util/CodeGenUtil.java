@@ -1231,11 +1231,19 @@ public class CodeGenUtil
         try
         {
           Field field = AST.class.getField("JLS" + i);
-          jls = (Integer)field.get(null);
+          int value = (Integer)field.get(null);
+
+          // Test that it's supported.
+          //
+          ASTParser.newParser(value);
+
+          jls = value;
         }
         catch (Throwable exception)
         {
           // Ignore the absence of the new version support in older runtimes.
+          //
+          break;
         }
       }
       JLS = jls;
