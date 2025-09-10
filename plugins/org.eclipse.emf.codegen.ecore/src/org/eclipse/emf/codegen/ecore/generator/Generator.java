@@ -443,6 +443,11 @@ public class Generator
               facadeHelper.setCompilerCompliance("25"); 
               break;
             }
+            case JDK260_LITERAL:
+            {
+              facadeHelper.setCompilerCompliance("26"); 
+              break;
+            }
           }
 
           if (genModel.isCodeFormatting())

@@ -453,7 +453,19 @@ public enum GenEclipsePlatformVersion implements Enumerator
    * @generated
    * @ordered
    */
-  ECLIPSE_2025_09(35, "Eclipse_2025_09", "2025-09");
+  ECLIPSE_2025_09(35, "Eclipse_2025_09", "2025-09"),
+  /**
+   * The '<em><b>Eclipse 2025 12</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.44
+   * <!-- end-model-doc -->
+   * @see #ECLIPSE_2025_12_VALUE
+   * @generated
+   * @ordered
+   */
+  ECLIPSE_2025_12(36, "Eclipse_2025_12", "2025-12");
 
   /**
    * The '<em><b>Juno</b></em>' literal value.
@@ -939,6 +951,20 @@ public enum GenEclipsePlatformVersion implements Enumerator
   public static final int ECLIPSE_2025_09_VALUE = 35;
 
   /**
+   * The '<em><b>Eclipse 2025 12</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.44
+   * <!-- end-model-doc -->
+   * @see #ECLIPSE_2025_12
+   * @model name="Eclipse_2025_12" literal="2025-12"
+   * @generated
+   * @ordered
+   */
+  public static final int ECLIPSE_2025_12_VALUE = 36;
+
+  /**
    * An array of all the '<em><b>Gen Eclipse Platform Version</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -983,6 +1009,7 @@ public enum GenEclipsePlatformVersion implements Enumerator
       ECLIPSE_2025_03,
       ECLIPSE_2025_06,
       ECLIPSE_2025_09,
+      ECLIPSE_2025_12,
     };
 
   /**
@@ -1083,6 +1110,7 @@ public enum GenEclipsePlatformVersion implements Enumerator
       case ECLIPSE_2025_03_VALUE: return ECLIPSE_2025_03;
       case ECLIPSE_2025_06_VALUE: return ECLIPSE_2025_06;
       case ECLIPSE_2025_09_VALUE: return ECLIPSE_2025_09;
+      case ECLIPSE_2025_12_VALUE: return ECLIPSE_2025_12;
     }
     return null;
   }
