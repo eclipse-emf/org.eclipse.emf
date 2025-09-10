@@ -82,10 +82,13 @@ public abstract class EMFPlugin extends DelegatingResourceLocator implements Res
     boolean result = false;
     try
     {
-      // With this we make sure, that we are really in a proper Eclipse Environment with everything we need.
-      // Some supplements pretend that the Platform is running, but don't provide a ExtensionRegistry. 
-      FrameworkUtil.getBundle(EMFPlugin.class).loadClass("org.eclipse.core.runtime.IRegistryChangeListener");
-      result = Platform.isRunning();
+      if (Platform.isRunning())
+      {
+        // With this we make sure, that we are really in a proper Eclipse Environment with everything we need.
+        // Some supplements pretend that the Platform is running, but don't provide a ExtensionRegistry.
+        FrameworkUtil.getBundle(EMFPlugin.class).loadClass("org.eclipse.core.runtime.IRegistryChangeListener");
+        result = true;
+      }
     }
     catch (Throwable exception)
     {
