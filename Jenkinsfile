@@ -1,4 +1,5 @@
 def targetPlatformToJavaVersionMap = [
+  '2025-12' : '21',
   '2025-09' : '21',
   '2025-06' : '21',
   '2025-03' : '21',
@@ -29,6 +30,40 @@ def targetPlatformToJavaVersionMap = [
   '2018-12' : '1.8',
   '2018-09' : '1.8',
   'photon'  : '1.8',
+]
+
+def targetPlatformToTychoVersionMap = [
+  '2025-12' : '',
+  '2025-09' : '',
+  '2025-06' : '',
+  '2025-03' : '',
+  '2024-12' : '',
+  '2024-09' : '',
+  '2024-06' : '',
+  '2024-03' : '',
+  '2023-12' : '',
+  '2023-09' : '',
+  '2023-06' : '',
+  '2023-03' : '-Dtycho-version=4.0.13',
+  '2022-12' : '-Dtycho-version=4.0.13',
+  '2022-09' : '-Dtycho-version=4.0.13',
+  '2022-06' : '-Dtycho-version=4.0.13',
+  '2022-03' : '-Dtycho-version=4.0.13',
+  '2021-12' : '-Dtycho-version=4.0.13',
+  '2021-09' : '-Dtycho-version=4.0.13',
+  '2021-06' : '-Dtycho-version=4.0.13',
+  '2021-03' : '-Dtycho-version=4.0.13',
+  '2020-12' : '-Dtycho-version=4.0.13',
+  '2020-09' : '-Dtycho-version=4.0.13',
+  '2020-06' : '-Dtycho-version=4.0.13',
+  '2020-03' : '-Dtycho-version=4.0.13',
+  '2019-12' : '-Dtycho-version=4.0.13',
+  '2019-09' : '-Dtycho-version=4.0.13',
+  '2019-06' : '-Dtycho-version=4.0.13',
+  '2019-03' : '-Dtycho-version=4.0.13',
+  '2018-12' : '-Dtycho-version=4.0.13',
+  '2018-09' : '-Dtycho-version=4.0.13',
+  'photon'  : '-Dtycho-version=4.0.13',
 ]
 
 def targetPlatforms = targetPlatformToJavaVersionMap.keySet() as List
@@ -100,10 +135,10 @@ pipeline {
     stage('Display Parameters') {
       steps {
         script {
-          env.JAVA_VERSION = targetPlatformToJavaVersionMap[params.TARGET_PLATFORM]
           env.BUILD_TYPE = params.BUILD_TYPE
           env.TARGET_PLATFORM = params.TARGET_PLATFORM
           env.JAVA_VERSION = targetPlatformToJavaVersionMap[params.TARGET_PLATFORM]
+          env.TYCHO_VERSION = targetPlatformToTychoVersionMap[params.TARGET_PLATFORM]
           env.ECLIPSE_SIGN = params.ECLIPSE_SIGN
           env.PROMOTE = params.PROMOTE && env.ECLIPSE_SIGN
           def description = """
@@ -111,6 +146,7 @@ BUILD_TYPE=${env.BUILD_TYPE}
 TARGET_PLATFORM=${env.TARGET_PLATFORM}
 PROMOTE=${env.PROMOTE}
 JAVA_VERSION=${env.JAVA_VERSION}
+TYCHO_VERSION=${env.TYCHO_VERSION}
 BUILD_TIMESTAMP=${env.BUILD_TIMESTAMP}
 ECLIPSE_SIGN=${env.ECLIPSE_SIGN}
 ARCHIVE=${params.ARCHIVE}
@@ -161,6 +197,7 @@ ARCHIVE=${params.ARCHIVE}
                 -DECLIPSE_SIGN=${ECLIPSE_SIGN} \
                 -Dtarget-platform=${TARGET_PLATFORM} \
                 -DjavaVersion=${JAVA_VERSION} \
+                ${TYCHO_VERSION} \
                 -Dbuild.type=$BUILD_TYPE \
                 -Dorg.eclipse.justj.p2.manager.build.url=$JOB_URL \
                 -Dorg.eclipse.justj.p2.manager.relative=$PUBLISH_LOCATION \

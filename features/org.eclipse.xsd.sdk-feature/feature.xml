@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.xsd.sdk"
       label="%featureName"
-      version="2.39.0.qualifier"
+      version="2.40.0.qualifier"
       provider-name="%providerName"
       license-feature="org.eclipse.xsd.license"
       license-feature-version="2.12.0">
@@ -33,15 +33,7 @@ http://www.eclipse.org/legal/epl-v20.html
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.xsd.source"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.xsd.ecore.converter"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.xsd.ecore.converter.source"
          version="0.0.0"/>
 
    <includes
@@ -49,15 +41,7 @@ http://www.eclipse.org/legal/epl-v20.html
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.xsd.edit.source"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.xsd.editor"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.xsd.editor.source"
          version="0.0.0"/>
 
    <includes
@@ -65,15 +49,7 @@ http://www.eclipse.org/legal/epl-v20.html
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.xsd.mapping.source"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.xsd.mapping.editor"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.xsd.mapping.editor.source"
          version="0.0.0"/>
 
    <includes

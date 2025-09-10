@@ -11,7 +11,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <tycho.scmUrl>scm:git:https://github.com/eclipse-emf/org.eclipse.emf.git</tycho.scmUrl>
-    <tycho-version>4.0.13</tycho-version>
+    <tycho-version>5.0.0</tycho-version>
     <jarsigner-version>1.5.2</jarsigner-version>
     <javaVersion>11</javaVersion>
     <os-jvm-flags/>
@@ -209,8 +209,8 @@
         </plugin>
 
         <plugin>
-          <groupId>org.eclipse.tycho.extras</groupId>
-          <artifactId>tycho-source-feature-plugin</artifactId>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-p2-repository-plugin</artifactId>
           <version>${tycho-version}</version>
         </plugin>
 

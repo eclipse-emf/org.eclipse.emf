@@ -33,9 +33,7 @@
 	<feature name="org.eclipse.emf.gwt.sdk" version="2.23.0">
 		<feature name="org.eclipse.emf.license" version="2.11.0" license="true"/>
 		<feature name="org.eclipse.emf.gwt" version="2.22.0"/>
-		<feature name="org.eclipse.emf.gwt.source" version="0.0.0"/> <!-- UNRESOLVED -->
 	</feature>
-	<feature name="org.eclipse.emf.gwt.source" version="0.0.0"/> <!-- UNRESOLVED -->
 	<feature name="org.eclipse.emf.license" version="2.11.0"/>
 	<plugin name="org.eclipse.emf.gwt" version="2.10.0"/>
 	<plugin name="org.eclipse.emf.gwt.common" version="2.17.0"/>

@@ -25,3 +25,4 @@ org.eclipse.jdt.core.compiler.problem.missingJavadocTags=ignore
 org.eclipse.jdt.core.compiler.problem.missingJavadocTagsOverriding=disabled
 org.eclipse.jdt.core.compiler.problem.missingJavadocTagsVisibility=protected
 org.eclipse.jdt.core.compiler.source=1.8
+org.eclipse.jdt.core.compiler.release=enabled
