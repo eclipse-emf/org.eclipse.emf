@@ -15,6 +15,7 @@
 		<topic label="JET Tutorial Part 1 (Introduction to JET)" href="tutorials/jet1/jet_tutorial1.html" />
 		<topic label="JET Tutorial Part 2 (Write Code that Writes Code)" href="tutorials/jet2/jet_tutorial2.html" />
 		<topic label="Specifying Package Information in Rose" href="tutorials/rosepkg/rosepkg.html" />
+		<topic label="Xcore Overview" href="tutorials/xcore/xcore.html" />
 	</topic>
 	<topic label="Online Docs">
 		<topic label="FAQ" href="http://wiki.eclipse.org/EMF/FAQ" />

@@ -68,62 +68,6 @@
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-source-plugin</artifactId>
         <version>${tycho-version}</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <id>generate-source-feature</id>
-            <goals>
-              <goal>feature-source</goal>
-            </goals>
-            <configuration>
-              <excludes>
-                <plugin id="org.eclipse.emf.doc" />
-                <plugin id="org.eclipse.emf.cheatsheets" />
-
-                <plugin id="org.eclipse.emf.examples" />
-                <plugin id="org.eclipse.emf.activities" />
-                <plugin id="org.eclipse.emf.example.installer" />
-                <plugin id="org.eclipse.emf.examples" />
-                <plugin id="org.eclipse.emf.examples.databinding.project.core" />
-                <plugin id="org.eclipse.emf.examples.databinding.project.core.model" />
-                <plugin id="org.eclipse.emf.examples.databinding.project.ui.rcp" />
-                <plugin id="org.eclipse.emf.examples.generator.validator" />
-                <plugin id="org.eclipse.emf.examples.jet.article2" />
-                <plugin id="org.eclipse.emf.examples.library" />
-                <plugin id="org.eclipse.emf.examples.library.edit" />
-                <plugin id="org.eclipse.emf.examples.library.editor" />
-                <plugin id="org.eclipse.emf.exporter.html" />
-                <plugin id="org.eclipse.emf.java" />
-                <plugin id="org.eclipse.emf.java.edit" />
-                <plugin id="org.eclipse.emf.java.editor" />
-
-                <plugin id="org.eclipse.emf.test.common" />
-                <plugin id="org.eclipse.emf.test.core" />
-                <plugin id="org.eclipse.emf.test.databinding" />
-                <plugin id="org.eclipse.emf.test.databinding.edit" />
-                <plugin id="org.eclipse.emf.test.edit" />
-                <plugin id="org.eclipse.emf.test.examples" />
-                <plugin id="org.eclipse.emf.test.tools" />
-                <plugin id="org.eclipse.emf.test.xml" />
-                <plugin id="org.eclipse.emf.tests" />
-
-                <plugin id="org.eclipse.emf.rap" />
-
-                <plugin id="org.eclipse.emf.gwt" />
-
-                <feature id="org.eclipse.emf.doc" />
-
-                <plugin id="org.eclipse.xsd.doc" />
-                <plugin id="org.eclipse.xsd.example" />
-                <plugin id="org.eclipse.xsd.cheatsheets" />
-                <plugin id="org.eclipse.xsd.example.installer" />
-
-                <feature id="org.eclipse.xsd.doc" />
-
-              </excludes>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
