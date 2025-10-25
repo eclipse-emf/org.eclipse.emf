@@ -2095,7 +2095,7 @@ public class EcoreUtil
     {
       if (hasNext())
       {
-        E result = yield(preparedResult);
+        E result = this.yield(preparedResult);
         preparedResult = null;
         return result;
       }

@@ -299,7 +299,7 @@ public class ArchiveURLConnection extends URLConnection
       throw new IOException("Archive entry not found " + urlString);
     }
 
-    return yield(inputZipEntry, inputStream);
+    return this.yield(inputZipEntry, inputStream);
   }
 
   protected InputStream yield(ZipEntry zipEntry, InputStream inputStream) throws IOException
@@ -571,7 +571,7 @@ public class ArchiveURLConnection extends URLConnection
             out.write(b, off, len);
           }
         };
-      return outputZipEntry == null ? result : yield(outputZipEntry, result);
+      return outputZipEntry == null ? result : this.yield(outputZipEntry, result);
     }
     finally
     {

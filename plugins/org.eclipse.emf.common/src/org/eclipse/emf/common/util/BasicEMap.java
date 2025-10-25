@@ -1351,7 +1351,7 @@ public class BasicEMap<K, V> implements EMap<K, V>, Cloneable, Serializable
 
       scan();
       @SuppressWarnings("unchecked") Entry<K, V> result = (Entry<K, V>)BasicEMap.this.entryData[lastCursor].data[lastEntryCursor];
-      return yield(result);
+      return this.yield(result);
     }
 
     /**
