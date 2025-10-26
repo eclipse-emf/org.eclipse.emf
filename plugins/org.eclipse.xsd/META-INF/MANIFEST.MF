@@ -8,6 +8,16 @@ Bundle-Activator: org.eclipse.xsd.XSDPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: javax.xml.namespace,
+ javax.xml.parsers,
+ javax.xml.transform,
+ javax.xml.transform.dom,
+ javax.xml.transform.stream,
+ org.w3c.dom,
+ org.w3c.dom.events,
+ org.xml.sax,
+ org.xml.sax.ext,
+ org.xml.sax.helpers
 Export-Package: org.eclipse.xsd;version="2.21.0",
  org.eclipse.xsd.ecore;version="2.21.0",
  org.eclipse.xsd.impl;version="2.21.0",
