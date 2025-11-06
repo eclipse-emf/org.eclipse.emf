@@ -4,7 +4,7 @@ Bundle-Name: %pluginName
 Bundle-Vendor: %providerName 
 Bundle-Localization: plugin
 Bundle-SymbolicName: org.eclipse.emf.examples.databinding.project.ui.rcp;singleton:=true
-Bundle-Version: 1.12.0.qualifier
+Bundle-Version: 1.13.0.qualifier
 Bundle-Activator: org.eclipse.emf.example.databinding.project.ui.rcp.Activator
 Require-Bundle: org.eclipse.ui;bundle-version="[3.105.0,4.0.0)",
  org.eclipse.core.runtime;bundle-version="[3.9.0,4.0.0)",
@@ -16,13 +16,13 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.105.0,4.0.0)",
  org.eclipse.emf.databinding.edit;bundle-version="[1.10.0,2.0.0)",
  org.eclipse.emf.examples.databinding.project.core;bundle-version="[1.5.0,2.0.0)",
  org.eclipse.core.expressions;bundle-version="[3.4.0,4.0.0)",
- org.eclipse.emf.ecore.xmi;bundle-version="[2.38.0,3.0.0)"
+ org.eclipse.emf.ecore.xmi;bundle-version="[2.39.0,3.0.0)"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.eclipse.emf.examples.databinding.project.core.model.project;version="[1.5.0,2.0.0)"
-Export-Package: org.eclipse.emf.example.databinding.project.ui.rcp;version="1.12.0",
- org.eclipse.emf.example.databinding.project.ui.rcp.databinding;version="1.12.0",
- org.eclipse.emf.example.databinding.project.ui.rcp.dialogs;version="1.12.0",
- org.eclipse.emf.example.databinding.project.ui.rcp.handlers;version="1.12.0",
- org.eclipse.emf.example.databinding.project.ui.rcp.views;version="1.12.0"
+Export-Package: org.eclipse.emf.example.databinding.project.ui.rcp;version="1.13.0",
+ org.eclipse.emf.example.databinding.project.ui.rcp.databinding;version="1.13.0",
+ org.eclipse.emf.example.databinding.project.ui.rcp.dialogs;version="1.13.0",
+ org.eclipse.emf.example.databinding.project.ui.rcp.handlers;version="1.13.0",
+ org.eclipse.emf.example.databinding.project.ui.rcp.views;version="1.13.0"
 Automatic-Module-Name: org.eclipse.emf.examples.databinding.project.ui.rcp

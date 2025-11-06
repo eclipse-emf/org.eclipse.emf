@@ -18,6 +18,8 @@ import java.io.IOException;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.ObservablesManager;
+import org.eclipse.core.databinding.observable.IObservable;
+import org.eclipse.core.databinding.observable.ObservableTracker;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.command.Command;
@@ -87,15 +89,17 @@ public class PersonDialog extends TitleAreaDialog
     final Composite comp = (Composite)super.createDialogArea(parent);
 
     ObservablesManager mgr = new EMFObservablesManager();
-    mgr.runAndCollect(new Runnable()
+    IObservable[] collected = ObservableTracker.runAndCollect(new Runnable()
       {
-
         public void run()
         {
           createForm(comp).setLayoutData(new GridData(GridData.FILL_BOTH));
         }
       });
-
+    for (IObservable observable : collected)
+    {
+      mgr.addObservable(observable);
+    }
     return comp;
   }
 

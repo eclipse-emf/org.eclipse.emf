@@ -11,8 +11,15 @@
 package org.eclipse.emf.example.databinding.project.ui.rcp.views;
 
 import org.eclipse.core.databinding.ObservablesManager;
+import org.eclipse.core.databinding.observable.IObservable;
+import org.eclipse.core.databinding.observable.ObservableTracker;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.emf.example.databinding.project.ui.rcp.Activator;
+import org.eclipse.emf.example.databinding.project.ui.rcp.ResourceProvider;
+import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.EMFObservablesManager;
+import org.eclipse.emf.examples.databinding.project.core.IModelResource;
+import org.eclipse.emf.examples.databinding.project.core.model.project.Project;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Composite;
@@ -26,12 +33,6 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.services.ISourceProviderService;
-
-import org.eclipse.emf.examples.databinding.project.core.IModelResource;
-import org.eclipse.emf.examples.databinding.project.core.model.project.Project;
-import org.eclipse.emf.example.databinding.project.ui.rcp.Activator;
-import org.eclipse.emf.example.databinding.project.ui.rcp.ResourceProvider;
-import org.eclipse.emf.example.databinding.project.ui.rcp.databinding.EMFObservablesManager;
 
 
 /**
@@ -121,21 +122,18 @@ public class ProjectAdminViewPart extends ViewPart implements ISaveablePart2
      */
     mgr = new EMFObservablesManager();
     defaultMgr = new ObservablesManager();
-    mgr.runAndCollect(new Runnable()
+    IObservable[] collected = ObservableTracker.runAndCollect(new Runnable()
+    {
+      public void run()
       {
-
-        public void run()
-        {
-          projectExplorer = new ProjectExplorerPart(getViewSite(), sashForm, toolkit, resource.getFoundation(), defaultMgr);
-          projectDataForm = new ProjectFormAreaPart(
-            getViewSite(),
-            sashForm,
-            toolkit,
-            resource,
-            defaultMgr,
-            projectExplorer.getProjectObservable());
-        }
-      });
+        projectExplorer = new ProjectExplorerPart(getViewSite(), sashForm, toolkit, resource.getFoundation(), defaultMgr);
+        projectDataForm = new ProjectFormAreaPart(getViewSite(), sashForm, toolkit, resource, defaultMgr, projectExplorer.getProjectObservable());
+      }
+    });
+    for (IObservable observable : collected)
+    {
+      mgr.addObservable(observable);
+    }
 
     int left = (int)(100 * divider);
     sashForm.setWeights(new int []{ left, 100 - left });

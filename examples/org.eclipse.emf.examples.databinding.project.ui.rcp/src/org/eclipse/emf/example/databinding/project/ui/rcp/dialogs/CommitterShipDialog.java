@@ -13,6 +13,8 @@ package org.eclipse.emf.example.databinding.project.ui.rcp.dialogs;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.databinding.conversion.Converter;
+import org.eclipse.core.databinding.observable.IObservable;
+import org.eclipse.core.databinding.observable.ObservableTracker;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
@@ -82,15 +84,16 @@ public class CommitterShipDialog extends TitleAreaDialog
     final Composite comp = (Composite)super.createDialogArea(parent);
 
     ObservablesManager mgr = new EMFObservablesManager();
-    mgr.runAndCollect(new Runnable()
+    IObservable[] collected = ObservableTracker.runAndCollect(new Runnable()
+    {
+      public void run()
       {
-
-        public void run()
-        {
-          createForm(comp).setLayoutData(new GridData(GridData.FILL_BOTH));
-        }
-
-      });
+        createForm(comp).setLayoutData(new GridData(GridData.FILL_BOTH));
+      }
+    });
+    for (IObservable observable : collected) {
+        mgr.addObservable(observable);
+    }
 
     return comp;
   }
