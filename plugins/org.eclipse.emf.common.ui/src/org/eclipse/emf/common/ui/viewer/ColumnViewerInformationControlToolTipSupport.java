@@ -527,7 +527,7 @@ public final class ColumnViewerInformationControlToolTipSupport
         event.y = hoverEvent.y;
         if (shouldCreateToolTip(event))
         {
-          StringBuffer buffer = new StringBuffer(text);
+          StringBuilder buffer = new StringBuilder(text);
           String styleSheet = getStyleSheet();
           FontData fontData = JFaceResources.getFontRegistry().getFontData(getSymbolicFont())[0];
           styleSheet = HTMLPrinter.convertTopLevelFont(styleSheet, fontData);
