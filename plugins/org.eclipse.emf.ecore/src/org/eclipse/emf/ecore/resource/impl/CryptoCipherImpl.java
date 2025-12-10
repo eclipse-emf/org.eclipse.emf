@@ -18,11 +18,13 @@ package org.eclipse.emf.ecore.resource.impl;
 @Deprecated
 public class CryptoCipherImpl extends DESCipherImpl
 {
+  @Deprecated
   public CryptoCipherImpl()
   {
     super(null);
   }
   
+  @Deprecated
   public CryptoCipherImpl(String key)
   {
     super(key);

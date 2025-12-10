@@ -827,6 +827,7 @@ public class BasicEList<E> extends AbstractEList<E> implements RandomAccess, Clo
     /**
      * Creates an instance.
      */
+    @Deprecated
     public EListIterator() 
     {
       super();
@@ -836,6 +837,7 @@ public class BasicEList<E> extends AbstractEList<E> implements RandomAccess, Clo
      * Creates an instance advanced to the index.
      * @param index the starting index.
      */
+    @Deprecated
     public EListIterator(int index) 
     {
       super(index);
@@ -854,6 +856,7 @@ public class BasicEList<E> extends AbstractEList<E> implements RandomAccess, Clo
     /**
      * Creates an instance.
      */
+    @Deprecated
     public NonResolvingEListIterator()
     {
       super();
@@ -863,6 +866,7 @@ public class BasicEList<E> extends AbstractEList<E> implements RandomAccess, Clo
      * Creates an instance advanced to the index.
      * @param index the starting index.
      */
+    @Deprecated
     public NonResolvingEListIterator(int index) 
     {
       super(index);

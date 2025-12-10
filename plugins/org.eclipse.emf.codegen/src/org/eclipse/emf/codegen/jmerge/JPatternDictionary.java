@@ -38,26 +38,38 @@ import org.eclipse.jdt.core.jdom.IDOMType;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class JPatternDictionary 
 {
+  @Deprecated
   protected IDOMCompilationUnit compilationUnit;
+  @Deprecated
   protected IDOMPackage jPackage;
+  @Deprecated
   protected JControlModel options;
+  @Deprecated
   protected Map importMap = new HashMap();
+  @Deprecated
   protected Map typeMap = new HashMap();
+  @Deprecated
   protected Map initializerMap = new HashMap();
+  @Deprecated
   protected Map fieldMap = new HashMap();
+  @Deprecated
   protected Map methodMap = new HashMap();
+  @Deprecated
   protected Map markupMap = new HashMap();
+  @Deprecated
   protected Collection noImportSet = new HashSet();
 
   /**
    * This creates an instance.
    */
+  @Deprecated
   public JPatternDictionary(IDOMCompilationUnit compilationUnit, JControlModel options)
   {
     this.options = options;
     analyzeCompilationUnit(compilationUnit);
   }
 
+  @Deprecated
   protected void analyzeCompilationUnit(IDOMCompilationUnit compilationUnit)
   {
     this.compilationUnit = compilationUnit;
@@ -95,18 +107,21 @@ public class JPatternDictionary
     }
   }
 
+  @Deprecated
   protected void analyzePackage(IDOMPackage jPackage)
   {
     this.jPackage = jPackage;
     match(jPackage);
   }
 
+  @Deprecated
   protected void analyzeImport(IDOMImport jImport)
   {
     importMap.put(getQualifiedName(jImport), jImport);
     match(jImport);
   }
 
+  @Deprecated
   protected void analyzeType(IDOMType type)
   {
     typeMap.put(getQualifiedName(type), type);
@@ -139,24 +154,28 @@ public class JPatternDictionary
     }
   }
 
+  @Deprecated
   protected void analyzeInitializer(IDOMInitializer initializer)
   {
     initializerMap.put(getQualifiedName(initializer), initializer);
     match(initializer);
   }
 
+  @Deprecated
   protected void analyzeField(IDOMField field)
   {
     fieldMap.put(getQualifiedName(field), field);
     match(field);
   }
 
+  @Deprecated
   protected void analyzeMethod(IDOMMethod method)
   {
     methodMap.put(getQualifiedName(method), method);
     match(method);
   }
 
+  @Deprecated
   public String getQualifiedName(IDOMNode jdomNode)
   {
     switch (jdomNode.getNodeType())
@@ -231,6 +250,7 @@ public class JPatternDictionary
     }
   }
 
+  @Deprecated
   public void dump()
   {
     System.out.println("---- imports ---------------------------------------------");
@@ -247,6 +267,7 @@ public class JPatternDictionary
     dumpMarkup();
   }
 
+  @Deprecated
   public void dumpMarkup()
   {
     System.out.println("====  markup  ============================================");
@@ -263,6 +284,7 @@ public class JPatternDictionary
     }
   }
 
+  @Deprecated
   public void dumpNodeContents(IDOMNode node)
   {
     System.out.println("____ " + getQualifiedName(node) + " ____________________________________________");
@@ -270,6 +292,7 @@ public class JPatternDictionary
     System.out.println("_____________________________________________________________________");
   }
 
+  @Deprecated
   public void dumpStringToIDOMNodeMap(Map map)
   {
     for (Iterator entries = map.entrySet().iterator(); entries.hasNext(); )
@@ -282,8 +305,11 @@ public class JPatternDictionary
     }
   }
 
+  @Deprecated
   protected static Pattern comment = Pattern.compile("/\\*.*?\\*/", Pattern.MULTILINE | Pattern.DOTALL);
+  @Deprecated
   protected static Object [] noArguments = new Object [0];
+  @Deprecated
   protected void match(IDOMNode node)
   {
     for (Iterator dictionaryPatterns = options.getDictionaryPatterns().iterator(); dictionaryPatterns.hasNext(); )
@@ -355,51 +381,61 @@ public class JPatternDictionary
     }
   }
 
+  @Deprecated
   public IDOMCompilationUnit getCompilationUnit()
   {
     return compilationUnit;
   }
 
+  @Deprecated
   public IDOMPackage getPackage()
   {
     return jPackage;
   }
 
+  @Deprecated
   public JControlModel options()
   {
     return options;
   }
 
+  @Deprecated
   public Map getImportMap()
   {
     return importMap;
   }
 
+  @Deprecated
   public Map getTypeMap()
   {
     return typeMap;
   }
 
+  @Deprecated
   public Map getInitializerMap()
   {
     return initializerMap;
   }
 
+  @Deprecated
   public Map getFieldMap()
   {
     return fieldMap;
   }
 
+  @Deprecated
   public Map getMethodMap()
   {
     return methodMap;
   }
 
+  @Deprecated
   public Map getMarkupMap()
   {
     return markupMap;
   }
 
+  @Deprecated
   public boolean isMarkedUp(Pattern markupPattern, IDOMNode node)
   {
     if (markupPattern == null)
@@ -424,6 +460,7 @@ public class JPatternDictionary
     }
   }
 
+  @Deprecated
   public boolean isNoImport(IDOMImport domImport)
   {
     return noImportSet.contains(getQualifiedName(domImport));

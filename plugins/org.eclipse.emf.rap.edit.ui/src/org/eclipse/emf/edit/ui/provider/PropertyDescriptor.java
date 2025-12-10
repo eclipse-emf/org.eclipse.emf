@@ -324,6 +324,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
      */
     private static final long serialVersionUID = 1L;
 
+    @Deprecated
     public IntegerCellEditor(Composite composite)
     {
       super(composite);
@@ -358,12 +359,14 @@ public class PropertyDescriptor implements IPropertyDescriptor
          });
     }
 
+    @Deprecated
     @Override
     public Object doGetValue()
     {
       return Integer.parseInt((String)super.doGetValue());
     }
 
+    @Deprecated
     @Override
     public void doSetValue(Object value)
     {
@@ -383,6 +386,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
      */
     private static final long serialVersionUID = 1L;
 
+    @Deprecated
     public FloatCellEditor(Composite composite)
     {
       super(composite);
@@ -417,12 +421,14 @@ public class PropertyDescriptor implements IPropertyDescriptor
          });
     }
 
+    @Deprecated
     @Override
     public Object doGetValue()
     {
       return new Float(Float.parseFloat((String)super.doGetValue()));
     }
 
+    @Deprecated
     @Override
     public void doSetValue(Object value)
     {

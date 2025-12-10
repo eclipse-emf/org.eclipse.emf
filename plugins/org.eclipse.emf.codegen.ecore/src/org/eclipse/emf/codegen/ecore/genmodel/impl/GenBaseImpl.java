@@ -2200,16 +2200,21 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   @Deprecated
   protected static class GIFEmitter
   {
+    @Deprecated
     protected String inputFile;
 
+    @Deprecated
     protected static final int tableOffset1 = 49;
+    @Deprecated
     protected static final int tableOffset2 = 25;
 
+    @Deprecated
     public GIFEmitter(String inputFile)
     {
       this.inputFile = inputFile;
     }
 
+    @Deprecated
     protected int code(String code)
     {
       int result = 0;
@@ -2220,6 +2225,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       return result;
     }
 
+    @Deprecated
     protected byte[] generateGIF(String key1, String key2)
     {
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -2301,6 +2307,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       return outputStream.toByteArray();
     }
 
+    @Deprecated
     protected int getContents(byte [] content, String gifFile) throws JETException, IOException
     {
       DataInputStream reader = new DataInputStream(JETCompiler.openStream(gifFile));
@@ -2318,6 +2325,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   @Deprecated
   public static class ColorInformation
   {
+    @Deprecated
     public static ColorInformation getColor(int index)
     {
       index = Math.abs(index) % 61;
@@ -2338,20 +2346,30 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       return (ColorInformation)entries.get(index);
     }
 
+    @Deprecated
     protected static ColorInformation instance = new ColorInformation();
 
+    @Deprecated
     protected static List entries = new ArrayList(1000);
 
+    @Deprecated
     public int red = 192;
+    @Deprecated
     public int green = 64;
+    @Deprecated
     public int blue = 64;
 
+    @Deprecated
     public int which  = 2;
+    @Deprecated
     public int change  = 64;
 
+    @Deprecated
     public double [] factor = { 0.35, 0.1, -0.1, -0.3 };
+    @Deprecated
     public boolean rainbow;
 
+    @Deprecated
     public byte scale(int value, double factor)
     {
       if (factor > 0.0)
@@ -2364,6 +2382,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       }
     }
 
+    @Deprecated
     protected void generateColor()
     {
       switch (which)
@@ -2416,6 +2435,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       }
     }
 
+    @Deprecated
     protected void fixFactor()
     {
       if (red == 192 && green == 64 && blue == 64)
@@ -3047,6 +3067,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   @Deprecated
   protected static class EclipseUtil
   {
+    @Deprecated
     protected static String formatCode(String contents, CodeFormatter codeFormatter)
     {
       IDocument doc = new Document(contents);
@@ -3066,6 +3087,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     }
 
     // Unused?
+    @Deprecated
     protected static IContainer findOrCreateContainer
       (GenBaseImpl genBase, Monitor progressMonitor, int style, List pluginVariables, String outputPath, boolean forceStyle)
     {
@@ -3073,6 +3095,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     }
 
     // Unused?
+    @Deprecated
     protected static IContainer findOrCreateContainer
       (GenBaseImpl genBase, Monitor progressMonitor, int style, List pluginVariables, IPath outputPath, boolean forceStyle)
     {
@@ -3228,6 +3251,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       return container;
     }
 
+    @Deprecated
     protected static boolean findOrCreateContainer
       (GenModel genModel, Monitor progressMonitor, int style, List pluginVariables, String output, boolean forceStyle)
     {
@@ -3384,27 +3408,32 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       return container != null;
     }
 
+    @Deprecated
     public static boolean validateEdit(String path, Monitor progressMonitor)
     {
       IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path));
       return file.getWorkspace().validateEdit(new IFile [] { file }, progressMonitor).isOK();
     }
 
+    @Deprecated
     public static boolean exists(String path)
     {
       return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path)).exists();
     }
 
+    @Deprecated
     public static boolean isReadOnly(String path)
     {
       return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path)).isReadOnly();
     }
 
+    @Deprecated
     public static InputStream createInputStream(String path) throws Exception
     {
       return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path)).getContents(true);
     }
 
+    @Deprecated
     public static String getEncoding(String path)
     {
       try
@@ -3417,6 +3446,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       }
     }
 
+    @Deprecated
     public static void setWriteable(String path) throws Exception
     {
       IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path));

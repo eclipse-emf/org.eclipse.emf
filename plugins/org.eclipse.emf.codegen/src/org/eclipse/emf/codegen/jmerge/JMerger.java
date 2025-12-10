@@ -56,21 +56,33 @@ import org.eclipse.jdt.core.jdom.IDOMType;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class JMerger
 {
+  @Deprecated
   protected DOMFactory jdomFactory = new DOMFactory();
+  @Deprecated
   protected JControlModel jControlModel;
+  @Deprecated
   protected IDOMCompilationUnit sourceCompilationUnit;
+  @Deprecated
   protected IDOMCompilationUnit targetCompilationUnit;
+  @Deprecated
   protected JPatternDictionary sourcePatternDictionary;
+  @Deprecated
   protected JPatternDictionary targetPatternDictionary;
+  @Deprecated
   protected Map sourceToTargetMap = new HashMap();
+  @Deprecated
   protected Map targetToSourceMap = new HashMap();
+  @Deprecated
   protected Map orderedSourceChildrenMap = new HashMap();
+  @Deprecated
   protected boolean isBlocked;
+  @Deprecated
   protected boolean fixInterfaceBrace;
 
   /**
    * This creates an empty instances, an when used as a runnable.
    */
+  @Deprecated
   public JMerger()
   {
     if ("1.4".compareTo(JavaCore.getOption(JavaCore.COMPILER_SOURCE)) < 0)
@@ -79,6 +91,7 @@ public class JMerger
     }    
   }
 
+  @Deprecated
   public JMerger(JControlModel jControlModel, IDOMCompilationUnit sourceCompilationUnit, IDOMCompilationUnit targetCompilationUnit) 
   {
     this();
@@ -87,6 +100,7 @@ public class JMerger
     setTargetCompilationUnit(targetCompilationUnit);
   }
 
+  @Deprecated
   public void merge()
   {
     pullTargetCompilationUnit();
@@ -98,6 +112,7 @@ public class JMerger
     }
   }
 
+  @Deprecated
   public void remerge()
   {
     sourceToTargetMap.clear();
@@ -107,36 +122,43 @@ public class JMerger
     merge();
   }
 
+  @Deprecated
   public boolean isFixInterfaceBrace()
   {
     return fixInterfaceBrace;
   }
 
+  @Deprecated
   public void setFixInterfaceBrace(boolean fixInterfaceBrace)
   {
     this.fixInterfaceBrace = fixInterfaceBrace;
   }
 
+  @Deprecated
   public JControlModel getControlModel()
   {
     return jControlModel;
   }
 
+  @Deprecated
   public void setControlModel(JControlModel jControlModel)
   {
     this.jControlModel = jControlModel;
   }
   
+  @Deprecated
   public String getSourceCompilationUnitContents()
   {
     return sourceCompilationUnit.getContents();
   }
   
+  @Deprecated
   public IDOMCompilationUnit getSourceCompilationUnit()
   {
     return sourceCompilationUnit;
   }
 
+  @Deprecated
   public void setSourceCompilationUnit(IDOMCompilationUnit sourceCompilationUnit)
   {
     this.sourceCompilationUnit =  sourceCompilationUnit;
@@ -145,11 +167,13 @@ public class JMerger
     // sourcePatternDictionary.dumpMarkup();
   }
   
+  @Deprecated
   protected static final Pattern INTERFACE_BRACE_PATTERN = 
     Pattern.compile
       ("(?:\\n\\r|\\r\\n|\\n|\\r)(\\s*)(?:public|private|protected|static|\\s)*(?:interface|class)\\s*[^\\{\\n\\r]*(\\{)(\\n\\r|\\r\\n|\\n|\\r)", 
        Pattern.MULTILINE); // }}
 
+  @Deprecated
   public String getTargetCompilationUnitContents()
   {
     String result = targetCompilationUnit.getContents();
@@ -181,11 +205,13 @@ public class JMerger
     return result;
   }
 
+  @Deprecated
   public IDOMCompilationUnit getTargetCompilationUnit()
   {
     return targetCompilationUnit;
   }
 
+  @Deprecated
   public void setTargetCompilationUnit(IDOMCompilationUnit targetCompilationUnit)
   {
     this.targetCompilationUnit = targetCompilationUnit;
@@ -194,31 +220,37 @@ public class JMerger
     // targetPatternDictionary.dumpMarkup();
   }
 
+  @Deprecated
   public JPatternDictionary getSourcePatternDictionary()
   {
     return sourcePatternDictionary;
   }
 
+  @Deprecated
   public void setSourcePatternDictionary(JPatternDictionary sourcePatternDictionary)
   {
     this.sourcePatternDictionary = sourcePatternDictionary;
   }
 
+  @Deprecated
   public JPatternDictionary getTargetPatternDictionary()
   {
     return targetPatternDictionary;
   }
 
+  @Deprecated
   public void setTargetPatternDictionary(JPatternDictionary targetPatternDictionary)
   {
     this.targetPatternDictionary = targetPatternDictionary;
   }
 
+  @Deprecated
   public Map getSourceToTargetMap()
   {
     return sourceToTargetMap;
   }
 
+  @Deprecated
   public void setSourceToTargetMap(Map sourceToTargetMap)
   {
     this.sourceToTargetMap = sourceToTargetMap;
@@ -227,6 +259,7 @@ public class JMerger
   /**
    * Create a JDOM from a URI.
    */
+  @Deprecated
   public IDOMCompilationUnit createCompilationUnitForURI(String uri)
   {
     try
@@ -255,6 +288,7 @@ public class JMerger
     return null;
   }
 
+  @Deprecated
   public IDOMCompilationUnit createCompilationUnitForInputStream(InputStream inputStream)
   {
     try
@@ -275,6 +309,7 @@ public class JMerger
   /**
    * Create a JDOM from contents.
    */
+  @Deprecated
   public IDOMCompilationUnit createCompilationUnitForContents(String contents)
   {
     return jdomFactory.createCompilationUnit(contents, "NAME");
@@ -283,6 +318,7 @@ public class JMerger
 
 /////////////////////////////////  PULL  /////////////////////////////////////
 
+  @Deprecated
   protected void pullTargetCompilationUnit()
   {
     if (targetCompilationUnit == null)
@@ -336,6 +372,7 @@ public class JMerger
     }
   }
 
+  @Deprecated
   protected void pullTargetPackage(IDOMPackage targetPackage)
   {
     IDOMPackage sourcePackage = sourcePatternDictionary.getPackage();
@@ -349,6 +386,7 @@ public class JMerger
 */
   }
 
+  @Deprecated
   protected void pullTargetImport(IDOMImport targetImport)
   {
     IDOMImport sourceImport = 
@@ -360,6 +398,7 @@ public class JMerger
     }
   }
 
+  @Deprecated
   protected void pullTargetType(IDOMType targetType)
   {
     IDOMType sourceType = (IDOMType)sourcePatternDictionary.getTypeMap().get(targetPatternDictionary.getQualifiedName(targetType));
@@ -437,6 +476,7 @@ public class JMerger
     }
   }
 
+  @Deprecated
   protected void pullTargetInitializer(IDOMInitializer targetInitializer)
   {
     IDOMInitializer sourceInitializer = 
@@ -468,6 +508,7 @@ public class JMerger
     }
   }
 
+  @Deprecated
   protected void pullTargetField(IDOMField targetField)
   {
     IDOMField sourceField = 
@@ -513,6 +554,7 @@ public class JMerger
     }
   }
 
+  @Deprecated
   protected void pullTargetMethod(IDOMMethod targetMethod)
   {
     String qualifiedTargetMethodName = targetPatternDictionary.getQualifiedName(targetMethod);
@@ -593,12 +635,15 @@ public class JMerger
     }
   }
   
+  @Deprecated
   protected String applyFormatRules(String value)
   {
     return CodeGenUtil.convertFormat(jControlModel.getLeadingTabReplacement(), jControlModel.convertToStandardBraceStyle(), value);
   }
 
+  @Deprecated
   protected static Object [] noArguments = new Object [0];
+  @Deprecated
   protected void applyPullRules(IDOMNode sourceNode, IDOMNode targetNode)
   {
     try
@@ -773,6 +818,7 @@ public class JMerger
 
 /////////////////////////////////  PUSH  /////////////////////////////////////
 
+  @Deprecated
   protected void pushSourceCompilationUnit()
   {
     for (IDOMNode child = sourceCompilationUnit.getFirstChild(); child != null; child = child.getNextNode())
@@ -798,6 +844,7 @@ public class JMerger
     }
   }
 
+  @Deprecated
   protected void pushSourcePackage(IDOMPackage sourcePackage)
   {
     if (!sourceToTargetMap.containsKey(sourcePackage))
@@ -806,6 +853,7 @@ public class JMerger
     }
   }
 
+  @Deprecated
   protected void pushSourceImport(IDOMImport sourceImport)
   {
     if (!sourceToTargetMap.containsKey(sourceImport) && !targetPatternDictionary.isNoImport(sourceImport))
@@ -814,6 +862,7 @@ public class JMerger
     }
   }
 
+  @Deprecated
   protected void pushSourceType(IDOMType sourceType)
   {
     if (!sourceToTargetMap.containsKey(sourceType))
@@ -851,6 +900,7 @@ public class JMerger
     }
   }
 
+  @Deprecated
   protected void pushSourceInitializer(IDOMInitializer sourceInitializer)
   {
     if (!sourceToTargetMap.containsKey(sourceInitializer))
@@ -859,6 +909,7 @@ public class JMerger
     }
   }
 
+  @Deprecated
   protected void pushSourceField(IDOMField sourceField)
   {
     applySortRules(sourceField);
@@ -868,6 +919,7 @@ public class JMerger
     }
   }
 
+  @Deprecated
   protected void pushSourceMethod(IDOMMethod sourceMethod)
   {
     if (!sourceToTargetMap.containsKey(sourceMethod))
@@ -876,6 +928,7 @@ public class JMerger
     }
   }
 
+  @Deprecated
   public void applySortRules(IDOMNode sourceNode)
   {
     for (Iterator sortRules = jControlModel.getSortRules().iterator(); sortRules.hasNext(); )
@@ -900,6 +953,7 @@ public class JMerger
 
 /////////////////////////////////  SWEEP  /////////////////////////////////////
 
+  @Deprecated
   protected void sweepTargetCompilationUnit()
   {
     for (Iterator entries = targetToSourceMap.entrySet().iterator(); entries.hasNext(); )
@@ -912,6 +966,7 @@ public class JMerger
     }
   }
 
+  @Deprecated
   protected void applySweepRules(IDOMNode targetNode)
   {
     for (Iterator sweepRules = jControlModel.getSweepRules().iterator(); sweepRules.hasNext(); )
@@ -936,6 +991,7 @@ public class JMerger
 
 /////////////////////////////////  SORT  /////////////////////////////////////
 
+  @Deprecated
   protected void sortTargetCompilationUnit()
   {
     for (Iterator values = orderedSourceChildrenMap.values().iterator(); values.hasNext(); )
@@ -983,6 +1039,7 @@ public class JMerger
 
 /////////////////////////////////  CLONE AND MAP  /////////////////////////////////////
 
+  @Deprecated
   protected IDOMNode insertClone(IDOMNode sourceNode)
   {
     IDOMNode targetNode = null;
@@ -1075,6 +1132,7 @@ public class JMerger
     return targetNode;
   }
 
+  @Deprecated
   protected void mapChildren(IDOMNode sourceNode, IDOMNode targetNode)
   {
     map(sourceNode, targetNode);
@@ -1086,6 +1144,7 @@ public class JMerger
     }
   }
 
+  @Deprecated
   protected void map(IDOMNode sourceNode, IDOMNode targetNode)
   {
     if (sourceNode != null)
@@ -1098,6 +1157,7 @@ public class JMerger
   /**
    * This is called with the command line arguments of a headless workbench invocation.
    */
+  @Deprecated
   public Object run(Object object) 
   {
     try
@@ -1122,6 +1182,7 @@ public class JMerger
    * @return the merged content
    * @since 2.1.0
    */
+  @Deprecated
   public String execute(IProgressMonitor progressMonitor, String[] arguments)
   {
     String mergeXML = arguments[0];

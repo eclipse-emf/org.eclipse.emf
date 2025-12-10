@@ -19,6 +19,7 @@ package org.eclipse.emf.codegen.jmerge;
 @Deprecated
 public class PropertyMerger extends org.eclipse.emf.codegen.merge.properties.PropertyMerger
 {
+  @Deprecated
   public static class PlatformRunnable extends PropertyMerger
   {
     // Empty

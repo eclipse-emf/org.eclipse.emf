@@ -56,6 +56,7 @@ public class CodeGen
   @Deprecated
   public static class StreamProgressMonitor extends CodeGenUtil.EclipseUtil.StreamProgressMonitor
   {
+    @Deprecated
     public StreamProgressMonitor(PrintStream printStream)
     {
       super(printStream);

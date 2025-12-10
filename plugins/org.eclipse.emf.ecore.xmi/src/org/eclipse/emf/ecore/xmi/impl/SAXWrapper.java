@@ -33,14 +33,17 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 @Deprecated
 public class SAXWrapper extends DefaultHandler implements XMLDefaultHandler
 {
+  @Deprecated
   protected XMLHandler handler;
   
   
+  @Deprecated
   public void prepare(XMLResource resource, XMLHelper helper, Map<?,?> options)
   {
     handler.prepare(resource, helper, options);  
   }
 
+  @Deprecated
   public void reset()
   {
    handler.reset();    
@@ -49,42 +52,49 @@ public class SAXWrapper extends DefaultHandler implements XMLDefaultHandler
   /**
    * Constructor for SAXWrapper.
    */
+  @Deprecated
   public SAXWrapper(XMLHandler handler)
   {
     super();
     this.handler = handler;
   }
 
+  @Deprecated
   @Override
   public void setDocumentLocator(Locator locator)
   {
     handler.setLocator(locator);
   }
 
+  @Deprecated
   @Override
   public void startDocument() throws SAXException
   {
     handler.startDocument();
   }
 
+  @Deprecated
   @Override
   public void endDocument() throws SAXException
   {
     handler.endDocument();
   }
 
+  @Deprecated
   @Override
   public void startPrefixMapping(String prefix, String uri) throws SAXException
   {
     handler.startPrefixMapping(prefix, uri);
   }
 
+  @Deprecated
   @Override
   public void endPrefixMapping(String prefix) throws SAXException
   {
     // Ignore.
   }
 
+  @Deprecated
   @Override
   public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
   {
@@ -92,12 +102,14 @@ public class SAXWrapper extends DefaultHandler implements XMLDefaultHandler
     handler.startElement(uri, localName, qName);
   }
 
+  @Deprecated
   @Override
   public void endElement (String uri, String localName, String qName) throws SAXException
   {
     handler.endElement(uri, localName, qName);
   }
 
+  @Deprecated
   @Override
   public void warning (SAXParseException e) throws SAXException
   {
@@ -105,6 +117,7 @@ public class SAXWrapper extends DefaultHandler implements XMLDefaultHandler
     handler.warning(xmi);
   }
 
+  @Deprecated
   @Override
   public void error (SAXParseException e) throws SAXException
   {
@@ -112,6 +125,7 @@ public class SAXWrapper extends DefaultHandler implements XMLDefaultHandler
     handler.error(xmi);
   }
 
+  @Deprecated
   @Override
   public void fatalError (SAXParseException e) throws SAXException
   {
@@ -120,30 +134,35 @@ public class SAXWrapper extends DefaultHandler implements XMLDefaultHandler
     throw e;
   }
 
+  @Deprecated
   @Override
   public void characters (char ch[], int start, int length) throws SAXException
   {
     handler.characters(ch, start, length);
   }
 
+  @Deprecated
   @Override
   public void ignorableWhitespace (char ch[], int start, int length) throws SAXException
   {
     // handler.ignorableWhitespace(ch, start, length);
   }
 
+  @Deprecated
   @Override
   public void processingInstruction (String target, String data) throws SAXException
   {
     handler.processingInstruction(target, data);
   }
 
+  @Deprecated
   @Override
   public void skippedEntity (String name) throws SAXException
   {
     // handler.skippedEntity(name);
   }
 
+  @Deprecated
   @Override
   public InputSource resolveEntity(String publicId, String systemId) throws SAXException
   {
@@ -151,48 +170,57 @@ public class SAXWrapper extends DefaultHandler implements XMLDefaultHandler
     return null;
   }
 
+  @Deprecated
   @Override
   public void notationDecl(String name, String publicId, String systemId) throws SAXException
   {
     // handler.notationDecl(name, publicId, systemId);
   }
 
+  @Deprecated
   @Override
   public void unparsedEntityDecl(String name, String publicId, String systemId, String notationName) throws SAXException
   {
     // handler.unparsedEntityDecl(name, publicId, systemId, notationName);
   }
 
+  @Deprecated
   public void startDTD(java.lang.String name, java.lang.String publicId, java.lang.String systemId)
   {
     handler.startDTD(name, publicId, systemId);
   }
 
+  @Deprecated
   public void endDTD()
   {
     // Ignore.
   }
 
+  @Deprecated
   public void startEntity(java.lang.String name)
   {
     // Ignore.
   }
 
+  @Deprecated
   public void endEntity(java.lang.String name)
   {
     // Ignore.
   }
 
+  @Deprecated
   public void startCDATA()
   {
     handler.startCDATA();
   }
 
+  @Deprecated
   public void endCDATA()
   {
     handler.endCDATA();
   }
 
+  @Deprecated
   public void comment(char [] characters, int start, int length) throws SAXException
   {
     handler.comment(characters, start, length);

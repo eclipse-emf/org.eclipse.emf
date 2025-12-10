@@ -753,6 +753,7 @@ public abstract class DelegatingEList<E> extends AbstractEList<E> implements Clo
     /**
      * Creates an instance.
      */
+    @Deprecated
     public EListIterator() 
     {
       super();
@@ -762,6 +763,7 @@ public abstract class DelegatingEList<E> extends AbstractEList<E> implements Clo
      * Creates an instance advanced to the index.
      * @param index the starting index.
      */
+    @Deprecated
     public EListIterator(int index) 
     {
       super(index);
@@ -779,6 +781,7 @@ public abstract class DelegatingEList<E> extends AbstractEList<E> implements Clo
     /**
      * Creates an instance.
      */
+    @Deprecated
     public NonResolvingEListIterator()
     {
       super();
@@ -788,6 +791,7 @@ public abstract class DelegatingEList<E> extends AbstractEList<E> implements Clo
      * Creates an instance advanced to the index.
      * @param index the starting index.
      */
+    @Deprecated
     public NonResolvingEListIterator(int index) 
     {
       super(index);

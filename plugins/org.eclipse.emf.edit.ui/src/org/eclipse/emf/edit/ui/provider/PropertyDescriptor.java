@@ -919,6 +919,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
   @Deprecated
   public static class IntegerCellEditor extends TextCellEditor
   {
+    @Deprecated
     public IntegerCellEditor(Composite composite)
     {
       super(composite);
@@ -948,12 +949,14 @@ public class PropertyDescriptor implements IPropertyDescriptor
          });
     }
 
+    @Deprecated
     @Override
     public Object doGetValue()
     {
       return Integer.parseInt((String)super.doGetValue());
     }
 
+    @Deprecated
     @Override
     public void doSetValue(Object value)
     {
@@ -968,6 +971,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
   @Deprecated
   public static class FloatCellEditor extends TextCellEditor
   {
+    @Deprecated
     public FloatCellEditor(Composite composite)
     {
       super(composite);
@@ -997,12 +1001,14 @@ public class PropertyDescriptor implements IPropertyDescriptor
          });
     }
 
+    @Deprecated
     @Override
     public Object doGetValue()
     {
       return new Float(Float.parseFloat((String)super.doGetValue()));
     }
 
+    @Deprecated
     @Override
     public void doSetValue(Object value)
     {

@@ -40,14 +40,22 @@ public abstract class ExtendedTableEditor
 {
   private static final long serialVersionUID = 1L;
 
+  @Deprecated
   protected Table table;
+  @Deprecated
   protected TableItem selectedTableItem;
+  @Deprecated
   protected TableItem editTableItem;
+  @Deprecated
   protected int editTableItemColumn;
+  @Deprecated
   boolean isActivating;
+  @Deprecated
   boolean isDeactivating;
+  @Deprecated
   boolean isActive;
 
+  @Deprecated
   public ExtendedTableEditor(Table table)
   {
     super(table);
@@ -59,12 +67,14 @@ public abstract class ExtendedTableEditor
     table.addSelectionListener(this);
   }
 
+  @Deprecated
   public void mouseDoubleClick(MouseEvent event)
   {
     // System.out.println("*double*");
     editTableItem = null;
   }
 
+  @Deprecated
   public void mouseDown(MouseEvent event)
   {
     editTableItem = null;
@@ -133,11 +143,13 @@ public abstract class ExtendedTableEditor
     }
   }
 
+  @Deprecated
   public void dismiss()
   {
     setEditor(null, null, -1);
   }
 
+  @Deprecated
   public void mouseUp(MouseEvent event)
   {
     // System.out.println("*up*");
@@ -174,22 +186,26 @@ public abstract class ExtendedTableEditor
     }
   }
 
+  @Deprecated
   public void widgetDefaultSelected(SelectionEvent event)
   {
     widgetSelected(event);
   }
 
+  @Deprecated
   public void widgetSelected(SelectionEvent event)
   {
     TableItem [] selection = table.getSelection();
     selectedTableItem = selection.length == 1 ? selection[0] : null;
   }
 
+  @Deprecated
   public void keyPressed(KeyEvent event)
   {
     // Do nothing
   }
 
+  @Deprecated
   public void keyReleased(KeyEvent event)
   {
     TableItem [] selection = table.getSelection();
@@ -201,8 +217,10 @@ public abstract class ExtendedTableEditor
     }
   }
 
+  @Deprecated
   protected abstract void editItem(TableItem tableItem, int column);
 
+  @Deprecated
   @Override
   public void setEditor(Control canvas, TableItem tableItem, int column)
   {

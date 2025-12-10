@@ -715,6 +715,7 @@ public class CodeGenUtil
   @Deprecated
   public static class StreamProgressMonitor extends EclipseUtil.StreamProgressMonitor
   {
+    @Deprecated
     public StreamProgressMonitor(PrintStream printStream)
     {
       super(printStream);

@@ -72,6 +72,7 @@ public class ASTFacadeHelper extends FacadeHelper
   @Deprecated
   public static class ASTRewriteWithRemove extends ASTRewrite
   {
+    @Deprecated
     protected ASTRewriteWithRemove(AST ast)
     {
       super(ast);
@@ -80,6 +81,7 @@ public class ASTFacadeHelper extends FacadeHelper
     /**
      * Disposes this ASTRewriteWithRemove
      */
+    @Deprecated
     @SuppressWarnings("restriction")
     public void dispose()
     {
@@ -102,6 +104,7 @@ public class ASTFacadeHelper extends FacadeHelper
      * @param childProperty
      * @param node
      */
+    @Deprecated
     @SuppressWarnings("restriction")
     public void remove(ASTNode parent, ChildListPropertyDescriptor childProperty, ASTNode node)
     {

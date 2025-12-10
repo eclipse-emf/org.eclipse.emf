@@ -174,6 +174,7 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
    * @param scheme the scheme to consider.
    * @return whether the scheme is one that this implementation treats as an archive.
    */
+  @Deprecated
   protected boolean isArchiveScheme(String scheme)
   {
     return "archive".equals(scheme);
@@ -185,6 +186,7 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
    * @param scheme the scheme to consider.
    * @return whether the scheme is one that this implementation treats as an Eclipse File System scheme.
    */
+  @Deprecated
   protected boolean isEFSScheme(String scheme)
   {
     if (EFS_GET_FILE_SYSTEM_METHOD == null)
@@ -242,6 +244,7 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
    * @return an open output stream.
    * @exception IOException if there is a problem obtaining an open output stream.
    */
+  @Deprecated
   @Override
   public OutputStream createOutputStream(URI uri) throws IOException
   {
@@ -273,6 +276,7 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
     }
   }
 
+  @Deprecated
   @Override
   public OutputStream createOutputStream(URI uri, Map<?, ?> options) throws IOException
   {
@@ -287,6 +291,7 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
    * @return an open output stream.
    * @exception IOException if there is a problem obtaining an open output stream.
    */
+  @Deprecated
   protected OutputStream createFileOutputStream(String filePath) throws IOException
   {
     File file = new File(filePath);
@@ -305,6 +310,7 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
    * @return an open output stream.
    * @exception IOException if there is a problem obtaining an open output stream.
    */
+  @Deprecated
   protected OutputStream createArchiveOutputStream(URI archiveURI) throws IOException
   {
     return createArchive(archiveURI).getOutputStream();
@@ -324,6 +330,7 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
    * @exception IOException if there is a problem obtaining an open output stream or a valid interpretation of the path.
    * @see EcorePlugin#resolvePlatformResourcePath(String)
    */
+  @Deprecated
   protected OutputStream createPlatformResourceOutputStream(String platformResourcePath) throws IOException
   {
     // ECLIPSE-DEPEND-BEGIN
@@ -349,6 +356,7 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
    * @return an open output stream.
    * @exception IOException if there is a problem obtaining an open output stream.
    */
+  @Deprecated
   protected OutputStream createEFSOutputStream(URI uri) throws IOException
   {
     if (EFS_GET_STORE_METHOD != null)
@@ -374,6 +382,7 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
    * @return an open output stream.
    * @exception IOException if there is a problem obtaining an open output stream.
    */
+  @Deprecated
   protected OutputStream createURLOutputStream(URI uri) throws IOException
   {
     try
@@ -415,6 +424,7 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
    * @return an open input stream.
    * @exception IOException if there is a problem obtaining an open input stream.
    */
+  @Deprecated
   @Override
   public InputStream createInputStream(URI uri) throws IOException
   {
@@ -446,6 +456,7 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
     }
   }
   
+  @Deprecated
   @Override
   public InputStream createInputStream(URI uri, Map<?, ?> options) throws IOException
   {
@@ -460,6 +471,7 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
    * @return an open input stream.
    * @exception IOException if there is a problem obtaining an open input stream.
    */
+  @Deprecated
   protected InputStream createFileInputStream(String filePath) throws IOException
   {
     File file = new File(filePath);
@@ -470,31 +482,37 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
   /**
    * A specialized class for reading from an archive.
    */
+  @Deprecated
   protected class Archive extends ArchiveURLConnection
   {
+    @Deprecated
     public Archive(URI uri)
     {
       super(uri.toString());
     }
     
+    @Deprecated
     @Override
     protected boolean emulateArchiveScheme()
     {
       return false;
     }
     
+    @Deprecated
     @Override
     protected boolean useZipFile()
     {
       return true;
     }
     
+    @Deprecated
     @Override
     protected InputStream createInputStream(String nestedURL) throws IOException
     {
       return URIConverterImpl.this.createInputStream(URI.createURI(nestedURL));
     }
     
+    @Deprecated
     @Override
     protected OutputStream createOutputStream(String nestedURL) throws IOException
     {
@@ -502,6 +520,7 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
     }
   }
   
+  @Deprecated
   protected Archive createArchive(URI uri)
   {
     return new Archive(uri);
@@ -514,6 +533,7 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
    * @return an open input stream.
    * @exception IOException if there is a problem obtaining an open input stream.
    */
+  @Deprecated
   protected InputStream createArchiveInputStream(URI archiveURI) throws IOException
   {
     return createArchive(archiveURI).getInputStream();
@@ -533,6 +553,7 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
    * @exception IOException if there is a problem obtaining an open input stream or a valid interpretation of the path.
    * @see EcorePlugin#resolvePlatformResourcePath(String)
    */
+  @Deprecated
   protected InputStream createPlatformResourceInputStream(String platformResourcePath) throws IOException
   {
     // ECLIPSE-DEPEND-BEGIN
@@ -558,6 +579,7 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
    * @return an open input stream.
    * @exception IOException if there is a problem obtaining an open input stream.
    */
+  @Deprecated
   protected InputStream createEFSInputStream(URI uri) throws IOException
   {
     if (EFS_GET_STORE_METHOD != null)
@@ -583,6 +605,7 @@ public class URIConverterImpl extends ExtensibleURIConverterImpl
    * @return an open input stream.
    * @exception IOException if there is a problem obtaining an open input stream.
    */
+  @Deprecated
   protected InputStream createURLInputStream(URI uri) throws IOException
   {
     try

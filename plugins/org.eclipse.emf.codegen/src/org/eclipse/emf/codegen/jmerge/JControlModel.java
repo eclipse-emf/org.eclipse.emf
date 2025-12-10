@@ -23,6 +23,7 @@ import org.eclipse.emf.common.EMFPlugin;
 @Deprecated
 public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlModel
 {
+  @Deprecated
   protected final static String CLASS_PREFIX = "org.eclipse.jdt.core.jdom.IDOM";
   
   /**
@@ -32,6 +33,7 @@ public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlMo
   @Deprecated
   public static class Feature extends org.eclipse.emf.codegen.merge.java.JControlModel.Feature
   {
+    @Deprecated
     public Feature(String path, Class<?> [] parameterTypes)
     {
       super(CLASS_PREFIX, path, parameterTypes);
@@ -45,16 +47,19 @@ public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlMo
   @Deprecated
   public static class DictionaryPattern extends org.eclipse.emf.codegen.merge.java.JControlModel.DictionaryPattern
   {
+    @Deprecated
     public DictionaryPattern()
     {
       super(CLASS_PREFIX);
     }
 
+    @Deprecated
     public DictionaryPattern(Element element)
     {
       super(CLASS_PREFIX, element);
     }
     
+    @Deprecated
     @Override
     protected org.eclipse.emf.codegen.merge.java.JControlModel.Feature createFeature(String classPrefix, String path, Class<?> [] parameterTypes)
     {
@@ -69,28 +74,33 @@ public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlMo
   @Deprecated
   public static class PullRule extends org.eclipse.emf.codegen.merge.java.JControlModel.PullRule
   {
+    @Deprecated
     public PullRule()
     {
       super(CLASS_PREFIX);
     }
 
+    @Deprecated
     public PullRule(Element element)
     {
       super(CLASS_PREFIX, element);
     }
 
     
+    @Deprecated
     @Override
     protected org.eclipse.emf.codegen.merge.java.JControlModel.Feature createFeature(String classPrefix, String path, Class<?> [] parameterTypes)
     {
       return new Feature(path, parameterTypes);
     }    
 
+    @Deprecated
     public void setSourceGetFeature(Feature sourceGetFeature)
     {
       this.sourceGetFeature = sourceGetFeature;
     }
 
+    @Deprecated
     public void setTargetPutFeature(Feature targetPutFeature)
     {
       this.targetPutFeature = targetPutFeature;
@@ -104,11 +114,13 @@ public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlMo
   @Deprecated
   public static class SweepRule extends org.eclipse.emf.codegen.merge.java.JControlModel.SweepRule
   {
+    @Deprecated
     public SweepRule()
     {
       super(CLASS_PREFIX);
     }
 
+    @Deprecated
     public SweepRule(Element element)
     {
       super(CLASS_PREFIX, element);
@@ -122,11 +134,13 @@ public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlMo
   @Deprecated
   public static class SortRule extends org.eclipse.emf.codegen.merge.java.JControlModel.SortRule
   {
+    @Deprecated
     public SortRule()
     {
       super(CLASS_PREFIX);
     }
 
+    @Deprecated
     public SortRule(Element element)
     {
       super(CLASS_PREFIX, element);
@@ -146,42 +160,49 @@ public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlMo
   /**
    * This creates an instance.
    */
+  @Deprecated
   public JControlModel(String uri) 
   {
     setClassPrefix(CLASS_PREFIX);
     initialize(uri);
   }
 
+  @Deprecated
   public JControlModel(Element element)
   {
     setClassPrefix(CLASS_PREFIX);
     initialize(element);
   }
   
+  @Deprecated
   @Override
   public boolean canMerge()
   {
     return EMFPlugin.IS_ECLIPSE_RUNNING;
   }
 
+  @Deprecated
   @Override
   protected org.eclipse.emf.codegen.merge.java.JControlModel.DictionaryPattern createDictionaryPattern(String classPrefix, Element elementChild)
   {
     return new DictionaryPattern(elementChild);
   }
   
+  @Deprecated
   @Override
   protected org.eclipse.emf.codegen.merge.java.JControlModel.PullRule createPullRule(String classPrefix, Element elementChild)
   {
     return new PullRule(elementChild);
   }
   
+  @Deprecated
   @Override
   protected org.eclipse.emf.codegen.merge.java.JControlModel.SweepRule createSweepRule(String classPrefix, Element elementChild)
   {
     return new SweepRule(elementChild);
   }
   
+  @Deprecated
   @Override
   protected org.eclipse.emf.codegen.merge.java.JControlModel.SortRule createSortRule(String classPrefix, Element elementChild)
   {
