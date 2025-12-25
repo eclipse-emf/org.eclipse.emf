@@ -66,7 +66,7 @@ public interface EXTLibraryPackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  String eCONTENT_TYPE = "extendedLibrary"; //$NON-NLS-1$
+  String eCONTENT_TYPE = "org.eclipse.emf.examples.library.extendedLibrary"; //$NON-NLS-1$
 
   /**
    * The singleton instance of the package.

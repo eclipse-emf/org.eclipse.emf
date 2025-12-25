@@ -9,7 +9,7 @@
     language="en" eclipsePlatformVersion="Photon">
   <foreignModel>extlibrary.ecore</foreignModel>
   <genPackages prefix="EXTLibrary" basePackage="org.eclipse.emf.examples" disposableProviderFactory="true"
-      contentTypeIdentifier="extendedLibrary" ecorePackage="extlibrary.ecore#/">
+      contentTypeIdentifier="org.eclipse.emf.examples.library.extendedLibrary" ecorePackage="extlibrary.ecore#/">
     <genEnums ecoreEnum="extlibrary.ecore#//BookCategory">
       <genEnumLiterals ecoreEnumLiteral="extlibrary.ecore#//BookCategory/Mystery"/>
       <genEnumLiterals ecoreEnumLiteral="extlibrary.ecore#//BookCategory/ScienceFiction"/>

@@ -3,24 +3,25 @@
 
 <plugin>
    <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated extlibrary -->
       <package
             uri="http:///org/eclipse/emf/examples/library/extlibrary.ecore/1.0.0"
-            class="org.eclipse.emf.examples.extlibrary.EXTLibraryPackage"
-            genModel="model/extlibrary.genmodel"/>
+            class="org.eclipse.emf.examples.extlibrary.EXTLibraryPackage"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.content_parser">
+      <!-- @generated extlibrary -->
       <parser
-            contentTypeIdentifier="extendedLibrary"
+            contentTypeIdentifier="org.eclipse.emf.examples.library.extendedLibrary"
             class="org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl"/>
    </extension>
 
-   <extension
-         point="org.eclipse.core.contenttype.contentTypes">
+   <extension point="org.eclipse.core.contenttype.contentTypes">
+      <!-- @generated extlibrary -->
       <content-type
             base-type="org.eclipse.emf.ecore.xmi"
             file-extensions="extlibrary"
-            id="extendedLibrary"
+            id="org.eclipse.emf.examples.library.extendedLibrary"
             name="%_UI_EXTLibrary_content_type"
             priority="normal">
          <describer class="org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl$Describer">
