@@ -791,7 +791,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getBasePackage()
   {
-    // If the base package isn't set but there is a parent package, us it's information instead.
+    // If the base package isn't set but there is a parent package, use its information instead.
     //
     String result = getBasePackageGen();
     if (isBlank(result))
