@@ -122,6 +122,10 @@
         name="org.eclipse.core.resources">
       <setupTask
           xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.core.resources/description.disableLinking"
+          value="false"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
           key="/instance/org.eclipse.core.resources/missingNatureMarkerSeverity"
           value="-1"/>
     </setupTask>

@@ -297,7 +297,6 @@ public class ProjectFormAreaPart
       toolkit.getColors().getColor(IFormColors.H_GRADIENT_START) }, new int []{ 25 }, true);
     folder.setForeground(toolkit.getColors().getColor(IFormColors.TITLE));
     folder.setSelectionForeground(toolkit.getColors().getColor(IFormColors.TITLE));
-    folder.setSimple(false);
 
     committerPart = new ProjectCommittersPart(site, folder, ctx, editingDomain, manager, master);
   }
