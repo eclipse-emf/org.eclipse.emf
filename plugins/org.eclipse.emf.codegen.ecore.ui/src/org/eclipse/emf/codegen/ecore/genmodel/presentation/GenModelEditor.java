@@ -247,7 +247,24 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected MarkerHelper markerHelper = new EditUIMarkerHelper();
+  protected MarkerHelper markerHelper =
+    new EditUIMarkerHelper()
+    {
+      @Override
+      public boolean hasMarkers(Object object, boolean includeSubtypes, int depth)
+      {
+        if (object instanceof ResourceSet)
+        {
+          ResourceSet resourceSet = (ResourceSet)object;
+          List<Resource> resources = resourceSet.getResources();
+          return !resources.isEmpty() && hasMarkers(resources.get(0), includeSubtypes, depth);
+        }
+        else
+        {
+          return super.hasMarkers(object, includeSubtypes, depth);
+        }
+      }
+    };
 
   /**
    * This listens for when the outline becomes active
