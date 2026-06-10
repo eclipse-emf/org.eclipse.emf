@@ -489,7 +489,8 @@ public enum GenEclipsePlatformVersion implements Enumerator
    * @generated
    * @ordered
    */
-  ECLIPSE_2026_06(38, "Eclipse_2026_06", "2026-06"), /**
+  ECLIPSE_2026_06(38, "Eclipse_2026_06", "2026-06"),
+  /**
    * The '<em><b>Eclipse 2026 09</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

@@ -558,7 +558,8 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF246(44, "EMF246", "2.46"), /**
+  EMF246(44, "EMF246", "2.46"),
+  /**
    * The '<em><b>EMF247</b></em>' literal object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
