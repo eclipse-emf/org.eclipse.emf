@@ -139,6 +139,10 @@ public class UpdaterApplication implements IApplication
     {
       contents.put(file, null);
     }
+    else if (relativePathName.equals("pom.xml"))
+    {
+      apply(file, " <target-platform>([0-9-]+)</target-platform>", simrelVersion);
+    }
     else if (relativePathName.equals("Jenkinsfile"))
     {
       apply(file, "def targetPlatformToJavaVersionMap = \\[(\r?\n) +'" + previousSimrelVersion + "' : '\\d\\d',", "$1  '" + simrelVersion + "' : '" + buildJRE + "',$1");
