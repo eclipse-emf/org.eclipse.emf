@@ -1,4 +1,5 @@
 def targetPlatformToJavaVersionMap = [
+  '2026-09' : '21',
   '2026-06' : '21',
   '2026-03' : '21',
   '2025-12' : '21',
@@ -35,6 +36,7 @@ def targetPlatformToJavaVersionMap = [
 ]
 
 def targetPlatformToTychoVersionMap = [
+  '2026-09' : '',
   '2026-06' : '',
   '2026-03' : '',
   '2025-12' : '',
