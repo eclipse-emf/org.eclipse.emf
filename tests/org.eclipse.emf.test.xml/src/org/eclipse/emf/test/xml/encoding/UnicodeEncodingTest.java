@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006 Jesper Steen M�ller
+ * Copyright (c) 2006-2026 Jesper Steen M�ller
  *
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0

@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2005-2026 Remko Popma and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ */
 package org.eclipse.emf.examples.jet.article2.actionexample;
 
 
@@ -39,7 +46,6 @@ import org.eclipse.emf.examples.jet.article2.TypesafeEnumPlugin;
  * templates.
  * 
  * @author Remko Popma
- * @version $Revision: 1.6 $ ($Date: 2008/04/22 13:35:56 $)
  */
 public class EmitAction implements IActionDelegate
 {

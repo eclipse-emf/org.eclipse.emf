@@ -206,6 +206,23 @@
           <groupId>org.eclipse.tycho</groupId>
           <artifactId>tycho-p2-plugin</artifactId>
           <version>${tycho-version}</version>
+          <configuration>
+            <baselineMode>fail</baselineMode>
+            <baselineReplace>all</baselineReplace>
+            <baselineRepositories>
+              <repository>
+                <url>https://download.eclipse.org/modeling/emf/emf/builds/release/latest</url>
+              </repository>
+              <repository>
+                <url>https://download.eclipse.org/modeling/emf/emf/builds/nightly/latest</url>
+              </repository>
+            </baselineRepositories>
+            <ignoredPatterns>
+              <pattern>META-INF/ECLIPSE_.RSA</pattern>
+              <pattern>META-INF/ECLIPSE_.SF</pattern>
+              <pattern>about.mappings</pattern>
+            </ignoredPatterns>
+          </configuration>
         </plugin>
 
         <plugin>

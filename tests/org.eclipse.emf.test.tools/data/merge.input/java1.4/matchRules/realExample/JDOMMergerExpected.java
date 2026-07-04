@@ -3,7 +3,7 @@
  * ===========================================================================
  * Licensed Materials - Property of IBM 
  * "Restricted Materials of IBM" 
- * (C) Copyright IBM Corp. 2005 All rights reserved.
+ * (C) Copyright IBM Corp. 2005-2026 All rights reserved.
  * ===========================================================================
  * 
  * @(#)ReAdministerReminderRulesASPValidator.java  $Revision: 1.1 $  $Date: 2007/04/05 18:32:08 $

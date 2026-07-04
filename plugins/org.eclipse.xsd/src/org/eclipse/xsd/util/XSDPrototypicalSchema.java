@@ -2620,7 +2620,7 @@ public class XSDPrototypicalSchema
     ///     xmlns:po="http://nist.gov/po.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     ///     <xsd:annotation>
     ///         <xsd:documentation xml:lang="en">Purchase order schema for
-    ///             Example.com. Copyright 2000 Example.com. All rights reserved.</xsd:documentation>
+    ///             Example.com. Copyright 2000-2026 Example.com. All rights reserved.</xsd:documentation>
     ///     </xsd:annotation>
     ///     <xsd:element name="purchaseOrder" type="po:PurchaseOrderType"/>
     ///     <xsd:element name="comment" type="xsd:string"/>

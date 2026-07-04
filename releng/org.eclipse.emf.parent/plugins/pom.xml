@@ -48,8 +48,6 @@
     <module>../../../plugins/org.eclipse.emf.mapping.ecore2xml.ui</module>
     <module>../../../plugins/org.eclipse.emf.mapping.ecore2ecore.editor</module>
 
-    <module>../../../plugins/org.eclipse.emf.example.installer</module>
-
     <module>../../../tests/org.eclipse.emf.tests</module>
     <module>../../../tests/org.eclipse.emf.test.common</module>
     <module>../../../tests/org.eclipse.emf.test.core</module>
@@ -244,6 +242,8 @@
         <module>../../../doc/org.eclipse.emf.cheatsheets</module>
         <module>../../../doc/org.eclipse.emf.doc</module>
         <module>../../../doc/org.eclipse.emf.examples.jet.article2</module>
+
+        <module>../../../plugins/org.eclipse.emf.example.installer</module>
 
         <module>../../../tests/org.eclipse.emf.test.tools</module>
         <module>../../../tests/org.eclipse.emf.test.examples</module>

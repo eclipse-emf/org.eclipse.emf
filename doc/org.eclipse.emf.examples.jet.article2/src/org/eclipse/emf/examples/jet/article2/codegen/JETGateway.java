@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2005-2026 Remko Popma and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ */
 package org.eclipse.emf.examples.jet.article2.codegen;
 
 
@@ -29,7 +36,6 @@ import org.eclipse.emf.common.util.Monitor;
  * This class encapsulates access to the JET and JMerge packages.
  * 
  * @author Remko Popma
- * @version $Revision: 1.5 $ ($Date: 2006/12/29 21:12:36 $)
  */
 public class JETGateway
 {

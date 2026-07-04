@@ -5610,7 +5610,7 @@
 		    (object Attribute
 			tool       	"VC++"
 			name       	"Copyright"
-			value      	(value Text "Copyright (C) 1991 - 1999 Rational Software Corporation"))
+			value      	(value Text "Copyright (C) 1991-2026 - 1999 Rational Software Corporation"))
 		    (object Attribute
 			tool       	"VC++"
 			name       	"KindSet"

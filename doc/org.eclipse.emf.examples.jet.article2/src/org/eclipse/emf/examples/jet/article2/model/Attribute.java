@@ -1,14 +1,20 @@
+/**
+ * Copyright (c) 2005-2026 Remko Popma and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ */
 package org.eclipse.emf.examples.jet.article2.model;
 
 
 /**
- * Class modelling an attribute of an enumeration instance. An attribute is a
+ * Class modeling an attribute of an enumeration instance. An attribute is a
  * member variable of the enumeration instance that may or may not be used to
  * uniquely identify an instance depending on whether is is marked as a key
  * attribute or not.
  * 
  * @author Remko Popma
- * @version $Revision: 1.1 $ ($Date: 2005/05/25 13:37:49 $)
  */
 public class Attribute
 {

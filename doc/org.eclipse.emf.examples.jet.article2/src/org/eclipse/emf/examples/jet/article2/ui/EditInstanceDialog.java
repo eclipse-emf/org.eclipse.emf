@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2005-2026 Remko Popma and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ */
 package org.eclipse.emf.examples.jet.article2.ui;
 
 
@@ -23,7 +30,6 @@ import org.eclipse.emf.examples.jet.article2.model.Instance;
 /**
  * Dialog for editing an <code>Instance</code>.
  * 
- * @version $Revision: 1.3 $ ($Date: 2008/05/29 14:56:38 $)
  * @author Remko Popma
  */
 public class EditInstanceDialog extends Dialog

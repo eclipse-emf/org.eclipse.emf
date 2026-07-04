@@ -71,6 +71,8 @@ public class UpdaterApplication implements IApplication
 
   private final String previousSimrelVersion = getPreviousSimrelVersion(simrelVersion);
 
+  private static final String copyrightYear = "2026";
+
   private Path root;
 
   public Object start(IApplicationContext context) throws Exception
@@ -135,6 +137,42 @@ public class UpdaterApplication implements IApplication
   {
     var relativePathName = root.relativize(file).toString().replace('\\', '/');
     var fileName = file.getFileName().toString();
+
+    try
+    {
+      if (!fileName.endsWith(".class") && !fileName.endsWith(".png") && !fileName.endsWith(".icns") && !fileName.endsWith(".ico") && !fileName.endsWith(".bmp")
+          && !fileName.endsWith(".svg") && !fileName.endsWith(".gif") && !fileName.endsWith(".doc") && !fileName.endsWith(".jpe") && !fileName.endsWith(".jar")
+          && !fileName.endsWith(".digest") 
+          && !fileName.endsWith("._trace") 
+          && !fileName.endsWith(".xtextbin") 
+          && !fileName.endsWith(".xtendbin") 
+          && !fileName.endsWith(".sxi") 
+          && !fileName.endsWith(".ppt") 
+          && !fileName.endsWith(".zip") 
+          && !fileName.endsWith("jpg"))
+      {
+        var copyrightPattern = Pattern.compile("^.*Copyright.*?((?<begin>[0-9]{4})([,-] *(?<end>[0-9]{4}))?).*$", Pattern.MULTILINE);
+        var content = getContent(file);
+        var matcher = copyrightPattern.matcher(content);
+        while (matcher.find())
+        {
+          var begin = matcher.group("begin");
+          var end = matcher.group("end");
+          if (!copyrightYear.equals(end) && !copyrightYear.equals(begin))
+          {
+            var modifiedContent = new StringBuilder(content);
+            modifiedContent.replace(matcher.start(1), matcher.end(1), begin + "-" + copyrightYear);
+            modifiedContent.toString();
+            contents.put(file, modifiedContent.toString());
+          }
+        }
+      }
+    }
+    catch (IOException ex)
+    {
+      throw new RuntimeException(file + ": " + ex.getLocalizedMessage(), ex);
+    }
+
     if (fileName.equals("release.xml"))
     {
       contents.put(file, null);
@@ -258,6 +296,7 @@ public class UpdaterApplication implements IApplication
         {
           String fileName = dir.getFileName().toString();
           if ("target".equals(fileName) //
+              || "bin".equals(fileName) //
               || "sanity-check".equals(fileName) //
               || (fileName.startsWith(".") && !".settings".equals(fileName) && !".classpath".equals(fileName) && !".github".equals(fileName)) //
               || dir.endsWith("META-INF/maven"))

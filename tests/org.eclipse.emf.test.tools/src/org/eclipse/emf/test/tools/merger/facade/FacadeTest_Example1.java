@@ -156,7 +156,7 @@ public class FacadeTest_Example1
 
     StringBuffer expectedHeader = new StringBuffer();
     expectedHeader.append("/**");
-    expectedHeader.append("\n").append(" * Copyright (c) 2004-2006 IBM Corporation and others.");
+    expectedHeader.append("\n").append(" * Copyright (c) 2004-2026 IBM Corporation and others.");
     expectedHeader.append("\n").append(" * All rights reserved.   This program and the accompanying materials");
     expectedHeader.append("\n").append(" * are made available under the terms of the Eclipse Public License v2.0");
     expectedHeader.append("\n").append(" * which accompanies this distribution, and is available at");

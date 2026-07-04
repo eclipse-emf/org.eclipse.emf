@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2005-2026 Remko Popma and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ */
 package org.eclipse.emf.examples.jet.article2.ui;
 
 
@@ -48,7 +55,6 @@ import org.eclipse.emf.examples.jet.article2.model.TypesafeEnum;
  * enumeration class, and the attribute values for each instance.
  * 
  * @author Remko Popma
- * @version $Revision: 1.3 $ ($Date: 2006/12/29 18:36:19 $)
  */
 public class NewTypesafeEnumCreationWizardPageInstances extends WizardPage
 {
