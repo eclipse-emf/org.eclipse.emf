@@ -105,9 +105,9 @@ public class AntTest
 
     @SuppressWarnings("rawtypes")
     Hashtable options = JavaCore.getOptions();
-    options.put(JavaCore.COMPILER_COMPLIANCE, "1.5");
-    options.put(JavaCore.COMPILER_SOURCE, "1.5");
-    options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, "1.5");
+    options.put(JavaCore.COMPILER_COMPLIANCE, "1.8");
+    options.put(JavaCore.COMPILER_SOURCE, "1.8");
+    options.put(JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, "1.8");
     JavaCore.setOptions(options);
   }
 
