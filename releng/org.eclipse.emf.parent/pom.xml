@@ -15,6 +15,7 @@
     <jarsigner-version>1.5.4</jarsigner-version>
     <javaVersion>11</javaVersion>
     <os-jvm-flags/>
+    <baseline.mode>fail</baseline.mode>
   </properties>
 
   <modules>
@@ -207,7 +208,7 @@
           <artifactId>tycho-p2-plugin</artifactId>
           <version>${tycho-version}</version>
           <configuration>
-            <baselineMode>fail</baselineMode>
+            <baselineMode>${baseline.mode}</baselineMode>
             <baselineReplace>all</baselineReplace>
             <baselineRepositories>
               <repository>

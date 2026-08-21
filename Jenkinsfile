@@ -76,7 +76,7 @@ def targetPlatforms = targetPlatformToJavaVersionMap.keySet() as List
 
 pipeline {
   agent {
-    label 'ubuntu-latest'
+    label 'centos-latest'
   }
 
   options {
@@ -192,7 +192,7 @@ ARCHIVE=${params.ARCHIVE}
           dir('.') {
             sh '''
               if [[ $PROMOTE == false ]]; then
-                promotion_argument='-Dpromote=false -Dorg.eclipse.justj.p2.manager.args='
+                promotion_argument='-Dpromote=false -Dbaseline.mode=disable -Dorg.eclipse.justj.p2.manager.args='
               fi
               mvn  \
                 --no-transfer-progress \
