@@ -146,6 +146,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
             catch (Throwable e)
             {
               // At development time, the real factory may not be available. Just return null.
+              // The absence of the real factory method may be circumvented by defining a conversion delegate for eDataType.
               //
               defaultValue = null;
             }
