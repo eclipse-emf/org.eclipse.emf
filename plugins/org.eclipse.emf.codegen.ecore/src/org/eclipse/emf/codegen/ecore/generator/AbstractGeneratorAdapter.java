@@ -3068,7 +3068,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
   /**
    * Copied from {@link org.eclipse.osgi.util.ManifestElement}
    *
-   * Copyright (c) 2003, 2016 IBM Corporation and others.
+   * Copyright (c) 2003-2026 IBM Corporation and others.
    *
    * This program and the accompanying materials
    * are made available under the terms of the Eclipse Public License 2.0

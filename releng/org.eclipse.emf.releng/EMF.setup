@@ -328,12 +328,12 @@
   </setupTask>
   <setupTask
       xsi:type="jdt:JRETask"
-      version="JavaSE-21"
-      location="${jre.location-21}"/>
+      version="JavaSE-25"
+      location="${jre.location-25}"/>
   <setupTask
       xsi:type="setup:StringSubstitutionTask"
       name="maven.build.java.home"
-      value="${jre.location-21}">
+      value="${jre.location-25}">
     <description>The location used to specify JAVA_HOME in the External Tools Configurations for Build EMF and Build EMF Releng</description>
   </setupTask>
   <setupTask
@@ -616,6 +616,17 @@
       <requirement
           name="org.eclipse.equinox.ds"
           optional="true"/>
+      <repositoryList
+          name="2026-12">
+        <repository
+            url="https://download.eclipse.org/releases/2026-09"/>
+        <repository
+            url="https://download.eclipse.org/rt/rap/nightly/runtime"/>
+        <repository
+            url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+        <repository
+            url="https://download.eclipse.org/nebula/releases/2.2.0"/>
+      </repositoryList>
       <repositoryList
           name="2026-09">
         <repository

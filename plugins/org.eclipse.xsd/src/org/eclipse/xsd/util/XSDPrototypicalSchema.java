@@ -2291,7 +2291,7 @@ public class XSDPrototypicalSchema
     // Use the DOM API to set the lang attribute and content of the documentation.
     //
     documentation./*{@link Element#setAttributeNS <em>*/setAttributeNS/*</em>}*/(XSDConstants.XML_NAMESPACE_URI_1998, "xml:lang", "en");
-    String text = "Purchase order schema for Example.com.\nCopyright 2000 Example.com. All rights reserved.";
+    String text = "Purchase order schema for Example.com.\nCopyright 2000-2026 Example.com. All rights reserved.";
     documentation./*{@link Element#appendChild <em>*/appendChild/*</em>}*/(documentation.getOwnerDocument().createTextNode(text));
 
     // Use the DOM API to add the documentation to the element of the annotation.

@@ -570,7 +570,19 @@ public enum GenRuntimeVersion implements Enumerator
    * @generated
    * @ordered
    */
-  EMF247(45, "EMF247", "2.47");
+  EMF247(45, "EMF247", "2.47"),
+  /**
+   * The '<em><b>EMF248</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.48
+   * <!-- end-model-doc -->
+   * @see #EMF248_VALUE
+   * @generated
+   * @ordered
+   */
+  EMF248(46, "EMF248", "2.48");
 
   /**
    * The '<em><b>EMF22</b></em>' literal value.
@@ -1195,6 +1207,20 @@ public enum GenRuntimeVersion implements Enumerator
   public static final int EMF247_VALUE = 45;
 
   /**
+   * The '<em><b>EMF248</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * @since 2.48
+   * <!-- end-model-doc -->
+   * @see #EMF248
+   * @model literal="2.48"
+   * @generated
+   * @ordered
+   */
+  public static final int EMF248_VALUE = 46;
+
+  /**
    * An array of all the '<em><b>Gen Runtime Version</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1249,6 +1275,7 @@ public enum GenRuntimeVersion implements Enumerator
       EMF245,
       EMF246,
       EMF247,
+      EMF248,
     };
 
   /**
@@ -1359,6 +1386,7 @@ public enum GenRuntimeVersion implements Enumerator
       case EMF245_VALUE: return EMF245;
       case EMF246_VALUE: return EMF246;
       case EMF247_VALUE: return EMF247;
+      case EMF248_VALUE: return EMF248;
     }
     return null;
   }

@@ -3245,6 +3245,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genJDKLevelEEnum, GenJDKLevel.JDK250_LITERAL);
     addEEnumLiteral(genJDKLevelEEnum, GenJDKLevel.JDK260_LITERAL);
     addEEnumLiteral(genJDKLevelEEnum, GenJDKLevel.JDK270_LITERAL);
+    addEEnumLiteral(genJDKLevelEEnum, GenJDKLevel.JDK280_LITERAL);
 
     initEEnum(genRuntimeVersionEEnum, GenRuntimeVersion.class, "GenRuntimeVersion");
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF22);
@@ -3293,6 +3294,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF245);
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF246);
     addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF247);
+    addEEnumLiteral(genRuntimeVersionEEnum, GenRuntimeVersion.EMF248);
 
     initEEnum(genRuntimePlatformEEnum, GenRuntimePlatform.class, "GenRuntimePlatform");
     addEEnumLiteral(genRuntimePlatformEEnum, GenRuntimePlatform.IDE);
@@ -3346,6 +3348,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2026_03);
     addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2026_06);
     addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2026_09);
+    addEEnumLiteral(genEclipsePlatformVersionEEnum, GenEclipsePlatformVersion.ECLIPSE_2026_12);
 
     initEEnum(genCodeStyleEEnum, GenCodeStyle.class, "GenCodeStyle");
     addEEnumLiteral(genCodeStyleEEnum, GenCodeStyle.UNNECESSARY_ELSE);

@@ -43,7 +43,7 @@ public class UpdaterApplication implements IApplication
   /**
    * Change this to the new version of the platform.
    */
-  private final String platformVersion = "4.41";
+  private final String platformVersion = "4.42";
 
   /**
    * Change this to the final release repository of the SDK for the current release.
@@ -53,17 +53,17 @@ public class UpdaterApplication implements IApplication
   /**
    * Change this to the new version of EMF for the new release cycle.
    */
-  private final String emfVersion = "2.47";
+  private final String emfVersion = "2.48";
 
   /**
    * Change this to the new version of the JDK that you want to add because it will be released or become a new beta during the release cycle.
    */
-  private final String jdkVersion = "27.0";
+  private final String jdkVersion = "28.0";
 
   /**
    * Change this to the Java version needed to run the Tycho/Maven build.
    */
-  private final String buildJRE = "21";
+  private final String buildJRE = "25";
 
   private final String simrelVersion = getSimRelVersion(platformVersion);
 
@@ -142,14 +142,8 @@ public class UpdaterApplication implements IApplication
     {
       if (!fileName.endsWith(".class") && !fileName.endsWith(".png") && !fileName.endsWith(".icns") && !fileName.endsWith(".ico") && !fileName.endsWith(".bmp")
           && !fileName.endsWith(".svg") && !fileName.endsWith(".gif") && !fileName.endsWith(".doc") && !fileName.endsWith(".jpe") && !fileName.endsWith(".jar")
-          && !fileName.endsWith(".digest") 
-          && !fileName.endsWith("._trace") 
-          && !fileName.endsWith(".xtextbin") 
-          && !fileName.endsWith(".xtendbin") 
-          && !fileName.endsWith(".sxi") 
-          && !fileName.endsWith(".ppt") 
-          && !fileName.endsWith(".zip") 
-          && !fileName.endsWith("jpg"))
+          && !fileName.endsWith(".digest") && !fileName.endsWith("._trace") && !fileName.endsWith(".xtextbin") && !fileName.endsWith(".xtendbin") && !fileName.endsWith(".sxi")
+          && !fileName.endsWith(".ppt") && !fileName.endsWith(".zip") && !fileName.endsWith("jpg"))
       {
         var copyrightPattern = Pattern.compile("^.*Copyright.*?((?<begin>[0-9]{4})([,-] *(?<end>[0-9]{4}))?).*$", Pattern.MULTILINE);
         var content = getContent(file);
