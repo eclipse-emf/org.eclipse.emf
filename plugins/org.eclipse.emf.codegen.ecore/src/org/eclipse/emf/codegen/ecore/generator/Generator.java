@@ -453,6 +453,11 @@ public class Generator
               facadeHelper.setCompilerCompliance("27"); 
               break;
             }
+            case JDK280_LITERAL:
+            {
+              facadeHelper.setCompilerCompliance("28"); 
+              break;
+            }
           }
 
           if (genModel.isCodeFormatting())
