@@ -784,6 +784,8 @@ public class PropertyDescriptor implements IPropertyDescriptor
       layout.marginBottom = 0;
       layout.marginLeft = 5;
       layout.center = true;
+      layout.pack = true;
+      layout.spacing = 0;
       composite.setLayout(layout);
       checkButton = new Button(composite, SWT.CHECK | getStyle());
       checkButton.addFocusListener(new FocusAdapter()
@@ -828,6 +830,15 @@ public class PropertyDescriptor implements IPropertyDescriptor
           }
         };
 
+      int labelHeight = label.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
+      int checkButtonHeight = checkButton.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
+      int delta = (labelHeight - checkButtonHeight) / 2;
+      if (delta < 0)
+      {
+        layout.marginTop += delta;
+      }
+
+      checkButton.setText("\u200B");
       label.addMouseListener(mouseListener);
       composite.addMouseListener(mouseListener);
       Color background = parent.getBackground();
