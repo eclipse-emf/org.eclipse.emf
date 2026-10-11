@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.pde.ui.RuntimeWorkbench">
+    <booleanAttribute key="add_console" value="false"/>
     <setAttribute key="additional_plugins">
-        <setEntry value="com.ibm.icu:77.1.0:default:true:default:default"/>
+        <setEntry value="com.ibm.icu:78.3.0:default:true:default:default"/>
         <setEntry value="jakarta.inject.jakarta.inject-api:2.0.1:default:true:default:default"/>
         <setEntry value="org.aopalliance:1.0.0.v20230720-0728:default:true:default:default"/>
-        <setEntry value="org.objectweb.asm:9.8.0:default:true:default:default"/>
+        <setEntry value="org.objectweb.asm:9.11.0:default:true:default:default"/>
     </setAttribute>
     <booleanAttribute key="append.args" value="true"/>
     <booleanAttribute key="askclear" value="true"/>
@@ -29,7 +30,7 @@
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_ATTR_USE_ARGFILE" value="false"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_SHOW_CODEDETAILS_IN_EXCEPTION_MESSAGES" value="true"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
-    <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21"/>
+    <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-25"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
     <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dorg.eclipse.emf.examples.generator.validator=false&#13;&#10;-Dxswt.autoScale=225&#13;&#10;-Xmx8g"/>
@@ -63,7 +64,6 @@
         <setEntry value="org.eclipse.emf.mapping.ui:default"/>
         <setEntry value="org.eclipse.emf.mapping:default"/>
         <setEntry value="org.eclipse.emf.mwe2.language.sdk:default"/>
-        <setEntry value="org.eclipse.emf.mwe2.launcher.source:default"/>
         <setEntry value="org.eclipse.emf.mwe2.launcher:default"/>
         <setEntry value="org.eclipse.emf.mwe2.runtime.sdk:default"/>
         <setEntry value="org.eclipse.emf.oda.ecore.ui:default"/>
