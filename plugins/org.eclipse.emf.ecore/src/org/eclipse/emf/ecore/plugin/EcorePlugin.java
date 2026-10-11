@@ -69,6 +69,7 @@ import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.BundleException;
 import org.osgi.framework.Constants;
 import org.osgi.framework.Filter;
 import org.osgi.framework.FrameworkUtil;
@@ -605,6 +606,7 @@ public class EcorePlugin  extends EMFPlugin
    */
   static public class Implementation extends EclipsePlugin
   {
+    private ManifestEPackageTracker ePackageTracker;
     /**
      * Creates the singleton instance.
      */
@@ -677,6 +679,18 @@ public class EcorePlugin  extends EMFPlugin
       super.start(context);
       ExtensionProcessor.internalProcessExtensions();
       
+      ePackageTracker = new ManifestEPackageTracker(context);
+      ePackageTracker.open();
+    }
+
+    @Override
+    public void stop(BundleContext context) throws Exception
+    {
+      super.stop(context);
+      if (ePackageTracker != null)
+      {
+        ePackageTracker.close();
+      }
     }
 
     /**
@@ -868,6 +882,8 @@ public class EcorePlugin  extends EMFPlugin
         // Process the extension for the registry.
         //
         ExtensionProcessor.internalProcessExtensions();
+
+        ExtensionProcessor.internalProcessManifests(classLoader);
       }
     }
 
@@ -938,12 +954,47 @@ public class EcorePlugin  extends EMFPlugin
       new ConversionDelegateFactoryRegistryReader().readRegistry();
       new AnnotationValidatorRegistryReader().readRegistry();
     }
+
+    private static void internalProcessManifests(ClassLoader classLoader)
+    {
+      if (!IS_OSGI_RUNNING)
+      { // not in a OSGi runtime, process raw MANIFEST.MF
+        try
+        {
+          List<URI> manifests = getManifests(classLoader);
+          for (URI manifest : manifests)
+          {
+            ManifestEPackageTracker.registerManifestPackagesIfAbsent(manifest, classLoader);
+          }
+        }
+        catch (IOException | BundleException e)
+        {
+          e.printStackTrace(); //TODO: handle
+        }
+      }
+    }
   }
 
   /**
    * Determine all the available plugin.xml resources.
    */
   private static List<URI> getPluginXMLs(ClassLoader classLoader)
+  {
+    return getClasspathResource(classLoader, "plugin.xml");
+  }
+
+  /**
+   * Determine all the available {@code META-INF/MANIFEST.MF} resources.
+   */
+  private static List<URI> getManifests(ClassLoader classLoader)
+  {
+    return getClasspathResource(classLoader, "META-INF/MANIFEST.MF");
+  }
+
+  /**
+   * Determine all the available plugin.xml resources.
+   */
+  private static List<URI> getClasspathResource(ClassLoader classLoader, String resourcePath)
   {
     List<URI> result = new ArrayList<URI>();
 
@@ -986,13 +1037,13 @@ public class EcorePlugin  extends EMFPlugin
         {
           // Determine if there is a plugin.xml at the root of the folder.
           //
-          File pluginXML = new File(file, "plugin.xml");
+          File pluginXML = new File(file, resourcePath);
           if (!pluginXML.exists())
           {
             // If not, check if there is one in the parent folder.
             //
             File parentFile = file.getParentFile();
-            pluginXML = new File(parentFile, "plugin.xml");
+            pluginXML = new File(parentFile, resourcePath);
             if (pluginXML.isFile())
             {
               // If there is, then we have plugin.xml files that aren't on the classpath.
@@ -1003,7 +1054,7 @@ public class EcorePlugin  extends EMFPlugin
             {
               // The parent has a parent, check if there is one in the parent's parent folder.
               //
-              pluginXML = new File(parentFile.getParentFile(), "plugin.xml");
+              pluginXML = new File(parentFile.getParentFile(), resourcePath);
               if (pluginXML.isFile())
               {
                 // If there is, then we have plugin.xml files that aren't on the classpath.
@@ -1042,7 +1093,7 @@ public class EcorePlugin  extends EMFPlugin
             // Look for a plugin.xml entry...
             //
             jarFile = new JarFile(classpathEntry);
-            ZipEntry entry = jarFile.getEntry("plugin.xml");
+            ZipEntry entry = jarFile.getEntry(resourcePath);
             if (entry != null)
             {
               // If we find one, create a URI for it.
@@ -1080,7 +1131,7 @@ public class EcorePlugin  extends EMFPlugin
       result.clear();
       try
       {
-        for (Enumeration<URL> resources = classLoader.getResources("plugin.xml"); resources.hasMoreElements(); )
+        for (Enumeration<URL> resources = classLoader.getResources(resourcePath); resources.hasMoreElements(); )
         {
           // Create a URI for each plugin.xml found by the class loader.
           //
