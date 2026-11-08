@@ -15,6 +15,8 @@ import java.net.URL;
 import java.util.Locale;
 
 import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.EMFPlugin;
+import org.osgi.framework.FrameworkUtil;
 
 
 /**
@@ -26,7 +28,8 @@ import org.eclipse.emf.common.CommonPlugin;
  * a {@link SegmentSequence#POOL segment sequence pool}, 
  * and a {@link URI#POOL URI pool}.
  * The weak referenced are optionally managed by a daemon thread.
- * The daemon thread is created by default only if there is no {@link System#setSecurityManager(SecurityManager) security manager},
+ * The daemon thread is created by default only if there is no {@link System#setSecurityManager(SecurityManager) security manager}
+ * and we are running in an OSGi context,
  * but that default can be overridden by specifying a <code>true</code> or <code>false</code> for the {@link System#getProperty(String) system property} <code>"org.eclipse.emf.common.util.ReferenceClearingQueue"</code>.
  * </p>
  * @since 2.9
@@ -60,11 +63,21 @@ public final class CommonUtil
         hasSecurityManager = false;
       }
 
-      // A daemon thread is created only if there is no security manager.
+      boolean isOSGiRunniung;
+      try
+      {
+        isOSGiRunniung = FrameworkUtil.getBundle(EMFPlugin.class) != null;
+      }
+      catch (Throwable exception)
+      {
+        isOSGiRunniung = false;
+      }
+
+      // A daemon thread is created only if there is no security manager and we are running in an OSGi context.
       // The system property "org.eclipse.emf.common.util.ReferenceClearingQueue" can be used to override the default.
       //
       String hasReferenceClearingQueue = System.getProperty("org.eclipse.emf.common.util.ReferenceClearingQueue");
-      if (!hasSecurityManager ? !"false".equalsIgnoreCase(hasReferenceClearingQueue) : "true".equalsIgnoreCase(hasReferenceClearingQueue))
+      if (!hasSecurityManager && isOSGiRunniung ? !"false".equalsIgnoreCase(hasReferenceClearingQueue) : "true".equalsIgnoreCase(hasReferenceClearingQueue))
       {
         class ReferenceClearingQueuePollingThread extends Thread
         {
