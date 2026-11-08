@@ -69,6 +69,7 @@ import org.junit.runners.Suite;
       org.eclipse.emf.test.core.common.util.WeakInterningHashSetTest.class,
       org.eclipse.emf.test.core.common.util.PoolTest.class,
       org.eclipse.emf.test.core.common.util.StringPoolTest.class,
+      org.eclipse.emf.test.core.common.util.ReferenceClearingQueueTest.class,
       org.eclipse.emf.test.core.common.util.SegmentSequenceTest.class,
       org.eclipse.emf.test.core.common.util.URITest.class
   })

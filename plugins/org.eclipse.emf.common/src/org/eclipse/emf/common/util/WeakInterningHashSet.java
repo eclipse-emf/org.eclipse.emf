@@ -154,6 +154,7 @@ public class WeakInterningHashSet<E>  extends AbstractSet<E> implements Internin
     {
       super(object, queue);
       this.hashCode = hashCode;
+      CommonUtil.referenceCreated(queue);
     }
 
     /**

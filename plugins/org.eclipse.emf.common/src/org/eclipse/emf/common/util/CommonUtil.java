@@ -13,6 +13,7 @@ import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.emf.common.CommonPlugin;
 
@@ -28,6 +29,10 @@ import org.eclipse.emf.common.CommonPlugin;
  * The weak referenced are optionally managed by a daemon thread.
  * The daemon thread is created by default only if there is no {@link System#setSecurityManager(SecurityManager) security manager},
  * but that default can be overridden by specifying a <code>true</code> or <code>false</code> for the {@link System#getProperty(String) system property} <code>"org.eclipse.emf.common.util.ReferenceClearingQueue"</code>.
+ * The daemon thread terminates when no reference has been enqueued for an idle timeout, so that it doesn't keep the class loader that loaded EMF reachable,
+ * and it's restarted when the next weak reference is created.
+ * The idle timeout defaults to 60000 milliseconds and can be specified by the {@link System#getProperty(String) system property} <code>"org.eclipse.emf.common.util.ReferenceClearingQueue.idleTimeout"</code>;
+ * <code>0</code> means the daemon thread never terminates.
  * </p>
  * @since 2.9
  */
@@ -44,6 +49,16 @@ public final class CommonUtil
    * A reference queue monitored by a daemon thread that automatically calls {@link Reference#clear() clear} on each reference {@link ReferenceQueue#remove() removed} from the queue.
    */
   static final ReferenceQueue<Object>  REFERENCE_CLEARING_QUEUE;
+
+  /**
+   * The thread currently polling the {@link #REFERENCE_CLEARING_QUEUE}, if any.
+   */
+  private static final AtomicReference<Thread> REFERENCE_CLEARING_QUEUE_POLLING_THREAD = new AtomicReference<Thread>();
+
+  /**
+   * The number of milliseconds after which an idle polling thread terminates, or <code>0</code> if it never terminates.
+   */
+  private static final long REFERENCE_CLEARING_QUEUE_IDLE_TIMEOUT = Math.max(0, Long.getLong("org.eclipse.emf.common.util.ReferenceClearingQueue.idleTimeout", 60000));
 
   static
   {
@@ -66,41 +81,14 @@ public final class CommonUtil
       String hasReferenceClearingQueue = System.getProperty("org.eclipse.emf.common.util.ReferenceClearingQueue");
       if (!hasSecurityManager ? !"false".equalsIgnoreCase(hasReferenceClearingQueue) : "true".equalsIgnoreCase(hasReferenceClearingQueue))
       {
-        class ReferenceClearingQueuePollingThread extends Thread
-        {
-          protected final ReferenceQueue<Object> queue = new ReferenceQueue<Object>();
-
-          @Override
-          public void run()
-          {
-            try
-            {
-              // Call clear on each reference removed from the queue.
-              //
-              for (;;)
-              {
-                Reference<? extends Object> reference = queue.remove();
-                reference.clear();
-              }
-            }
-            catch (InterruptedException exception)
-            {
-              CommonPlugin.INSTANCE.log(exception);
-            }
-          }
-        }
-
         // Start the daemon thread.
-        //
-        ReferenceClearingQueuePollingThread referenceClearingQueuePollingThread = new ReferenceClearingQueuePollingThread();
-        referenceClearingQueuePollingThread.setDaemon(true);
-        referenceClearingQueuePollingThread.setName("EMF Reference Cleaner");
-        // referenceClearingQueuePollingThread.setPriority(Thread.MAX_PRIORITY);S
-        referenceClearingQueuePollingThread.start();
-
         // If we successfully started the thread, initialize the queue
         //
-        referenceClearingQueue = referenceClearingQueuePollingThread.queue;
+        ReferenceQueue<Object> queue = new ReferenceQueue<Object>();
+        if (startReferenceClearingQueuePollingThread(queue))
+        {
+          referenceClearingQueue = queue;
+        }
       }
     }
     catch (Throwable throwable)
@@ -109,6 +97,77 @@ public final class CommonUtil
 
     }
     REFERENCE_CLEARING_QUEUE = referenceClearingQueue;
+  }
+
+  private static final class ReferenceClearingQueuePollingThread extends Thread
+  {
+    private final ReferenceQueue<Object> queue;
+
+    ReferenceClearingQueuePollingThread(ReferenceQueue<Object> queue)
+    {
+      super("EMF Reference Cleaner");
+      this.queue = queue;
+      setDaemon(true);
+
+      // Don't keep the context class loader of the creating thread reachable.
+      //
+      setContextClassLoader(null);
+    }
+
+    @Override
+    public void run()
+    {
+      try
+      {
+        // Call clear on each reference removed from the queue.
+        // Terminate when idle, because the running thread keeps the class loader that loaded EMF reachable.
+        //
+        for (Reference<? extends Object> reference; (reference = queue.remove(REFERENCE_CLEARING_QUEUE_IDLE_TIMEOUT)) != null;)
+        {
+          reference.clear();
+        }
+      }
+      catch (InterruptedException exception)
+      {
+        CommonPlugin.INSTANCE.log(exception);
+      }
+      finally
+      {
+        REFERENCE_CLEARING_QUEUE_POLLING_THREAD.compareAndSet(this, null);
+      }
+    }
+  }
+
+  private static boolean startReferenceClearingQueuePollingThread(ReferenceQueue<Object> queue)
+  {
+    Thread thread = null;
+    try
+    {
+      thread = new ReferenceClearingQueuePollingThread(queue);
+      if (REFERENCE_CLEARING_QUEUE_POLLING_THREAD.compareAndSet(null, thread))
+      {
+        thread.start();
+      }
+      return true;
+    }
+    catch (Throwable throwable)
+    {
+      // Ignore any and all exceptions; the next weak reference will try again.
+      //
+      REFERENCE_CLEARING_QUEUE_POLLING_THREAD.compareAndSet(thread, null);
+      return false;
+    }
+  }
+
+  /**
+   * Restarts the polling thread, if it has terminated, when a weak reference managed by the {@link #REFERENCE_CLEARING_QUEUE} is created.
+   */
+  static void referenceCreated(ReferenceQueue<?> queue)
+  {
+    if (queue != null && queue == REFERENCE_CLEARING_QUEUE && REFERENCE_CLEARING_QUEUE_POLLING_THREAD.get() == null)
+    {
+      startReferenceClearingQueuePollingThread(REFERENCE_CLEARING_QUEUE);
+    }
   }
 
   /**
