@@ -11,6 +11,7 @@
 package org.eclipse.emf.test.core.ecore;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
@@ -21,6 +22,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.notify.impl.DelegatingNotifyingListImpl;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -206,5 +208,35 @@ public class ListTest
     assertEquals(paris, johnTrips.get(1));
 
     assertEquals(2, notificationCount);
+  } 
+
+  /**
+   * @see "https://github.com/eclipse-emf/org.eclipse.emf/issues/117"
+   */
+  @Test
+  @SuppressWarnings("unlikely-arg-type")
+  public void testIssue117()
+  {
+    EPackage p = EcoreFactory.eINSTANCE.createEPackage();
+    p.setName("p");
+    p.setNsPrefix("p");
+    p.setNsURI("urn:p");
+    EClass node = EcoreFactory.eINSTANCE.createEClass();
+    node.setName("Node");
+    p.getEClassifiers().add(node);
+    EReference children = EcoreFactory.eINSTANCE.createEReference();
+    children.setName("children");
+    children.setEType(node);
+    children.setContainment(true);
+    children.setUpperBound(-1);
+    node.getEStructuralFeatures().add(children);
+    
+    @SuppressWarnings("unchecked")
+    EList<EObject> list = (EList<EObject>)EcoreUtil.create(node).eGet(children);
+    for (int i = 1; i <= 5; i++)
+    {
+      list.add(EcoreUtil.create(node));
+      assertFalse(list.contains("not an EObject"));
+    }
   }
 }

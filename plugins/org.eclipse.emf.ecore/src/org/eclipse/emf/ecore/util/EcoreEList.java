@@ -773,7 +773,7 @@ public abstract class EcoreEList<E> extends NotifyingInternalEListImpl<E> implem
     @Override
     protected boolean isInstance(Object object)
     {
-      return dataClass == null ? getFeatureType().isInstance(object) : super.isInstance(object);
+      return !hasInstanceClass() ? getFeatureType().isInstance(object) : super.isInstance(object);
     }
 
     protected boolean isContainer()
