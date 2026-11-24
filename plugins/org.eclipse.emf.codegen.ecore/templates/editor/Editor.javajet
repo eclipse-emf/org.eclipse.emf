@@ -210,7 +210,10 @@ import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+<%@ include file="Editor/importReflectiveItemProviderAdapterFactory.override.javajetinc" fail="alternative"%>
+<%@ start%>
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
+<%@ end%>
 
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 
@@ -1020,15 +1023,20 @@ public class <%=genPackage.getEditorClassName()%>
 <%}%>
 <%@ include file="Editor/addItemProviderFactories.insert.javajetinc" fail="silent"%>
 <%@end%><%//Editor/addItemproviderFactories.override.javajetinc"%>
+<%@ include file="Editor/addReflectiveItemProviderAdapterFactory.override.javajetinc" fail="alternative"%>
+<%@ start%>
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
+<%@ end%>
 
 		// Create the command stack that will notify this editor as commands are executed.
 		//
+<%String _CommandStack = "BasicCommandStack";%>
+<%@ include file="Editor/commandStack.insert.javajetinc" fail="silent"%>
 <%if (genModel.getDecoration() != GenDecoration.LIVE || genModel.getRuntimeVersion().getValue() < GenRuntimeVersion.EMF212_VALUE) {%>
-		BasicCommandStack commandStack = new BasicCommandStack();
+		BasicCommandStack commandStack = new <%=_CommandStack%>();
 <%} else {%>
 		BasicCommandStack commandStack =
-			new BasicCommandStack()
+			new <%=_CommandStack%>()
 			{
 <%if (genModel.useClassOverrideAnnotation()) {%>
 				@Override
@@ -2088,6 +2096,7 @@ public class <%=genPackage.getEditorClassName()%>
 <%}%>
 	public boolean isDirty()
 	{
+<%@ include file="Editor/isDirty.insert.javajetinc" fail="silent"%>
 		return ((BasicCommandStack)editingDomain.getCommandStack()).isSaveNeeded();
 	}
 
@@ -2167,6 +2176,7 @@ public class <%=genPackage.getEditorClassName()%>
 <%}%>
 	public void doSave(IProgressMonitor progressMonitor)
 	{
+<%@ include file="Editor/doSave.insert.javajetinc" fail="silent"%>
 		// Save only resources that have actually changed.
 		//
 		final <%=_MapOfObjectToObject%> saveOptions = new <%=_HashMapOfObjectToObject%>();
@@ -2270,6 +2280,8 @@ public class <%=genPackage.getEditorClassName()%>
 		return result;
 	}
 
+<%@ include file="Editor/isSaveAsAllowed.override.javajetinc" fail="alternative"%>
+<%@ start%>
 	/**
 	 * This always returns true because it is not currently supported.
 	 * <!-- begin-user-doc -->
@@ -2283,6 +2295,7 @@ public class <%=genPackage.getEditorClassName()%>
 	{
 		return true;
 	}
+<%@ end%>
 
 	/**
 	 * This also changes the editor's input.
@@ -2686,5 +2699,6 @@ public class <%=genPackage.getEditorClassName()%>
 	{
 		return <%=genPackage.isMultipleEditorPages()%>;
 	}
+<%@ include file="Editor/members.insert.javajetinc" fail="silent"%>
 }
 <%genModel.emitSortedImports();%>

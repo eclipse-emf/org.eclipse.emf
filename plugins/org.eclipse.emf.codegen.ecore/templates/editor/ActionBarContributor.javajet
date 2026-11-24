@@ -728,5 +728,6 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 		return true;
 	}
 
+<%@ include file="ActionBarContributor/members.insert.javajetinc" fail="silent"%>
 }
 <%genModel.emitSortedImports();%>
