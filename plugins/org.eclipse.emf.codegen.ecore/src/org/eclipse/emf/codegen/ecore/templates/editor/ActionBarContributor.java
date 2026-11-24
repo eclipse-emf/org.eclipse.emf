@@ -223,7 +223,8 @@ public class ActionBarContributor
   protected final String TEXT_207 = NL + "\t\tmenuManager.insertAfter(\"ui-actions\", showPropertiesViewAction);";
   protected final String TEXT_208 = NL + NL + "\t\trefreshViewerAction.setEnabled(refreshViewerAction.isEnabled());\t\t" + NL + "\t\tmenuManager.insertAfter(\"ui-actions\", refreshViewerAction);";
   protected final String TEXT_209 = NL + NL + "\t\tsuper.addGlobalActions(menuManager);" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * This ensures that a delete action will clean up all references to deleted objects." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_210 = NL + "\tprotected boolean removeAllReferencesOnDelete()" + NL + "\t{" + NL + "\t\treturn true;" + NL + "\t}" + NL + "" + NL + "}";
+  protected final String TEXT_210 = NL + "\tprotected boolean removeAllReferencesOnDelete()" + NL + "\t{" + NL + "\t\treturn true;" + NL + "\t}" + NL;
+  protected final String TEXT_211 = NL + "}";
 
   public String generate(Object argument)
   {
@@ -815,6 +816,7 @@ if (genModel.isCreationCommands())
     stringBuffer.append(TEXT_73);
     }
     stringBuffer.append(TEXT_210);
+    stringBuffer.append(TEXT_211);
     genModel.emitSortedImports();
     stringBuffer.append(TEXT_16);
     return stringBuffer.toString();
