@@ -95,6 +95,6 @@ public class JETProblemListener
 
   public String getMessage(String messageKey, Object... messageSubstitutions)
   {
-    return CodeGenPlugin.getPlugin().getString(messageKey, messageSubstitutions);
+    return CodeGenPlugin.INSTANCE.getString(messageKey, messageSubstitutions);
   }
 }

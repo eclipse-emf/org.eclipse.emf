@@ -261,7 +261,7 @@ public final class JETMark
   public String format(String key)
   {
     return
-      CodeGenPlugin.getPlugin().getString
+      CodeGenPlugin.INSTANCE.getString
         (key,
          new Object []
          {
