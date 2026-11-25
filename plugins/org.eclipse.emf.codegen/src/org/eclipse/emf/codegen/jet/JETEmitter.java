@@ -56,6 +56,7 @@ import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.CommonUtil;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -462,24 +463,30 @@ public class JETEmitter
     {
       initialize(progressMonitor);
     }
-
-    String result = "";
-    if (method != null)
+    if (method == null)
     {
-      try
-      {
-        result = (String)method.invoke(getObject(lineDelimiter), arguments);
-      }
-      catch (IllegalAccessException exception)
-      {
-        throw new JETException(exception);
-      }
-      catch (InvocationTargetException exception)
-      {
-        throw new JETException(exception);
-      }
+      // Nothing to run: outside a running Eclipse a dynamic template is never compiled, and inside one its Java did
+      // not compile. An empty result would be written as an empty file or, merged into an existing one, would empty it.
+      //
+      // INSTANCE rather than getPlugin(), which is null outside Eclipse, where this is also reached.
+      //
+      String messageKey = EMFPlugin.IS_ECLIPSE_RUNNING ? "jet.error.no.method" : "jet.error.no.method.standalone";
+      throw new JETException
+        (messageKey, CodeGenPlugin.INSTANCE.getString(messageKey, new Object [] { templateURI }), null, null, null, Diagnostic.ERROR);
     }
-    return result;
+
+    try
+    {
+      return (String)method.invoke(getObject(lineDelimiter), arguments);
+    }
+    catch (IllegalAccessException exception)
+    {
+      throw new JETException(exception);
+    }
+    catch (InvocationTargetException exception)
+    {
+      throw new JETException(exception);
+    }
   }
 
   private static class EclipseHelper
